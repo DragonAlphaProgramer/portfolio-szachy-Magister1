@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.FileDialog;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.HeadlessException;
@@ -19,8 +20,10 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.awt.print.Book;
 import java.awt.print.PageFormat;
 import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.beans.PropertyChangeEvent;
 import java.io.BufferedReader;
 //import java.awt.event.KeyEvent;
@@ -85,6 +88,9 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.MediaPrintableArea;
 import javax.swing.JButton;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -4360,106 +4366,106 @@ public class SzachowaArena extends javax.swing.JFrame {
         BufferedImage bufferedImage = new BufferedImage(1900, 1600, BufferedImage.TYPE_INT_RGB);
         Graphics2D obraz = bufferedImage.createGraphics();
         BufferedImage[] figury = {(ImageIO.read(this.getClass().getResource("Wking002.png"))),
-             (ImageIO.read(this.getClass().getResource("Wqueen02.png"))),
-             (ImageIO.read(this.getClass().getResource("Wrook002.png"))),
-             (ImageIO.read(this.getClass().getResource("Wbishop2.png"))),
-             (ImageIO.read(this.getClass().getResource("Wknight2.png"))),
-             (ImageIO.read(this.getClass().getResource("Wpawn002.png"))),
-             (ImageIO.read(this.getClass().getResource("Bking002.png"))),
-             (ImageIO.read(this.getClass().getResource("Bqueen02.png"))),
-             (ImageIO.read(this.getClass().getResource("Brook002.png"))),
-             (ImageIO.read(this.getClass().getResource("Bbishop2.png"))),
-             (ImageIO.read(this.getClass().getResource("Bknight2.png"))),
-             (ImageIO.read(this.getClass().getResource("Bpawn002.png")))};
+            (ImageIO.read(this.getClass().getResource("Wqueen02.png"))),
+            (ImageIO.read(this.getClass().getResource("Wrook002.png"))),
+            (ImageIO.read(this.getClass().getResource("Wbishop2.png"))),
+            (ImageIO.read(this.getClass().getResource("Wknight2.png"))),
+            (ImageIO.read(this.getClass().getResource("Wpawn002.png"))),
+            (ImageIO.read(this.getClass().getResource("Bking002.png"))),
+            (ImageIO.read(this.getClass().getResource("Bqueen02.png"))),
+            (ImageIO.read(this.getClass().getResource("Brook002.png"))),
+            (ImageIO.read(this.getClass().getResource("Bbishop2.png"))),
+            (ImageIO.read(this.getClass().getResource("Bknight2.png"))),
+            (ImageIO.read(this.getClass().getResource("Bpawn002.png")))};
         Image[] figury2 = new Image[12];
         for (int i = 0; i < 12; i++) {
             figury2[i] = figury[i].getScaledInstance(150, 150, Image.SCALE_DEFAULT);
         }
         obraz.setColor(Color.white);
         obraz.fillRect(0, 0, 2000, 2000);
-        for (int i = 0; i <8; i++) {
-            for (int j = 0; j <8; j++) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
                 System.out.println(ust[i][j]);
                 if (i % 2 == 1) {
                     obraz.setColor(j % 2 == 0 ? new Color(244, 164, 96) : new Color(115, 69, 19));
-                    obraz.fill(new Rectangle2D.Double(j * 200, (Math.abs(i-7)) * 200, 200, 200));
+                    obraz.fill(new Rectangle2D.Double(j * 200, (Math.abs(i - 7)) * 200, 200, 200));
                     switch (ust[i][j]) {
                         case 'K':
-                            obraz.drawImage(figury2[0], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[0], (j) * 200 + 25, ((Math.abs(i - 7)) * 200 + 25), null);
                             break;
                         case 'k':
-                            obraz.drawImage(figury2[6], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[6], (j) * 200 + 25, ((Math.abs(i - 7)) * 200 + 25), null);
                             break;
                         case 'Q':
-                            obraz.drawImage(figury2[1], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[1], (j) * 200 + 25, ((Math.abs(i - 7)) * 200 + 25), null);
                             break;
                         case 'q':
-                            obraz.drawImage(figury2[7], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[7], (j) * 200 + 25, ((Math.abs(i - 7)) * 200 + 25), null);
                             break;
                         case 'R':
-                            obraz.drawImage(figury2[2], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[2], (j) * 200 + 25, ((Math.abs(i - 7)) * 200 + 25), null);
                             break;
                         case 'r':
-                            obraz.drawImage(figury2[8], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[8], (j) * 200 + 25, ((Math.abs(i - 7)) * 200 + 25), null);
                             break;
                         case 'B':
-                            obraz.drawImage(figury2[3], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[3], (j) * 200 + 25, ((Math.abs(i - 7)) * 200 + 25), null);
                             break;
                         case 'b':
-                            obraz.drawImage(figury2[9], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[9], (j) * 200 + 25, ((Math.abs(i - 7)) * 200 + 25), null);
                             break;
                         case 'N':
-                            obraz.drawImage(figury2[4], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[4], (j) * 200 + 25, ((Math.abs(i - 7)) * 200 + 25), null);
                             break;
                         case 'n':
-                            obraz.drawImage(figury2[10], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[10], (j) * 200 + 25, ((Math.abs(i - 7)) * 200 + 25), null);
                             break;
                         case 'P':
-                            obraz.drawImage(figury2[5], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[5], (j) * 200 + 25, ((Math.abs(i - 7)) * 200 + 25), null);
                             break;
                         case 'p':
-                            obraz.drawImage(figury2[11], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[11], (j) * 200 + 25, ((Math.abs(i - 7)) * 200 + 25), null);
                             break;
                     }
                 } else {
                     obraz.setColor(j % 2 == 1 ? new Color(244, 164, 96) : new Color(115, 69, 19));
-                    obraz.fill(new Rectangle2D.Double(j * 200, (Math.abs(i-7)) * 200, 200, 200));
+                    obraz.fill(new Rectangle2D.Double(j * 200, (Math.abs(i - 7)) * 200, 200, 200));
                     switch (ust[i][j]) {
                         case 'K':
-                            obraz.drawImage(figury2[0], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[0], (j) * 200 + 25, ((Math.abs(i - 7)) * 200 + 25), null);
                             break;
                         case 'k':
-                            obraz.drawImage(figury2[6], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[6], (j) * 200 + 25, ((Math.abs(i - 7)) * 200 + 25), null);
                             break;
                         case 'Q':
-                            obraz.drawImage(figury2[1], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[1], (j) * 200 + 25, ((Math.abs(i - 7)) * 200 + 25), null);
                             break;
                         case 'q':
-                            obraz.drawImage(figury2[7], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[7], (j) * 200 + 25, ((Math.abs(i - 7)) * 200 + 25), null);
                             break;
                         case 'R':
-                            obraz.drawImage(figury2[2], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[2], (j) * 200 + 25, ((Math.abs(i - 7)) * 200 + 25), null);
                             break;
                         case 'r':
-                            obraz.drawImage(figury2[8], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[8], (j) * 200 + 25, ((Math.abs(i - 7)) * 200 + 25), null);
                             break;
                         case 'B':
-                            obraz.drawImage(figury2[3], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[3], (j) * 200 + 25, ((Math.abs(i - 7)) * 200 + 25), null);
                             break;
                         case 'b':
-                            obraz.drawImage(figury2[9], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[9], (j) * 200 + 25, ((Math.abs(i - 7)) * 200 + 25), null);
                             break;
                         case 'N':
-                            obraz.drawImage(figury2[4], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[4], (j) * 200 + 25, ((Math.abs(i - 7)) * 200 + 25), null);
                             break;
                         case 'n':
-                            obraz.drawImage(figury2[10], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[10], (j) * 200 + 25, ((Math.abs(i - 7)) * 200 + 25), null);
                             break;
                         case 'P':
-                            obraz.drawImage(figury2[5], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[5], (j) * 200 + 25, ((Math.abs(i - 7)) * 200 + 25), null);
                             break;
                         case 'p':
-                            obraz.drawImage(figury2[11], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[11], (j) * 200 + 25, ((Math.abs(i - 7)) * 200 + 25), null);
                             break;
                     }
                 }
@@ -4489,159 +4495,167 @@ public class SzachowaArena extends javax.swing.JFrame {
         obraz.drawString("H", 1400, 1600);
         obraz.dispose();
         String nazwa_obrazu = JOptionPane.showInputDialog("podaj nazwę obrazu");
-        File file = new File(nazwa_obrazu+".png");
+        File file = new File(nazwa_obrazu + ".png");
         ImageIO.write(bufferedImage, "png", file);
         return null;
     }
 
-    private Graphics konwert_na_grafike(char[][] ust, boolean ruchB, ArrayList<String> text) throws IOException {
-        int y = (text.size()%2==0)?text.size()/2*50+25:((text.size()+1)/2*50)+25;
-        BufferedImage bufferedImage = new BufferedImage(2500, (y>1600)?y:1600, BufferedImage.TYPE_INT_RGB);
+    private Image konwert_na_grafike(char[][] ust, boolean ruchB, ArrayList<String> text) throws IOException {
+        int y = 0;
+        boolean dluga;
+        int rozmiarX = (int) (text.size() / 100);
+        dluga = rozmiarX / 100 > 3;
+        rozmiarX = rozmiarX > 3 ? 3 : rozmiarX;
+        System.out.println(rozmiarX);
+        BufferedImage bufferedImage = new BufferedImage(1700 + rozmiarX * 400, 1275, BufferedImage.TYPE_INT_RGB);
         Graphics2D obraz = bufferedImage.createGraphics();
         BufferedImage[] figury = {(ImageIO.read(this.getClass().getResource("Wking002.png"))),
-             (ImageIO.read(this.getClass().getResource("Wqueen02.png"))),
-             (ImageIO.read(this.getClass().getResource("Wrook002.png"))),
-             (ImageIO.read(this.getClass().getResource("Wbishop2.png"))),
-             (ImageIO.read(this.getClass().getResource("Wknight2.png"))),
-             (ImageIO.read(this.getClass().getResource("Wpawn002.png"))),
-             (ImageIO.read(this.getClass().getResource("Bking002.png"))),
-             (ImageIO.read(this.getClass().getResource("Bqueen02.png"))),
-             (ImageIO.read(this.getClass().getResource("Brook002.png"))),
-             (ImageIO.read(this.getClass().getResource("Bbishop2.png"))),
-             (ImageIO.read(this.getClass().getResource("Bknight2.png"))),
-             (ImageIO.read(this.getClass().getResource("Bpawn002.png")))};
+            (ImageIO.read(this.getClass().getResource("Wqueen02.png"))),
+            (ImageIO.read(this.getClass().getResource("Wrook002.png"))),
+            (ImageIO.read(this.getClass().getResource("Wbishop2.png"))),
+            (ImageIO.read(this.getClass().getResource("Wknight2.png"))),
+            (ImageIO.read(this.getClass().getResource("Wpawn002.png"))),
+            (ImageIO.read(this.getClass().getResource("Bking002.png"))),
+            (ImageIO.read(this.getClass().getResource("Bqueen02.png"))),
+            (ImageIO.read(this.getClass().getResource("Brook002.png"))),
+            (ImageIO.read(this.getClass().getResource("Bbishop2.png"))),
+            (ImageIO.read(this.getClass().getResource("Bknight2.png"))),
+            (ImageIO.read(this.getClass().getResource("Bpawn002.png")))};
         Image[] figury2 = new Image[12];
         for (int i = 0; i < 12; i++) {
-            figury2[i] = figury[i].getScaledInstance(150, 150, Image.SCALE_DEFAULT);
+            figury2[i] = figury[i].getScaledInstance(100, 100, Image.SCALE_DEFAULT);
         }
         obraz.setColor(Color.white);
-        obraz.fillRect(0, 0, 2500, (y>1600)?y:1600);
-        for (int i = 0; i <8; i++) {
-            for (int j = 0; j <8; j++) {
+        obraz.fillRect(0, 0, 2500, (y > 1275) ? y : 1275);
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
                 System.out.println(ust[i][j]);
                 if (i % 2 == 1) {
                     obraz.setColor(j % 2 == 0 ? new Color(244, 164, 96) : new Color(115, 69, 19));
-                    obraz.fill(new Rectangle2D.Double(j * 200, (Math.abs(i-7)) * 200, 200, 200));
+                    obraz.fill(new Rectangle2D.Double(j * 150, (Math.abs(i - 7)) * 150, 150, 150));
                     switch (ust[i][j]) {
                         case 'K':
-                            obraz.drawImage(figury2[0], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[0], (j) * 150 + 25, ((Math.abs(i - 7)) * 150 + 25), null);
                             break;
                         case 'k':
-                            obraz.drawImage(figury2[6], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[6], (j) * 150 + 25, ((Math.abs(i - 7)) * 150 + 25), null);
                             break;
                         case 'Q':
-                            obraz.drawImage(figury2[1], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[1], (j) * 150 + 25, ((Math.abs(i - 7)) * 150 + 25), null);
                             break;
                         case 'q':
-                            obraz.drawImage(figury2[7], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[7], (j) * 150 + 25, ((Math.abs(i - 7)) * 150 + 25), null);
                             break;
                         case 'R':
-                            obraz.drawImage(figury2[2], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[2], (j) * 150 + 25, ((Math.abs(i - 7)) * 150 + 25), null);
                             break;
                         case 'r':
-                            obraz.drawImage(figury2[8], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[8], (j) * 150 + 25, ((Math.abs(i - 7)) * 150 + 25), null);
                             break;
                         case 'B':
-                            obraz.drawImage(figury2[3], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[3], (j) * 150 + 25, ((Math.abs(i - 7)) * 150 + 25), null);
                             break;
                         case 'b':
-                            obraz.drawImage(figury2[9], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[9], (j) * 150 + 25, ((Math.abs(i - 7)) * 150 + 25), null);
                             break;
                         case 'N':
-                            obraz.drawImage(figury2[4], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[4], (j) * 150 + 25, ((Math.abs(i - 7)) * 150 + 25), null);
                             break;
                         case 'n':
-                            obraz.drawImage(figury2[10], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[10], (j) * 150 + 25, ((Math.abs(i - 7)) * 150 + 25), null);
                             break;
                         case 'P':
-                            obraz.drawImage(figury2[5], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[5], (j) * 150 + 25, ((Math.abs(i - 7)) * 150 + 25), null);
                             break;
                         case 'p':
-                            obraz.drawImage(figury2[11], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[11], (j) * 150 + 25, ((Math.abs(i - 7)) * 150 + 25), null);
                             break;
                     }
                 } else {
                     obraz.setColor(j % 2 == 1 ? new Color(244, 164, 96) : new Color(115, 69, 19));
-                    obraz.fill(new Rectangle2D.Double(j * 200, (Math.abs(i-7)) * 200, 200, 200));
+                    obraz.fill(new Rectangle2D.Double(j * 150, (Math.abs(i - 7)) * 150, 150, 150));
                     switch (ust[i][j]) {
                         case 'K':
-                            obraz.drawImage(figury2[0], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[0], (j) * 150 + 25, ((Math.abs(i - 7)) * 150 + 25), null);
                             break;
                         case 'k':
-                            obraz.drawImage(figury2[6], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[6], (j) * 150 + 25, ((Math.abs(i - 7)) * 150 + 25), null);
                             break;
                         case 'Q':
-                            obraz.drawImage(figury2[1], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[1], (j) * 150 + 25, ((Math.abs(i - 7)) * 150 + 25), null);
                             break;
                         case 'q':
-                            obraz.drawImage(figury2[7], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[7], (j) * 150 + 25, ((Math.abs(i - 7)) * 150 + 25), null);
                             break;
                         case 'R':
-                            obraz.drawImage(figury2[2], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[2], (j) * 150 + 25, ((Math.abs(i - 7)) * 150 + 25), null);
                             break;
                         case 'r':
-                            obraz.drawImage(figury2[8], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[8], (j) * 150 + 25, ((Math.abs(i - 7)) * 150 + 25), null);
                             break;
                         case 'B':
-                            obraz.drawImage(figury2[3], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[3], (j) * 150 + 25, ((Math.abs(i - 7)) * 150 + 25), null);
                             break;
                         case 'b':
-                            obraz.drawImage(figury2[9], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[9], (j) * 150 + 25, ((Math.abs(i - 7)) * 150 + 25), null);
                             break;
                         case 'N':
-                            obraz.drawImage(figury2[4], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[4], (j) * 150 + 25, ((Math.abs(i - 7)) * 150 + 25), null);
                             break;
                         case 'n':
-                            obraz.drawImage(figury2[10], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[10], (j) * 150 + 25, ((Math.abs(i - 7)) * 150 + 25), null);
                             break;
                         case 'P':
-                            obraz.drawImage(figury2[5], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[5], (j) * 150 + 25, ((Math.abs(i - 7)) * 150 + 25), null);
                             break;
                         case 'p':
-                            obraz.drawImage(figury2[11], (j) * 200 + 25, ((Math.abs(i-7))* 200 + 25), null);
+                            obraz.drawImage(figury2[11], (j) * 150 + 25, ((Math.abs(i - 7)) * 150 + 25), null);
                             break;
                     }
                 }
             }
         }
         obraz.setColor(ruchB == true ? Color.white : Color.black);
-        obraz.fillOval(1650, 1400, 100, 100);
+        obraz.fillOval(1200, 1150, 50, 50);
         obraz.setColor(Color.black);
         obraz.setStroke(new BasicStroke(10));
-        obraz.drawOval(1650, 1400, 100, 100);
-        obraz.setFont(new Font("TimesRoman", Font.PLAIN, 50));
-        System.out.println(text);
-        int temp=1;
-        for(int i =0;i<text.size();i++){
-            if(i%2==0){
-                obraz.drawString((String.valueOf(temp)+". "+text.get(i)), 1800, (i==0)?50:(i/2)*50+50);
-            }else{
-                obraz.drawString(text.get(i), 2200, (i!=1)?((i-1)/2)*50+50:50);
+        obraz.drawOval(1200, 1150, 50, 50);
+        int x = 0;
+        obraz.setFont(new Font("Courier New", Font.PLAIN, 25));
+        int temp = 1;
+        for (int i = 0; i < text.size(); i++) {
+            if (i % 2 == 0) {
+                obraz.drawString((String.valueOf(temp) + ". " + text.get(i)), 1300 + x * 400, (i == 0) ? 25 : (i / 2) * 25 - (1250 * x) + 25);
+            } else {
+                obraz.drawString(text.get(i), 1500 + x * 400, (i != 1) ? ((i - 1) / 2) * 25 - (1250 * x) + 25 : 25);
                 temp++;
             }
+            if (((i + 1) % 100 == 0 && i > 0 && dluga == false) || ((i + 1) % 200 == 0 && i > 0 && dluga == true)) {
+                x = x + 1;
+            }
         }
-        
-        obraz.drawString("8", 0, 50);
-        obraz.drawString("7", 0, 250);
-        obraz.drawString("6", 0, 450);
-        obraz.drawString("5", 0, 650);
-        obraz.drawString("4", 0, 850);
-        obraz.drawString("3", 0, 1050);
-        obraz.drawString("2", 0, 1250);
-        obraz.drawString("1", 0, 1450);
-        obraz.drawString("A", 0, 1600);
-        obraz.drawString("B", 200, 1600);
-        obraz.drawString("C", 400, 1600);
-        obraz.drawString("D", 600, 1600);
-        obraz.drawString("E", 800, 1600);
-        obraz.drawString("F", 1000, 1600);
-        obraz.drawString("G", 1200, 1600);
-        obraz.drawString("H", 1400, 1600);
+
+        obraz.drawString("8", 0, 25);
+        obraz.drawString("7", 0, 175);
+        obraz.drawString("6", 0, 325);
+        obraz.drawString("5", 0, 475);
+        obraz.drawString("4", 0, 625);
+        obraz.drawString("3", 0, 775);
+        obraz.drawString("2", 0, 925);
+        obraz.drawString("1", 0, 1075);
+        obraz.drawString("A", 0, 1200);
+        obraz.drawString("B", 150, 1200);
+        obraz.drawString("C", 300, 1200);
+        obraz.drawString("D", 450, 1200);
+        obraz.drawString("E", 600, 1200);
+        obraz.drawString("F", 750, 1200);
+        obraz.drawString("G", 900, 1200);
+        obraz.drawString("H", 1050, 1200);
         obraz.dispose();
         String nazwa_obrazu = JOptionPane.showInputDialog("podaj nazwę obrazu");
-        File file = new File(nazwa_obrazu+".png");
+        File file = new File(nazwa_obrazu + ".png");
         ImageIO.write(bufferedImage, "png", file);
-        return null; 
+        return bufferedImage;
     }
 
     public enum figury {
@@ -8462,7 +8476,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                             }
                         }
                     }
-                    System.exit(0);
+                    
                 }
             }
         }
@@ -9288,7 +9302,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                 }
             }
         }
-        System.exit(0);
+        
     }
 
     public int uzyskajid(String baza) {
@@ -9623,7 +9637,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                 }
             }
         }
-        System.exit(0);
+        
     }
 
     private void Rusz_przytul(Object source) {
@@ -18443,7 +18457,7 @@ public class SzachowaArena extends javax.swing.JFrame {
             Logger.getLogger(SzachowaArena.class
                     .getName()).log(Level.SEVERE, null, ex1);
         }
-        System.exit(0);
+        
     }//GEN-LAST:event_resetgameActionPerformed
 
     private void Wlasne_kolor_jasneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Wlasne_kolor_jasneActionPerformed
@@ -18626,24 +18640,21 @@ public class SzachowaArena extends javax.swing.JFrame {
                 bright = Boolean.parseBoolean(st.nextToken());
                 bleft = Boolean.parseBoolean(st.nextToken());
                 zdanie = inP.nextLine();
-                int linia=0;
+                int linia = 0;
                 st = new StringTokenizer(zdanie);
                 zasada50 = Byte.parseByte(st.nextToken("+"));
                 kol = Byte.parseByte(st.nextToken("+"));
                 movenr = Integer.parseInt(st.nextToken("+"));
                 zdanie = inP.nextLine();
                 while (!"----".equals(zdanie)) {
-                    zdanie = inP.nextLine();
                     historia.add(zdanie);
+                    zdanie = inP.nextLine();
                 }
                 zdanie = inP.nextLine();
-                int liczba = 1;
                 boolean zmiana = false;
                 while (inP.hasNextLine() || !zdanie.equals("") || "----".equals(zdanie)) {
-                    linia++;
                     System.out.println(zdanie);
                     ruchy_literowe.add(zdanie);
-                    ruchy_syboliczne.add(zdanie);
                     if (inP.hasNextLine()) {
                         zdanie = inP.nextLine();
                         if (zdanie.equals("----")) {
@@ -18653,9 +18664,16 @@ public class SzachowaArena extends javax.swing.JFrame {
                         break;
                     }
                 }
-                
-                System.out.println(linia);
-                
+                zdanie = inP.nextLine();
+                while (inP.hasNextLine() || !zdanie.equals("") || "----".equals(zdanie)) {
+                    System.out.println(zdanie);
+                    ruchy_syboliczne.add(zdanie);
+                    if (inP.hasNextLine()) {
+                        zdanie = inP.nextLine();
+                    } else {
+                        break;
+                    }
+                }
                 jCheckBox1ActionPerformed(null);
                 pomoc_ruch = ruchB ? Color.BLUE : Color.RED;
                 JOptionPane.showMessageDialog(rootPane, "Ruch mają " + (ruchB ? "białe" : "czarne") + ".");
@@ -18732,16 +18750,17 @@ public class SzachowaArena extends javax.swing.JFrame {
                 jButton66.setEnabled(true);
                 jButton68.setEnabled(true);
                 jButton71.setVisible(false);
-                tryb=0;
+                tryb = 0;
                 gra = true;
+                jMenu2.setEnabled(true);
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(SzachowaArena.class
                         .getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 Logger.getLogger(SzachowaArena.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }
+
     }//GEN-LAST:event_partia_wznowionaActionPerformed
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
@@ -18801,7 +18820,43 @@ public class SzachowaArena extends javax.swing.JFrame {
             } catch (PrinterException ex) {
             Logger.getLogger(SzachowaArena.class.getName()).log(Level.SEVERE, null, ex);
             }*/
-            Object o = konwert_na_grafike(ust, ruchB, ruchy_literowe);
+            if (ruchy_literowe.size() <= 200) {
+                PrinterJob job = PrinterJob.getPrinterJob();
+                PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
+                aset.add(new MediaPrintableArea(7.5f, 7.5f, 195f, 282f, MediaPrintableArea.MM));
+                PageFormat pf = job.getPageFormat(aset);
+                pf.setOrientation(PageFormat.PORTRAIT);
+                job.setPrintable(new Drukarka_P(ust, ruchB, ruchy_literowe), pf);
+                boolean ok = job.printDialog(aset);
+                if (ok) {
+                    try {
+                        job.print(aset);
+                    } catch (PrinterException ex) {
+                    }
+                }
+            } else {
+                System.out.println("init");
+                PrinterJob printJob = PrinterJob.getPrinterJob();
+
+                Book book = new Book();
+                PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
+                aset.add(new MediaPrintableArea(7.5f, 7.5f, 195f, 282f, MediaPrintableArea.MM));
+                PageFormat pf = printJob.getPageFormat(aset);
+                pf.setOrientation(PageFormat.PORTRAIT);
+                book.append(new Drukarka_P(ust, ruchB), pf);
+                book.append(new Drukarka_H(ruchy_literowe), pf);
+
+                printJob.setPageable(book);
+
+                if (printJob.printDialog()) {
+                    try {
+                        printJob.print();
+                    } catch (Exception PrintException) {
+                        PrintException.printStackTrace();
+                    }
+                }
+
+            }
         } catch (IOException ex) {
             Logger.getLogger(SzachowaArena.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -18809,13 +18864,20 @@ public class SzachowaArena extends javax.swing.JFrame {
 
     private void druk_pozycjaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_druk_pozycjaActionPerformed
         try {
-            Object o = konwert_na_grafike(ust, ruchB);
-            /*try {
-            Drukarka_O druk = new Drukarka_O();
-            druk.print(konwert_na_grafike(ust,ruchB), new PageFormat(), 1);
-            } catch (PrinterException ex) {
-            Logger.getLogger(SzachowaArena.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
+            PrinterJob job = PrinterJob.getPrinterJob();
+            PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
+            aset.add(new MediaPrintableArea(7.5f, 7.5f, 195f, 282f, MediaPrintableArea.MM));
+                PageFormat pf = job.getPageFormat(aset);
+                pf.setOrientation(PageFormat.PORTRAIT);
+            job.setPrintable(new Drukarka_P(ust, ruchB), pf);
+            boolean ok = job.printDialog(aset);
+            if (ok) {
+                try {
+                    job.print(aset);
+                } catch (PrinterException ex) {
+                    /* The job did not successfully complete */
+                }
+            }
         } catch (IOException ex) {
             Logger.getLogger(SzachowaArena.class.getName()).log(Level.SEVERE, null, ex);
         }
