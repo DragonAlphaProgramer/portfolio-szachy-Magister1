@@ -22,7 +22,7 @@ class Generator_watek {
      * @param backup sprawdzana pozycja
      * @return jeśli królowie są obecni, zwróci true
      */
-    private static boolean obecnosc(final SI_MIN_MAX_Alfa_Beta_watek.figury[][] backup) {
+    private synchronized static boolean obecnosc(final SI_MIN_MAX_Alfa_Beta_watek.figury[][] backup) {
         boolean KB = false, KC = false;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -37,7 +37,7 @@ class Generator_watek {
         return KC && KB;
     }
 
-    static Collection<Ruch_watek> generuj_posuniecia(SI_MIN_MAX_Alfa_Beta_watek.figury[][] ust, boolean tura_rywala, boolean przelotcan,
+    static  synchronized Collection<Ruch_watek> generuj_posuniecia(SI_MIN_MAX_Alfa_Beta_watek.figury[][] ust, boolean tura_rywala, boolean przelotcan,
             boolean blackleft, boolean blackright, boolean whiteleft, boolean whiteright,
             boolean kingrochB, boolean kingrochC, int sposob, int kolumna, boolean konkret, boolean all) {
 
@@ -1870,7 +1870,7 @@ SI_MIN_MAX_Alfa_Beta_watek.figury.pustka, backup));
      * @param kolumna kolumna z dostępnym biciem w przelocie
      * @return bieżąca lista posunięć w danej pozycji
      */
-    static Collection<Ruch_watek> generuj_posuniecia(SI_MIN_MAX_Alfa_Beta_watek.figury[][] ust, boolean tura_rywala, boolean przelotcan,
+    static synchronized Collection<Ruch_watek> generuj_posuniecia(SI_MIN_MAX_Alfa_Beta_watek.figury[][] ust, boolean tura_rywala, boolean przelotcan,
             boolean blackleft, boolean blackright, boolean whiteleft, boolean whiteright,
             boolean kingrochB, boolean kingrochC, int sposob, int kolumna, boolean konkret, char znak_start, int[] start, boolean all) {
         List<Ruch_watek> lista_dopuszcalnych_Ruchow = new ArrayList<>();
@@ -3876,7 +3876,7 @@ SI_MIN_MAX_Alfa_Beta_watek.figury.pustka, backup));
         return ' ';
     }
 
-    static Collection<RuchA> generuj_posunieciaA(SzachowaArena.figury[][] ust, boolean tura_rywala, boolean przelotcan,
+    static synchronized  Collection<RuchA> generuj_posunieciaA(SzachowaArena.figury[][] ust, boolean tura_rywala, boolean przelotcan,
             boolean blackleft, boolean blackright, boolean whiteleft, boolean whiteright,
             boolean kingrochB, boolean kingrochC, int sposob, int kolumna, boolean konkret, char znak_start, int[] start, boolean all) {
         List<RuchA> lista_dopuszcalnych_Ruchow = new ArrayList<>();

@@ -1531,8 +1531,8 @@ public class RuchZagrozenie_kontrola {
                 || (pomocnicze[krolX + 1][krolY + 2] == 'n')
                 || (pomocnicze[krolX + 1][krolY - 2] == 'n')
                 || (pomocnicze[krolX - 1][krolY + 2] == 'n')
-                || (pomocnicze[krolX - 1][krolY - 2] == 'n'))
-                || ((pomocnicze[krolX + 2][krolY - 1] == 'a')
+                || (pomocnicze[krolX - 1][krolY - 2] == 'n')
+                || (pomocnicze[krolX + 2][krolY - 1] == 'a')
                 || (pomocnicze[krolX + 2][krolY + 1] == 'a')
                 || (pomocnicze[krolX - 2][krolY - 1] == 'a')
                 || (pomocnicze[krolX - 2][krolY + 1] == 'a')
@@ -1547,7 +1547,7 @@ public class RuchZagrozenie_kontrola {
                 || (pomocnicze[krolX + 1][krolY + 2] == 'N')
                 || (pomocnicze[krolX + 1][krolY - 2] == 'N')
                 || (pomocnicze[krolX - 1][krolY + 2] == 'N')
-                || (pomocnicze[krolX - 1][krolY - 2] == 'N'))
+                || (pomocnicze[krolX - 1][krolY - 2] == 'N')
                 || (pomocnicze[krolX + 2][krolY - 1] == 'A')
                 || (pomocnicze[krolX + 2][krolY + 1] == 'A')
                 || (pomocnicze[krolX - 2][krolY - 1] == 'A')
@@ -1555,7 +1555,7 @@ public class RuchZagrozenie_kontrola {
                 || (pomocnicze[krolX + 1][krolY + 2] == 'A')
                 || (pomocnicze[krolX + 1][krolY - 2] == 'A')
                 || (pomocnicze[krolX - 1][krolY + 2] == 'A')
-                || (pomocnicze[krolX - 1][krolY - 2] == 'A'))) {
+                || (pomocnicze[krolX - 1][krolY - 2] == 'A')))) {
             zagrozenie = true;
             return zagrozenie;
         }

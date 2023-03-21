@@ -67,7 +67,7 @@ public class Drukarka_H implements Printable {
                 x = x + 1;
             }*/
              if (i % 2 == 0) {
-                obraz.drawString((String.valueOf(temp) + "." + historia.get(i)), 0 + x * 135, (i == 0) ? 10 : (i / 2) * 10 - (750 * x)+10);
+                obraz.drawString((String.valueOf(temp) + "." + historia.get(i)), x * 135, (i == 0) ? 10 : (i / 2) * 10 - (750 * x)+10);
             } else {
                 obraz.drawString(historia.get(i), 80 + x * 135, (i != 1) ? ((i - 1) / 2) * 10 - (750 * x) +10: 10);
                 temp++;

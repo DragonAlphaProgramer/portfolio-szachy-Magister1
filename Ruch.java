@@ -5,6 +5,8 @@
  */
 package szachy;
 
+import java.util.Collection;
+
 /**
  *
  * @author Patryk klasa przechowująca parametry ruchów
@@ -175,6 +177,7 @@ public class Ruch implements Comparable<Ruch> {
     SI_MIN_MAX_Alfa_Beta.figury[][] chessboard_after = new SI_MIN_MAX_Alfa_Beta.figury[8][8];
     Boolean szach, czy_szach, roszada, czybialy, przelot, dlugaroszada, promocja, atak;
     kolumna start1, koniec1;
+    Collection<Ruch> lista_ruchow;
     rzad start2, koniec2;
     figura kolejnosc, promowana = null;
     final sortowanie sposob;
@@ -459,14 +462,10 @@ public class Ruch implements Comparable<Ruch> {
         assert kolejnosc != null;
         wspolczynnik_ruchu = wartosc(kolejnosc);
         wspolczynnik_bitki = wartosc(bity);
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                chessboard_before[i][j] = szachownica[i][j];
-                chessboard_after[i][j] = zmiana(chessboard_before, lista)[i][j];
-            }
-        }
+        chessboard_before = szachownica;
+        chessboard_after = zmiana(chessboard_before, lista);
         if(!anty){
-        czy_szach = RuchZagrozenie_kontrola.szach(SI_MIN_MAX_Alfa_Beta.konwert(chessboard_after), !czybialy);
+        czy_szach = lista.charAt(8)=='+';
         }else{
         czy_szach = false;    
         }

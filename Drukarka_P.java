@@ -36,18 +36,18 @@ class Drukarka_P implements Printable {
     private Image konwert_na_grafike(char[][] ust, boolean ruchB) throws IOException {
         BufferedImage bufferedImage = new BufferedImage(590, 835, BufferedImage.TYPE_INT_RGB);
         Graphics2D obraz = bufferedImage.createGraphics();
-        BufferedImage[] figury = {(ImageIO.read(this.getClass().getResource("Wking002.png"))),
-            (ImageIO.read(this.getClass().getResource("Wqueen02.png"))),
-            (ImageIO.read(this.getClass().getResource("Wrook002.png"))),
-            (ImageIO.read(this.getClass().getResource("Wbishop2.png"))),
-            (ImageIO.read(this.getClass().getResource("Wknight2.png"))),
-            (ImageIO.read(this.getClass().getResource("Wpawn002.png"))),
-            (ImageIO.read(this.getClass().getResource("Bking002.png"))),
-            (ImageIO.read(this.getClass().getResource("Bqueen02.png"))),
-            (ImageIO.read(this.getClass().getResource("Brook002.png"))),
-            (ImageIO.read(this.getClass().getResource("Bbishop2.png"))),
-            (ImageIO.read(this.getClass().getResource("Bknight2.png"))),
-            (ImageIO.read(this.getClass().getResource("Bpawn002.png")))};
+        BufferedImage[] figury = {(ImageIO.read(this.getClass().getResource("Wking005.png"))),
+            (ImageIO.read(this.getClass().getResource("Wqueen05.png"))),
+            (ImageIO.read(this.getClass().getResource("Wrook005.png"))),
+            (ImageIO.read(this.getClass().getResource("Wbishop5.png"))),
+            (ImageIO.read(this.getClass().getResource("Wknight5.png"))),
+            (ImageIO.read(this.getClass().getResource("Wpawn005.png"))),
+            (ImageIO.read(this.getClass().getResource("Bking005.png"))),
+            (ImageIO.read(this.getClass().getResource("Bqueen05.png"))),
+            (ImageIO.read(this.getClass().getResource("Brook005.png"))),
+            (ImageIO.read(this.getClass().getResource("Bbishop5.png"))),
+            (ImageIO.read(this.getClass().getResource("Bknight5.png"))),
+            (ImageIO.read(this.getClass().getResource("Bpawn005.png")))};
         Image[] figury2 = new Image[12];
         for (int i = 0; i < 12; i++) {
             figury2[i] = figury[i].getScaledInstance(42, 42, Image.SCALE_DEFAULT);
@@ -143,10 +143,10 @@ class Drukarka_P implements Printable {
             }
         }
         obraz.setColor(ruchB == true ? Color.white : Color.black);
-        obraz.fillOval(460, 430, 10, 10);
+        obraz.fillOval(460, 410, 30, 30);
         obraz.setColor(Color.black);
-        obraz.setStroke(new BasicStroke(3));
-        obraz.drawOval(460, 430, 10, 10);
+        obraz.setStroke(new BasicStroke(2));
+        obraz.drawOval(460, 410, 30, 30);
         obraz.drawString("8", 0, 46);
         obraz.drawString("7", 0, 102);
         obraz.drawString("6", 0, 158);
@@ -179,18 +179,18 @@ class Drukarka_P implements Printable {
         System.out.println(rozmiarX);
         BufferedImage bufferedImage = new BufferedImage(590, 835, BufferedImage.TYPE_INT_RGB);
         Graphics2D obraz = bufferedImage.createGraphics();
-        BufferedImage[] figury = {(ImageIO.read(this.getClass().getResource("Wking002.png"))),
-            (ImageIO.read(this.getClass().getResource("Wqueen02.png"))),
-            (ImageIO.read(this.getClass().getResource("Wrook002.png"))),
-            (ImageIO.read(this.getClass().getResource("Wbishop2.png"))),
-            (ImageIO.read(this.getClass().getResource("Wknight2.png"))),
-            (ImageIO.read(this.getClass().getResource("Wpawn002.png"))),
-            (ImageIO.read(this.getClass().getResource("Bking002.png"))),
-            (ImageIO.read(this.getClass().getResource("Bqueen02.png"))),
-            (ImageIO.read(this.getClass().getResource("Brook002.png"))),
-            (ImageIO.read(this.getClass().getResource("Bbishop2.png"))),
-            (ImageIO.read(this.getClass().getResource("Bknight2.png"))),
-            (ImageIO.read(this.getClass().getResource("Bpawn002.png")))};
+        BufferedImage[] figury = {(ImageIO.read(this.getClass().getResource("Wking005.png"))),
+            (ImageIO.read(this.getClass().getResource("Wqueen05.png"))),
+            (ImageIO.read(this.getClass().getResource("Wrook005.png"))),
+            (ImageIO.read(this.getClass().getResource("Wbishop5.png"))),
+            (ImageIO.read(this.getClass().getResource("Wknight5.png"))),
+            (ImageIO.read(this.getClass().getResource("Wpawn005.png"))),
+            (ImageIO.read(this.getClass().getResource("Bking005.png"))),
+            (ImageIO.read(this.getClass().getResource("Bqueen05.png"))),
+            (ImageIO.read(this.getClass().getResource("Brook005.png"))),
+            (ImageIO.read(this.getClass().getResource("Bbishop5.png"))),
+            (ImageIO.read(this.getClass().getResource("Bknight5.png"))),
+            (ImageIO.read(this.getClass().getResource("Bpawn005.png")))};
         Image[] figury2 = new Image[12];
         for (int i = 0; i < 12; i++) {
             figury2[i] = figury[i].getScaledInstance(42, 42, Image.SCALE_DEFAULT);
@@ -286,21 +286,21 @@ class Drukarka_P implements Printable {
             }
         }
         obraz.setColor(ruchB == true ? Color.white : Color.black);
-        obraz.fillOval(460, 430, 10, 10);
+        obraz.fillOval(460, 410, 30, 30);
         obraz.setColor(Color.black);
-        obraz.setStroke(new BasicStroke(3));
-        obraz.drawOval(460, 430, 10, 10);
+        obraz.setStroke(new BasicStroke(2));
+        obraz.drawOval(460, 410, 30, 30);
         int x = 0;
         obraz.setFont(new Font("Courier New", Font.PLAIN, 10));
         int temp = 1;
         for (int i = 0; i < text.size(); i++) {
             if (i % 2 == 0) {
-                obraz.drawString((String.valueOf(temp) + "." + text.get(i)), 0 + x * 135, (i == 0) ? 460 : (i / 2) * 10 - (300 * x) + 460);
+                obraz.drawString((String.valueOf(temp) + "." + text.get(i)), 0 + x * 135, (i == 0) ? 460 : (i / 2) * 10 - (250 * x) + 460);
             } else {
-                obraz.drawString(text.get(i), 80 + x * 135, (i != 1) ? ((i - 1) / 2) * 10 - (300 * x) + 460 : 460);
+                obraz.drawString(text.get(i), 80 + x * 135, (i != 1) ? ((i - 1) / 2) * 10 - (250 * x) + 460 : 460);
                 temp++;
             }
-            if (((i + 1) % 60 == 0 && i > 0)) {
+            if (((i + 1) % 50 == 0 && i > 0)) {
                 x = x + 1;
             }
             /* switch (i % 8) {

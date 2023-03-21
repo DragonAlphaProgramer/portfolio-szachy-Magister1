@@ -71,7 +71,7 @@ public class Ruch_watek implements Comparable<Ruch_watek> {
         return x * 8 + y;
     }
 
-    private SI_MIN_MAX_Alfa_Beta_watek.figury[][] zmiana(SI_MIN_MAX_Alfa_Beta_watek.figury[][] szachownica, String lista) {
+    private synchronized SI_MIN_MAX_Alfa_Beta_watek.figury[][] zmiana(SI_MIN_MAX_Alfa_Beta_watek.figury[][] szachownica, String lista) {
         SI_MIN_MAX_Alfa_Beta_watek.figury[][] wynik = new SI_MIN_MAX_Alfa_Beta_watek.figury[8][8];
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -226,7 +226,7 @@ public class Ruch_watek implements Comparable<Ruch_watek> {
     }
 
     Ruch_watek(String lista, int sposob, SI_MIN_MAX_Alfa_Beta_watek.figury bity, SI_MIN_MAX_Alfa_Beta_watek.figury[][] szachownica) {
-
+        synchronized(this){
         switch (bity) {
             case BPion:
             case CPion:
@@ -473,6 +473,7 @@ public class Ruch_watek implements Comparable<Ruch_watek> {
             default:
                 this.sposob = sortowanie.zaden;
         }
+    }
     }
 
     @Override

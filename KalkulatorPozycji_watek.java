@@ -332,11 +332,11 @@ public class KalkulatorPozycji_watek
         return pozycja_PION.punktacja(strona, SI_MIN_MAX_Alfa_Beta_watek.konwert(ustawienie));
     }
 
-    private int wiezeS(boolean strona, SI_MIN_MAX_Alfa_Beta_watek.figury[][] ustawienie) {
+  /*  private int wiezeS(boolean strona, SI_MIN_MAX_Alfa_Beta_watek.figury[][] ustawienie) {
         pozycja_WIEZA w = new pozycja_WIEZA();
         ////System.out.printlnln("Wchodzi6");
         return w.punktacja(strona, SI_MIN_MAX_Alfa_Beta_watek.konwert(ustawienie)) - w.punktacja(!strona, SI_MIN_MAX_Alfa_Beta_watek.konwert(ustawienie));
-    }
+    }*/
 
     private int mobilnosc(SI_MIN_MAX_Alfa_Beta_watek.figury[][] ustawienie, boolean strona, boolean przelotcan,
             boolean bleft, boolean bright, boolean wleft, boolean wright,
@@ -363,12 +363,12 @@ public class KalkulatorPozycji_watek
 
     }
 
-    private int save_king(char[][] ustawienie, boolean strona, boolean przelotcan,
+    /*private int save_king(char[][] ustawienie, boolean strona, boolean przelotcan,
             boolean RochB, boolean RochC, boolean wl, boolean wr, boolean bl, boolean br, byte kol) {
         analizator_odleglosci save = Bezpieczenstwo_krol.get().zliczpozycje(ustawienie, strona, przelotcan,
                 RochB, RochC, wl, wr, bl, br, kol);
         return save.getWartosc();
-    }
+    }*/
 
     private int ruchy_zbijajace(SI_MIN_MAX_Alfa_Beta_watek.figury[][] ustawienie, boolean strona, boolean przelotcan,
             boolean bleft, boolean bright, boolean wleft, boolean wright, boolean roszadaB, boolean roszadaC, int kol) {

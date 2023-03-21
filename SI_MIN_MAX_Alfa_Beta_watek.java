@@ -2,6 +2,7 @@ package szachy;
 
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
+import static szachy.SI_MIN_MAX_Alfa_Beta.konwert;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -12,7 +13,7 @@ import java.util.concurrent.Callable;
  *
  * @author Patryk
  */
-public class SI_MIN_MAX_Alfa_Beta_watek implements Callable{
+public  class SI_MIN_MAX_Alfa_Beta_watek implements Callable<Ruch_wartosc>{
     
     Ruch_watek move;
     int biezaca_ogolna,glebia,najwieksza,najmniejsza;
@@ -30,7 +31,7 @@ public class SI_MIN_MAX_Alfa_Beta_watek implements Callable{
     private final boolean wyjsciowa_tura;
     private final KalkulatorPozycji_watek wynikowa;
     
-    synchronized private boolean kontrola_pat(char[][] ustawienie, boolean strona, boolean przelotcan) {
+    private boolean kontrola_pat(char[][] ustawienie, boolean strona, boolean przelotcan) {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 int[] poza_krolewska = new int[2];
@@ -65,8 +66,9 @@ public class SI_MIN_MAX_Alfa_Beta_watek implements Callable{
     }
 
     @Override
-    public Object call() throws Exception{
-        
+    public  Ruch_wartosc call() throws Exception{
+        System.out.println("start "+move.toString());
+        int biezaca_ogolna;
         all_position = all_position + 1;
         byte Nkolumna;
         if (move.kolejnosc == Ruch_watek.figura.Pion && (Math.abs(pozyskajkordkolumna(move.koniec2) - pozyskajkordkolumna(move.start2)) == 2)) {
@@ -95,10 +97,13 @@ public class SI_MIN_MAX_Alfa_Beta_watek implements Callable{
                 
                 przywroc_parametry(move);
                 setZakaz(false);
+                System.out.println("wynik "+move.toString());
+                return new Ruch_wartosc(move,biezaca_ogolna);
             } else {
                 setZakaz(true);
                 System.out.println("err2");
                 przywroc_parametry(move);
+                return !wyjsciowa_tura ? new Ruch_wartosc(move,Integer.MAX_VALUE) :  new Ruch_wartosc(move,Integer.MIN_VALUE);
             }
         } catch (Exception e) {
             System.out.println("ERROR POSITION");
@@ -110,18 +115,17 @@ public class SI_MIN_MAX_Alfa_Beta_watek implements Callable{
                 System.out.println();
             }
             System.out.println(e);
-            e.printStackTrace();
+            return !wyjsciowa_tura ? new Ruch_wartosc(move,Integer.MAX_VALUE) :  new Ruch_wartosc(move,Integer.MIN_VALUE);
         }
-        return biezaca_ogolna;
     }
     
     
-    public enum figury {
+    public   enum figury {
         BKrol, BHetman, BWieza, BGoniec, BSkoczek, BPion,
         CKrol, CHetman, CWieza, CGoniec, CSkoczek, CPion, pustka
     }
     
-    public synchronized static char[][] konwert(figury[][] pozycja) {
+    public synchronized  static char[][] konwert(figury[][] pozycja) {
         char[][] wynik = new char[8][8];
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -171,12 +175,13 @@ public class SI_MIN_MAX_Alfa_Beta_watek implements Callable{
         return wynik;
     }
     
-    public SI_MIN_MAX_Alfa_Beta_watek(char[][] ustawienie, boolean tura_rywala, boolean przelotcan,
+    public  SI_MIN_MAX_Alfa_Beta_watek(char[][] ustawienie, boolean tura_rywala, boolean przelotcan,
             boolean bleft, boolean bright, boolean wleft, boolean wright,
             boolean kingrochB, boolean kingrochC, boolean dokonano_RB, boolean dokonano_RC,
             int kol, boolean odwrot, int licznik, int glebina,
             Ruch_watek move, int najwieksza, int najmniejsza) {
         this.licznik = licznik;
+        this.move=move;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 switch (ustawienie[i][j]) {
@@ -240,16 +245,16 @@ public class SI_MIN_MAX_Alfa_Beta_watek implements Callable{
         
     }
     
-    synchronized public boolean isZakaz() {
+     public synchronized  boolean isZakaz() {
         return zakaz;
     }
     
-    synchronized public void setZakaz(boolean zakaz) {
+     public synchronized  void setZakaz(boolean zakaz) {
         this.zakaz = zakaz;
     }
     
-    synchronized private int maximum(final int glebia, byte kolumna, int biggest, int samllest, figury[][] chessboard) {
-        int[] temp1 = {0, 0};
+     private synchronized int maximum(final int glebia, byte kolumna, int biggest, int samllest, SI_MIN_MAX_Alfa_Beta_watek.figury[][] chessboard) {
+          int[] temp1 = {0, 0};
         if (glebia == 0 || koniec(konwert(chessboard), this.tura_rywala, this.przelotcan, kolumna)
                 || Generator_watek.generuj_posuniecia(chessboard, this.tura_rywala, this.przelotcan,
                         this.bleft, this.bright, this.wleft, this.wright, this.kingrochB, this.kingrochC, 2, kolumna, false, ' ', temp1, false).isEmpty()) {
@@ -265,7 +270,7 @@ public class SI_MIN_MAX_Alfa_Beta_watek implements Callable{
         int tempB = biggest;
         all_position = all_position + Generator_watek.generuj_posuniecia(chessboard, this.tura_rywala, this.przelotcan,
                 this.bleft, this.bright, this.wleft, this.wright, this.kingrochB, this.kingrochC, 2, kolumna, false, ' ', temp1, false).size();
-        for (Ruch_watek move : Generator_watek.generuj_posuniecia(chessboard, this.tura_rywala, this.przelotcan,
+        for (final Ruch_watek move : Generator_watek.generuj_posuniecia(chessboard, this.tura_rywala, this.przelotcan,
                 this.bleft, this.bright, this.wleft, this.wright, this.kingrochB, this.kingrochC, 2, kolumna, false, ' ', temp1, false)) {
             if (!RuchZagrozenie_kontrola.szach(konwert(move.chessboard_after), this.tura_rywala)
                     && obecnosc(move.chessboard_after)) {
@@ -294,7 +299,7 @@ public class SI_MIN_MAX_Alfa_Beta_watek implements Callable{
         return tempB;
     }
     
-    synchronized private int minimum(final int glebia, byte kolumna, int biggest, int smallest, figury[][] chessboard) {
+     private synchronized int minimum(final int glebia, byte kolumna, int biggest, int smallest, SI_MIN_MAX_Alfa_Beta_watek.figury[][] chessboard) {
         int[] temp1 = new int[2];
         if (glebia == 0 || koniec(konwert(chessboard),
                 this.tura_rywala, this.przelotcan, kolumna)
@@ -311,7 +316,7 @@ public class SI_MIN_MAX_Alfa_Beta_watek implements Callable{
         int tempM = smallest;
         all_position = all_position + Generator_watek.generuj_posuniecia(chessboard, this.tura_rywala, this.przelotcan,
                 this.bleft, this.bright, this.wleft, this.wright, this.kingrochB, this.kingrochC, 2, kolumna, false, ' ', temp1, false).size();
-        for (Ruch_watek move : Generator_watek.generuj_posuniecia(chessboard, this.tura_rywala, this.przelotcan,
+        for (final Ruch_watek move : Generator_watek.generuj_posuniecia(chessboard, this.tura_rywala, this.przelotcan,
                 this.bleft, this.bright, this.wleft, this.wright, this.kingrochB, this.kingrochC, 2, kolumna, false, ' ', temp1, false)) {
             if (!RuchZagrozenie_kontrola.szach(konwert(move.chessboard_after), this.tura_rywala)
                     && obecnosc(move.chessboard_after)) {
@@ -340,7 +345,7 @@ public class SI_MIN_MAX_Alfa_Beta_watek implements Callable{
         return tempM;
     }
     
-    synchronized private boolean obecnosc(figury[][] ustawienie13) {
+     private boolean obecnosc(figury[][] ustawienie13) {
         byte KB = 0, KC = 0;
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
@@ -355,7 +360,7 @@ public class SI_MIN_MAX_Alfa_Beta_watek implements Callable{
         return KB == 1 && KC == 1;
     }
     
-    synchronized private boolean koniec(char[][] ustawienie, boolean strona, boolean przelotcan, int kol) {
+     private boolean koniec(char[][] ustawienie, boolean strona, boolean przelotcan, int kol) {
         int pionB = 0, pionC = 0, lekkieB = 0, lekkieC = 0, ciezkieB = 0, ciezkieC = 0;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -399,7 +404,7 @@ public class SI_MIN_MAX_Alfa_Beta_watek implements Callable{
         }
     }
     
-    synchronized private boolean kontrola_mat(char[][] ustawienie, boolean strona, byte kol, boolean przelotcan) {
+     private boolean kontrola_mat(char[][] ustawienie, boolean strona, byte kol, boolean przelotcan) {
         int[] krol = new int[2];
         if (RuchZagrozenie_kontrola.szach((ustawienie), strona)) {
             char[][] backup = new char[8][8];
@@ -430,7 +435,7 @@ public class SI_MIN_MAX_Alfa_Beta_watek implements Callable{
         
     }
     
-    synchronized private void aktualizacja_parametrow(Ruch_watek move) {
+     private void aktualizacja_parametrow(Ruch_watek move) {
         if (move.roszada && !move.dlugaroszada) {
             if (this.tura_rywala) {
                 wright = false;
@@ -481,7 +486,7 @@ public class SI_MIN_MAX_Alfa_Beta_watek implements Callable{
         }
     }
     
-    synchronized private void przywroc_parametry(Ruch_watek move) {
+     private void przywroc_parametry(Ruch_watek move) {
         if (move.roszada && !move.dlugaroszada) {
             if (this.tura_rywala) {
                 wright = true;
@@ -532,7 +537,7 @@ public class SI_MIN_MAX_Alfa_Beta_watek implements Callable{
         }
     }
     
-   synchronized private int pozyskajkordkolumna(Ruch_watek.rzad kord) {
+    private int pozyskajkordkolumna(Ruch_watek.rzad kord) {
         switch (kord) {
             case r1:
                 return 1;
@@ -554,7 +559,7 @@ public class SI_MIN_MAX_Alfa_Beta_watek implements Callable{
         return 0;
     }
     
-    synchronized private int pozyskajkordrzad(Ruch_watek.kolumna kord) {
+     private int pozyskajkordrzad(Ruch_watek.kolumna kord) {
         switch (kord) {
             case k1:
                 return 1;
@@ -577,7 +582,7 @@ public class SI_MIN_MAX_Alfa_Beta_watek implements Callable{
         
     }
     
-    synchronized private figury pozyskaj_figure(Ruch_watek.figura ruch, boolean czybialy) {
+     private figury pozyskaj_figure(Ruch_watek.figura ruch, boolean czybialy) {
         switch (ruch) {
             case Pion:
                 if (czybialy) {
@@ -620,23 +625,23 @@ public class SI_MIN_MAX_Alfa_Beta_watek implements Callable{
         }
     }
     
-    synchronized public void setPrzerwa(boolean przerwa) {
+     public synchronized  void setPrzerwa(boolean przerwa) {
         this.przerwa = przerwa;
     }
     
-    synchronized public int getPozycje() {
+     public synchronized  int getPozycje() {
         return pozycje;
     }
     
-    synchronized public int getAll_position() {
+     public synchronized  int getAll_position() {
         return all_position;
     }
     
-    synchronized public boolean isPrzerwa() {
+     public synchronized boolean isPrzerwa() {
         return przerwa;
     }
     
-    synchronized private int zrekalkuluj_glebie(final int glebia) {
+     private int zrekalkuluj_glebie(final int glebia) {
         
         return glebia - 1;
     }
