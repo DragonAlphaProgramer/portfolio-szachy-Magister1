@@ -116,7 +116,7 @@ public class Wspomagacz {
             ustawienie[poszukiwanie[0]][poszukiwanie[1]] = ' ';
             //System.out.println(akceptacja);
             if (akceptacja) {
-                System.out.println(zaslona[0] + "|" + zaslona[1]);
+               // System.out.println(zaslona[0] + "|" + zaslona[1]);
                 return zaslona;
             }
         }
@@ -178,7 +178,7 @@ public class Wspomagacz {
                         ustawienie[zaslona[0]][zaslona[1]] = figura;
                         if (akceptacja) {
 
-                            System.out.println(zaslona[0] + "|" + zaslona[1]);
+                           // System.out.println(zaslona[0] + "|" + zaslona[1]);
                             return zaslona;
                         } else {
                             zaslona[0] = -1;
@@ -244,7 +244,7 @@ public class Wspomagacz {
                         ustawienie[poszukiwanie[0]][poszukiwanie[1]] = ' ';
                         ustawienie[zaslona[0]][zaslona[1]] = figura;
                         if (akceptacja) {
-                            System.out.println(zaslona[0] + "|" + zaslona[1]);
+                           // System.out.println(zaslona[0] + "|" + zaslona[1]);
                             return zaslona;
                         } else {
                             zaslona[0] = -1;
@@ -312,7 +312,7 @@ public class Wspomagacz {
                         ustawienie[zaslona[0]][zaslona[1]] = figura;
                         if (akceptacja) {
 
-                            System.out.println(zaslona[0] + "|" + zaslona[1]);
+                           // System.out.println(zaslona[0] + "|" + zaslona[1]);
                             return zaslona;
                         } else {
                             zaslona[0] = -1;
@@ -381,7 +381,7 @@ public class Wspomagacz {
                         ustawienie[zaslona[0]][zaslona[1]] = figura;
                         if (akceptacja) {
 
-                            System.out.println(zaslona[0] + "|" + zaslona[1]);
+                           // System.out.println(zaslona[0] + "|" + zaslona[1]);
                             return zaslona;
                         } else {
                             zaslona[0] = -1;
@@ -443,7 +443,7 @@ public class Wspomagacz {
                     ustawienie[zaslona[0]][zaslona[1]] = figura;
                     if (akceptacja) {
 
-                        System.out.println(zaslona[0] + "|" + zaslona[1]);
+                        //System.out.println(zaslona[0] + "|" + zaslona[1]);
                         return zaslona;
                     } else {
                         zaslona[0] = -1;
@@ -504,7 +504,7 @@ public class Wspomagacz {
                     ustawienie[zaslona[0]][zaslona[1]] = figura;
                     if (akceptacja) {
 
-                        System.out.println(zaslona[0] + "|" + zaslona[1]);
+                        //System.out.println(zaslona[0] + "|" + zaslona[1]);
                         return zaslona;
                     } else {
                         zaslona[0] = -1;
@@ -565,7 +565,7 @@ public class Wspomagacz {
                     ustawienie[zaslona[0]][zaslona[1]] = figura;
                     if (akceptacja) {
 
-                        System.out.println(zaslona[0] + "|" + zaslona[1]);
+                      // // System.out.println(zaslona[0] + "|" + zaslona[1]);
                         return zaslona;
                     } else {
                         zaslona[0] = -1;
@@ -625,7 +625,7 @@ public class Wspomagacz {
                     ustawienie[zaslona[0]][zaslona[1]] = figura;
                     if (akceptacja) {
 
-                        System.out.println(zaslona[0] + "|" + zaslona[1]);
+                      // // System.out.println(zaslona[0] + "|" + zaslona[1]);
                         return zaslona;
                     } else {
                         zaslona[0] = -1;
@@ -635,7 +635,7 @@ public class Wspomagacz {
                 break;
             }
         }
-        System.out.println(zaslona[0] + "|" + zaslona[1]);
+      // // System.out.println(zaslona[0] + "|" + zaslona[1]);
         return zaslona;
     }
 
@@ -656,7 +656,7 @@ public class Wspomagacz {
             }
         }
         //System.out.println(krolY + " " + krolX);
-        if ((czybiale && ((pomocnicza[krolX + 2][krolY - 1] == 'n')
+        if (((czybiale && ((pomocnicza[krolX + 2][krolY - 1] == 'n')
                 || (pomocnicza[krolX + 2][krolY + 1] == 'n')
                 || (pomocnicza[krolX - 2][krolY - 1] == 'n')
                 || (pomocnicza[krolX - 2][krolY + 1] == 'n')
@@ -671,11 +671,28 @@ public class Wspomagacz {
                 || (pomocnicza[krolX + 1][krolY + 2] == 'N')
                 || (pomocnicza[krolX + 1][krolY - 2] == 'N')
                 || (pomocnicza[krolX - 1][krolY + 2] == 'N')
-                || (pomocnicza[krolX - 1][krolY - 2] == 'N')))) {
+                || (pomocnicza[krolX - 1][krolY - 2] == 'N'))))||
+                ((czybiale && ((pomocnicza[krolX + 2][krolY - 1] == 'a')
+                || (pomocnicza[krolX + 2][krolY + 1] == 'a')
+                || (pomocnicza[krolX - 2][krolY - 1] == 'a')
+                || (pomocnicza[krolX - 2][krolY + 1] == 'a')
+                || (pomocnicza[krolX + 1][krolY + 2] == 'a')
+                || (pomocnicza[krolX + 1][krolY - 2] == 'a')
+                || (pomocnicza[krolX - 1][krolY + 2] == 'a')
+                || (pomocnicza[krolX - 1][krolY - 2] == 'a')))
+                || (!czybiale && ((pomocnicza[krolX + 2][krolY - 1] == 'A')
+                || (pomocnicza[krolX + 2][krolY + 1] == 'A')
+                || (pomocnicza[krolX - 2][krolY - 1] == 'A')
+                || (pomocnicza[krolX - 2][krolY + 1] == 'A')
+                || (pomocnicza[krolX + 1][krolY + 2] == 'A')
+                || (pomocnicza[krolX + 1][krolY - 2] == 'A')
+                || (pomocnicza[krolX - 1][krolY + 2] == 'A')
+                || (pomocnicza[krolX - 1][krolY - 2] == 'A'))))) {
             for (int i = -2; i <= 2; i++) {
                 for (int j = -2; j <= 2; j++) {
                     if ((i != j && i * -1 != j) && (i != 0 && j != 0)) {
-                        if ((czybiale && pomocnicza[krolX + i][krolY + j] == 'n') || (!czybiale && pomocnicza[krolX + i][krolY + j] == 'N')) {
+                        if ((czybiale && (pomocnicza[krolX + i][krolY + j] == 'n'||pomocnicza[krolX + i][krolY + j] == 'a')) 
+                                || (!czybiale &&( pomocnicza[krolX + i][krolY + j] == 'N'||pomocnicza[krolX + i][krolY + j] == 'A'))) {
                             klopocik[1] = (byte) (krolX + i - 4);
                             klopocik[0] = (byte) (krolY + j - 4);
                             return klopocik;
@@ -716,8 +733,8 @@ public class Wspomagacz {
             } else {
                 if ((pomocnicza[i][beta + licz] == ' ')) {
                 } else {
-                    if ((czybiale && (pomocnicza[i][beta + licz] == 'q' || pomocnicza[i][beta + licz] == 'b'))
-                            || (!czybiale && (pomocnicza[i][beta + licz] == 'Q' || pomocnicza[i][beta + licz] == 'B'))) {
+                    if ((czybiale && (pomocnicza[i][beta + licz] == 'q' || pomocnicza[i][beta + licz] == 'b'||pomocnicza[i][beta + licz] == 'a'))
+                            || (!czybiale && (pomocnicza[i][beta + licz] == 'Q' || pomocnicza[i][beta + licz] == 'B'|| pomocnicza[i][beta + licz] == 'A'))) {
                         klopocik[1] = (byte) (i - 4);
                         klopocik[0] = (byte) (beta + licz - 4);
                         return klopocik;
@@ -734,8 +751,8 @@ public class Wspomagacz {
             } else {
                 if ((pomocnicza[i][beta + licz] == ' ')) {
                 } else {
-                    if ((czybiale && (pomocnicza[i][beta + licz] == 'q' || pomocnicza[i][beta + licz] == 'b'))
-                            || (!czybiale && (pomocnicza[i][beta + licz] == 'Q' || pomocnicza[i][beta + licz] == 'B'))) {
+                   if ((czybiale && (pomocnicza[i][beta + licz] == 'q' || pomocnicza[i][beta + licz] == 'b'||pomocnicza[i][beta + licz] == 'a'))
+                            || (!czybiale && (pomocnicza[i][beta + licz] == 'Q' || pomocnicza[i][beta + licz] == 'B'|| pomocnicza[i][beta + licz] == 'A'))) {
                         klopocik[1] = (byte) (i - 4);
                         klopocik[0] = (byte) (beta + licz - 4);
                         return klopocik;
@@ -752,9 +769,9 @@ public class Wspomagacz {
             } else {
                 if ((pomocnicza[i][beta + licz] == ' ')) {
                 } else {
-                    if ((czybiale && (pomocnicza[i][beta + licz] == 'q' || pomocnicza[i][beta + licz] == 'b'))
-                            || (!czybiale && (pomocnicza[i][beta + licz] == 'Q' || pomocnicza[i][beta + licz] == 'B'))) {
-                        klopocik[1] = (byte) (i - 4);
+                    if ((czybiale && (pomocnicza[i][beta + licz] == 'q' || pomocnicza[i][beta + licz] == 'b'||pomocnicza[i][beta + licz] == 'a'))
+                            || (!czybiale && (pomocnicza[i][beta + licz] == 'Q' || pomocnicza[i][beta + licz] == 'B'|| pomocnicza[i][beta + licz] == 'A'))) {
+                     klopocik[1] = (byte) (i - 4);
                         klopocik[0] = (byte) (beta + licz - 4);
                         return klopocik;
                     }
@@ -770,9 +787,9 @@ public class Wspomagacz {
             } else {
                 if ((pomocnicza[i][beta + licz] == ' ')) {
                 } else {
-                    if ((czybiale && (pomocnicza[i][beta + licz] == 'q' || pomocnicza[i][beta + licz] == 'b'))
-                            || (!czybiale && (pomocnicza[i][beta + licz] == 'Q' || pomocnicza[i][beta + licz] == 'B'))) {
-                        klopocik[1] = (byte) (i - 4);
+                   if ((czybiale && (pomocnicza[i][beta + licz] == 'q' || pomocnicza[i][beta + licz] == 'b'||pomocnicza[i][beta + licz] == 'a'))
+                            || (!czybiale && (pomocnicza[i][beta + licz] == 'Q' || pomocnicza[i][beta + licz] == 'B'|| pomocnicza[i][beta + licz] == 'A'))) {
+                    klopocik[1] = (byte) (i - 4);
                         klopocik[0] = (byte) (beta + licz - 4);
                         return klopocik;
                     }
@@ -783,8 +800,8 @@ public class Wspomagacz {
         for (byte i = (byte) (alfa + 1); i <= 11; i++) {
             if (pomocnicza[i][beta] == ' ') {
             } else {
-                if ((czybiale && (pomocnicza[i][beta] == 'q' || pomocnicza[i][beta] == 'r'))
-                        || (!czybiale && (pomocnicza[i][beta] == 'Q' || pomocnicza[i][beta] == 'R'))) {
+                if ((czybiale && (pomocnicza[i][beta] == 'q' || pomocnicza[i][beta] == 'r'||pomocnicza[i][beta]=='a'))
+                        || (!czybiale && (pomocnicza[i][beta] == 'Q' || pomocnicza[i][beta] == 'R'||pomocnicza[i][beta]=='A'))) {
                     klopocik[1] = (byte) (i - 4);
                     klopocik[0] = (byte) (beta - 4);
                     return klopocik;
@@ -795,9 +812,9 @@ public class Wspomagacz {
         for (byte i = (byte) (alfa - 1); i >= 4; i--) {
             if (pomocnicza[i][beta] == ' ') {
             } else {
-                if ((czybiale && (pomocnicza[i][beta] == 'q' || pomocnicza[i][beta] == 'r'))
-                        || (!czybiale && (pomocnicza[i][beta] == 'Q' || pomocnicza[i][beta] == 'R'))) {
-                    klopocik[1] = (byte) (i - 4);
+                if ((czybiale && (pomocnicza[i][beta] == 'q' || pomocnicza[i][beta] == 'r'||pomocnicza[i][beta]=='a'))
+                        || (!czybiale && (pomocnicza[i][beta] == 'Q' || pomocnicza[i][beta] == 'R'||pomocnicza[i][beta]=='A'))) {
+                     klopocik[1] = (byte) (i - 4);
                     klopocik[0] = (byte) (beta - 4);
                     return klopocik;
                 }
@@ -807,8 +824,8 @@ public class Wspomagacz {
         for (byte i = (byte) (beta + 1); i <= 11; i++) {
             if (pomocnicza[alfa][i] == ' ') {
             } else {
-                if ((czybiale && (pomocnicza[alfa][i] == 'q' || pomocnicza[alfa][i] == 'r'))
-                        || (!czybiale && (pomocnicza[alfa][i] == 'Q' || pomocnicza[alfa][i] == 'R'))) {
+                if ((czybiale && (pomocnicza[alfa][i] == 'q' || pomocnicza[alfa][i] == 'r' || pomocnicza[alfa][i] == 'a'))
+                        || (!czybiale && (pomocnicza[alfa][i] == 'Q' || pomocnicza[alfa][i] == 'R'|| pomocnicza[alfa][i] == 'A'))) {
                     klopocik[1] = (byte) (alfa - 4);
                     klopocik[0] = (byte) (i - 4);
                     return klopocik;
@@ -819,9 +836,9 @@ public class Wspomagacz {
         for (byte i = (byte) (beta - 1); i >= 4; i--) {
             if (pomocnicza[alfa][i] == ' ') {
             } else {
-                if ((czybiale && (pomocnicza[alfa][i] == 'q' || pomocnicza[alfa][i] == 'r'))
-                        || (!czybiale && (pomocnicza[alfa][i] == 'Q' || pomocnicza[alfa][i] == 'R'))) {
-                    klopocik[1] = (byte) (alfa - 4);
+               if ((czybiale && (pomocnicza[alfa][i] == 'q' || pomocnicza[alfa][i] == 'r' || pomocnicza[alfa][i] == 'a'))
+                        || (!czybiale && (pomocnicza[alfa][i] == 'Q' || pomocnicza[alfa][i] == 'R'|| pomocnicza[alfa][i] == 'A'))) {
+                       klopocik[1] = (byte) (alfa - 4);
                     klopocik[0] = (byte) (i - 4);
                     return klopocik;
                 }
@@ -1123,7 +1140,7 @@ public class Wspomagacz {
             nakladki[poszukiwanie[0]][poszukiwanie[1]] = ' ';
             //System.out.println(akceptacja);
             if (akceptacja) {
-                System.out.println(zaslona[0] + "|" + zaslona[1]);
+               // System.out.println(zaslona[0] + "|" + zaslona[1]);
                 return zaslona;
             }
         }
@@ -1178,7 +1195,7 @@ public class Wspomagacz {
                         nakladki[poszukiwanie[0]][poszukiwanie[1]] = ' ';
                         if (akceptacja) {
 
-                            System.out.println(zaslona[0] + "|" + zaslona[1]);
+                       //    // System.out.println(zaslona[0] + "|" + zaslona[1]);
                             return zaslona;
                         } else {
                             zaslona[0] = -1;
@@ -1237,7 +1254,7 @@ public class Wspomagacz {
                         nakladki[zaslona[0]][zaslona[1]] = nakladki[poszukiwanie[0]][poszukiwanie[1]];
                         nakladki[poszukiwanie[0]][poszukiwanie[1]] = ' ';
                         if (akceptacja) {
-                            System.out.println(zaslona[0] + "|" + zaslona[1]);
+                           // System.out.println(zaslona[0] + "|" + zaslona[1]);
                             return zaslona;
                         } else {
                             zaslona[0] = -1;
@@ -1299,7 +1316,7 @@ public class Wspomagacz {
                         nakladki[poszukiwanie[0]][poszukiwanie[1]] = ' ';
                         if (akceptacja) {
 
-                            System.out.println(zaslona[0] + "|" + zaslona[1]);
+                          // // System.out.println(zaslona[0] + "|" + zaslona[1]);
                             return zaslona;
                         } else {
                             zaslona[0] = -1;
@@ -1362,7 +1379,7 @@ public class Wspomagacz {
                         nakladki[poszukiwanie[0]][poszukiwanie[1]] = ' ';
                         if (akceptacja) {
 
-                            System.out.println(zaslona[0] + "|" + zaslona[1]);
+                           // System.out.println(zaslona[0] + "|" + zaslona[1]);
                             return zaslona;
                         } else {
                             zaslona[0] = -1;
@@ -1587,7 +1604,7 @@ public class Wspomagacz {
                 break;
             }
         }
-        System.out.println(zaslona[0] + "|" + zaslona[1]);
+        //System.out.println(zaslona[0] + "|" + zaslona[1]);
         return zaslona;
     }
 }

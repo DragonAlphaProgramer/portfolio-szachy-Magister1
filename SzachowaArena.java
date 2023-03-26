@@ -7933,21 +7933,21 @@ public class SzachowaArena extends javax.swing.JFrame {
                         System.out.println("        " + (move) + " mysle");
                         if (!move.roszada || !RuchZagrozenie_kontrola.szach(backup.clone(), ruchB)) {
                             // System.out.println(najmniejsza + "#" + najwieksza);
-                            int wynik = ai.wykonaj(glebiaSI, move, najwieksza, najmniejsza);
+                            Ruch_wartosc wynik = ai.wykonaj(glebiaSI, move, najwieksza, najmniejsza);
                             pula_pozycji = pula_pozycji + ai.all_position;
                             pula_sprawdzona = pula_sprawdzona + ai.pozycje;
                             // System.out.println(ai.licznik);
                             licznik = ai.licznik;
                             if (!ai.isZakaz()) {
                                 ostatni = (move.toString());
-                                if (ruchB && wynik > najwieksza) {
-                                    najwieksza = wynik;
-                                    oponet = (move.toString());
-                                    najlepszy = wynik;
-                                } else if (ruchB == false && wynik < najmniejsza) {
-                                    najmniejsza = wynik;
-                                    oponet = (move.toString());
-                                    najlepszy = wynik;
+                                if (ruchB && wynik.wartosc > najwieksza) {
+                                    najwieksza = wynik.wartosc;
+                                    oponet = (wynik.ruch.toString());
+                                    najlepszy = wynik.wartosc;
+                                } else if (ruchB == false && wynik.wartosc < najmniejsza) {
+                                    najmniejsza = wynik.wartosc;
+                                    oponet = (wynik.ruch.toString());
+                                    najlepszy = wynik.wartosc;
                                 }
                                 //System.out.println("wynik "+wynik);
                             } else {
@@ -8206,56 +8206,7 @@ public class SzachowaArena extends javax.swing.JFrame {
         return pozycja;
     }
 
-    private SI_MIN_MAX_Alfa_Beta_watek.figury[][] konwert_watek(char[][] ustawienie) {
-        SI_MIN_MAX_Alfa_Beta_watek.figury[][] pozycja = new SI_MIN_MAX_Alfa_Beta_watek.figury[8][8];
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                switch (ustawienie[i][j]) {
-                    case ' ':
-                        pozycja[i][j] = SI_MIN_MAX_Alfa_Beta_watek.figury.pustka;
-                        break;
-                    case 'P':
-                        pozycja[i][j] = SI_MIN_MAX_Alfa_Beta_watek.figury.BPion;
-                        break;
-                    case 'p':
-                        pozycja[i][j] = SI_MIN_MAX_Alfa_Beta_watek.figury.CPion;
-                        break;
-                    case 'N':
-                        pozycja[i][j] = SI_MIN_MAX_Alfa_Beta_watek.figury.BSkoczek;
-                        break;
-                    case 'n':
-                        pozycja[i][j] = SI_MIN_MAX_Alfa_Beta_watek.figury.CSkoczek;
-                        break;
-                    case 'B':
-                        pozycja[i][j] = SI_MIN_MAX_Alfa_Beta_watek.figury.BGoniec;
-                        break;
-                    case 'b':
-                        pozycja[i][j] = SI_MIN_MAX_Alfa_Beta_watek.figury.CGoniec;
-                        break;
-                    case 'R':
-                        pozycja[i][j] = SI_MIN_MAX_Alfa_Beta_watek.figury.BWieza;
-                        break;
-                    case 'r':
-                        pozycja[i][j] = SI_MIN_MAX_Alfa_Beta_watek.figury.CWieza;
-                        break;
-                    case 'Q':
-                        pozycja[i][j] = SI_MIN_MAX_Alfa_Beta_watek.figury.BHetman;
-                        break;
-                    case 'q':
-                        pozycja[i][j] = SI_MIN_MAX_Alfa_Beta_watek.figury.CHetman;
-                        break;
-                    case 'K':
-                        pozycja[i][j] = SI_MIN_MAX_Alfa_Beta_watek.figury.BKrol;
-                        break;
-                    case 'k':
-                        pozycja[i][j] = SI_MIN_MAX_Alfa_Beta_watek.figury.CKrol;
-                        break;
-                }
-            }
-        }
-        return pozycja;
-    }
-
+   
     /**
      * Uruchamia działanie SI
      */

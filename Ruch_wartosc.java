@@ -10,9 +10,9 @@ package szachy;
  */
 class Ruch_wartosc {
     int wartosc;
-    Ruch_watek ruch;
+    Ruch ruch;
 
-    Ruch_wartosc(Ruch_watek move, int biezaca_ogolna) {
+    Ruch_wartosc(Ruch move, int biezaca_ogolna) {
     ruch = move;
     wartosc=biezaca_ogolna;
     System.out.println(move.toString()+ " "+biezaca_ogolna);

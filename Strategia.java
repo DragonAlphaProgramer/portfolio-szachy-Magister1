@@ -9,5 +9,5 @@ package szachy;
  * @author PatrykK
  */
 public interface Strategia {
-    public int wykonaj(int glebia, Ruch move, int najwieksza, int najmniejsza);
+    public Ruch_wartosc wykonaj(int glebia, Ruch move, int najwieksza, int najmniejsza);
 }

@@ -273,7 +273,7 @@ class Drukarka_P implements Printable {
                             obraz.drawImage(figury2[4], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
                             break;
                         case 'n':
-                            obraz.drawImage(figury2[7], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                            obraz.drawImage(figury2[10], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
                             break;
                         case 'P':
                             obraz.drawImage(figury2[5], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
