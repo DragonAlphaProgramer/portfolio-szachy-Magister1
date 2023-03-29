@@ -36,7 +36,22 @@ class Generator {
         }
         return KC && KB;
     }
-
+/**
+     * Metoda generuje listę dozwolonych posunięć
+     *
+     * @param ust pozycja na planszy
+     * @param tura_rywala strona, która wykonuje ruch
+     * @param przelotcan dostęp do bicia w przelocie
+     * @param blackleft dostęp czarnych do długiej roszady
+     * @param blackright dostęp czarnych do krótkiej roszady
+     * @param whiteleft dostęp białych do długiej roszady
+     * @param whiteright dostęp białych do krótkiej roszady
+     * @param kingrochB dostęp czarnych do roszady
+     * @param kingrochC dostęp białych do roszady
+     * @param sposob sposób sortowania
+     * @param kolumna kolumna z dostępnym biciem w przelocie
+     * @return bieżąca lista posunięć w danej pozycji
+     */
     static ArrayList<Ruch> generuj_posuniecia(SI_MIN_MAX_Alfa_Beta.figury[][] ust, boolean tura_rywala, boolean przelotcan,
             boolean blackleft, boolean blackright, boolean whiteleft, boolean whiteright,
             boolean kingrochB, boolean kingrochC, int sposob, int kolumna, boolean konkret, boolean all) {
@@ -1857,22 +1872,7 @@ class Generator {
 
     }
 
-    /**
-     * Metoda generuje listę dozwolonych posunięć
-     *
-     * @param ust pozycja na planszy
-     * @param tura_rywala strona, która wykonuje ruch
-     * @param przelotcan dostęp do bicia w przelocie
-     * @param blackleft dostęp czarnych do długiej roszady
-     * @param blackright dostęp czarnych do krótkiej roszady
-     * @param whiteleft dostęp białych do długiej roszady
-     * @param whiteright dostęp białych do krótkiej roszady
-     * @param kingrochB dostęp czarnych do roszady
-     * @param kingrochC dostęp białych do roszady
-     * @param sposob sposób sortowania
-     * @param kolumna kolumna z dostępnym biciem w przelocie
-     * @return bieżąca lista posunięć w danej pozycji
-     */
+    
     static Collection<Ruch> generuj_posuniecia(SI_MIN_MAX_Alfa_Beta.figury[][] ust, boolean tura_rywala, boolean przelotcan,
             boolean blackleft, boolean blackright, boolean whiteleft, boolean whiteright,
             boolean kingrochB, boolean kingrochC, int sposob, int kolumna, boolean konkret, char znak_start, int[] start, boolean all) {
@@ -3529,10 +3529,10 @@ class Generator {
                                             backup[0][6] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O+   "), sposob,
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O    +"), sposob,
                                                             SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O    "), sposob,
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O     "), sposob,
                                                             SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 }
                                             }
@@ -3563,7 +3563,7 @@ class Generator {
                                             backup[0][2] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O-O+  "), sposob,
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O-O  +"), sposob,
                                                             SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 } else {
                                                     lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O-O   "), sposob,
@@ -3647,11 +3647,11 @@ class Generator {
                                             backup[7][5] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[7][6] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             if (!konkret || (konkret && x == start[0] && y == start[1])) {
-                                                if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("kO-O+     "), sposob,
+                                                 if (szach) {
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("kO-O    +"), sposob,
                                                             SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("kO-O      "), sposob,
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("kO-O     "), sposob,
                                                             SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 }
                                             }
@@ -3681,8 +3681,8 @@ class Generator {
                                             backup[7][3] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[7][2] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             if (!konkret || (konkret && x == start[0] && y == start[1])) {
-                                                if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("kO-O-O+  "), sposob,
+                                                 if (szach) {
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("kO-O-O  +"), sposob,
                                                             SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 } else {
                                                     lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("kO-O-O   "), sposob,

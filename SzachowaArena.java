@@ -7043,15 +7043,15 @@ public class SzachowaArena extends javax.swing.JFrame {
         obrotowy.setVisible(false);
         polaczenie_net = new lacze();
         polaczenie_net.start();
-        jButton67.setVisible(false);
-        jButton65.setVisible(false);
+        nowa_gra.setVisible(false);
+        online_kreator.setVisible(false);
         msgwy = String.valueOf(oczekiwanie);
         out.writeUTF("color:" + msgwy);
         if (oczekiwanie) {
             odwrot = true;
             jTextArea2.setText(jTextArea2.getText().trim() + "\n grasz jako: czarne \n");
-            jButton66.setEnabled(false);
-            jButton68.setEnabled(false);
+            poddanie.setEnabled(false);
+            remis_prop.setEnabled(false);
         } else {
             odwrot = false;
             jTextArea2.setText(jTextArea2.getText().trim() + "\n grasz jako: białe  \n");
@@ -7144,9 +7144,9 @@ public class SzachowaArena extends javax.swing.JFrame {
         F1.setEnabled(true);
         G1.setEnabled(true);
         H1.setEnabled(true);
-        jButton66.setEnabled(true);
-        jButton68.setEnabled(true);
-        jButton71.setVisible(false);
+        poddanie.setEnabled(true);
+        remis_prop.setEnabled(true);
+        gra_ustawka.setVisible(false);
         gra = true;
         zasada50 = 0;
         dolicz = false;
@@ -8206,7 +8206,6 @@ public class SzachowaArena extends javax.swing.JFrame {
         return pozycja;
     }
 
-   
     /**
      * Uruchamia działanie SI
      */
@@ -8430,15 +8429,15 @@ public class SzachowaArena extends javax.swing.JFrame {
                 try {
                     msgwe = in.readUTF();
                     if ("Gramy dalej".equals(msgwe)) {
-                        jButton66.setEnabled(true);
-                        jButton68.setEnabled(true);
-                        jButton69.setEnabled(false);
-                        jButton70.setEnabled(false);
+                        poddanie.setEnabled(true);
+                        remis_prop.setEnabled(true);
+                        remis_zgoda.setEnabled(false);
+                        remis_odrzut.setEnabled(false);
                     }
                     if ("remis?".equals(msgwe)) {
-                        jButton68.setEnabled(false);
-                        jButton69.setEnabled(true);
-                        jButton70.setEnabled(true);
+                        remis_prop.setEnabled(false);
+                        remis_zgoda.setEnabled(true);
+                        remis_odrzut.setEnabled(true);
                     }
                     if ("Zgadzam sie na remis".equals(msgwe)) {
                         remis();
@@ -8483,11 +8482,11 @@ public class SzachowaArena extends javax.swing.JFrame {
                                     aktywuj(odwrot, zatrzymaj);
                                     oczekiwanie = oczekiwanie == false;
                                     if (oczekiwanie) {
-                                        jButton66.setEnabled(false);
-                                        jButton68.setEnabled(false);
+                                        poddanie.setEnabled(false);
+                                        remis_prop.setEnabled(false);
                                     } else {
-                                        jButton66.setEnabled(true);
-                                        jButton68.setEnabled(true);
+                                        poddanie.setEnabled(true);
+                                        remis_prop.setEnabled(true);
                                     }
                                     wzor = false;
                                 }
@@ -8550,11 +8549,11 @@ public class SzachowaArena extends javax.swing.JFrame {
                                 odwrot = false;
                                 jTextArea2.setText(jTextArea2.getText().trim() + "\n" + "grasz jako białe");
                                 jTextArea2.setText(jTextArea2.getText().trim() + "\n" + "czekasz" + oczekiwanie);
-                                jButton66.setEnabled(true);
+                                poddanie.setEnabled(true);
                             }
                             if ("color:false".equals(msgwe)) {
                                 oczekiwanie = true;
-                                jButton66.setEnabled(false);
+                                poddanie.setEnabled(false);
                                 odwrot = true;
                                 JLabel pomoc1 = zegarbiale;
                                 zegarbiale = zegarczarne;
@@ -8665,7 +8664,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                             sekbaza = sek;
                             seksyg = Integer.parseInt(tokeny.nextToken());
                             oczekiwanie = Boolean.parseBoolean(tokeny.nextToken());
-                            jButton66.setEnabled(!oczekiwanie);
+                            poddanie.setEnabled(!oczekiwanie);
                             czasB = (new zegar(sek * 1000, zegarbiale, blokada, warunek, true, tryb, seksyg));
                             czasC = (new zegar(sek * 1000, zegarczarne, blokada, warunek, false, tryb, seksyg));
                             zegarbiale.setText(String.valueOf(sek));
@@ -9706,9 +9705,9 @@ public class SzachowaArena extends javax.swing.JFrame {
      * Uruchamia provcedurę remisu
      */
     private void remis() {
-        jButton68.setEnabled(true);
-        jButton69.setEnabled(false);
-        jButton70.setEnabled(false);
+        remis_prop.setEnabled(true);
+        remis_zgoda.setEnabled(false);
+        remis_odrzut.setEnabled(false);
         if (tryb != 2) {
             koncowe = "BIALE:0.5, CZARNE:0.5   \n";
             biale = "0.5";
@@ -13166,6 +13165,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                             }
 
                                                             JOptionPane.showMessageDialog(rootPane, "3-krotne powtórzenie pozycji. \nREMIS!", "Zasada", JOptionPane.WARNING_MESSAGE);
+                                                            SI_ON = false;
                                                             remis();
                                                         }
                                                     } else {
@@ -13212,7 +13212,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     }
                                                     JOptionPane.showMessageDialog(rootPane, "PAT! REMIS", "Remis",
                                                             JOptionPane.WARNING_MESSAGE);
-
+                                                    SI_ON = false;
                                                     remis();
                                                 }
                                             }
@@ -13239,6 +13239,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                     }
                     JOptionPane.showMessageDialog(rootPane, "SZACH MAT!", "Ostrzeżenie",
                             JOptionPane.WARNING_MESSAGE);
+                    SI_ON = false;
                     kapitulacja();
                 }
                 if ((pionB < 1 && pionC < 1 && lekkieB < 2 && lekkieC < 2 && ciezkieB < 1 && ciezkieC < 1)) {
@@ -13247,6 +13248,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                         blacktime.interrupt();
                     }
                     JOptionPane.showMessageDialog(rootPane, "Remis na wskutek niewystarczajacego materiału do mata.", "Remis", JOptionPane.WARNING_MESSAGE);
+                    SI_ON = false;
                     remis();
                 }
                 if (zasada50 == 50 && krolS == false && (hodu || protectme || hitme)) {
@@ -13255,6 +13257,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                         blacktime.interrupt();
                     }
                     JOptionPane.showMessageDialog(rootPane, "zasada 50 ruchów.(50 ruchów po obu stronach bez bicia lub ruchu pionem). \nREMIS!", "Zasada", JOptionPane.WARNING_MESSAGE);
+                    SI_ON = false;
                     remis();
                 }
                 for (int i = 0; i < 8; i++) {
@@ -14059,13 +14062,13 @@ public class SzachowaArena extends javax.swing.JFrame {
         F1 = new javax.swing.JButton();
         G1 = new javax.swing.JButton();
         H1 = new javax.swing.JButton();
-        jButton67 = new javax.swing.JButton();
-        jButton65 = new javax.swing.JButton();
-        jButton66 = new javax.swing.JButton();
-        jButton68 = new javax.swing.JButton();
-        jButton69 = new javax.swing.JButton();
-        jButton70 = new javax.swing.JButton();
-        jButton71 = new javax.swing.JButton();
+        nowa_gra = new javax.swing.JButton();
+        online_kreator = new javax.swing.JButton();
+        poddanie = new javax.swing.JButton();
+        remis_prop = new javax.swing.JButton();
+        remis_zgoda = new javax.swing.JButton();
+        remis_odrzut = new javax.swing.JButton();
+        gra_ustawka = new javax.swing.JButton();
         czarneRuch = new javax.swing.JRadioButton();
         bialeRuch = new javax.swing.JRadioButton();
         ustawWP = new javax.swing.JRadioButton();
@@ -14086,7 +14089,7 @@ public class SzachowaArena extends javax.swing.JFrame {
         jTextArea2 = new javax.swing.JTextArea();
         jButton81 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
-        jButton82 = new javax.swing.JButton();
+        online_dolacz = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -15263,63 +15266,63 @@ public class SzachowaArena extends javax.swing.JFrame {
             }
         });
 
-        jButton67.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton67.setText("stacjonarnie");
-        jButton67.addActionListener(new java.awt.event.ActionListener() {
+        nowa_gra.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        nowa_gra.setText("stacjonarnie");
+        nowa_gra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton67ActionPerformed(evt);
+                nowa_graActionPerformed(evt);
             }
         });
 
-        jButton65.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton65.setText("online stworz gre");
-        jButton65.addActionListener(new java.awt.event.ActionListener() {
+        online_kreator.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        online_kreator.setText("online stworz gre");
+        online_kreator.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton65ActionPerformed(evt);
+                online_kreatorActionPerformed(evt);
             }
         });
 
-        jButton66.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jButton66.setText("poddaj się");
-        jButton66.setEnabled(false);
-        jButton66.addActionListener(new java.awt.event.ActionListener() {
+        poddanie.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        poddanie.setText("poddaj się");
+        poddanie.setEnabled(false);
+        poddanie.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton66ActionPerformed(evt);
+                poddanieActionPerformed(evt);
             }
         });
 
-        jButton68.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton68.setText("proponuj \nremis");
-        jButton68.setEnabled(false);
-        jButton68.addActionListener(new java.awt.event.ActionListener() {
+        remis_prop.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        remis_prop.setText("proponuj \nremis");
+        remis_prop.setEnabled(false);
+        remis_prop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton68ActionPerformed(evt);
+                remis_propActionPerformed(evt);
             }
         });
 
-        jButton69.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton69.setText("przyjmij  remis");
-        jButton69.setEnabled(false);
-        jButton69.addActionListener(new java.awt.event.ActionListener() {
+        remis_zgoda.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        remis_zgoda.setText("przyjmij  remis");
+        remis_zgoda.setEnabled(false);
+        remis_zgoda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton69ActionPerformed(evt);
+                remis_zgodaActionPerformed(evt);
             }
         });
 
-        jButton70.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton70.setText("odrzuc remis");
-        jButton70.setEnabled(false);
-        jButton70.addActionListener(new java.awt.event.ActionListener() {
+        remis_odrzut.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        remis_odrzut.setText("odrzuc remis");
+        remis_odrzut.setEnabled(false);
+        remis_odrzut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton70ActionPerformed(evt);
+                remis_odrzutActionPerformed(evt);
             }
         });
 
-        jButton71.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jButton71.setText("Ustaw  Pozycję");
-        jButton71.addActionListener(new java.awt.event.ActionListener() {
+        gra_ustawka.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        gra_ustawka.setText("Ustaw  Pozycję");
+        gra_ustawka.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton71ActionPerformed(evt);
+                gra_ustawkaActionPerformed(evt);
             }
         });
 
@@ -15484,11 +15487,11 @@ public class SzachowaArena extends javax.swing.JFrame {
             }
         });
 
-        jButton82.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton82.setText("online dolacz do gry");
-        jButton82.addActionListener(new java.awt.event.ActionListener() {
+        online_dolacz.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        online_dolacz.setText("online dolacz do gry");
+        online_dolacz.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton82ActionPerformed(evt);
+                online_dolaczActionPerformed(evt);
             }
         });
 
@@ -16015,8 +16018,8 @@ public class SzachowaArena extends javax.swing.JFrame {
                                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(zegarbiale)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jButton65, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton82, javax.swing.GroupLayout.Alignment.LEADING)))
+                                .addComponent(online_kreator, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(online_dolacz, javax.swing.GroupLayout.Alignment.LEADING)))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(12, 12, 12)
@@ -16055,16 +16058,16 @@ public class SzachowaArena extends javax.swing.JFrame {
                                     .addComponent(resetgame, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jButton67, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jButton70, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jButton66, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+                                            .addComponent(nowa_gra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(remis_odrzut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(poddanie, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
                                             .addComponent(partia_odlozona, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jButton68)
-                                            .addComponent(jButton69, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(remis_prop)
+                                            .addComponent(remis_zgoda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(partia_wznowiona, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jButton71, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                            .addComponent(gra_ustawka, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jProgressBar1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createSequentialGroup()
@@ -16275,9 +16278,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton72)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton65)
+                        .addComponent(online_kreator)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton82, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(online_dolacz, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(1, 1, 1)
                         .addComponent(zegarbiale))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -16307,9 +16310,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                         .addComponent(resetgame)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton67)
+                            .addComponent(nowa_gra)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton71, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(gra_ustawka, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(1, 1, 1)))
                         .addGap(3, 3, 3)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -16317,12 +16320,12 @@ public class SzachowaArena extends javax.swing.JFrame {
                             .addComponent(partia_odlozona))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton70)
-                            .addComponent(jButton69, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(remis_odrzut)
+                            .addComponent(remis_zgoda, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton66, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton68))))
+                            .addComponent(poddanie, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(remis_prop))))
                 .addContainerGap())
         );
 
@@ -17432,7 +17435,7 @@ public class SzachowaArena extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_A1ActionPerformed
 
-    private void jButton67ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton67ActionPerformed
+    private void nowa_graActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nowa_graActionPerformed
         Object[] wybor_wariantu = {"klasyka", "odmiany"};
         String[] wybor_trybu_klasyka = {"1.klasyczny bez limitu", "2.klasyczny na czas", "3.SzachMaty"};
         String[] opcje_czasu = {"01. 60", "02. 30", "03. 15+10", "04. 10", "05. 5+5",
@@ -17739,9 +17742,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             blacktime.start();
         }
 
-        jButton67.setVisible(false);
-        jButton65.setVisible(false);
-        jButton82.setVisible(false);
+        nowa_gra.setVisible(false);
+        online_kreator.setVisible(false);
+        online_dolacz.setVisible(false);
         ustawka = false;
         A8.setEnabled(true);
         B8.setEnabled(true);
@@ -17809,9 +17812,9 @@ public class SzachowaArena extends javax.swing.JFrame {
         H1.setEnabled(true);
         mazyna_losujaca.setEnabled(tryb == 0 && !SI_ON);
         styl(kolor_zestaw, kroj_zestaw, kolor_plansza);
-        jButton66.setEnabled(true);
-        jButton68.setEnabled(true);
-        jButton71.setVisible(false);
+        poddanie.setEnabled(true);
+        remis_prop.setEnabled(true);
+        gra_ustawka.setVisible(false);
         gra = true;
         zasada50 = 0;
         dolicz = false;
@@ -17837,9 +17840,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             SI_ma_ruch();
         }
         obrotowy.setVisible(!(SI_ON || siec));
-    }//GEN-LAST:event_jButton67ActionPerformed
+    }//GEN-LAST:event_nowa_graActionPerformed
 
-    private void jButton66ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton66ActionPerformed
+    private void poddanieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_poddanieActionPerformed
         if (siec) {
             try {
                 msgwy = "poddaje sie. wygraleś";
@@ -17850,15 +17853,15 @@ public class SzachowaArena extends javax.swing.JFrame {
             }
         }
         kapitulacja();
-    }//GEN-LAST:event_jButton66ActionPerformed
+    }//GEN-LAST:event_poddanieActionPerformed
 
-    private void jButton68ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton68ActionPerformed
-        jButton68.setEnabled(false);
-        jButton69.setEnabled(true);
-        jButton70.setEnabled(true);
+    private void remis_propActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_remis_propActionPerformed
+        remis_prop.setEnabled(false);
+        remis_zgoda.setEnabled(true);
+        remis_odrzut.setEnabled(true);
         if (siec) {
-            jButton69.setEnabled(false);
-            jButton70.setEnabled(false);
+            remis_zgoda.setEnabled(false);
+            remis_odrzut.setEnabled(false);
             try {
                 msgwy = "remis?";
                 out.writeUTF(msgwy);
@@ -17867,12 +17870,12 @@ public class SzachowaArena extends javax.swing.JFrame {
             } catch (IOException ignored) {
             }
         }
-    }//GEN-LAST:event_jButton68ActionPerformed
+    }//GEN-LAST:event_remis_propActionPerformed
 
-    private void jButton70ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton70ActionPerformed
-        jButton68.setEnabled(true);
-        jButton69.setEnabled(false);
-        jButton70.setEnabled(false);
+    private void remis_odrzutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_remis_odrzutActionPerformed
+        remis_prop.setEnabled(true);
+        remis_zgoda.setEnabled(false);
+        remis_odrzut.setEnabled(false);
         if (siec) {
             try {
                 msgwy = "Gramy dalej";
@@ -17882,13 +17885,13 @@ public class SzachowaArena extends javax.swing.JFrame {
             } catch (IOException ignored) {
             }
         }
-    }//GEN-LAST:event_jButton70ActionPerformed
+    }//GEN-LAST:event_remis_odrzutActionPerformed
 
-    private void jButton69ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton69ActionPerformed
+    private void remis_zgodaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_remis_zgodaActionPerformed
         remis();
-    }//GEN-LAST:event_jButton69ActionPerformed
+    }//GEN-LAST:event_remis_zgodaActionPerformed
 
-    private void jButton65ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton65ActionPerformed
+    private void online_kreatorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_online_kreatorActionPerformed
         Object[] opcjeK = {KB, KC, KL};
         URL whatismyip = null;
         String ip2 = "";
@@ -18080,10 +18083,10 @@ public class SzachowaArena extends javax.swing.JFrame {
         jTextArea2.setVisible(true);
         jTextField1.setVisible(true);
         jButton81.setVisible(true);
-        jButton82.setVisible(false);
-        jButton65.setVisible(false);
-        jButton67.setVisible(false);
-        jButton71.setVisible(false);
+        online_dolacz.setVisible(false);
+        online_kreator.setVisible(false);
+        nowa_gra.setVisible(false);
+        gra_ustawka.setVisible(false);
         siec = true;
         organizator = true;
         try {
@@ -18123,10 +18126,10 @@ public class SzachowaArena extends javax.swing.JFrame {
             jTextArea2.setVisible(false);
             jTextField1.setVisible(false);
             jButton81.setVisible(false);
-            jButton82.setVisible(true);
-            jButton65.setVisible(true);
-            jButton67.setVisible(true);
-            jButton71.setVisible(true);
+            online_dolacz.setVisible(true);
+            online_kreator.setVisible(true);
+            nowa_gra.setVisible(true);
+            gra_ustawka.setVisible(true);
             siec = false;
             organizator = false;
             try {
@@ -18136,7 +18139,7 @@ public class SzachowaArena extends javax.swing.JFrame {
             } catch (IOException ex) {
             }
         }
-    }//GEN-LAST:event_jButton65ActionPerformed
+    }//GEN-LAST:event_online_kreatorActionPerformed
 
     private void jButton72ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton72ActionPerformed
         for (int i = 0; i < 8; i++) {
@@ -18237,8 +18240,8 @@ public class SzachowaArena extends javax.swing.JFrame {
                             ustawBQ.setVisible(false);
                             ustawWK.setVisible(false);
                             ustawBK.setVisible(false);
-                            jButton67.setVisible(false);
-                            jButton65.setVisible(false);
+                            nowa_gra.setVisible(false);
+                            online_kreator.setVisible(false);
                             Blackkingside.setVisible(false);
                             Whitekingside.setVisible(false);
                             Blackqueenside.setVisible(false);
@@ -18307,8 +18310,8 @@ public class SzachowaArena extends javax.swing.JFrame {
                             F1.setEnabled(true);
                             G1.setEnabled(true);
                             H1.setEnabled(true);
-                            jButton66.setEnabled(true);
-                            jButton68.setEnabled(true);
+                            poddanie.setEnabled(true);
+                            remis_prop.setEnabled(true);
                             pierwsza_kolej = ruchB;
                             zegarbiale.setText("--:--");
                             zegarczarne.setText("--:--");
@@ -18464,11 +18467,11 @@ public class SzachowaArena extends javax.swing.JFrame {
         ruchB = false;
     }//GEN-LAST:event_czarneRuchActionPerformed
 
-    private void jButton71ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton71ActionPerformed
+    private void gra_ustawkaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gra_ustawkaActionPerformed
         SIOnOff.setEnabled(false);
-        jButton67.setVisible(false);
-        jButton65.setVisible(false);
-        jButton82.setVisible(false);
+        nowa_gra.setVisible(false);
+        online_kreator.setVisible(false);
+        online_dolacz.setVisible(false);
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 ust[i][j] = ' ';
@@ -18612,8 +18615,8 @@ public class SzachowaArena extends javax.swing.JFrame {
         F1.setIcon(null);
         G1.setIcon(null);
         H1.setIcon(null);
-        jButton67.setVisible(false);
-        jButton71.setVisible(false);
+        nowa_gra.setVisible(false);
+        gra_ustawka.setVisible(false);
         jButton72.setVisible(true);
         czarneRuch.setVisible(true);
         bialeRuch.setVisible(true);
@@ -18638,7 +18641,7 @@ public class SzachowaArena extends javax.swing.JFrame {
         ciezkieC = 0;
         pionB = 0;
         pionC = 0;
-    }//GEN-LAST:event_jButton71ActionPerformed
+    }//GEN-LAST:event_gra_ustawkaActionPerformed
 
     private void jRadioButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton11ActionPerformed
         cursor = null;
@@ -18655,16 +18658,16 @@ public class SzachowaArena extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton81ActionPerformed
 
-    private void jButton82ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton82ActionPerformed
+    private void online_dolaczActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_online_dolaczActionPerformed
         int portk = 6070;
         jTextArea2.setVisible(true);
         jTextField1.setVisible(true);
         jButton81.setVisible(true);
-        jButton82.setVisible(false);
-        jButton67.setVisible(false);
-        jButton65.setVisible(false);
-        jButton67.setVisible(false);
-        jButton71.setVisible(false);
+        online_dolacz.setVisible(false);
+        nowa_gra.setVisible(false);
+        online_kreator.setVisible(false);
+        nowa_gra.setVisible(false);
+        gra_ustawka.setVisible(false);
         siec = true;
         int[] adresik = new int[4];
         try {
@@ -18747,8 +18750,8 @@ public class SzachowaArena extends javax.swing.JFrame {
             zegarczarne.setText("--:--");
             polaczenie_net = new lacze();
             polaczenie_net.start();
-            jButton67.setVisible(false);
-            jButton65.setVisible(false);
+            nowa_gra.setVisible(false);
+            online_kreator.setVisible(false);
             A8.setEnabled(true);
             B8.setEnabled(true);
             D8.setEnabled(true);
@@ -18813,7 +18816,7 @@ public class SzachowaArena extends javax.swing.JFrame {
             F1.setEnabled(true);
             G1.setEnabled(true);
             H1.setEnabled(true);
-            jButton71.setVisible(false);
+            gra_ustawka.setVisible(false);
             gra = true;
             zasada50 = 0;
             dolicz = false;
@@ -18831,11 +18834,11 @@ public class SzachowaArena extends javax.swing.JFrame {
             jTextArea2.setVisible(false);
             jTextField1.setVisible(false);
             jButton81.setVisible(false);
-            jButton82.setVisible(true);
-            jButton67.setVisible(true);
-            jButton65.setVisible(true);
-            jButton67.setVisible(true);
-            jButton71.setVisible(true);
+            online_dolacz.setVisible(true);
+            nowa_gra.setVisible(true);
+            online_kreator.setVisible(true);
+            nowa_gra.setVisible(true);
+            gra_ustawka.setVisible(true);
             siec = false;
             JOptionPane.showMessageDialog(rootPane, "nie udało się połączyć", "błąd połączenia", JOptionPane.ERROR_MESSAGE);
         }/* catch (NullPointerException e) {
@@ -18852,7 +18855,7 @@ public class SzachowaArena extends javax.swing.JFrame {
             siec = false;
             System.out.println(e);
         }*/
-    }//GEN-LAST:event_jButton82ActionPerformed
+    }//GEN-LAST:event_online_dolaczActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
 
@@ -19034,7 +19037,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                     obrotowy.setText("Obrót WŁ");
                     break;
             }
-            SIOnOff.setEnabled(false);
+            SIOnOff.setEnabled(!SI_ON && !symulacja);
             if ((SI_ON && tura_rywala == ruchB) || symulacja) {
                 char[][] backup1 = new char[8][8];
                 for (int i = 0; i < 8; i++) {
@@ -19056,7 +19059,7 @@ public class SzachowaArena extends javax.swing.JFrame {
     }//GEN-LAST:event_SIOnOffActionPerformed
 
     private void resetgameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetgameActionPerformed
-        try {
+        /* try {
             final String javaBin = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
             final File currentJar = new File(SzachowaArena.class
                     .getProtectionDomain().getCodeSource().getLocation().toURI());
@@ -19069,8 +19072,221 @@ public class SzachowaArena extends javax.swing.JFrame {
         } catch (URISyntaxException | IOException ex1) {
             Logger.getLogger(SzachowaArena.class
                     .getName()).log(Level.SEVERE, null, ex1);
+        }*/
+        nowa_gra.setEnabled(true);
+        nowa_gra.setVisible(true);
+        gra_ustawka.setVisible(true);
+        gra_ustawka.setEnabled(true);
+        poddanie.setEnabled(false);
+        remis_prop.setEnabled(false);
+        online_dolacz.setVisible(true);
+        online_kreator.setVisible(true);
+        A8.setEnabled(false);
+        B8.setEnabled(false);
+        D8.setEnabled(false);
+        C8.setEnabled(false);
+        E8.setEnabled(false);
+        E7.setEnabled(false);
+        D7.setEnabled(false);
+        C7.setEnabled(false);
+        B7.setEnabled(false);
+        A7.setEnabled(false);
+        H8.setEnabled(false);
+        G8.setEnabled(false);
+        F8.setEnabled(false);
+        F7.setEnabled(false);
+        G7.setEnabled(false);
+        H7.setEnabled(false);
+        H6.setEnabled(false);
+        G6.setEnabled(false);
+        F6.setEnabled(false);
+        E6.setEnabled(false);
+        D6.setEnabled(false);
+        C6.setEnabled(false);
+        B6.setEnabled(false);
+        A6.setEnabled(false);
+        A5.setEnabled(false);
+        B5.setEnabled(false);
+        C5.setEnabled(false);
+        D5.setEnabled(false);
+        E5.setEnabled(false);
+        F5.setEnabled(false);
+        G5.setEnabled(false);
+        H5.setEnabled(false);
+        H4.setEnabled(false);
+        G4.setEnabled(false);
+        F4.setEnabled(false);
+        E4.setEnabled(false);
+        D4.setEnabled(false);
+        C4.setEnabled(false);
+        B4.setEnabled(false);
+        A4.setEnabled(false);
+        A3.setEnabled(false);
+        B3.setEnabled(false);
+        C3.setEnabled(false);
+        D3.setEnabled(false);
+        E3.setEnabled(false);
+        F3.setEnabled(false);
+        G3.setEnabled(false);
+        H3.setEnabled(false);
+        H2.setEnabled(false);
+        G2.setEnabled(false);
+        F2.setEnabled(false);
+        E2.setEnabled(false);
+        D2.setEnabled(false);
+        C2.setEnabled(false);
+        B2.setEnabled(false);
+        A2.setEnabled(false);
+        A1.setEnabled(false);
+        B1.setEnabled(false);
+        C1.setEnabled(false);
+        D1.setEnabled(false);
+        E1.setEnabled(false);
+        F1.setEnabled(false);
+        G1.setEnabled(false);
+        H1.setEnabled(false);
+        SIOnOff.setEnabled(true);
+        obrotowy.setVisible(true);
+        bleft = true;
+        bright = true;
+        wleft = true;
+        wright = true;
+        movenr = 1;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                switch (i) {
+                    case 0:
+                        switch (j) {
+                            case 0:
+                            case 7:
+                                ust[i][j] = 'R';
+                                odwrotna[i][j] = 'r';
+                                break;
+                            case 1:
+                            case 6:
+                                ust[i][j] = 'N';
+                                odwrotna[i][j] = 'n';
+                                break;
+                            case 5:
+                            case 2:
+                                ust[i][j] = 'B';
+                                odwrotna[i][j] = 'b';
+                                break;
+                            case 3:
+                                ust[i][j] = 'Q';
+                                odwrotna[i][j] = 'k';
+                                break;
+                            case 4:
+                                ust[i][j] = 'K';
+                                odwrotna[i][j] = 'q';
+                                break;
+                        }
+                        break;
+                    case 1:
+                        ust[i][j] = 'P';
+                        odwrotna[i][j] = 'p';
+                        break;
+                    case 7:
+                        switch (j) {
+                            case 0:
+                            case 7:
+                                ust[i][j] = 'r';
+                                odwrotna[i][j] = 'R';
+                                break;
+                            case 1:
+                            case 6:
+                                ust[i][j] = 'n';
+                                odwrotna[i][j] = 'N';
+                                break;
+                            case 5:
+                            case 2:
+                                ust[i][j] = 'b';
+                                odwrotna[i][j] = 'B';
+                                break;
+                            case 3:
+                                ust[i][j] = 'q';
+                                odwrotna[i][j] = 'K';
+                                break;
+                            case 4:
+                                ust[i][j] = 'k';
+                                odwrotna[i][j] = 'Q';
+                                break;
+                        }
+                        break;
+                    case 6:
+                        ust[i][j] = 'p';
+                        odwrotna[i][j] = 'P';
+                        break;
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                        ust[i][j] = ' ';
+                }
+            }
         }
-
+        kingrochB = true;
+        kingrochC = true;
+        styl(kolor_zestaw, kroj_zestaw, kolor_plansza);
+        jTextArea2.setText("");
+        jTextArea3.setText("");
+        czysc_rame();
+        mordobicia.clear();
+        zwyczajneR.clear();
+        druzynaB = 16;
+        druzynaC = 16;
+        searching = false;
+        hug_list.clear();
+        SI_wyk = false;
+        odwrot = false;
+        proby_laczenia = 0;
+        plustime = 0;
+        dokonano_RB = false;
+        dokonano_RC = false;
+        organizator = false;
+        siec = false;
+        oczekiwanie = false;
+        historia.clear();
+        listaip.clear();
+        ruchy_literowe.clear();
+        ruchy_syboliczne.clear();
+        ruchB = true;
+        msgwe = "";
+        msgwy = "";
+        ruch = "";
+        polestart = false;
+        prze = false;
+        gra = false;
+        dokonanoEP = false; // baza
+        roch = false;
+        wyk = false;
+        przelot = false;
+        przelotcan = false;  // baza
+        znak_promocji = ' ';//baza
+        krolS = false;
+        kingrochB = false;
+        kingrochC = false;
+        bleft = false;
+        bright = false;
+        wleft = false;
+        wright = false;//baza
+        movenr = 1;
+        kolumna = 0;
+        pole = 0;//baza
+        wzor = false;
+        ustawka = false;//baza
+        hodu = true;
+        hitme = true;
+        protectme = true;
+        move = true;//baza
+        laczny_czas = 0;//baza
+        ruszaj = "";
+        zatrzymaj = "";//gra online
+        liczba_usciskow = 0;
+        ostatni_start = "";
+        ostatni_stop = "";
+        opcje_pomoc = 0;
+        symulacja = false;
     }//GEN-LAST:event_resetgameActionPerformed
 
     private void Wlasne_kolor_jasneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Wlasne_kolor_jasneActionPerformed
@@ -19285,9 +19501,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 jCheckBox1ActionPerformed(null);
                 pomoc_ruch = ruchB ? Color.BLUE : Color.RED;
                 JOptionPane.showMessageDialog(rootPane, "Ruch mają " + (ruchB ? "białe" : "czarne") + ".");
-                jButton67.setVisible(false);
-                jButton65.setVisible(false);
-                jButton82.setVisible(false);
+                nowa_gra.setVisible(false);
+                online_kreator.setVisible(false);
+                online_dolacz.setVisible(false);
                 ustawka = false;
                 A8.setEnabled(true);
                 B8.setEnabled(true);
@@ -19355,9 +19571,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 H1.setEnabled(true);
                 jMenu2.setEnabled(true);
                 styl(kolor_zestaw, kroj_zestaw, kolor_plansza);
-                jButton66.setEnabled(true);
-                jButton68.setEnabled(true);
-                jButton71.setVisible(false);
+                poddanie.setEnabled(true);
+                remis_prop.setEnabled(true);
+                gra_ustawka.setVisible(false);
                 tryb = 0;
                 gra = true;
                 jMenu2.setEnabled(true);
@@ -19365,7 +19581,8 @@ public class SzachowaArena extends javax.swing.JFrame {
                 Logger.getLogger(SzachowaArena.class
                         .getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
-                Logger.getLogger(SzachowaArena.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(SzachowaArena.class
+                        .getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -19466,7 +19683,8 @@ public class SzachowaArena extends javax.swing.JFrame {
 
             }
         } catch (IOException ex) {
-            Logger.getLogger(SzachowaArena.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SzachowaArena.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_druk_odpisActionPerformed
 
@@ -19487,7 +19705,8 @@ public class SzachowaArena extends javax.swing.JFrame {
                 }
             }
         } catch (IOException ex) {
-            Logger.getLogger(SzachowaArena.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SzachowaArena.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_druk_pozycjaActionPerformed
 
@@ -19633,16 +19852,9 @@ public class SzachowaArena extends javax.swing.JFrame {
     private javax.swing.JRadioButton czarneRuch;
     private javax.swing.JMenuItem druk_odpis;
     private javax.swing.JMenuItem druk_pozycja;
-    private javax.swing.JButton jButton65;
-    private javax.swing.JButton jButton66;
-    private javax.swing.JButton jButton67;
-    private javax.swing.JButton jButton68;
-    private javax.swing.JButton jButton69;
-    private javax.swing.JButton jButton70;
-    private javax.swing.JButton jButton71;
+    private javax.swing.JButton gra_ustawka;
     private javax.swing.JButton jButton72;
     private javax.swing.JButton jButton81;
-    private javax.swing.JButton jButton82;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -19684,13 +19896,20 @@ public class SzachowaArena extends javax.swing.JFrame {
     private javax.swing.JMenu kroj;
     private javax.swing.JMenu kroj1;
     private javax.swing.JMenu mazyna_losujaca;
+    private javax.swing.JButton nowa_gra;
     private javax.swing.JButton obrotowy;
     private javax.swing.JRadioButtonMenuItem oldschool;
     private javax.swing.JRadioButtonMenuItem oldschool1;
+    private javax.swing.JButton online_dolacz;
+    private javax.swing.JButton online_kreator;
     private javax.swing.JButton partia_odlozona;
     private javax.swing.JButton partia_wznowiona;
     private javax.swing.JMenu plansza;
     private javax.swing.JMenu plansza1;
+    private javax.swing.JButton poddanie;
+    private javax.swing.JButton remis_odrzut;
+    private javax.swing.JButton remis_prop;
+    private javax.swing.JButton remis_zgoda;
     private javax.swing.JButton resetgame;
     private javax.swing.JRadioButton ustawBB;
     private javax.swing.JRadioButton ustawBK;

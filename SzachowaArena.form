@@ -634,8 +634,8 @@
                           </Group>
                           <Component id="zegarbiale" min="-2" max="-2" attributes="0"/>
                           <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="jButton65" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jButton82" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="online_kreator" alignment="0" max="32767" attributes="0"/>
+                              <Component id="online_dolacz" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -685,17 +685,17 @@
                                   <Component id="resetgame" min="-2" pref="332" max="-2" attributes="0"/>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="jButton67" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jButton70" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jButton66" alignment="1" pref="155" max="32767" attributes="0"/>
+                                          <Component id="nowa_gra" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="remis_odrzut" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="poddanie" alignment="1" pref="155" max="32767" attributes="0"/>
                                           <Component id="partia_odlozona" alignment="1" max="32767" attributes="0"/>
                                       </Group>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="jButton68" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jButton69" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="remis_prop" min="-2" max="-2" attributes="0"/>
+                                          <Component id="remis_zgoda" alignment="0" max="32767" attributes="0"/>
                                           <Component id="partia_wznowiona" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jButton71" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="gra_ustawka" alignment="0" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -974,9 +974,9 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jButton72" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="jButton65" min="-2" max="-2" attributes="0"/>
+                      <Component id="online_kreator" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButton82" min="-2" pref="38" max="-2" attributes="0"/>
+                      <Component id="online_dolacz" min="-2" pref="38" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                       <Component id="zegarbiale" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -1012,9 +1012,9 @@
                       <Component id="resetgame" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jButton67" min="-2" max="-2" attributes="0"/>
+                          <Component id="nowa_gra" min="-2" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Component id="jButton71" min="-2" pref="33" max="-2" attributes="0"/>
+                              <Component id="gra_ustawka" min="-2" pref="33" max="-2" attributes="0"/>
                               <EmptySpace min="1" pref="1" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -1025,13 +1025,13 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jButton70" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton69" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                          <Component id="remis_odrzut" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="remis_zgoda" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jButton66" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
-                          <Component id="jButton68" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="poddanie" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                          <Component id="remis_prop" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -3057,7 +3057,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="H1ActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton67">
+    <Component class="javax.swing.JButton" name="nowa_gra">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="18" style="0"/>
@@ -3065,10 +3065,10 @@
         <Property name="text" type="java.lang.String" value="stacjonarnie"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton67ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nowa_graActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton65">
+    <Component class="javax.swing.JButton" name="online_kreator">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="18" style="0"/>
@@ -3076,10 +3076,10 @@
         <Property name="text" type="java.lang.String" value="online stworz gre"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton65ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="online_kreatorActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton66">
+    <Component class="javax.swing.JButton" name="poddanie">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="24" style="0"/>
@@ -3088,10 +3088,10 @@
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton66ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="poddanieActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton68">
+    <Component class="javax.swing.JButton" name="remis_prop">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="18" style="0"/>
@@ -3100,10 +3100,10 @@
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton68ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="remis_propActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton69">
+    <Component class="javax.swing.JButton" name="remis_zgoda">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="18" style="0"/>
@@ -3112,10 +3112,10 @@
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton69ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="remis_zgodaActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton70">
+    <Component class="javax.swing.JButton" name="remis_odrzut">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="18" style="0"/>
@@ -3124,10 +3124,10 @@
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton70ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="remis_odrzutActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton71">
+    <Component class="javax.swing.JButton" name="gra_ustawka">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="12" style="0"/>
@@ -3135,7 +3135,7 @@
         <Property name="text" type="java.lang.String" value="Ustaw  Pozycj&#x119;"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton71ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gra_ustawkaActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JRadioButton" name="czarneRuch">
@@ -3424,7 +3424,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField1ActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton82">
+    <Component class="javax.swing.JButton" name="online_dolacz">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="18" style="0"/>
@@ -3432,7 +3432,7 @@
         <Property name="text" type="java.lang.String" value="online dolacz do gry"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton82ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="online_dolaczActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">

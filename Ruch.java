@@ -13,71 +13,11 @@ import java.util.Collection;
  */
 public class Ruch implements Comparable<Ruch> {
 
-    private Integer zwroc_pole(Ruch.rzad r, Ruch.kolumna k) {
-        int x = 0;
-        int y = 0;
-        switch (r) {
-            case RR:
-            case r1:
-                x = 1;
-                break;
-            case r2:
-                x = 2;
-                break;
-            case r3:
-                x = 3;
-                break;
-            case r4:
-                x = 4;
-                break;
-            case r5:
-                x = 5;
-                break;
-            case r6:
-                x = 6;
-                break;
-            case r7:
-                x = 7;
-                break;
-            case r8:
-                x = 8;
-        }
-
-        switch (k) {
-            case KR:
-            case k5:
-                x = 5;
-                break;
-            case k1:
-                x = 1;
-                break;
-            case k2:
-                x = 2;
-                break;
-            case k3:
-                x = 3;
-                break;
-            case k4:
-                x = 4;
-                break;
-            case k6:
-                x = 6;
-                break;
-            case k7:
-                x = 7;
-                break;
-            case k8:
-                x = 8;
-        }
-
-        return x * 8 + y;
-    }
-
+   
     private SI_MIN_MAX_Alfa_Beta.figury[][] zmiana(SI_MIN_MAX_Alfa_Beta.figury[][] szachownica, String lista) {
         SI_MIN_MAX_Alfa_Beta.figury[][] wynik = new SI_MIN_MAX_Alfa_Beta.figury[8][8];
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                wynik[i][j] = szachownica[i][j];
                 wynik[i][j] = szachownica[i][j];
             }
         }
@@ -458,8 +398,6 @@ public class Ruch implements Comparable<Ruch> {
             kolejnosc = figura.Krol;
             czybialy = lista.charAt(0) == 'K';
         }
-
-        assert kolejnosc != null;
         wspolczynnik_ruchu = wartosc(kolejnosc);
         wspolczynnik_bitki = wartosc(bity);
         chessboard_before = szachownica;

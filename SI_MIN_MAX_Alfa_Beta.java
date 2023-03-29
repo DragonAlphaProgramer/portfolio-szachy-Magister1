@@ -192,6 +192,7 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
      * @param najmniejsza
      * @return
      */
+    @Override
     public Ruch_wartosc wykonaj(int glebia, final Ruch move, int najwieksza, int najmniejsza) {
         int biezaca_ogolna;
         all_position = all_position + 1;
@@ -238,7 +239,7 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
                 }
                 System.out.println();
             }
-            System.out.println(e);
+            e.printStackTrace();
             return new Ruch_wartosc(move, (!wyjsciowa_tura ? Integer.MAX_VALUE : Integer.MIN_VALUE));
         }
 
