@@ -309,7 +309,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                     if (opcje_pomoc == 1 || opcje_pomoc == 2) {
                         if (tryb != 4) {
                             for (Ruch move : Generator.generuj_posuniecia(konwert(temp1), ruchB, przelotcan,
-                                    bleft, bright, wleft, wright, kingrochB, kingrochC, 1, kol, true, symbol, temp2, false)) {
+                                    bleft, bright, wleft, wright, kingrochB, kingrochC, kol, true, symbol, temp2, false)) {
                                 if (!move.toString().startsWith("O-O")) {
                                     JButton cel = dobierzprzycisk(move.toString().substring(4, 6), odwrot);
                                     cel.setBorder(new LineBorder(pomoc_ruch, 4));
@@ -331,7 +331,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                             }
                             temp1[lokalS[1] - 1][lokalS[0] - 1] = tempN;
                             for (Ruch move : Generator.generuj_posuniecia(konwert(temp1), ruchB, przelotcan,
-                                    bleft, bright, wleft, wright, kingrochB, kingrochC, 1, kol, true, nakladki[temp2[1]][temp2[0]], temp2, false)) {
+                                    bleft, bright, wleft, wright, kingrochB, kingrochC, kol, true, nakladki[temp2[1]][temp2[0]], temp2, false)) {
 
                                 JButton cel = dobierzprzycisk(move.toString().substring(4, 6), odwrot);
                                 cel.setBorder(new LineBorder(pomoc_ruch, 4));
@@ -340,7 +340,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                             temp1[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                         } else {
                             for (RuchA moveA : Generator.generuj_posunieciaA(konwertA(temp1), ruchB, przelotcan,
-                                    bleft, bright, wleft, wright, kingrochB, kingrochC, 1, kol, true, symbol, temp2, false)) {
+                                    bleft, bright, wleft, wright, kingrochB, kingrochC, kol, true, symbol, temp2, false)) {
                                 if (!moveA.toString().startsWith("O-O")) {
                                     JButton cel = dobierzprzycisk(moveA.toString().substring(4, 6), odwrot);
                                     cel.setBorder(new LineBorder(pomoc_ruch, 4));
@@ -2579,6 +2579,8 @@ public class SzachowaArena extends javax.swing.JFrame {
                                             }
                                             JOptionPane.showMessageDialog(rootPane, "3-krotne powtórzenie pozycji. \nREMIS!", "Zasada", JOptionPane.WARNING_MESSAGE);
                                             remis();
+                                            SI_ON = false;
+                    symulacja = false;
                                         }
                                     } else {
                                         powtorki = 0;
@@ -4225,6 +4227,7 @@ public class SzachowaArena extends javax.swing.JFrame {
 
                                                             JOptionPane.showMessageDialog(rootPane, "3-krotne powtórzenie pozycji. \nREMIS!", "Zasada", JOptionPane.WARNING_MESSAGE);
                                                             remis();
+                                                            
                                                         }
                                                     } else {
                                                         powtorki = 0;
@@ -4587,7 +4590,7 @@ public class SzachowaArena extends javax.swing.JFrame {
     public static Socket socket;//gra online
     int[] poza_krolewska = new int[2]; // baza
     public int bonuss, sek, seksyg, czasgry; // gra na czas
-    public byte kolor_zestaw, kroj_zestaw = 1, kolor_plansza = 1; // wyglad
+    public byte kolor_zestaw, kroj_zestaw = 3, kolor_plansza = 1; // wyglad
     public int[] lokalS = new int[2]; // baza
     public int[] lokalK = new int[2];// baza
     public int[] klopoty = new int[2];// baza
@@ -7878,7 +7881,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                     System.arraycopy(ust[x], 0, backup[x], 0, 8);
                 }
                 int elem = 0, dlugosc = Generator.generuj_posuniecia(konwert(backup.clone()), ruchB, przelotcan,
-                        bleft, bright, wleft, wright, kingrochB, kingrochC, 1, kol, false, ' ', new int[2], false).size();
+                        bleft, bright, wleft, wright, kingrochB, kingrochC, kol, false, ' ', new int[2], false).size();
                 // System.out.println(dlugosc + "elem");
                 jProgressBar1.setMaximum(dlugosc);
                 jProgressBar1.setValue(0);
@@ -7921,9 +7924,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                     }
                 }*/
                 for (Ruch move : Generator.generuj_posuniecia(konwert(backup.clone()), ruchB, przelotcan,
-                        bleft, bright, wleft, wright, kingrochB, kingrochC, 1, kol, false, ' ', new int[2], false)) {
+                        bleft, bright, wleft, wright, kingrochB, kingrochC, kol, false, ' ', new int[2], false)) {
                     if (Generator.generuj_posuniecia(konwert(backup.clone()), ruchB, przelotcan,
-                            bleft, bright, wleft, wright, kingrochB, kingrochC, 1, kol, false, ' ', new int[2], false).size() > 1) {
+                            bleft, bright, wleft, wright, kingrochB, kingrochC, kol, false, ' ', new int[2], false).size() > 1) {
                         elem++;
                         jProgressBar1.setValue(elem);
                         setProgress((int) (elem * 1f / dlugosc * 100.0f));
@@ -10914,7 +10917,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                         System.out.println("opcja" + tryb);
                                         if (tryb != 4) {
                                             for (Ruch move : Generator.generuj_posuniecia(konwert(temp1), ruchB, przelotcan,
-                                                    bleft, bright, wleft, wright, kingrochB, kingrochC, 1, kol, true, symbol, temp2, false)) {
+                                                    bleft, bright, wleft, wright, kingrochB, kingrochC, kol, true, symbol, temp2, false)) {
                                                 if (!move.toString().startsWith("O-O")) {
                                                     JButton cel = dobierzprzycisk(move.toString().substring(4, 6), odwrot);
                                                     cel.setBorder(new LineBorder(pomoc_ruch, 4));
@@ -10936,7 +10939,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                             }
                                         } else {
                                             for (RuchA moveA : Generator.generuj_posunieciaA(konwertA(temp1), ruchB, przelotcan,
-                                                    bleft, bright, wleft, wright, kingrochB, kingrochC, 1, kol, true, symbol, temp2, false)) {
+                                                    bleft, bright, wleft, wright, kingrochB, kingrochC, kol, true, symbol, temp2, false)) {
                                                 if (!moveA.toString().startsWith("O-O")) {
                                                     JButton cel = dobierzprzycisk(moveA.toString().substring(4, 6), odwrot);
                                                     cel.setBorder(new LineBorder(pomoc_ruch, 4));
@@ -13166,6 +13169,7 @@ public class SzachowaArena extends javax.swing.JFrame {
 
                                                             JOptionPane.showMessageDialog(rootPane, "3-krotne powtórzenie pozycji. \nREMIS!", "Zasada", JOptionPane.WARNING_MESSAGE);
                                                             SI_ON = false;
+                    symulacja = false;
                                                             remis();
                                                         }
                                                     } else {
@@ -13409,222 +13413,13 @@ public class SzachowaArena extends javax.swing.JFrame {
 
     }
 
-    static String naStringa(Ruch move) {
-        String nazwa_ruchu = "";
-        if (move.roszada) {
-            if (move.dlugaroszada) {
-                return move.szach ? "O-O-O+" : "O-O-O ";
-            } else {
-                return move.szach ? "O-O+  " : "O-O   ";
-            }
-        } else {
-            switch (move.kolejnosc) {
-                case Goniec:
-                    if (move.czybialy) {
-                        nazwa_ruchu = nazwa_ruchu.concat("B");
-                    } else {
-                        nazwa_ruchu = nazwa_ruchu.concat("b");
-                    }
-                    break;
-                case Hetman:
-                    if (move.czybialy) {
-                        nazwa_ruchu = nazwa_ruchu.concat("Q");
-                    } else {
-                        nazwa_ruchu = nazwa_ruchu.concat("q");
-                    }
-                    break;
-                case Krol:
-                    if (move.czybialy) {
-                        nazwa_ruchu = nazwa_ruchu.concat("K");
-                    } else {
-                        nazwa_ruchu = nazwa_ruchu.concat("k");
-                    }
-                    break;
-                case Pion:
-                    if (move.czybialy) {
-                        nazwa_ruchu = nazwa_ruchu.concat("P");
-                    } else {
-                        nazwa_ruchu = nazwa_ruchu.concat("p");
-                    }
-                    break;
-                case Skoczek:
-                    if (move.czybialy) {
-                        nazwa_ruchu = nazwa_ruchu.concat("N");
-                    } else {
-                        nazwa_ruchu = nazwa_ruchu.concat("n");
-                    }
-                    break;
-                case Wieza:
-                    if (move.czybialy) {
-                        nazwa_ruchu = nazwa_ruchu.concat("R");
-                    } else {
-                        nazwa_ruchu = nazwa_ruchu.concat("r");
-                    }
-                    break;
-            }
-            switch (move.start1) {
-                case k1:
-                    nazwa_ruchu = nazwa_ruchu.concat("A");
-                    break;
-                case k2:
-                    nazwa_ruchu = nazwa_ruchu.concat("B");
-                    break;
-                case k3:
-                    nazwa_ruchu = nazwa_ruchu.concat("C");
-                    break;
-                case k4:
-                    nazwa_ruchu = nazwa_ruchu.concat("D");
-                    break;
-                case k5:
-                    nazwa_ruchu = nazwa_ruchu.concat("E");
-                    break;
-                case k6:
-                    nazwa_ruchu = nazwa_ruchu.concat("F");
-                    break;
-                case k7:
-                    nazwa_ruchu = nazwa_ruchu.concat("G");
-                    break;
-                case k8:
-                    nazwa_ruchu = nazwa_ruchu.concat("H");
-                    break;
-            }
-            switch (move.start2) {
-                case r1:
-                    nazwa_ruchu = nazwa_ruchu.concat("1");
-                    break;
-                case r2:
-                    nazwa_ruchu = nazwa_ruchu.concat("2");
-                    break;
-                case r3:
-                    nazwa_ruchu = nazwa_ruchu.concat("3");
-                    break;
-                case r4:
-                    nazwa_ruchu = nazwa_ruchu.concat("4");
-                    break;
-                case r5:
-                    nazwa_ruchu = nazwa_ruchu.concat("5");
-                    break;
-                case r6:
-                    nazwa_ruchu = nazwa_ruchu.concat("6");
-                    break;
-                case r7:
-                    nazwa_ruchu = nazwa_ruchu.concat("7");
-                    break;
-                case r8:
-                    nazwa_ruchu = nazwa_ruchu.concat("8");
-                    break;
-            }
-
-            if (move.korzystnosc_bicia != Ruch.figura.Pustka) {
-                nazwa_ruchu = nazwa_ruchu.concat("x");
-            } else {
-                nazwa_ruchu = nazwa_ruchu.concat("-");
-            }
-            switch (move.koniec1) {
-                case k1:
-                    nazwa_ruchu = nazwa_ruchu.concat("A");
-                    break;
-                case k2:
-                    nazwa_ruchu = nazwa_ruchu.concat("B");
-                    break;
-                case k3:
-                    nazwa_ruchu = nazwa_ruchu.concat("C");
-                    break;
-                case k4:
-                    nazwa_ruchu = nazwa_ruchu.concat("D");
-                    break;
-                case k5:
-                    nazwa_ruchu = nazwa_ruchu.concat("E");
-                    break;
-                case k6:
-                    nazwa_ruchu = nazwa_ruchu.concat("F");
-                    break;
-                case k7:
-                    nazwa_ruchu = nazwa_ruchu.concat("G");
-                    break;
-                case k8:
-                    nazwa_ruchu = nazwa_ruchu.concat("H");
-                    break;
-            }
-            switch (move.koniec2) {
-                case r1:
-                    nazwa_ruchu = nazwa_ruchu.concat("1");
-                    break;
-                case r2:
-                    nazwa_ruchu = nazwa_ruchu.concat("2");
-                    break;
-                case r3:
-                    nazwa_ruchu = nazwa_ruchu.concat("3");
-                    break;
-                case r4:
-                    nazwa_ruchu = nazwa_ruchu.concat("4");
-                    break;
-                case r5:
-                    nazwa_ruchu = nazwa_ruchu.concat("5");
-                    break;
-                case r6:
-                    nazwa_ruchu = nazwa_ruchu.concat("6");
-                    break;
-                case r7:
-                    nazwa_ruchu = nazwa_ruchu.concat("7");
-                    break;
-                case r8:
-                    nazwa_ruchu = nazwa_ruchu.concat("8");
-                    break;
-            }
-            if (move.przelot) {
-                nazwa_ruchu = nazwa_ruchu.concat("EP");
-            } else if (move.promocja) {
-                switch (move.promowana) {
-                    case Skoczek:
-                        if (move.czybialy) {
-                            nazwa_ruchu = nazwa_ruchu.concat("=N");
-                        } else {
-                            nazwa_ruchu = nazwa_ruchu.concat("=n");
-                        }
-                        break;
-                    case Goniec:
-                        if (move.czybialy) {
-                            nazwa_ruchu = nazwa_ruchu.concat("=B");
-                        } else {
-                            nazwa_ruchu = nazwa_ruchu.concat("=b");
-                        }
-                        break;
-                    case Wieza:
-                        if (move.czybialy) {
-                            nazwa_ruchu = nazwa_ruchu.concat("=R");
-                        } else {
-                            nazwa_ruchu = nazwa_ruchu.concat("=r");
-                        }
-                        break;
-                    case Hetman:
-                        if (move.czybialy) {
-                            nazwa_ruchu = nazwa_ruchu.concat("=Q");
-                        } else {
-                            nazwa_ruchu = nazwa_ruchu.concat("=q");
-                        }
-                        break;
-                }
-            } else {
-                nazwa_ruchu = nazwa_ruchu.concat("--");
-            }
-            if (move.szach) {
-                nazwa_ruchu = nazwa_ruchu.concat("+");
-            } else {
-                nazwa_ruchu = nazwa_ruchu.concat(" ");
-            }
-
-        }
-        return nazwa_ruchu;
-    }
-
     public class Los_postep extends SwingWorker<Object, Object> {
 
         @Override
         protected Object doInBackground() {
             try {
                 odwrot = false;
-                String wejscie = JOptionPane.showInputDialog(("ile ruchów ma minąć od tej pozycji?\n"
+                String wejscie = JOptionPane.showInputDialog(("Ile ruchów ma minąć od tej pozycji?\n"
                         + "Ruchy białych i czarnych są liczone osobno"));
                 int los = Integer.parseInt(wejscie);
                 if (los > 0 && los <= 400) {
@@ -13679,9 +13474,8 @@ public class SzachowaArena extends javax.swing.JFrame {
                         }
                         lista.removeAll(lista);
                         for (int l = 0; l < los; l++) {
-
                             ArrayList<Ruch> temp = (ArrayList<Ruch>) Generator.generuj_posuniecia(konwert(losowa), ruch, enpasant,
-                                    rochleftC, rochrightC, rochleftB, rochrightB, rochB, rochC, 0, kolumna, false, false);
+                                    rochleftC, rochrightC, rochleftB, rochrightB, rochB, rochC, kolumna, false);
                             if (temp.size() > 0) {
                                 index++;
                                 Random losowanie = new Random();
@@ -13849,52 +13643,53 @@ public class SzachowaArena extends javax.swing.JFrame {
                                     }
                                 }
                                 ruch = !ruch;
-                            } else {
-                                ready = false;
-                                break;
-                            }
-                            if (lista.get(lista.size() - 1).charAt(0) == 'P' || lista.get(lista.size() - 1).charAt(0) == 'p'
-                                    || lista.get(lista.size() - 1).charAt(0) == 'x') {
-                                piedziesiat = piedziesiat = 0;
-                                doliczanie = false;
-                            } else {
-                                if (doliczanie) {
+
+                                if (lista.get(lista.size() - 1).charAt(0) == 'P' || lista.get(lista.size() - 1).charAt(0) == 'p'
+                                        || lista.get(lista.size() - 1).charAt(0) == 'x') {
+                                    piedziesiat = 0;
                                     doliczanie = false;
-                                    piedziesiat = piedziesiat + 1;
                                 } else {
-                                    doliczanie = true;
-                                }
-                            }
-                            String tmp3;
-                            tmp3 = "";
-                            for (int x = 0; x < 8; x++) {
-                                for (int y = 0; y < 8; y++) {
-                                    tmp3 = tmp3.concat(String.valueOf(losowa[x][y]));
-                                }
-                            }
-                            tmp3 = tmp3.concat(" " + ruch + " " + enpasant + " " + rochB + " " + rochC + " " + rochleftB + " " + rochrightB + " " + rochleftC + " " + rochrightC);
-                            powtorki.add(tmp3);
-                            Collections.sort(powtorki);
-                            for (int i = 1; i < powtorki.size(); i++) {
-                                if (powtorki.get(i - 1).equals(powtorki.get(i))) {
-                                    powtorzenia = powtorzenia + 1;
-                                    if (powtorzenia == 2) {
-                                        break;
+                                    if (doliczanie) {
+                                        doliczanie = false;
+                                        piedziesiat = piedziesiat + 1;
+                                    } else {
+                                        doliczanie = true;
                                     }
-                                } else {
-                                    powtorzenia = 0;
                                 }
-                            }
-                            boolean war1 = (pionkiB < 1 && pionkiC < 1 && skoczkiGonceC < 2
-                                    && skoczkiGonceB < 2 && wiezehetmanyB < 1 && wiezehetmanyC < 1);
-                            boolean war2 = piedziesiat == 50;
-                            boolean war3 = powtorzenia == 2;
-                            if (war1 || war2 || war3) {
+                                String tmp3;
+                                tmp3 = "";
+                                for (int x = 0; x < 8; x++) {
+                                    for (int y = 0; y < 8; y++) {
+                                        tmp3 = tmp3.concat(String.valueOf(losowa[x][y]));
+                                    }
+                                }
+                                tmp3 = tmp3.concat(" " + ruch + " " + enpasant + " " + rochB + " " + rochC + " " + rochleftB + " " + rochrightB + " " + rochleftC + " " + rochrightC);
+                                powtorki.add(tmp3);
+                                Collections.sort(powtorki);
+                                for (int i = 1; i < powtorki.size(); i++) {
+                                    if (powtorki.get(i - 1).equals(powtorki.get(i))) {
+                                        powtorzenia = powtorzenia + 1;
+                                        if (powtorzenia == 2) {
+                                            break;
+                                        }
+                                    } else {
+                                        powtorzenia = 0;
+                                    }
+                                }
+                                boolean war1 = (pionkiB < 1 && pionkiC < 1 && skoczkiGonceC < 2
+                                        && skoczkiGonceB < 2 && wiezehetmanyB < 1 && wiezehetmanyC < 1);
+                                boolean war2 = piedziesiat == 50;
+                                boolean war3 = powtorzenia == 2;
+                                if (war1 || war2 || war3) {
+                                    ready = false;
+                                    break;
+                                }
+                                jProgressBar1.setValue(lista.size());
+                                if (ready == false) {
+                                    break;
+                                }
+                            } else {
                                 ready = false;
-                                break;
-                            }
-                            jProgressBar1.setValue(lista.size());
-                            if (ready == false) {
                                 break;
                             }
                         }
@@ -13959,7 +13754,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                             + "i jednocześnie mniejszą lub równą 400");
                 }
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(rootPane, "Wartość nie jest liczbą");
+                JOptionPane.showMessageDialog(rootPane, "Wartość nie jest liczbą,\nlub anulowałeś zadanie");
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -19073,6 +18868,10 @@ public class SzachowaArena extends javax.swing.JFrame {
             Logger.getLogger(SzachowaArena.class
                     .getName()).log(Level.SEVERE, null, ex1);
         }*/
+        wleft = true;
+        wright = true;
+        bleft = true;
+        bright = true;
         nowa_gra.setEnabled(true);
         nowa_gra.setVisible(true);
         gra_ustawka.setVisible(true);
@@ -19222,6 +19021,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                     case 4:
                     case 5:
                         ust[i][j] = ' ';
+                        odwrotna[i][j] = ' ';
                 }
             }
         }
@@ -19264,12 +19064,10 @@ public class SzachowaArena extends javax.swing.JFrame {
         przelotcan = false;  // baza
         znak_promocji = ' ';//baza
         krolS = false;
-        kingrochB = false;
-        kingrochC = false;
-        bleft = false;
-        bright = false;
-        wleft = false;
-        wright = false;//baza
+        bleft = true;
+        bright = true;
+        wleft = true;
+        wright = true;//baza
         movenr = 1;
         kolumna = 0;
         pole = 0;//baza

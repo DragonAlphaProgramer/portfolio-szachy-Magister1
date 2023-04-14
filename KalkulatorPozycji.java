@@ -280,7 +280,7 @@ public class KalkulatorPozycji
 
     private int szachmat(boolean strona, SI_MIN_MAX_Alfa_Beta.figury[][] ustawienie, int glebia, boolean przelotcan, int kol) {
         int[] krol = new int[2];
-        if (RuchZagrozenie_kontrola.szach(SI_MIN_MAX_Alfa_Beta.konwert(ustawienie), !strona)) {
+        if (RuchZagrozenie_kontrola.szach((ustawienie), !strona)) {
             char[][] backup = new char[8][8];
             char[][] backup1 = new char[8][8];
             char[][] backup2 = new char[8][8];
@@ -350,8 +350,8 @@ public class KalkulatorPozycji
 
     private int stosunek(SI_MIN_MAX_Alfa_Beta.figury[][] ustawienie, boolean b, boolean przelotcan,
             boolean bleft, boolean bright, boolean wleft, boolean wright, boolean roszadaB, boolean roszadaC, int kol) {
-        int swoje = (Generator.generuj_posuniecia(ustawienie, b, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, 0, kol, false, true).size());
-        int wrogie = Generator.generuj_posuniecia(ustawienie, !b, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, 0, kol, false, true).size();
+        int swoje = (Generator.generuj_posuniecia(ustawienie, b, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol, true).size());
+        int wrogie = Generator.generuj_posuniecia(ustawienie, !b, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol, true).size();
         //System.out.println((int) ((swoje*10.0f) / wrogie*1.0f));
         if (RuchZagrozenie_kontrola.szach(SI_MIN_MAX_Alfa_Beta.konwert(ustawienie), !b)) {
             swoje++;
@@ -373,7 +373,7 @@ public class KalkulatorPozycji
     private int ruchy_zbijajace(SI_MIN_MAX_Alfa_Beta.figury[][] ustawienie, boolean strona, boolean przelotcan,
             boolean bleft, boolean bright, boolean wleft, boolean wright, boolean roszadaB, boolean roszadaC, int kol) {
         ////System.out.printlnln("Wchodzi7");
-        Collection<Ruch> lista = Generator.generuj_posuniecia((ustawienie), strona, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, 0, kol, false, false);
+        Collection<Ruch> lista = Generator.generuj_posuniecia((ustawienie), strona, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol, false);
         int licznik_ataku = 0;
 
         if (!lista.isEmpty()) {

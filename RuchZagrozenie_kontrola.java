@@ -5,6 +5,7 @@
  */
 package szachy;
 
+import szachy.SI_MIN_MAX_Alfa_Beta;
 /**
  *
  * @author Patryk Sprawdza ruch pod kątem dopuszczalności
@@ -1718,6 +1719,198 @@ public class RuchZagrozenie_kontrola {
         return zagrozenie;
     }
 
+    public static boolean szach(SI_MIN_MAX_Alfa_Beta.figury[][] pozycja, boolean czybiale) {
+        byte krolX = 0, krolY = 0, alfa, beta;
+        boolean zagrozenie = false;
+        SI_MIN_MAX_Alfa_Beta.figury[][] pomocnicze = new SI_MIN_MAX_Alfa_Beta.figury[16][16];
+        for (byte i = 0; i < 8; i++) {
+            for (byte j = 0; j < 8; j++) {
+                pomocnicze[i + 4][j + 4] = pozycja[i][j];
+                if ((czybiale && pozycja[i][j] == SI_MIN_MAX_Alfa_Beta.figury.BKrol) || (!czybiale && pozycja[i][j] == SI_MIN_MAX_Alfa_Beta.figury.CKrol)) {
+                    krolX = (byte) (i + 4);
+                    krolY = (byte) (j + 4);
+                }
+
+            }
+        }
+        //  System.out.println(krolX+" "+krolY);
+        if ((czybiale && ((pomocnicze[krolX + 2][krolY - 1] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek)
+                || (pomocnicze[krolX + 2][krolY + 1] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek)
+                || (pomocnicze[krolX - 2][krolY - 1] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek)
+                || (pomocnicze[krolX - 2][krolY + 1] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek)
+                || (pomocnicze[krolX + 1][krolY + 2] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek)
+                || (pomocnicze[krolX + 1][krolY - 2] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek)
+                || (pomocnicze[krolX - 1][krolY + 2] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek)
+                || (pomocnicze[krolX - 1][krolY - 2] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek)))
+                || (!czybiale && ((pomocnicze[krolX + 2][krolY - 1] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek)
+                || (pomocnicze[krolX + 2][krolY + 1] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek)
+                || (pomocnicze[krolX - 2][krolY - 1] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek)
+                || (pomocnicze[krolX - 2][krolY + 1] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek)
+                || (pomocnicze[krolX + 1][krolY + 2] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek)
+                || (pomocnicze[krolX + 1][krolY - 2] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek)
+                || (pomocnicze[krolX - 1][krolY + 2] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek)
+                || (pomocnicze[krolX - 1][krolY - 2] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek)))) {
+            zagrozenie = true;
+            return zagrozenie;
+        }
+        if ((czybiale && ((pomocnicze[krolX + 1][krolY + 1] == SI_MIN_MAX_Alfa_Beta.figury.CPion) || (pomocnicze[krolX + 1][krolY - 1] == SI_MIN_MAX_Alfa_Beta.figury.CPion)))
+                || (!czybiale && ((pomocnicze[krolX - 1][krolY + 1] == SI_MIN_MAX_Alfa_Beta.figury.BPion) || (pomocnicze[krolX - 1][krolY - 1] == SI_MIN_MAX_Alfa_Beta.figury.BPion)))) {
+            zagrozenie = true;
+            return zagrozenie;
+        }
+        if ((czybiale && ((pomocnicze[krolX + 1][krolY + 1] == SI_MIN_MAX_Alfa_Beta.figury.CKrol)
+                || (pomocnicze[krolX + 1][krolY] == SI_MIN_MAX_Alfa_Beta.figury.CKrol)
+                || (pomocnicze[krolX + 1][krolY - 1] == SI_MIN_MAX_Alfa_Beta.figury.CKrol)
+                || (pomocnicze[krolX][krolY - 1] == SI_MIN_MAX_Alfa_Beta.figury.CKrol)
+                || (pomocnicze[krolX - 1][krolY - 1] == SI_MIN_MAX_Alfa_Beta.figury.CKrol)
+                || (pomocnicze[krolX - 1][krolY] == SI_MIN_MAX_Alfa_Beta.figury.CKrol)
+                || (pomocnicze[krolX - 1][krolY + 1] == SI_MIN_MAX_Alfa_Beta.figury.CKrol)
+                || (pomocnicze[krolX][krolY + 1] == SI_MIN_MAX_Alfa_Beta.figury.CKrol)))
+                || (!czybiale && ((pomocnicze[krolX + 1][krolY + 1] == SI_MIN_MAX_Alfa_Beta.figury.BKrol)
+                || (pomocnicze[krolX + 1][krolY] == SI_MIN_MAX_Alfa_Beta.figury.BKrol)
+                || (pomocnicze[krolX + 1][krolY - 1] == SI_MIN_MAX_Alfa_Beta.figury.BKrol)
+                || (pomocnicze[krolX][krolY - 1] == SI_MIN_MAX_Alfa_Beta.figury.BKrol)
+                || (pomocnicze[krolX - 1][krolY - 1] == SI_MIN_MAX_Alfa_Beta.figury.BKrol)
+                || (pomocnicze[krolX - 1][krolY] == SI_MIN_MAX_Alfa_Beta.figury.BKrol)
+                || (pomocnicze[krolX - 1][krolY + 1] == SI_MIN_MAX_Alfa_Beta.figury.BKrol)
+                || (pomocnicze[krolX][krolY + 1] == SI_MIN_MAX_Alfa_Beta.figury.BKrol)))) {
+            zagrozenie = true;
+            return zagrozenie;
+        }
+        alfa = krolX;
+        beta = krolY;
+        byte licz = 0;
+        for (byte i = (byte) (alfa + 1); i <= 11; i++) {
+            licz = (byte) (licz + 1);
+            if (beta + licz >= 12) {
+                break;
+            } else {
+                if ((pomocnicze[i][beta + licz] == SI_MIN_MAX_Alfa_Beta.figury.pustka)) {
+                } else {
+                    if ((czybiale && (pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.CHetman && pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.CGoniec))
+                            || (!czybiale && (pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.BHetman && pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.BGoniec))) {
+                        zagrozenie = false;
+                    } else {
+                        zagrozenie = true;
+                        return zagrozenie;
+                    }
+                    break;
+                }
+            }
+        }
+        licz = 0;
+        for (byte i = (byte) (alfa - 1); i >= 4; i--) {
+            licz = (byte) (licz + 1);
+            if (beta + licz >= 12) {
+                break;
+            } else {
+                if ((pomocnicze[i][beta + licz] == SI_MIN_MAX_Alfa_Beta.figury.pustka)) {
+                } else {
+                    if ((czybiale && (pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.CHetman && pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.CGoniec))
+                            || (!czybiale && (pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.BHetman && pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.BGoniec))) {
+                        zagrozenie = false;
+                    } else {
+                        zagrozenie = true;
+                        return zagrozenie;
+                    }
+                    break;
+                }
+            }
+        }
+        licz = 0;
+        for (byte i = (byte) (alfa + 1); i <= 11; i++) {
+            licz = (byte) (licz - 1);
+            if (beta + licz <= 3) {
+                break;
+            } else {
+                if ((pomocnicze[i][beta + licz] == SI_MIN_MAX_Alfa_Beta.figury.pustka)) {
+                } else {
+                    if ((czybiale && (pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.CHetman && pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.CGoniec))
+                            || (!czybiale && (pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.BHetman && pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.BGoniec))) {
+                        zagrozenie = false;
+                    } else {
+                        zagrozenie = true;
+                        return zagrozenie;
+                    }
+                    break;
+                }
+            }
+        }
+        licz = 0;
+        for (byte i = (byte) (alfa - 1); i >= 4; i--) {
+            licz = (byte) (licz - 1);
+            if (beta + licz <= 3) {
+                break;
+            } else {
+                if ((pomocnicze[i][beta + licz] == SI_MIN_MAX_Alfa_Beta.figury.pustka)) {
+                } else {
+                    if ((czybiale && (pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.CHetman && pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.CGoniec))
+                            || (!czybiale && (pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.BHetman && pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.BGoniec))) {
+                        zagrozenie = false;
+                    } else {
+                        zagrozenie = true;
+                        return zagrozenie;
+                    }
+                    break;
+                }
+            }
+        }
+        alfa = krolX;
+        beta = krolY;
+        for (byte i = (byte) (alfa + 1); i <= 11; i++) {
+            if (pomocnicze[i][beta] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
+            } else {
+                if ((czybiale && (pomocnicze[i][beta] != SI_MIN_MAX_Alfa_Beta.figury.CHetman && pomocnicze[i][beta] != SI_MIN_MAX_Alfa_Beta.figury.CWieza))
+                        || (!czybiale && (pomocnicze[i][beta] != SI_MIN_MAX_Alfa_Beta.figury.BHetman && pomocnicze[i][beta] != SI_MIN_MAX_Alfa_Beta.figury.BWieza))) {
+                    zagrozenie = false;
+                } else {
+                    zagrozenie = true;
+                    return zagrozenie;
+                }
+                break;
+            }
+        }
+        for (byte i = (byte) (alfa - 1); i >= 4; i--) {
+            if (pomocnicze[i][beta] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
+            } else {
+                if ((czybiale && (pomocnicze[i][beta] != SI_MIN_MAX_Alfa_Beta.figury.CHetman && pomocnicze[i][beta] != SI_MIN_MAX_Alfa_Beta.figury.CWieza))
+                        || (!czybiale && (pomocnicze[i][beta] != SI_MIN_MAX_Alfa_Beta.figury.BHetman && pomocnicze[i][beta] != SI_MIN_MAX_Alfa_Beta.figury.BWieza))) {
+                    zagrozenie = false;
+                } else {
+                    zagrozenie = true;
+                    return zagrozenie;
+                }
+                break;
+            }
+        }
+        for (byte i = (byte) (beta + 1); i <= 11; i++) {
+            if (pomocnicze[alfa][i] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
+            } else {
+                if ((czybiale && (pomocnicze[alfa][i] != SI_MIN_MAX_Alfa_Beta.figury.CHetman && pomocnicze[alfa][i] != SI_MIN_MAX_Alfa_Beta.figury.CWieza))
+                        || (!czybiale && (pomocnicze[alfa][i] != SI_MIN_MAX_Alfa_Beta.figury.BHetman && pomocnicze[alfa][i] != SI_MIN_MAX_Alfa_Beta.figury.BWieza))) {
+                    zagrozenie = false;
+                } else {
+                    zagrozenie = true;
+                    return zagrozenie;
+                }
+                break;
+            }
+        }
+        for (byte i = (byte) (beta - 1); i >= 4; i--) {
+            if (pomocnicze[alfa][i] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
+            } else {
+                if ((czybiale && (pomocnicze[alfa][i] != SI_MIN_MAX_Alfa_Beta.figury.CHetman && pomocnicze[alfa][i] != SI_MIN_MAX_Alfa_Beta.figury.CWieza))
+                        || (!czybiale && (pomocnicze[alfa][i] != SI_MIN_MAX_Alfa_Beta.figury.BHetman && pomocnicze[alfa][i] != SI_MIN_MAX_Alfa_Beta.figury.BWieza))) {
+                    zagrozenie = false;
+                } else {
+                    zagrozenie = true;
+                    return zagrozenie;
+                }
+                break;
+            }
+        }
+        return zagrozenie;
+    }
     public static boolean antyruch(int[] lokalS, int[] lokalK, char symbol,
             char[][] ustawienie, boolean czybiale, boolean przelotcan, int kol) {
         boolean krolZ;

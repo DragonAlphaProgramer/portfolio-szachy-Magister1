@@ -5,7 +5,7 @@
  */
 package szachy;
 
-import java.util.Collection;
+
 
 /**
  *
@@ -14,11 +14,11 @@ import java.util.Collection;
 public class Ruch implements Comparable<Ruch> {
 
    
-    private SI_MIN_MAX_Alfa_Beta.figury[][] zmiana(SI_MIN_MAX_Alfa_Beta.figury[][] szachownica, String lista) {
+    private SI_MIN_MAX_Alfa_Beta.figury[][] zmiana(String lista) {
         SI_MIN_MAX_Alfa_Beta.figury[][] wynik = new SI_MIN_MAX_Alfa_Beta.figury[8][8];
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                wynik[i][j] = szachownica[i][j];
+                wynik[i][j] = this.chessboard_before[i][j];
             }
         }
         if (this.roszada) {
@@ -115,12 +115,10 @@ public class Ruch implements Comparable<Ruch> {
     }
     SI_MIN_MAX_Alfa_Beta.figury[][] chessboard_before = new SI_MIN_MAX_Alfa_Beta.figury[8][8];
     SI_MIN_MAX_Alfa_Beta.figury[][] chessboard_after = new SI_MIN_MAX_Alfa_Beta.figury[8][8];
-    Boolean szach, czy_szach, roszada, czybialy, przelot, dlugaroszada, promocja, atak;
+    Boolean czy_szach, roszada, czybialy, przelot, dlugaroszada, promocja, atak;
     kolumna start1, koniec1;
-    Collection<Ruch> lista_ruchow;
     rzad start2, koniec2;
     figura kolejnosc, promowana = null;
-    final sortowanie sposob;
     Integer wspolczynnik_ruchu, wspolczynnik_bitki;
     int wartosc_promocji = 0;
     figura korzystnosc_bicia;
@@ -168,7 +166,7 @@ public class Ruch implements Comparable<Ruch> {
 
     }
 
-    Ruch(boolean anty, String lista, int sposob, SI_MIN_MAX_Alfa_Beta.figury bity, SI_MIN_MAX_Alfa_Beta.figury[][] szachownica) {
+    Ruch(boolean anty, String lista, SI_MIN_MAX_Alfa_Beta.figury bity, SI_MIN_MAX_Alfa_Beta.figury[][] szachownica) {
 
         switch (bity) {
             case BPion:
@@ -401,22 +399,13 @@ public class Ruch implements Comparable<Ruch> {
         wspolczynnik_ruchu = wartosc(kolejnosc);
         wspolczynnik_bitki = wartosc(bity);
         chessboard_before = szachownica;
-        chessboard_after = zmiana(chessboard_before, lista);
+        chessboard_after = zmiana(lista);
         if(!anty){
         czy_szach = lista.charAt(8)=='+';
         }else{
         czy_szach = false;    
         }
-        switch (sposob) {
-            case 1:
-                this.sposob = sortowanie.pierwszy_szach;
-                break;
-            case 2:
-                this.sposob = sortowanie.pierwsze_bicie;
-                break;
-            default:
-                this.sposob = sortowanie.zaden;
-        }
+        
     }
 
     @Override
@@ -589,7 +578,7 @@ public class Ruch implements Comparable<Ruch> {
                 wynik = wynik.concat("--");
             }
         }
-        return czy_szach ? wynik + "+" : wynik;
+        return czy_szach ? wynik + "+" : wynik + " ";
 
     }
 }

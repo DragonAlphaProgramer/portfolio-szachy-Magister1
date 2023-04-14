@@ -36,7 +36,8 @@ class Generator {
         }
         return KC && KB;
     }
-/**
+
+    /**
      * Metoda generuje listę dozwolonych posunięć
      *
      * @param ust pozycja na planszy
@@ -48,13 +49,13 @@ class Generator {
      * @param whiteright dostęp białych do krótkiej roszady
      * @param kingrochB dostęp czarnych do roszady
      * @param kingrochC dostęp białych do roszady
-     * @param sposob sposób sortowania
+     * @param sposób sortowania
      * @param kolumna kolumna z dostępnym biciem w przelocie
      * @return bieżąca lista posunięć w danej pozycji
      */
     static ArrayList<Ruch> generuj_posuniecia(SI_MIN_MAX_Alfa_Beta.figury[][] ust, boolean tura_rywala, boolean przelotcan,
             boolean blackleft, boolean blackright, boolean whiteleft, boolean whiteright,
-            boolean kingrochB, boolean kingrochC, int sposob, int kolumna, boolean konkret, boolean all) {
+            boolean kingrochB, boolean kingrochC, int kolumna, boolean all) {
 
         ArrayList<Ruch> lista_dopuszcalnych_Ruchow = new ArrayList<>();
         SI_MIN_MAX_Alfa_Beta.figury[][] backup = new SI_MIN_MAX_Alfa_Beta.figury[8][8];
@@ -65,7 +66,7 @@ class Generator {
         }
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
-                if(backup[x][y]==SI_MIN_MAX_Alfa_Beta.figury.pustka){
+                if (backup[x][y] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
                     continue;
                 }
                 boolean szach;
@@ -87,8 +88,8 @@ class Generator {
                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                 if ((obecnosc(backup))) {
-                                    wynik = (all || !RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala));
-                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                    wynik = (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
+                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                 } else {
                                     wynik = false;
                                     szach = false;
@@ -101,9 +102,9 @@ class Generator {
                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (kolumna - 1)), y2 = (char) ('1' + (x + 1));
 
                                     if (!szach) {
-                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("P" + "" + x1 + x2 + "x" + y1 + y2 + "EP "), sposob, SI_MIN_MAX_Alfa_Beta.figury.CPion, backup));
+                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("P" + "" + x1 + x2 + "x" + y1 + y2 + "EP "), SI_MIN_MAX_Alfa_Beta.figury.CPion, backup));
                                     } else {
-                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("P" + "" + x1 + x2 + "x" + y1 + y2 + "EP+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.CPion, backup));
+                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("P" + "" + x1 + x2 + "x" + y1 + y2 + "EP+"), SI_MIN_MAX_Alfa_Beta.figury.CPion, backup));
                                     }
 
                                 }
@@ -123,8 +124,8 @@ class Generator {
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || !RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala));
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -136,10 +137,10 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + b)), y2 = (char) ('1' + (x + 1));
                                                 if (szach) {
                                                     lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("P"
-                                                            + "" + x1 + x2 + "x" + y1 + y2 + "--+"), sposob, przechowalnie, backup));
+                                                            + "" + x1 + x2 + "x" + y1 + y2 + "--+"), przechowalnie, backup));
                                                 } else {
                                                     lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("P"
-                                                            + "" + x1 + x2 + "x" + y1 + y2 + "-- "), sposob, przechowalnie, backup));
+                                                            + "" + x1 + x2 + "x" + y1 + y2 + "-- "), przechowalnie, backup));
                                                 }
 
                                             }
@@ -150,8 +151,8 @@ class Generator {
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || !RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala));
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -162,9 +163,9 @@ class Generator {
                                                 if (wynik || all) {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + b)), y2 = (char) ('1' + (x + 1));
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("P" + "" + x1 + x2 + "x" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + "+"), sposob, przechowalnie, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("P" + "" + x1 + x2 + "x" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + "+"), przechowalnie, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("P" + "" + x1 + x2 + "x" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), sposob, przechowalnie, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("P" + "" + x1 + x2 + "x" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), przechowalnie, backup));
                                                     }
 
                                                 }
@@ -186,8 +187,8 @@ class Generator {
                                         backup[x + 1][y] = znak;
                                         backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                         if ((obecnosc(backup))) {
-                                            wynik = (all || !RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala));
-                                            szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                            wynik = (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
+                                            szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                         } else {
                                             wynik = false;
                                             szach = false;
@@ -198,9 +199,9 @@ class Generator {
                                         if (wynik || all) {
                                             char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + 1));
                                             if (szach) {
-                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("P" + "" + x1 + x2 + "-" + y1 + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("P" + "" + x1 + x2 + "-" + y1 + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                             } else {
-                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("P" + "" + x1 + x2 + "-" + y1 + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("P" + "" + x1 + x2 + "-" + y1 + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                             }
 
                                         }
@@ -210,8 +211,8 @@ class Generator {
                                             backup[x + 1][y] = symbole[s];
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || !RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala));
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -223,10 +224,10 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + 1));
                                                 if (szach) {
                                                     lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("P"
-                                                            + "" + x1 + x2 + "-" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + "+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                            + "" + x1 + x2 + "-" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + "+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 } else {
                                                     lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("P"
-                                                            + "" + x1 + x2 + "-" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                            + "" + x1 + x2 + "-" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 }
 
                                             }
@@ -250,8 +251,8 @@ class Generator {
                                     backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                     if ((obecnosc(backup))) {
-                                        wynik = (all || !RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala));
-                                        szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                        wynik = (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
+                                        szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                     } else {
                                         wynik = false;
                                         szach = false;
@@ -262,9 +263,9 @@ class Generator {
                                     if (wynik || all) {
                                         char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + 2));
                                         if (szach) {
-                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("P" + "" + x1 + x2 + "-" + y1 + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("P" + "" + x1 + x2 + "-" + y1 + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                         } else {
-                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("P" + "" + x1 + x2 + "-" + y1 + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("P" + "" + x1 + x2 + "-" + y1 + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                         }
 
                                     }
@@ -297,8 +298,8 @@ class Generator {
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -309,11 +310,11 @@ class Generator {
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 }
 
                                             }
@@ -327,8 +328,8 @@ class Generator {
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -339,9 +340,9 @@ class Generator {
                                                 if (wynik || all) {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                     }
 
                                                 }
@@ -363,8 +364,8 @@ class Generator {
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -375,11 +376,11 @@ class Generator {
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 }
 
                                             }
@@ -393,8 +394,8 @@ class Generator {
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -405,9 +406,9 @@ class Generator {
                                                 if (wynik || all) {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                     }
 
                                                 }
@@ -427,8 +428,8 @@ class Generator {
                                             backup[x + param_ruch][y - param_ruch] = znak;
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -439,11 +440,11 @@ class Generator {
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 }
 
                                             }
@@ -456,8 +457,8 @@ class Generator {
                                                 backup[x + param_ruch][y - param_ruch] = znak;
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -468,9 +469,9 @@ class Generator {
                                                 if (wynik || all) {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                     }
 
                                                 }
@@ -491,8 +492,8 @@ class Generator {
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -503,11 +504,11 @@ class Generator {
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 }
 
                                             }
@@ -521,8 +522,8 @@ class Generator {
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -533,9 +534,9 @@ class Generator {
                                                 if (wynik || all) {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                     }
 
                                                 }
@@ -556,8 +557,8 @@ class Generator {
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -568,11 +569,11 @@ class Generator {
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 }
 
                                             }
@@ -586,8 +587,8 @@ class Generator {
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -598,9 +599,9 @@ class Generator {
                                                 if (wynik || all) {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + param_ruch));
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                     }
 
                                                 }
@@ -621,8 +622,8 @@ class Generator {
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -633,11 +634,11 @@ class Generator {
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 }
 
                                             }
@@ -651,8 +652,8 @@ class Generator {
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -663,9 +664,9 @@ class Generator {
                                                 if (wynik || all) {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - param_ruch));
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                     }
 
                                                 }
@@ -685,8 +686,8 @@ class Generator {
                                             backup[x][y + param_ruch] = znak;
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -697,11 +698,11 @@ class Generator {
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x));
                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 }
 
                                             }
@@ -714,8 +715,8 @@ class Generator {
                                                 backup[x][y + param_ruch] = znak;
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -726,9 +727,9 @@ class Generator {
                                                 if (wynik || all) {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x));
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                     }
 
                                                 }
@@ -748,8 +749,8 @@ class Generator {
                                             backup[x][y - param_ruch] = znak;
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -760,11 +761,11 @@ class Generator {
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x));
                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 }
 
                                             }
@@ -778,8 +779,8 @@ class Generator {
                                                 backup[x][y - param_ruch] = znak;
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -790,9 +791,9 @@ class Generator {
                                                 if (wynik || all) {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x));
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"Q":"q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "Q" : "q") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                     }
 
                                                 }
@@ -830,8 +831,8 @@ class Generator {
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -842,11 +843,11 @@ class Generator {
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"R":"r")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "R" : "r")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"R":"r")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "R" : "r")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 }
 
                                             }
@@ -860,8 +861,8 @@ class Generator {
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -872,9 +873,9 @@ class Generator {
                                                 if (wynik || all) {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + param_ruch));
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"R":"r") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "R" : "r") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"R":"r") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "R" : "r") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                     }
 
                                                 }
@@ -895,8 +896,8 @@ class Generator {
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -907,11 +908,11 @@ class Generator {
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"R":"r")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "R" : "r")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"R":"r")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "R" : "r")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 }
 
                                             }
@@ -925,8 +926,8 @@ class Generator {
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -937,9 +938,9 @@ class Generator {
                                                 if (wynik || all) {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - param_ruch));
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"R":"r") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "R" : "r") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"R":"r") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "R" : "r") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                     }
 
                                                 }
@@ -959,8 +960,8 @@ class Generator {
                                             backup[x][y + param_ruch] = znak;
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -971,11 +972,11 @@ class Generator {
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x));
                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"R":"r")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "R" : "r")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"R":"r")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "R" : "r")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 }
 
                                             }
@@ -988,8 +989,8 @@ class Generator {
                                                 backup[x][y + param_ruch] = znak;
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -1000,9 +1001,9 @@ class Generator {
                                                 if (wynik || all) {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x));
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"R":"r") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "R" : "r") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"R":"r") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "R" : "r") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                     }
 
                                                 }
@@ -1022,8 +1023,8 @@ class Generator {
                                             backup[x][y - param_ruch] = znak;
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -1034,11 +1035,11 @@ class Generator {
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x));
                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"R":"r")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "R" : "r")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"R":"r")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "R" : "r")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 }
 
                                             }
@@ -1052,8 +1053,8 @@ class Generator {
                                                 backup[x][y - param_ruch] = znak;
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -1064,9 +1065,9 @@ class Generator {
                                                 if (wynik || all) {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x));
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"R":"r") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "R" : "r") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"R":"r") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "R" : "r") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                     }
 
                                                 }
@@ -1101,8 +1102,8 @@ class Generator {
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -1113,11 +1114,11 @@ class Generator {
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"B":"b")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "B" : "b")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"B":"b")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "B" : "b")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 }
 
                                             }
@@ -1131,8 +1132,8 @@ class Generator {
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -1143,9 +1144,9 @@ class Generator {
                                                 if (wynik || all) {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"B":"b") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "B" : "b") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"B":"b") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "B" : "b") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                     }
 
                                                 }
@@ -1167,8 +1168,8 @@ class Generator {
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -1179,11 +1180,11 @@ class Generator {
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"B":"b")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "B" : "b")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"B":"b")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "B" : "b")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 }
 
                                             }
@@ -1197,8 +1198,8 @@ class Generator {
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -1209,9 +1210,9 @@ class Generator {
                                                 if (wynik || all) {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"B":"b") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "B" : "b") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"B":"b") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "B" : "b") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                     }
 
                                                 }
@@ -1231,8 +1232,8 @@ class Generator {
                                             backup[x + param_ruch][y - param_ruch] = znak;
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -1243,11 +1244,11 @@ class Generator {
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"B":"b")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "B" : "b")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"B":"b")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "B" : "b")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 }
 
                                             }
@@ -1260,8 +1261,8 @@ class Generator {
                                                 backup[x + param_ruch][y - param_ruch] = znak;
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -1272,9 +1273,9 @@ class Generator {
                                                 if (wynik || all) {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"B":"b") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "B" : "b") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"B":"b") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "B" : "b") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                     }
 
                                                 }
@@ -1295,8 +1296,8 @@ class Generator {
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -1307,11 +1308,11 @@ class Generator {
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"B":"b")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "B" : "b")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"B":"b")
-                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "B" : "b")
+                                                            + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 }
 
                                             }
@@ -1325,8 +1326,8 @@ class Generator {
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -1337,9 +1338,9 @@ class Generator {
                                                 if (wynik || all) {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"B":"b") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "B" : "b") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"B":"b") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "B" : "b") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                     }
 
                                                 }
@@ -1365,8 +1366,8 @@ class Generator {
                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                 if ((obecnosc(backup))) {
-                                    wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                    wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                 } else {
                                     wynik = false;
                                     szach = false;
@@ -1378,9 +1379,9 @@ class Generator {
                                 if (wynik || all) {
                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (kolumna - 1)), y2 = (char) ('1' + (x - 1));
                                     if (szach == false) {
-                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("p" + "" + x1 + x2 + "x" + y1 + y2 + "EP "), sposob, SI_MIN_MAX_Alfa_Beta.figury.BPion, backup));
+                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("p" + "" + x1 + x2 + "x" + y1 + y2 + "EP "), SI_MIN_MAX_Alfa_Beta.figury.BPion, backup));
                                     } else {
-                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("p" + "" + x1 + x2 + "x" + y1 + y2 + "EP+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.BPion, backup));
+                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("p" + "" + x1 + x2 + "x" + y1 + y2 + "EP+"), SI_MIN_MAX_Alfa_Beta.figury.BPion, backup));
                                     }
 
                                 }
@@ -1400,8 +1401,8 @@ class Generator {
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -1413,10 +1414,10 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + b)), y2 = (char) ('1' + (x - 1));
                                                 if (szach) {
                                                     lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("p"
-                                                            + "" + x1 + x2 + "x" + y1 + y2 + "--+"), sposob, przechowalnie, backup));
+                                                            + "" + x1 + x2 + "x" + y1 + y2 + "--+"), przechowalnie, backup));
                                                 } else {
                                                     lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("p"
-                                                            + "" + x1 + x2 + "x" + y1 + y2 + "-- "), sposob, przechowalnie, backup));
+                                                            + "" + x1 + x2 + "x" + y1 + y2 + "-- "), przechowalnie, backup));
                                                 }
 
                                             }
@@ -1427,8 +1428,8 @@ class Generator {
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -1439,9 +1440,9 @@ class Generator {
                                                 if (wynik || all) {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + b)), y2 = (char) ('1' + (x - 1));
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("p" + "" + x1 + x2 + "x" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + "+"), sposob, przechowalnie, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("p" + "" + x1 + x2 + "x" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + "+"), przechowalnie, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("p" + "" + x1 + x2 + "x" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), sposob, przechowalnie, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("p" + "" + x1 + x2 + "x" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), przechowalnie, backup));
                                                     }
 
                                                 }
@@ -1463,8 +1464,8 @@ class Generator {
                                         backup[x - 1][y] = znak;
                                         backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                         if ((obecnosc(backup))) {
-                                            wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                            szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                            wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                            szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                         } else {
                                             wynik = false;
                                             szach = false;
@@ -1475,9 +1476,9 @@ class Generator {
                                         if (wynik || all) {
                                             char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - 1));
                                             if (szach) {
-                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("p" + "" + x1 + x2 + "-" + y1 + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("p" + "" + x1 + x2 + "-" + y1 + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                             } else {
-                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("p" + "" + x1 + x2 + "-" + y1 + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("p" + "" + x1 + x2 + "-" + y1 + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                             }
 
                                         }
@@ -1487,8 +1488,8 @@ class Generator {
                                             backup[x - 1][y] = symbole[s];
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -1500,10 +1501,10 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - 1));
                                                 if (szach) {
                                                     lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("p"
-                                                            + "" + x1 + x2 + "-" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + "+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                            + "" + x1 + x2 + "-" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + "+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 } else {
                                                     lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("p"
-                                                            + "" + x1 + x2 + "-" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                            + "" + x1 + x2 + "-" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 }
 
                                             }
@@ -1527,8 +1528,8 @@ class Generator {
                                     backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                     if ((obecnosc(backup))) {
-                                        wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                        szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                        wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                        szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                     } else {
                                         wynik = false;
                                         szach = false;
@@ -1539,9 +1540,9 @@ class Generator {
                                     if (wynik || all) {
                                         char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - 2));
                                         if (szach) {
-                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("p" + "" + x1 + x2 + "-" + y1 + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("p" + "" + x1 + x2 + "-" + y1 + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                         } else {
-                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("p" + "" + x1 + x2 + "-" + y1 + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("p" + "" + x1 + x2 + "-" + y1 + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                         }
 
                                     }
@@ -1589,8 +1590,8 @@ class Generator {
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
 
                                                 } else {
                                                     wynik = false;
@@ -1603,16 +1604,16 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + j)), y2 = (char) ('1' + (x + i));
                                                     if (przechowalnia == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"N":"n") + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "N" : "n") + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"N":"n") + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "N" : "n") + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                         }
 
                                                     } else {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"N":"n") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "N" : "n") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala?"N":"n") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "N" : "n") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
 
                                                     }
@@ -1636,8 +1637,8 @@ class Generator {
                                                 backup[x + i][y + j] = SI_MIN_MAX_Alfa_Beta.figury.BKrol;
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
 
                                                 } else {
                                                     wynik = false;
@@ -1650,16 +1651,16 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + j)), y2 = (char) ('1' + (x + i));
                                                     if (przech == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("K" + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("K" + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("K" + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("K" + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                         }
 
                                                     } else {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("K" + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przech, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("K" + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przech, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("K" + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przech, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("K" + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przech, backup));
                                                         }
 
                                                     }
@@ -1669,7 +1670,7 @@ class Generator {
                                     }
                                 }
                             }
-                            if (RuchZagrozenie_kontrola.szach(konwert(backup), true)) {
+                            if (RuchZagrozenie_kontrola.szach((backup), true)) {
                                 if (kingrochB) {
                                     if (whiteright && (backup[0][5] == SI_MIN_MAX_Alfa_Beta.figury.pustka)
                                             && (backup[0][6] == SI_MIN_MAX_Alfa_Beta.figury.pustka)
@@ -1679,7 +1680,7 @@ class Generator {
                                         for (int r = 1; r < 3; r++) {
                                             backup[0][4] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[0][4 + r] = SI_MIN_MAX_Alfa_Beta.figury.BKrol;
-                                            wyniki[r - 1] = !RuchZagrozenie_kontrola.szach(konwert(backup), true);
+                                            wyniki[r - 1] = !RuchZagrozenie_kontrola.szach((backup), true);
                                             backup[0][4] = SI_MIN_MAX_Alfa_Beta.figury.BKrol;
                                             backup[0][4 + r] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                         }
@@ -1688,17 +1689,17 @@ class Generator {
                                             backup[0][7] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[0][5] = SI_MIN_MAX_Alfa_Beta.figury.BWieza;
                                             backup[0][6] = SI_MIN_MAX_Alfa_Beta.figury.BKrol;
-                                            szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                            szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             backup[0][4] = SI_MIN_MAX_Alfa_Beta.figury.BKrol;
                                             backup[0][7] = SI_MIN_MAX_Alfa_Beta.figury.BWieza;
                                             backup[0][5] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[0][6] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                             if (szach) {
-                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O+   "), sposob,
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O    +"),
                                                         SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                             } else {
-                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O    "), sposob,
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O     "),
                                                         SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                             }
 
@@ -1713,7 +1714,7 @@ class Generator {
                                         for (int r = 1; r <= 2; r++) {
                                             backup[0][4] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[0][4 - r] = SI_MIN_MAX_Alfa_Beta.figury.BKrol;
-                                            wyniki[r - 1] = !RuchZagrozenie_kontrola.szach(konwert(backup), true);
+                                            wyniki[r - 1] = !RuchZagrozenie_kontrola.szach((backup), true);
                                             backup[0][4] = SI_MIN_MAX_Alfa_Beta.figury.BKrol;
                                             backup[0][4 - r] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                         }
@@ -1722,17 +1723,17 @@ class Generator {
                                             backup[0][0] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[0][3] = SI_MIN_MAX_Alfa_Beta.figury.BWieza;
                                             backup[0][2] = SI_MIN_MAX_Alfa_Beta.figury.BKrol;
-                                            szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                            szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             backup[0][4] = SI_MIN_MAX_Alfa_Beta.figury.BKrol;
                                             backup[0][0] = SI_MIN_MAX_Alfa_Beta.figury.BWieza;
                                             backup[0][3] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[0][2] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
                                             if (szach) {
-                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O-O+  "), sposob,
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O-O  +"),
                                                         SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                             } else {
-                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O-O   "), sposob,
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O-O   "),
                                                         SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                             }
 
@@ -1754,8 +1755,8 @@ class Generator {
                                                 backup[x + i][y + j] = SI_MIN_MAX_Alfa_Beta.figury.CKrol;
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -1767,16 +1768,16 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + j)), y2 = (char) ('1' + (x + i));
                                                     if (przech == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("k" + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("k" + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("k" + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("k" + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                         }
 
                                                     } else {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("k" + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przech, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("k" + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przech, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("k" + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przech, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("k" + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przech, backup));
                                                         }
 
                                                     }
@@ -1786,7 +1787,7 @@ class Generator {
                                     }
                                 }
                             }
-                            if (!RuchZagrozenie_kontrola.szach(konwert(backup), false)) {
+                            if (!RuchZagrozenie_kontrola.szach((backup), false)) {
                                 if (kingrochC) {
                                     if (blackright && (backup[7][5] == SI_MIN_MAX_Alfa_Beta.figury.pustka)
                                             && (backup[7][6] == SI_MIN_MAX_Alfa_Beta.figury.pustka)
@@ -1796,7 +1797,7 @@ class Generator {
                                         for (int r = 1; r < 3; r++) {
                                             backup[7][4] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[7][4 + r] = SI_MIN_MAX_Alfa_Beta.figury.CKrol;
-                                            wyniki[r - 1] = !RuchZagrozenie_kontrola.szach(konwert(backup), false);
+                                            wyniki[r - 1] = !RuchZagrozenie_kontrola.szach((backup), false);
                                             backup[7][4] = SI_MIN_MAX_Alfa_Beta.figury.CKrol;
                                             backup[7][4 + r] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                         }
@@ -1805,16 +1806,16 @@ class Generator {
                                             backup[7][7] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[7][5] = SI_MIN_MAX_Alfa_Beta.figury.CWieza;
                                             backup[7][6] = SI_MIN_MAX_Alfa_Beta.figury.CKrol;
-                                            szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                            szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             backup[7][4] = SI_MIN_MAX_Alfa_Beta.figury.CKrol;
                                             backup[7][7] = SI_MIN_MAX_Alfa_Beta.figury.CWieza;
                                             backup[7][5] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[7][6] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             if (szach) {
-                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("kO-O+     "), sposob,
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("kO-O    +"),
                                                         SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                             } else {
-                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("kO-O      "), sposob,
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("kO-O     "),
                                                         SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                             }
 
@@ -1829,7 +1830,7 @@ class Generator {
                                         for (int r = 1; r <= 2; r++) {
                                             backup[7][4] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[7][4 - r] = SI_MIN_MAX_Alfa_Beta.figury.CKrol;
-                                            wyniki[r - 1] = !RuchZagrozenie_kontrola.szach(konwert(backup), false);
+                                            wyniki[r - 1] = !RuchZagrozenie_kontrola.szach((backup), false);
                                             backup[7][4] = SI_MIN_MAX_Alfa_Beta.figury.CKrol;
                                             backup[7][4 - r] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                         }
@@ -1838,16 +1839,16 @@ class Generator {
                                             backup[7][0] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[7][3] = SI_MIN_MAX_Alfa_Beta.figury.CWieza;
                                             backup[7][2] = SI_MIN_MAX_Alfa_Beta.figury.CKrol;
-                                            szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                            szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             backup[7][4] = SI_MIN_MAX_Alfa_Beta.figury.CKrol;
                                             backup[7][0] = SI_MIN_MAX_Alfa_Beta.figury.CWieza;
                                             backup[7][3] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[7][2] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             if (szach) {
-                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("kO-O-O+  "), sposob,
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("kO-O-O  +"),
                                                         SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                             } else {
-                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("kO-O-O   "), sposob,
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("kO-O-O   "),
                                                         SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                             }
 
@@ -1872,10 +1873,12 @@ class Generator {
 
     }
 
-    
     static Collection<Ruch> generuj_posuniecia(SI_MIN_MAX_Alfa_Beta.figury[][] ust, boolean tura_rywala, boolean przelotcan,
             boolean blackleft, boolean blackright, boolean whiteleft, boolean whiteright,
-            boolean kingrochB, boolean kingrochC, int sposob, int kolumna, boolean konkret, char znak_start, int[] start, boolean all) {
+            boolean kingrochB, boolean kingrochC, int kolumna, boolean konkret, char znak_start, int[] start, boolean all
+
+    
+        ) {
         long czas_start = System.currentTimeMillis();
         List<Ruch> lista_dopuszcalnych_Ruchow = new ArrayList<>();
         SI_MIN_MAX_Alfa_Beta.figury[][] backup = new SI_MIN_MAX_Alfa_Beta.figury[8][8];
@@ -1886,7 +1889,7 @@ class Generator {
         }
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
-                if(backup[x][y]==SI_MIN_MAX_Alfa_Beta.figury.pustka){
+                if (backup[x][y] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
                     continue;
                 }
                 boolean szach;
@@ -1923,9 +1926,9 @@ class Generator {
                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (kolumna - 1)), y2 = (char) ('1' + (x + 1));
                                     if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                         if (szach == false) {
-                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "EP "), sposob, SI_MIN_MAX_Alfa_Beta.figury.CPion, backup));
+                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "EP "), SI_MIN_MAX_Alfa_Beta.figury.CPion, backup));
                                         } else {
-                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "EP+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.CPion, backup));
+                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "EP+"), SI_MIN_MAX_Alfa_Beta.figury.CPion, backup));
                                         }
                                     }
                                 }
@@ -1958,9 +1961,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + b)), y2 = (char) ('1' + (x + 1));
                                                 if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "--+"), sposob, przechowalnie, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "--+"), przechowalnie, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "-- "), sposob, przechowalnie, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "-- "), przechowalnie, backup));
                                                     }
                                                 }
                                             }
@@ -1984,9 +1987,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + b)), y2 = (char) ('1' + (x + 1));
                                                     if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + "+"), sposob, przechowalnie, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + "+"), przechowalnie, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), sposob, przechowalnie, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), przechowalnie, backup));
                                                         }
                                                     }
                                                 }
@@ -2022,10 +2025,10 @@ class Generator {
                                             if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                 if (szach) {
                                                     lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak)
-                                                            + "" + x1 + x2 + "-" + y1 + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                            + "" + x1 + x2 + "-" + y1 + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 } else {
                                                     lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak)
-                                                            + "" + x1 + x2 + "-" + y1 + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                            + "" + x1 + x2 + "-" + y1 + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 }
                                             }
                                         }
@@ -2048,9 +2051,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + 1));
                                                 if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + "+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + "+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -2087,9 +2090,9 @@ class Generator {
                                         char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + 2));
                                         if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                             if (szach) {
-                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                             } else {
-                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                             }
                                         }
                                     }
@@ -2135,9 +2138,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -2164,9 +2167,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -2201,9 +2204,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -2230,9 +2233,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -2265,9 +2268,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -2293,9 +2296,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -2329,9 +2332,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -2358,9 +2361,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -2394,9 +2397,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -2423,9 +2426,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -2459,9 +2462,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -2488,9 +2491,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -2523,9 +2526,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -2551,9 +2554,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -2586,9 +2589,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -2615,9 +2618,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -2668,9 +2671,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -2697,9 +2700,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
 
@@ -2734,9 +2737,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (!konkret || (konkret && start[0] == x && start[1] == y)) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -2763,9 +2766,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - param_ruch));
                                                     if (!konkret || (konkret && start[0] == x && start[1] == y)) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -2798,9 +2801,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x));
                                                 if (!konkret || (konkret && start[0] == x && start[1] == y)) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -2826,9 +2829,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x));
                                                     if (!konkret || (konkret && start[0] == x && start[1] == y)) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -2861,9 +2864,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x));
                                                 if (!konkret || (konkret && start[0] == x && start[1] == y)) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -2890,9 +2893,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x));
                                                     if (!konkret || (konkret && start[0] == x && start[1] == y)) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -2940,9 +2943,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -2969,9 +2972,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -3006,9 +3009,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -3035,9 +3038,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -3070,9 +3073,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -3098,9 +3101,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -3134,9 +3137,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -3163,9 +3166,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -3205,9 +3208,9 @@ class Generator {
                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (kolumna - 1)), y2 = (char) ('1' + (x - 1));
                                     if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                         if (szach == false) {
-                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "EP "), sposob, SI_MIN_MAX_Alfa_Beta.figury.BPion, backup));
+                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "EP "), SI_MIN_MAX_Alfa_Beta.figury.BPion, backup));
                                         } else {
-                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "EP+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.BPion, backup));
+                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "EP+"), SI_MIN_MAX_Alfa_Beta.figury.BPion, backup));
                                         }
                                     }
                                 }
@@ -3240,9 +3243,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + b)), y2 = (char) ('1' + (x - 1));
                                                 if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "--+"), sposob, przechowalnie, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "--+"), przechowalnie, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "-- "), sposob, przechowalnie, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "-- "), przechowalnie, backup));
                                                     }
                                                 }
                                             }
@@ -3266,9 +3269,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + b)), y2 = (char) ('1' + (x - 1));
                                                     if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + "+"), sposob, przechowalnie, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + "+"), przechowalnie, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), sposob, przechowalnie, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), przechowalnie, backup));
                                                         }
                                                     }
                                                 }
@@ -3304,10 +3307,10 @@ class Generator {
                                             if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                 if (szach) {
                                                     lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak)
-                                                            + "" + x1 + x2 + "-" + y1 + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                            + "" + x1 + x2 + "-" + y1 + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 } else {
                                                     lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak)
-                                                            + "" + x1 + x2 + "-" + y1 + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                            + "" + x1 + x2 + "-" + y1 + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 }
                                             }
                                         }
@@ -3330,9 +3333,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - 1));
                                                 if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + "+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + "+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -3369,9 +3372,9 @@ class Generator {
                                         char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - 2));
                                         if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                             if (szach) {
-                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                             } else {
-                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                             }
                                         }
                                     }
@@ -3434,17 +3437,17 @@ class Generator {
                                                     if (przechowalnia == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
                                                         if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                             if (szach) {
-                                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                             } else {
-                                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                             }
                                                         }
                                                     } else {
                                                         if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                             if (szach) {
-                                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                             } else {
-                                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                             }
                                                         }
                                                     }
@@ -3483,17 +3486,17 @@ class Generator {
                                                     if (przech == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
                                                         if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                             if (szach) {
-                                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                             } else {
-                                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                             }
                                                         }
                                                     } else {
                                                         if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                             if (szach) {
-                                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przech, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przech, backup));
                                                             } else {
-                                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przech, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przech, backup));
                                                             }
                                                         }
                                                     }
@@ -3529,10 +3532,10 @@ class Generator {
                                             backup[0][6] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O    +"), sposob,
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O    +"),
                                                             SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O     "), sposob,
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O     "),
                                                             SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 }
                                             }
@@ -3563,10 +3566,10 @@ class Generator {
                                             backup[0][2] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O-O  +"), sposob,
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O-O  +"),
                                                             SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O-O   "), sposob,
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O-O   "),
                                                             SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 }
                                             }
@@ -3602,17 +3605,17 @@ class Generator {
                                                     if (przech == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
                                                         if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                             if (szach) {
-                                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                             } else {
-                                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                             }
                                                         }
                                                     } else {
                                                         if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                             if (szach) {
-                                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przech, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przech, backup));
                                                             } else {
-                                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przech, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new Ruch(false, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przech, backup));
                                                             }
                                                         }
                                                     }
@@ -3647,11 +3650,11 @@ class Generator {
                                             backup[7][5] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[7][6] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             if (!konkret || (konkret && x == start[0] && y == start[1])) {
-                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("kO-O    +"), sposob,
+                                                if (szach) {
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("kO-O    +"),
                                                             SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("kO-O     "), sposob,
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("kO-O     "),
                                                             SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 }
                                             }
@@ -3681,11 +3684,11 @@ class Generator {
                                             backup[7][3] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[7][2] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             if (!konkret || (konkret && x == start[0] && y == start[1])) {
-                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("kO-O-O  +"), sposob,
+                                                if (szach) {
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("kO-O-O  +"),
                                                             SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("kO-O-O   "), sposob,
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("kO-O-O   "),
                                                             SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
                                                 }
                                             }
@@ -3886,7 +3889,7 @@ class Generator {
 
     static Collection<RuchA> generuj_posunieciaA(SzachowaArena.figury[][] ust, boolean tura_rywala, boolean przelotcan,
             boolean blackleft, boolean blackright, boolean whiteleft, boolean whiteright,
-            boolean kingrochB, boolean kingrochC, int sposob, int kolumna, boolean konkret, char znak_start, int[] start, boolean all) {
+            boolean kingrochB, boolean kingrochC, int kolumna, boolean konkret, char znak_start, int[] start, boolean all) {
         List<RuchA> lista_dopuszcalnych_Ruchow = new ArrayList<>();
         SzachowaArena.figury[][] backup = new SzachowaArena.figury[8][8];
         for (int x = 0; x < 8; x++) {
@@ -3930,9 +3933,9 @@ class Generator {
                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (kolumna - 1)), y2 = (char) ('1' + (x + 1));
                                     if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                         if (szach == false) {
-                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "EP "), sposob, SzachowaArena.figury.CPion, backup));
+                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "EP "), SzachowaArena.figury.CPion, backup));
                                         } else {
-                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "EP+"), sposob, SzachowaArena.figury.CPion, backup));
+                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "EP+"), SzachowaArena.figury.CPion, backup));
                                         }
                                     }
                                 }
@@ -3966,9 +3969,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + b)), y2 = (char) ('1' + (x + 1));
                                                 if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "--+"), sposob, przechowalnie, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "--+"), przechowalnie, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "-- "), sposob, przechowalnie, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "-- "), przechowalnie, backup));
                                                     }
                                                 }
                                             }
@@ -3992,9 +3995,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + b)), y2 = (char) ('1' + (x + 1));
                                                     if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + "+"), sposob, przechowalnie, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + "+"), przechowalnie, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), sposob, przechowalnie, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), przechowalnie, backup));
                                                         }
                                                     }
                                                 }
@@ -4009,7 +4012,7 @@ class Generator {
                                         && backup[x + 1][y] != SzachowaArena.figury.BSkoczek && backup[x + 1][y] != SzachowaArena.figury.CSkoczek && backup[x + 1][y] != SzachowaArena.figury.BGoniec
                                         && backup[x + 1][y] != SzachowaArena.figury.CGoniec && backup[x + 1][y] != SzachowaArena.figury.BWieza && backup[x + 1][y] != SzachowaArena.figury.CWieza
                                         && backup[x + 1][y] != SzachowaArena.figury.BHetman && backup[x + 1][y] != SzachowaArena.figury.CHetman && backup[x + 1][y] != SzachowaArena.figury.BKrol
-                                        && backup[x + 1][y] != SzachowaArena.figury.CKrol&& backup[x + 1][y] != SzachowaArena.figury.CAmazonka&& backup[x + 1][y] != SzachowaArena.figury.BAmazonka)) {
+                                        && backup[x + 1][y] != SzachowaArena.figury.CKrol && backup[x + 1][y] != SzachowaArena.figury.CAmazonka && backup[x + 1][y] != SzachowaArena.figury.BAmazonka)) {
                                     SzachowaArena.figury przechowalnie;
                                     przechowalnie = backup[x + 1][y];
                                     if (x != 6) {
@@ -4029,9 +4032,9 @@ class Generator {
                                             char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + 1));
                                             if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                 }
                                             }
                                         }
@@ -4054,9 +4057,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + 1));
                                                 if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + "+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + "+"), SzachowaArena.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), SzachowaArena.figury.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -4069,12 +4072,12 @@ class Generator {
                                         && backup[x + 2][y] != SzachowaArena.figury.BSkoczek && backup[x + 2][y] != SzachowaArena.figury.CSkoczek && backup[x + 2][y] != SzachowaArena.figury.BGoniec
                                         && backup[x + 2][y] != SzachowaArena.figury.CGoniec && backup[x + 2][y] != SzachowaArena.figury.BWieza && backup[x + 2][y] != SzachowaArena.figury.CWieza
                                         && backup[x + 2][y] != SzachowaArena.figury.BHetman && backup[x + 2][y] != SzachowaArena.figury.CHetman && backup[x + 2][y] != SzachowaArena.figury.BKrol
-                                        && backup[x + 2][y] != SzachowaArena.figury.CKrol&& backup[x + 2][y] != SzachowaArena.figury.CAmazonka&& backup[x + 2][y] != SzachowaArena.figury.BAmazonka))
+                                        && backup[x + 2][y] != SzachowaArena.figury.CKrol && backup[x + 2][y] != SzachowaArena.figury.CAmazonka && backup[x + 2][y] != SzachowaArena.figury.BAmazonka))
                                         && (backup[x + 1][y] == SzachowaArena.figury.pustka || (backup[x + 1][y] != SzachowaArena.figury.CPion && backup[x + 1][y] != SzachowaArena.figury.BPion
                                         && backup[x + 1][y] != SzachowaArena.figury.BSkoczek && backup[x + 1][y] != SzachowaArena.figury.CSkoczek && backup[x + 1][y] != SzachowaArena.figury.BGoniec
                                         && backup[x + 1][y] != SzachowaArena.figury.CGoniec && backup[x + 1][y] != SzachowaArena.figury.BWieza && backup[x + 1][y] != SzachowaArena.figury.CWieza
                                         && backup[x + 1][y] != SzachowaArena.figury.BHetman && backup[x + 1][y] != SzachowaArena.figury.CHetman && backup[x + 1][y] != SzachowaArena.figury.BKrol
-                                        && backup[x + 1][y] != SzachowaArena.figury.CKrol&& backup[x + 1][y] != SzachowaArena.figury.CAmazonka&& backup[x + 1][y] != SzachowaArena.figury.BAmazonka)) && x == 1) {
+                                        && backup[x + 1][y] != SzachowaArena.figury.CKrol && backup[x + 1][y] != SzachowaArena.figury.CAmazonka && backup[x + 1][y] != SzachowaArena.figury.BAmazonka)) && x == 1) {
                                     SzachowaArena.figury przechowalnie = backup[x + 2][y];
                                     backup[x + 2][y] = znak;
                                     backup[x][y] = SzachowaArena.figury.pustka;
@@ -4093,9 +4096,9 @@ class Generator {
                                         char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + 2));
                                         if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                             if (szach) {
-                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                             } else {
-                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                             }
                                         }
                                     }
@@ -4129,8 +4132,8 @@ class Generator {
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
                                                 szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
-                                                System.out.println("Amazonka: "+param_ruch+" "+(RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala)==false));
-                                                System.out.println("Amazonka: "+param_ruch+" "+szach);
+                                                System.out.println("Amazonka: " + param_ruch + " " + (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false));
+                                                System.out.println("Amazonka: " + param_ruch + " " + szach);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -4142,9 +4145,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -4171,9 +4174,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -4208,9 +4211,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -4237,9 +4240,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -4272,9 +4275,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -4300,9 +4303,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -4336,9 +4339,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -4365,9 +4368,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -4401,9 +4404,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -4430,9 +4433,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -4466,9 +4469,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -4495,9 +4498,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -4530,9 +4533,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -4558,9 +4561,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -4593,9 +4596,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -4622,9 +4625,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -4699,17 +4702,17 @@ class Generator {
                                                     if (przechowalnia == SzachowaArena.figury.pustka) {
                                                         if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                             if (szach) {
-                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                             } else {
-                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                             }
                                                         }
                                                     } else {
                                                         if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                             if (szach) {
-                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                             } else {
-                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                             }
                                                         }
                                                     }
@@ -4759,16 +4762,16 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BHetman && (backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CPion || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CSkoczek|| backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CAmazonka
+                                            if ((znak == SzachowaArena.figury.BHetman && (backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CPion || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CSkoczek || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CAmazonka
                                                     || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CGoniec || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CWieza || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CHetman && (backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BPion || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BSkoczek|| backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BAmazonka
+                                                    || (znak == SzachowaArena.figury.CHetman && (backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BPion || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BSkoczek || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BAmazonka
                                                     || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BGoniec || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BWieza || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BHetman))) {
                                                 SzachowaArena.figury przechowalnia = backup[x + param_ruch][y + param_ruch];
                                                 backup[x + param_ruch][y + param_ruch] = znak;
@@ -4788,9 +4791,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -4825,16 +4828,16 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                           if ((znak == SzachowaArena.figury.BHetman && (backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CPion || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CSkoczek|| backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CAmazonka
+                                            if ((znak == SzachowaArena.figury.BHetman && (backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CPion || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CSkoczek || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CAmazonka
                                                     || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CGoniec || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CWieza || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CHetman && (backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BPion || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BSkoczek|| backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BAmazonka
+                                                    || (znak == SzachowaArena.figury.CHetman && (backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BPion || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BSkoczek || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BAmazonka
                                                     || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BGoniec || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BWieza || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BHetman))) {
                                                 SzachowaArena.figury przechowalnia = backup[x - param_ruch][y - param_ruch];
                                                 backup[x - param_ruch][y - param_ruch] = znak;
@@ -4854,9 +4857,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -4889,18 +4892,18 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BHetman && (backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CPion || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CSkoczek|| backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CAmazonka
+                                            if ((znak == SzachowaArena.figury.BHetman && (backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CPion || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CSkoczek || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CAmazonka
                                                     || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CGoniec || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CWieza || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CHetman && (backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BPion || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BSkoczek|| backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BAmazonka
+                                                    || (znak == SzachowaArena.figury.CHetman && (backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BPion || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BSkoczek || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BAmazonka
                                                     || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BGoniec || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BWieza || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BHetman))) {
-                                                 SzachowaArena.figury przechowalnia = backup[x + param_ruch][y - param_ruch];
+                                                SzachowaArena.figury przechowalnia = backup[x + param_ruch][y - param_ruch];
                                                 backup[x + param_ruch][y - param_ruch] = znak;
                                                 backup[x][y] = SzachowaArena.figury.pustka;
                                                 if ((obecnosc(backup))) {
@@ -4917,9 +4920,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -4953,16 +4956,16 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                          if ((znak == SzachowaArena.figury.BHetman && (backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CPion || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CSkoczek|| backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CAmazonka
+                                            if ((znak == SzachowaArena.figury.BHetman && (backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CPion || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CSkoczek || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CAmazonka
                                                     || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CGoniec || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CWieza || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CHetman && (backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BPion || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BSkoczek|| backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BAmazonka
+                                                    || (znak == SzachowaArena.figury.CHetman && (backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BPion || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BSkoczek || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BAmazonka
                                                     || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BGoniec || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BWieza || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BHetman))) {
                                                 SzachowaArena.figury przechowalnia = backup[x - param_ruch][y + param_ruch];
                                                 backup[x - param_ruch][y + param_ruch] = znak;
@@ -4982,9 +4985,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -5018,14 +5021,14 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BHetman && (backup[x + param_ruch][y] == SzachowaArena.figury.CPion || backup[x + param_ruch][y] == SzachowaArena.figury.CSkoczek|| backup[x + param_ruch][y] == SzachowaArena.figury.CAmazonka
+                                            if ((znak == SzachowaArena.figury.BHetman && (backup[x + param_ruch][y] == SzachowaArena.figury.CPion || backup[x + param_ruch][y] == SzachowaArena.figury.CSkoczek || backup[x + param_ruch][y] == SzachowaArena.figury.CAmazonka
                                                     || backup[x + param_ruch][y] == SzachowaArena.figury.CGoniec || backup[x + param_ruch][y] == SzachowaArena.figury.CWieza || backup[x + param_ruch][y] == SzachowaArena.figury.CHetman))
                                                     || (znak == SzachowaArena.figury.CHetman && (backup[x + param_ruch][y] == SzachowaArena.figury.BPion || backup[x + param_ruch][y] == SzachowaArena.figury.BSkoczek
                                                     || backup[x + param_ruch][y] == SzachowaArena.figury.BGoniec || backup[x + param_ruch][y] == SzachowaArena.figury.BWieza || backup[x + param_ruch][y] == SzachowaArena.figury.BHetman))) {
@@ -5047,9 +5050,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -5083,17 +5086,18 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                           if ((znak == SzachowaArena.figury.BHetman && (backup[x - param_ruch][y] == SzachowaArena.figury.CPion || backup[x - param_ruch][y] == SzachowaArena.figury.CSkoczek|| backup[x - param_ruch][y] == SzachowaArena.figury.CAmazonka
+                                            if ((znak == SzachowaArena.figury.BHetman && (backup[x - param_ruch][y] == SzachowaArena.figury.CPion || backup[x - param_ruch][y] == SzachowaArena.figury.CSkoczek || backup[x - param_ruch][y] == SzachowaArena.figury.CAmazonka
                                                     || backup[x - param_ruch][y] == SzachowaArena.figury.CGoniec || backup[x - param_ruch][y] == SzachowaArena.figury.CWieza || backup[x - param_ruch][y] == SzachowaArena.figury.CHetman))
                                                     || (znak == SzachowaArena.figury.CHetman && (backup[x - param_ruch][y] == SzachowaArena.figury.BPion || backup[x - param_ruch][y] == SzachowaArena.figury.BSkoczek
-                                                    || backup[x - param_ruch][y] == SzachowaArena.figury.BGoniec || backup[x - param_ruch][y] == SzachowaArena.figury.BWieza || backup[x - param_ruch][y] == SzachowaArena.figury.BHetman))) {  SzachowaArena.figury przechowalnia = backup[x - param_ruch][y];
+                                                    || backup[x - param_ruch][y] == SzachowaArena.figury.BGoniec || backup[x - param_ruch][y] == SzachowaArena.figury.BWieza || backup[x - param_ruch][y] == SzachowaArena.figury.BHetman))) {
+                                                SzachowaArena.figury przechowalnia = backup[x - param_ruch][y];
                                                 backup[x - param_ruch][y] = znak;
                                                 backup[x][y] = SzachowaArena.figury.pustka;
 
@@ -5111,9 +5115,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -5146,17 +5150,18 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BHetman && (backup[x][y+param_ruch] == SzachowaArena.figury.CPion || backup[x][y+param_ruch] == SzachowaArena.figury.CSkoczek|| backup[x][y+param_ruch] == SzachowaArena.figury.CAmazonka
-                                                    || backup[x][y+param_ruch] == SzachowaArena.figury.CGoniec || backup[x][y+param_ruch] == SzachowaArena.figury.CWieza || backup[x][y+param_ruch] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CHetman && (backup[x][y+param_ruch] == SzachowaArena.figury.BPion || backup[x][y+param_ruch] == SzachowaArena.figury.BSkoczek
-                                                    || backup[x][y+param_ruch] == SzachowaArena.figury.BGoniec || backup[x][y+param_ruch] == SzachowaArena.figury.BWieza || backup[x][y+param_ruch] == SzachowaArena.figury.BHetman))) { SzachowaArena.figury przechowalnia = backup[x][y + param_ruch];
+                                            if ((znak == SzachowaArena.figury.BHetman && (backup[x][y + param_ruch] == SzachowaArena.figury.CPion || backup[x][y + param_ruch] == SzachowaArena.figury.CSkoczek || backup[x][y + param_ruch] == SzachowaArena.figury.CAmazonka
+                                                    || backup[x][y + param_ruch] == SzachowaArena.figury.CGoniec || backup[x][y + param_ruch] == SzachowaArena.figury.CWieza || backup[x][y + param_ruch] == SzachowaArena.figury.CHetman))
+                                                    || (znak == SzachowaArena.figury.CHetman && (backup[x][y + param_ruch] == SzachowaArena.figury.BPion || backup[x][y + param_ruch] == SzachowaArena.figury.BSkoczek
+                                                    || backup[x][y + param_ruch] == SzachowaArena.figury.BGoniec || backup[x][y + param_ruch] == SzachowaArena.figury.BWieza || backup[x][y + param_ruch] == SzachowaArena.figury.BHetman))) {
+                                                SzachowaArena.figury przechowalnia = backup[x][y + param_ruch];
                                                 backup[x][y + param_ruch] = znak;
                                                 backup[x][y] = SzachowaArena.figury.pustka;
                                                 if ((obecnosc(backup))) {
@@ -5173,9 +5178,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -5208,17 +5213,17 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BHetman && (backup[x][y-param_ruch] == SzachowaArena.figury.CPion || backup[x][y-param_ruch] == SzachowaArena.figury.CSkoczek|| backup[x][y-param_ruch] == SzachowaArena.figury.CAmazonka
-                                                    || backup[x][y-param_ruch] == SzachowaArena.figury.CGoniec || backup[x][y-param_ruch] == SzachowaArena.figury.CWieza || backup[x][y-param_ruch] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CHetman && (backup[x][y-param_ruch] == SzachowaArena.figury.BPion || backup[x][y-param_ruch] == SzachowaArena.figury.BSkoczek
-                                                    || backup[x][y-param_ruch] == SzachowaArena.figury.BGoniec || backup[x][y-param_ruch] == SzachowaArena.figury.BWieza || backup[x][y-param_ruch] == SzachowaArena.figury.BHetman))) { 
+                                            if ((znak == SzachowaArena.figury.BHetman && (backup[x][y - param_ruch] == SzachowaArena.figury.CPion || backup[x][y - param_ruch] == SzachowaArena.figury.CSkoczek || backup[x][y - param_ruch] == SzachowaArena.figury.CAmazonka
+                                                    || backup[x][y - param_ruch] == SzachowaArena.figury.CGoniec || backup[x][y - param_ruch] == SzachowaArena.figury.CWieza || backup[x][y - param_ruch] == SzachowaArena.figury.CHetman))
+                                                    || (znak == SzachowaArena.figury.CHetman && (backup[x][y - param_ruch] == SzachowaArena.figury.BPion || backup[x][y - param_ruch] == SzachowaArena.figury.BSkoczek
+                                                    || backup[x][y - param_ruch] == SzachowaArena.figury.BGoniec || backup[x][y - param_ruch] == SzachowaArena.figury.BWieza || backup[x][y - param_ruch] == SzachowaArena.figury.BHetman))) {
                                                 SzachowaArena.figury przechowalnia = backup[x][y - param_ruch];
                                                 backup[x][y - param_ruch] = znak;
                                                 backup[x][y] = SzachowaArena.figury.pustka;
@@ -5236,9 +5241,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -5289,16 +5294,16 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BWieza && (backup[x + param_ruch][y] == SzachowaArena.figury.CPion || backup[x + param_ruch][y] == SzachowaArena.figury.CSkoczek|| backup[x + param_ruch][y] == SzachowaArena.figury.CAmazonka
+                                            if ((znak == SzachowaArena.figury.BWieza && (backup[x + param_ruch][y] == SzachowaArena.figury.CPion || backup[x + param_ruch][y] == SzachowaArena.figury.CSkoczek || backup[x + param_ruch][y] == SzachowaArena.figury.CAmazonka
                                                     || backup[x + param_ruch][y] == SzachowaArena.figury.CGoniec || backup[x + param_ruch][y] == SzachowaArena.figury.CWieza || backup[x + param_ruch][y] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CWieza && (backup[x + param_ruch][y] == SzachowaArena.figury.BPion || backup[x + param_ruch][y] == SzachowaArena.figury.BSkoczek|| backup[x + param_ruch][y] == SzachowaArena.figury.BAmazonka
+                                                    || (znak == SzachowaArena.figury.CWieza && (backup[x + param_ruch][y] == SzachowaArena.figury.BPion || backup[x + param_ruch][y] == SzachowaArena.figury.BSkoczek || backup[x + param_ruch][y] == SzachowaArena.figury.BAmazonka
                                                     || backup[x + param_ruch][y] == SzachowaArena.figury.BGoniec || backup[x + param_ruch][y] == SzachowaArena.figury.BWieza || backup[x + param_ruch][y] == SzachowaArena.figury.BHetman))) {
                                                 SzachowaArena.figury przechowalnia = backup[x + param_ruch][y];
                                                 backup[x + param_ruch][y] = znak;
@@ -5318,9 +5323,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
 
@@ -5355,16 +5360,16 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (!konkret || (konkret && start[0] == x && start[1] == y)) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                           if ((znak == SzachowaArena.figury.BWieza && (backup[x - param_ruch][y] == SzachowaArena.figury.CPion || backup[x - param_ruch][y] == SzachowaArena.figury.CSkoczek|| backup[x - param_ruch][y] == SzachowaArena.figury.CAmazonka
+                                            if ((znak == SzachowaArena.figury.BWieza && (backup[x - param_ruch][y] == SzachowaArena.figury.CPion || backup[x - param_ruch][y] == SzachowaArena.figury.CSkoczek || backup[x - param_ruch][y] == SzachowaArena.figury.CAmazonka
                                                     || backup[x - param_ruch][y] == SzachowaArena.figury.CGoniec || backup[x - param_ruch][y] == SzachowaArena.figury.CWieza || backup[x - param_ruch][y] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CWieza && (backup[x - param_ruch][y] == SzachowaArena.figury.BPion || backup[x - param_ruch][y] == SzachowaArena.figury.BSkoczek|| backup[x - param_ruch][y] == SzachowaArena.figury.BAmazonka
+                                                    || (znak == SzachowaArena.figury.CWieza && (backup[x - param_ruch][y] == SzachowaArena.figury.BPion || backup[x - param_ruch][y] == SzachowaArena.figury.BSkoczek || backup[x - param_ruch][y] == SzachowaArena.figury.BAmazonka
                                                     || backup[x - param_ruch][y] == SzachowaArena.figury.BGoniec || backup[x - param_ruch][y] == SzachowaArena.figury.BWieza || backup[x - param_ruch][y] == SzachowaArena.figury.BHetman))) {
                                                 SzachowaArena.figury przechowalnia = backup[x - param_ruch][y];
                                                 backup[x - param_ruch][y] = znak;
@@ -5384,9 +5389,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - param_ruch));
                                                     if (!konkret || (konkret && start[0] == x && start[1] == y)) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -5419,18 +5424,18 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x));
                                                 if (!konkret || (konkret && start[0] == x && start[1] == y)) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                           if ((znak == SzachowaArena.figury.BWieza && (backup[x][y+param_ruch] == SzachowaArena.figury.CPion || backup[x][y+param_ruch] == SzachowaArena.figury.CSkoczek|| backup[x][y+param_ruch] == SzachowaArena.figury.CAmazonka
-                                                    || backup[x][y+param_ruch] == SzachowaArena.figury.CGoniec || backup[x][y+param_ruch] == SzachowaArena.figury.CWieza || backup[x][y+param_ruch] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CWieza && (backup[x][y+param_ruch] == SzachowaArena.figury.BPion || backup[x][y+param_ruch] == SzachowaArena.figury.BSkoczek|| backup[x][y+param_ruch] == SzachowaArena.figury.BAmazonka
-                                                    || backup[x][y+param_ruch] == SzachowaArena.figury.BGoniec || backup[x][y+param_ruch] == SzachowaArena.figury.BWieza || backup[x][y+param_ruch] == SzachowaArena.figury.BHetman))) {
-                                               SzachowaArena.figury przechowalnia = backup[x][y + param_ruch];
+                                            if ((znak == SzachowaArena.figury.BWieza && (backup[x][y + param_ruch] == SzachowaArena.figury.CPion || backup[x][y + param_ruch] == SzachowaArena.figury.CSkoczek || backup[x][y + param_ruch] == SzachowaArena.figury.CAmazonka
+                                                    || backup[x][y + param_ruch] == SzachowaArena.figury.CGoniec || backup[x][y + param_ruch] == SzachowaArena.figury.CWieza || backup[x][y + param_ruch] == SzachowaArena.figury.CHetman))
+                                                    || (znak == SzachowaArena.figury.CWieza && (backup[x][y + param_ruch] == SzachowaArena.figury.BPion || backup[x][y + param_ruch] == SzachowaArena.figury.BSkoczek || backup[x][y + param_ruch] == SzachowaArena.figury.BAmazonka
+                                                    || backup[x][y + param_ruch] == SzachowaArena.figury.BGoniec || backup[x][y + param_ruch] == SzachowaArena.figury.BWieza || backup[x][y + param_ruch] == SzachowaArena.figury.BHetman))) {
+                                                SzachowaArena.figury przechowalnia = backup[x][y + param_ruch];
                                                 backup[x][y + param_ruch] = znak;
                                                 backup[x][y] = SzachowaArena.figury.pustka;
                                                 if ((obecnosc(backup))) {
@@ -5447,9 +5452,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x));
                                                     if (!konkret || (konkret && start[0] == x && start[1] == y)) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -5482,18 +5487,18 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x));
                                                 if (!konkret || (konkret && start[0] == x && start[1] == y)) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BWieza && (backup[x][y-param_ruch] == SzachowaArena.figury.CPion || backup[x][y-param_ruch] == SzachowaArena.figury.CSkoczek|| backup[x][y-param_ruch] == SzachowaArena.figury.CAmazonka
-                                                    || backup[x][y-param_ruch] == SzachowaArena.figury.CGoniec || backup[x][y-param_ruch] == SzachowaArena.figury.CWieza || backup[x][y-param_ruch] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CWieza && (backup[x][y-param_ruch] == SzachowaArena.figury.BPion || backup[x][y-param_ruch] == SzachowaArena.figury.BSkoczek|| backup[x][y-param_ruch] == SzachowaArena.figury.BAmazonka
-                                                    || backup[x][y-param_ruch] == SzachowaArena.figury.BGoniec || backup[x][y-param_ruch] == SzachowaArena.figury.BWieza || backup[x][y-param_ruch] == SzachowaArena.figury.BHetman))) {
-                                                            SzachowaArena.figury przechowalnia = backup[x][y - param_ruch];
+                                            if ((znak == SzachowaArena.figury.BWieza && (backup[x][y - param_ruch] == SzachowaArena.figury.CPion || backup[x][y - param_ruch] == SzachowaArena.figury.CSkoczek || backup[x][y - param_ruch] == SzachowaArena.figury.CAmazonka
+                                                    || backup[x][y - param_ruch] == SzachowaArena.figury.CGoniec || backup[x][y - param_ruch] == SzachowaArena.figury.CWieza || backup[x][y - param_ruch] == SzachowaArena.figury.CHetman))
+                                                    || (znak == SzachowaArena.figury.CWieza && (backup[x][y - param_ruch] == SzachowaArena.figury.BPion || backup[x][y - param_ruch] == SzachowaArena.figury.BSkoczek || backup[x][y - param_ruch] == SzachowaArena.figury.BAmazonka
+                                                    || backup[x][y - param_ruch] == SzachowaArena.figury.BGoniec || backup[x][y - param_ruch] == SzachowaArena.figury.BWieza || backup[x][y - param_ruch] == SzachowaArena.figury.BHetman))) {
+                                                SzachowaArena.figury przechowalnia = backup[x][y - param_ruch];
                                                 backup[x][y - param_ruch] = znak;
                                                 backup[x][y] = SzachowaArena.figury.pustka;
                                                 if ((obecnosc(backup))) {
@@ -5510,9 +5515,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x));
                                                     if (!konkret || (konkret && start[0] == x && start[1] == y)) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -5560,16 +5565,16 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BGoniec && (backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CPion || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CSkoczek|| backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CAmazonka
+                                            if ((znak == SzachowaArena.figury.BGoniec && (backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CPion || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CSkoczek || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CAmazonka
                                                     || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CGoniec || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CWieza || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CGoniec && (backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BPion || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BSkoczek|| backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BAmazonka
+                                                    || (znak == SzachowaArena.figury.CGoniec && (backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BPion || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BSkoczek || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BAmazonka
                                                     || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BGoniec || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BWieza || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BHetman))) {
                                                 SzachowaArena.figury przechowalnia = backup[x + param_ruch][y + param_ruch];
                                                 backup[x + param_ruch][y + param_ruch] = znak;
@@ -5589,9 +5594,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -5626,18 +5631,18 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                           if ((znak == SzachowaArena.figury.BGoniec && (backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CPion || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CSkoczek|| backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CAmazonka
+                                            if ((znak == SzachowaArena.figury.BGoniec && (backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CPion || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CSkoczek || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CAmazonka
                                                     || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CGoniec || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CWieza || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CGoniec && (backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BPion || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BSkoczek|| backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BAmazonka
+                                                    || (znak == SzachowaArena.figury.CGoniec && (backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BPion || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BSkoczek || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BAmazonka
                                                     || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BGoniec || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BWieza || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BHetman))) {
-                                                  SzachowaArena.figury przechowalnia = backup[x - param_ruch][y - param_ruch];
+                                                SzachowaArena.figury przechowalnia = backup[x - param_ruch][y - param_ruch];
                                                 backup[x - param_ruch][y - param_ruch] = znak;
                                                 backup[x][y] = SzachowaArena.figury.pustka;
 
@@ -5655,9 +5660,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -5690,18 +5695,18 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                           if ((znak == SzachowaArena.figury.BGoniec && (backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CPion || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CSkoczek|| backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CAmazonka
+                                            if ((znak == SzachowaArena.figury.BGoniec && (backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CPion || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CSkoczek || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CAmazonka
                                                     || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CGoniec || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CWieza || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CGoniec && (backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BPion || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BSkoczek|| backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BAmazonka
+                                                    || (znak == SzachowaArena.figury.CGoniec && (backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BPion || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BSkoczek || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BAmazonka
                                                     || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BGoniec || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BWieza || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BHetman))) {
-                                               SzachowaArena.figury przechowalnia = backup[x + param_ruch][y - param_ruch];
+                                                SzachowaArena.figury przechowalnia = backup[x + param_ruch][y - param_ruch];
                                                 backup[x + param_ruch][y - param_ruch] = znak;
                                                 backup[x][y] = SzachowaArena.figury.pustka;
                                                 if ((obecnosc(backup))) {
@@ -5718,9 +5723,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -5754,18 +5759,18 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                           if ((znak == SzachowaArena.figury.BGoniec && (backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CPion || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CSkoczek|| backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CAmazonka
+                                            if ((znak == SzachowaArena.figury.BGoniec && (backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CPion || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CSkoczek || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CAmazonka
                                                     || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CGoniec || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CWieza || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CGoniec && (backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BPion || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BSkoczek|| backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BAmazonka
+                                                    || (znak == SzachowaArena.figury.CGoniec && (backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BPion || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BSkoczek || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BAmazonka
                                                     || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BGoniec || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BWieza || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BHetman))) {
-                                                 SzachowaArena.figury przechowalnia = backup[x - param_ruch][y + param_ruch];
+                                                SzachowaArena.figury przechowalnia = backup[x - param_ruch][y + param_ruch];
                                                 backup[x - param_ruch][y + param_ruch] = znak;
                                                 backup[x][y] = SzachowaArena.figury.pustka;
 
@@ -5783,9 +5788,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -5825,9 +5830,9 @@ class Generator {
                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (kolumna - 1)), y2 = (char) ('1' + (x - 1));
                                     if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                         if (szach == false) {
-                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "EP "), sposob, SzachowaArena.figury.BPion, backup));
+                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "EP "), SzachowaArena.figury.BPion, backup));
                                         } else {
-                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "EP+"), sposob, SzachowaArena.figury.BPion, backup));
+                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "EP+"), SzachowaArena.figury.BPion, backup));
                                         }
                                     }
                                 }
@@ -5861,9 +5866,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + b)), y2 = (char) ('1' + (x - 1));
                                                 if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "--+"), sposob, przechowalnie, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "--+"), przechowalnie, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "-- "), sposob, przechowalnie, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "-- "), przechowalnie, backup));
                                                     }
                                                 }
                                             }
@@ -5887,9 +5892,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + b)), y2 = (char) ('1' + (x - 1));
                                                     if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + "+"), sposob, przechowalnie, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + "+"), przechowalnie, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), sposob, przechowalnie, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), przechowalnie, backup));
                                                         }
                                                     }
                                                 }
@@ -5904,7 +5909,7 @@ class Generator {
                                         && backup[x - 1][y] != SzachowaArena.figury.BSkoczek && backup[x - 1][y] != SzachowaArena.figury.CSkoczek && backup[x - 1][y] != SzachowaArena.figury.BGoniec
                                         && backup[x - 1][y] != SzachowaArena.figury.CGoniec && backup[x - 1][y] != SzachowaArena.figury.BWieza && backup[x - 1][y] != SzachowaArena.figury.CWieza
                                         && backup[x - 1][y] != SzachowaArena.figury.BHetman && backup[x - 1][y] != SzachowaArena.figury.CHetman && backup[x - 1][y] != SzachowaArena.figury.BKrol
-                                        && backup[x - 1][y] != SzachowaArena.figury.CKrol&& backup[x - 1][y] != SzachowaArena.figury.CAmazonka&& backup[x - 1][y] != SzachowaArena.figury.BAmazonka)) {
+                                        && backup[x - 1][y] != SzachowaArena.figury.CKrol && backup[x - 1][y] != SzachowaArena.figury.CAmazonka && backup[x - 1][y] != SzachowaArena.figury.BAmazonka)) {
                                     SzachowaArena.figury przechowalnie;
                                     przechowalnie = backup[x - 1][y];
                                     if (x != 1) {
@@ -5924,9 +5929,9 @@ class Generator {
                                             char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - 1));
                                             if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                 }
                                             }
                                         }
@@ -5949,9 +5954,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - 1));
                                                 if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + "+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + "+"), SzachowaArena.figury.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), sposob, SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), SzachowaArena.figury.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -5964,12 +5969,12 @@ class Generator {
                                         && backup[x - 2][y] != SzachowaArena.figury.BSkoczek && backup[x - 2][y] != SzachowaArena.figury.CSkoczek && backup[x - 2][y] != SzachowaArena.figury.BGoniec
                                         && backup[x - 2][y] != SzachowaArena.figury.CGoniec && backup[x - 2][y] != SzachowaArena.figury.BWieza && backup[x - 2][y] != SzachowaArena.figury.CWieza
                                         && backup[x - 2][y] != SzachowaArena.figury.BHetman && backup[x - 2][y] != SzachowaArena.figury.CHetman && backup[x - 2][y] != SzachowaArena.figury.BKrol
-                                        && backup[x - 2][y] != SzachowaArena.figury.CKrol&& backup[x - 2][y] != SzachowaArena.figury.CAmazonka&& backup[x - 2][y] != SzachowaArena.figury.BAmazonka))
+                                        && backup[x - 2][y] != SzachowaArena.figury.CKrol && backup[x - 2][y] != SzachowaArena.figury.CAmazonka && backup[x - 2][y] != SzachowaArena.figury.BAmazonka))
                                         && (backup[x - 1][y] == SzachowaArena.figury.pustka || (backup[x - 1][y] != SzachowaArena.figury.CPion && backup[x - 1][y] != SzachowaArena.figury.BPion
                                         && backup[x - 1][y] != SzachowaArena.figury.BSkoczek && backup[x - 1][y] != SzachowaArena.figury.CSkoczek && backup[x - 1][y] != SzachowaArena.figury.BGoniec
                                         && backup[x - 1][y] != SzachowaArena.figury.CGoniec && backup[x - 1][y] != SzachowaArena.figury.BWieza && backup[x - 1][y] != SzachowaArena.figury.CWieza
                                         && backup[x - 1][y] != SzachowaArena.figury.BHetman && backup[x - 1][y] != SzachowaArena.figury.CHetman && backup[x - 1][y] != SzachowaArena.figury.BKrol
-                                        && backup[x - 1][y] != SzachowaArena.figury.CKrol&& backup[x - 1][y] != SzachowaArena.figury.CAmazonka&& backup[x - 1][y] != SzachowaArena.figury.BAmazonka)) && x == 6) {
+                                        && backup[x - 1][y] != SzachowaArena.figury.CKrol && backup[x - 1][y] != SzachowaArena.figury.CAmazonka && backup[x - 1][y] != SzachowaArena.figury.BAmazonka)) && x == 6) {
                                     SzachowaArena.figury przechowalnie = backup[x - 2][y];
                                     backup[x - 2][y] = znak;
                                     backup[x][y] = SzachowaArena.figury.pustka;
@@ -5988,9 +5993,9 @@ class Generator {
                                         char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - 2));
                                         if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                             if (szach) {
-                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                             } else {
-                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                             }
                                         }
                                     }
@@ -6057,17 +6062,17 @@ class Generator {
                                                     if (przechowalnia == SzachowaArena.figury.pustka) {
                                                         if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                             if (szach) {
-                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                             } else {
-                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                             }
                                                         }
                                                     } else {
                                                         if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                             if (szach) {
-                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przechowalnia, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                             } else {
-                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przechowalnia, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                             }
                                                         }
                                                     }
@@ -6106,17 +6111,17 @@ class Generator {
                                                     if (przech == SzachowaArena.figury.pustka) {
                                                         if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                             if (szach) {
-                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                             } else {
-                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                             }
                                                         }
                                                     } else {
                                                         if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                             if (szach) {
-                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przech, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przech, backup));
                                                             } else {
-                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przech, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przech, backup));
                                                             }
                                                         }
                                                     }
@@ -6152,10 +6157,10 @@ class Generator {
                                             backup[0][6] = SzachowaArena.figury.pustka;
                                             if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new RuchA(("KO-O+   "), sposob,
+                                                    lista_dopuszcalnych_Ruchow.add(new RuchA(("KO-O+   "),
                                                             SzachowaArena.figury.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new RuchA(("KO-O    "), sposob,
+                                                    lista_dopuszcalnych_Ruchow.add(new RuchA(("KO-O    "),
                                                             SzachowaArena.figury.pustka, backup));
                                                 }
                                             }
@@ -6186,10 +6191,10 @@ class Generator {
                                             backup[0][2] = SzachowaArena.figury.pustka;
                                             if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new RuchA(("KO-O-O+  "), sposob,
+                                                    lista_dopuszcalnych_Ruchow.add(new RuchA(("KO-O-O+  "),
                                                             SzachowaArena.figury.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new RuchA(("KO-O-O   "), sposob,
+                                                    lista_dopuszcalnych_Ruchow.add(new RuchA(("KO-O-O   "),
                                                             SzachowaArena.figury.pustka, backup));
                                                 }
                                             }
@@ -6225,17 +6230,17 @@ class Generator {
                                                     if (przech == SzachowaArena.figury.pustka) {
                                                         if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                             if (szach) {
-                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), sposob, SzachowaArena.figury.pustka, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
                                                             } else {
-                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), sposob, SzachowaArena.figury.pustka, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
                                                             }
                                                         }
                                                     } else {
                                                         if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                             if (szach) {
-                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), sposob, przech, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przech, backup));
                                                             } else {
-                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), sposob, przech, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new RuchA((pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przech, backup));
                                                             }
                                                         }
                                                     }
@@ -6271,10 +6276,10 @@ class Generator {
                                             backup[7][6] = SzachowaArena.figury.pustka;
                                             if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new RuchA(("kO-O+     "), sposob,
+                                                    lista_dopuszcalnych_Ruchow.add(new RuchA(("kO-O+     "),
                                                             SzachowaArena.figury.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new RuchA(("kO-O      "), sposob,
+                                                    lista_dopuszcalnych_Ruchow.add(new RuchA(("kO-O      "),
                                                             SzachowaArena.figury.pustka, backup));
                                                 }
                                             }
@@ -6305,10 +6310,10 @@ class Generator {
                                             backup[7][2] = SzachowaArena.figury.pustka;
                                             if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new RuchA(("kO-O-O+  "), sposob,
+                                                    lista_dopuszcalnych_Ruchow.add(new RuchA(("kO-O-O+  "),
                                                             SzachowaArena.figury.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new RuchA(("kO-O-O   "), sposob,
+                                                    lista_dopuszcalnych_Ruchow.add(new RuchA(("kO-O-O   "),
                                                             SzachowaArena.figury.pustka, backup));
                                                 }
                                             }
@@ -6371,13 +6376,11 @@ class Generator {
                                 backup[x + 1][kolumna - 1] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                 backup[x][kolumna - 1] = SI_MIN_MAX_Alfa_Beta.figury.CPion;
                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.BPion;
-                                
-                                    char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (kolumna - 1)), y2 = (char) ('1' + (x + 1));
-                                     
-                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "EP "), 0, SI_MIN_MAX_Alfa_Beta.figury.CPion, backup));
-                                        
-                                    
-                                
+
+                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (kolumna - 1)), y2 = (char) ('1' + (x + 1));
+
+                                lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "EP "), SI_MIN_MAX_Alfa_Beta.figury.CPion, backup));
+
                             }
                             for (int b = -1; b < 2; b++) {
 
@@ -6393,26 +6396,21 @@ class Generator {
                                             backup[x + 1][y + b] = znak;
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
-
                                             backup[x][y] = znak;
                                             backup[x + 1][y + b] = przechowalnie;
-                                         
-                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + b)), y2 = (char) ('1' + (x + 1));
-                                                
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "-- "), 0, przechowalnie, backup));
-                                                    
-                                                
-                                            
+
+                                            char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + b)), y2 = (char) ('1' + (x + 1));
+
+                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "-- "), przechowalnie, backup));
+
                                         } else {
                                             SI_MIN_MAX_Alfa_Beta.figury[] symbole = {SI_MIN_MAX_Alfa_Beta.figury.BHetman, SI_MIN_MAX_Alfa_Beta.figury.BWieza, SI_MIN_MAX_Alfa_Beta.figury.BGoniec, SI_MIN_MAX_Alfa_Beta.figury.BSkoczek};
                                             for (int s = 0; s < 4; s++) {
-                                                
-                                                   char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + b)), y2 = (char) ('1' + (x + 1));
-                                                       
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), 0, przechowalnie, backup));
-                                                        
-                                                  
-                                                
+
+                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + b)), y2 = (char) ('1' + (x + 1));
+
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), przechowalnie, backup));
+
                                             }
                                         }
                                     }
@@ -6428,24 +6426,19 @@ class Generator {
                                     SI_MIN_MAX_Alfa_Beta.figury przechowalnie;
                                     przechowalnie = backup[x + 1][y];
                                     if (x != 6) {
-                    
-                                            char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + 1));
-                                            
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak)
-                                                            + "" + x1 + x2 + "-" + y1 + y2 + "-- "),0, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
-                                                
-                                            
-                                        
+
+                                        char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + 1));
+
+                                        lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak)
+                                                + "" + x1 + x2 + "-" + y1 + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+
                                     } else {
                                         SI_MIN_MAX_Alfa_Beta.figury[] symbole = {SI_MIN_MAX_Alfa_Beta.figury.BHetman, SI_MIN_MAX_Alfa_Beta.figury.BWieza, SI_MIN_MAX_Alfa_Beta.figury.BGoniec, SI_MIN_MAX_Alfa_Beta.figury.BSkoczek};
                                         for (int s = 0; s < 4; s++) {
-                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + 1));
-                                                
-                                                    
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "),0, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
-                                                    
-                                                
-                                            
+                                            char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + 1));
+
+                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+
                                         }
                                     }
                                 }
@@ -6462,15 +6455,11 @@ class Generator {
                                         && backup[x + 1][y] != SI_MIN_MAX_Alfa_Beta.figury.BHetman && backup[x + 1][y] != SI_MIN_MAX_Alfa_Beta.figury.CHetman && backup[x + 1][y] != SI_MIN_MAX_Alfa_Beta.figury.BKrol
                                         && backup[x + 1][y] != SI_MIN_MAX_Alfa_Beta.figury.CKrol)) && x == 1) {
                                     SI_MIN_MAX_Alfa_Beta.figury przechowalnie = backup[x + 2][y];
-                                    
-                                   
-                                        char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + 2));
-                                        
-                                           
-                                                lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "-- "),0, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
-                                            
-                                        
-                                    
+
+                                    char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + 2));
+
+                                    lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+
                                 }
                             }
                         }
@@ -6499,36 +6488,28 @@ class Generator {
                                             backup[x + param_ruch][y + param_ruch] = znak;
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
-                                            
-
                                             backup[x + param_ruch][y + param_ruch] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[x][y] = znak;
-                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x + param_ruch));
-                                                  
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), 0, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
-                                                    
-                                                
-                                            
+                                            char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x + param_ruch));
+
+                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman && (backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol||backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
+                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman && (backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
                                                     || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CWieza || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CHetman))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman && (backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol||backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
+                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman && (backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
                                                     || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BWieza || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BHetman))) {
                                                 SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x + param_ruch][y + param_ruch];
                                                 backup[x + param_ruch][y + param_ruch] = znak;
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
-                                                
-
                                                 backup[x + param_ruch][y + param_ruch] = przechowalnia;
                                                 backup[x][y] = znak;
-                                                
-                                                    char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x + param_ruch));
-                                                      
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), 0, przechowalnia, backup));
-                                                        
-                                                    
-                                                
+
+                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x + param_ruch));
+
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
+
                                                 d1 = false;
                                             } else {
                                                 d1 = false;
@@ -6546,37 +6527,29 @@ class Generator {
                                             backup[x - param_ruch][y - param_ruch] = znak;
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
-                                           
-
                                             backup[x - param_ruch][y - param_ruch] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[x][y] = znak;
-                                           
-                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x - param_ruch));
-                                                 
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), 0, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
-                                                    
-                                                
-                                            
+
+                                            char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x - param_ruch));
+
+                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman && (backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol||backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
+                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman && (backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
                                                     || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CWieza || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CHetman))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman && (backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol||backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
+                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman && (backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
                                                     || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BWieza || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BHetman))) {
                                                 SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x - param_ruch][y - param_ruch];
                                                 backup[x - param_ruch][y - param_ruch] = znak;
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
-                                               
-
                                                 backup[x - param_ruch][y - param_ruch] = przechowalnia;
                                                 backup[x][y] = znak;
-                                                
-                                                    char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x - param_ruch));
-                                                      
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), 0, przechowalnia, backup));
-                                                        
-                                                    
-                                                
+
+                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x - param_ruch));
+
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
+
                                                 d2 = false;
                                             } else {
                                                 d2 = false;
@@ -6592,35 +6565,29 @@ class Generator {
                                         if (d3 && backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
                                             backup[x + param_ruch][y - param_ruch] = znak;
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                            
 
                                             backup[x + param_ruch][y - param_ruch] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[x][y] = znak;
-                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x + param_ruch));
-                                                
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), 0, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
-                                                    
-                                                
-                                            
+                                            char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x + param_ruch));
+
+                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman && (backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol||backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
+                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman && (backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
                                                     || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CWieza || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CHetman))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman && (backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol||backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
+                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman && (backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
                                                     || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BWieza || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BHetman))) {
                                                 SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x + param_ruch][y - param_ruch];
                                                 backup[x + param_ruch][y - param_ruch] = znak;
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                               
 
                                                 backup[x + param_ruch][y - param_ruch] = przechowalnia;
                                                 backup[x][y] = znak;
-                                                
-                                                    char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x + param_ruch));
-                                                       
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), 0, przechowalnia, backup));
-                                                        
-                                                    
-                                                
+
+                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x + param_ruch));
+
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
+
                                                 d3 = false;
                                             } else {
                                                 d3 = false;
@@ -6637,36 +6604,29 @@ class Generator {
                                             backup[x - param_ruch][y + param_ruch] = znak;
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
-                                            
-
                                             backup[x - param_ruch][y + param_ruch] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[x][y] = znak;
-                                            
-                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x - param_ruch));
-                                               
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), 0, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
-                                                    
-                                            
+
+                                            char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x - param_ruch));
+
+                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman && (backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol||backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
+                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman && (backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
                                                     || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CWieza || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CHetman))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman && (backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol||backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
+                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman && (backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
                                                     || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BWieza || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BHetman))) {
                                                 SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x - param_ruch][y + param_ruch];
                                                 backup[x - param_ruch][y + param_ruch] = znak;
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
-                                               
-
                                                 backup[x - param_ruch][y + param_ruch] = przechowalnia;
                                                 backup[x][y] = znak;
-                                               
-                                                    char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x - param_ruch));
-                                                     
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), 0, przechowalnia, backup));
-                                                        
-                                                  
-                                                
+
+                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x - param_ruch));
+
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
+
                                                 d4 = false;
                                             } else {
                                                 d4 = false;
@@ -6683,35 +6643,28 @@ class Generator {
                                             backup[x + param_ruch][y] = znak;
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
-                                            
-
                                             backup[x + param_ruch][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[x][y] = znak;
-                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + param_ruch));
-                                                
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), 0, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
-                                                    
-                                               
-                                            
+                                            char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + param_ruch));
+
+                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman && (backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CKrol||backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
+                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman && (backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CKrol || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
                                                     || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CWieza || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CHetman))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman && (backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BKrol||backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
+                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman && (backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BKrol || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
                                                     || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BWieza || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BHetman))) {
                                                 SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x + param_ruch][y];
                                                 backup[x + param_ruch][y] = znak;
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
-                                               
                                                 backup[x + param_ruch][y] = przechowalnia;
                                                 backup[x][y] = znak;
-                                                
-                                                    char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + param_ruch));
-                                                      
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), 0, przechowalnia, backup));
-                                                        
-                                                    
-                                                
+
+                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + param_ruch));
+
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
+
                                                 w1 = false;
                                             } else {
                                                 w1 = false;
@@ -6728,20 +6681,17 @@ class Generator {
                                             backup[x - param_ruch][y] = znak;
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
-                                            
                                             backup[x - param_ruch][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[x][y] = znak;
-                                            
-                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - param_ruch));
-                                                  
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), 0, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
-                                                    
-                                                
-                                            
+
+                                            char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - param_ruch));
+
+                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman && (backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CKrol||backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
+                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman && (backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CKrol || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
                                                     || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CWieza || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CHetman))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman && (backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BKrol||backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
+                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman && (backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BKrol || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
                                                     || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BWieza || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BHetman))) {
                                                 SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x - param_ruch][y];
                                                 backup[x - param_ruch][y] = znak;
@@ -6749,12 +6699,10 @@ class Generator {
 
                                                 backup[x - param_ruch][y] = przechowalnia;
                                                 backup[x][y] = znak;
-                                                    char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - param_ruch));
-                                                      
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), 0, przechowalnia, backup));
-                                                        
-                                                    
-                                                
+                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - param_ruch));
+
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
+
                                                 w2 = false;
                                             } else {
                                                 w2 = false;
@@ -6770,33 +6718,29 @@ class Generator {
                                         if (w3 && backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
                                             backup[x][y + param_ruch] = znak;
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                            
 
                                             backup[x][y + param_ruch] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[x][y] = znak;
-                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x));
-                                                
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), 0, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
-                                                  
+                                            char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x));
+
+                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman && (backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol||backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
+                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman && (backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
                                                     || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CWieza || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CHetman))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman && (backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol||backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
+                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman && (backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
                                                     || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BWieza || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BHetman))) {
                                                 SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x][y + param_ruch];
                                                 backup[x][y + param_ruch] = znak;
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                               
 
                                                 backup[x][y + param_ruch] = przechowalnia;
                                                 backup[x][y] = znak;
-                                               
-                                                    char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x));
-                                                   
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), 0, przechowalnia, backup));
-                                                        
-                                                    
-                                                
+
+                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x));
+
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
+
                                                 w3 = false;
                                             } else {
                                                 w3 = false;
@@ -6812,36 +6756,30 @@ class Generator {
                                         if (w4 && backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
                                             backup[x][y - param_ruch] = znak;
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                            
 
                                             backup[x][y - param_ruch] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[x][y] = znak;
-                                            
-                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x));
-                                                  
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), 0, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
-                                                    
-                                                
-                                            
+
+                                            char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x));
+
+                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman && (backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol||backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
+                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman && (backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
                                                     || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CWieza || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CHetman))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman && (backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol||backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
+                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman && (backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
                                                     || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BWieza || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BHetman))) {
 
                                                 SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x][y - param_ruch];
                                                 backup[x][y - param_ruch] = znak;
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                                
 
                                                 backup[x][y - param_ruch] = przechowalnia;
                                                 backup[x][y] = znak;
-                                                  char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x));
-                                                       
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), 0, przechowalnia, backup));
-                                                        
-                                                    
-                                                
+                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x));
+
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
+
                                                 w4 = false;
                                             } else {
                                                 w4 = false;
@@ -6875,35 +6813,28 @@ class Generator {
                                             backup[x + param_ruch][y] = znak;
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
-                                            
-
                                             backup[x + param_ruch][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[x][y] = znak;
-                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + param_ruch));
-                                                
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), 0, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
-                                                    
-                                               
-                                            
+                                            char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + param_ruch));
+
+                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BWieza && (backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CKrol||backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
+                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BWieza && (backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CKrol || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
                                                     || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CWieza || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CHetman))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CWieza && (backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BKrol||backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
+                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CWieza && (backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BKrol || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
                                                     || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BWieza || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BHetman))) {
                                                 SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x + param_ruch][y];
                                                 backup[x + param_ruch][y] = znak;
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
-                                               
                                                 backup[x + param_ruch][y] = przechowalnia;
                                                 backup[x][y] = znak;
-                                                
-                                                    char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + param_ruch));
-                                                      
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), 0, przechowalnia, backup));
-                                                        
-                                                    
-                                                
+
+                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + param_ruch));
+
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
+
                                                 w1 = false;
                                             } else {
                                                 w1 = false;
@@ -6920,20 +6851,17 @@ class Generator {
                                             backup[x - param_ruch][y] = znak;
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
-                                            
                                             backup[x - param_ruch][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[x][y] = znak;
-                                            
-                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - param_ruch));
-                                                  
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), 0, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
-                                                    
-                                                
-                                            
+
+                                            char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - param_ruch));
+
+                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BWieza && (backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CKrol||backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
+                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BWieza && (backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CKrol || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
                                                     || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CWieza || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CHetman))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CWieza && (backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BKrol||backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
+                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CWieza && (backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BKrol || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
                                                     || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BWieza || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BHetman))) {
                                                 SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x - param_ruch][y];
                                                 backup[x - param_ruch][y] = znak;
@@ -6941,12 +6869,10 @@ class Generator {
 
                                                 backup[x - param_ruch][y] = przechowalnia;
                                                 backup[x][y] = znak;
-                                                    char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - param_ruch));
-                                                      
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), 0, przechowalnia, backup));
-                                                        
-                                                    
-                                                
+                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - param_ruch));
+
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
+
                                                 w2 = false;
                                             } else {
                                                 w2 = false;
@@ -6962,33 +6888,29 @@ class Generator {
                                         if (w3 && backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
                                             backup[x][y + param_ruch] = znak;
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                            
 
                                             backup[x][y + param_ruch] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[x][y] = znak;
-                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x));
-                                                
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), 0, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
-                                                  
+                                            char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x));
+
+                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BWieza && (backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol||backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
+                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BWieza && (backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
                                                     || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CWieza || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CHetman))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CWieza && (backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol||backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
+                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CWieza && (backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
                                                     || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BWieza || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BHetman))) {
                                                 SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x][y + param_ruch];
                                                 backup[x][y + param_ruch] = znak;
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                               
 
                                                 backup[x][y + param_ruch] = przechowalnia;
                                                 backup[x][y] = znak;
-                                               
-                                                    char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x));
-                                                   
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), 0, przechowalnia, backup));
-                                                        
-                                                    
-                                                
+
+                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x));
+
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
+
                                                 w3 = false;
                                             } else {
                                                 w3 = false;
@@ -7004,36 +6926,30 @@ class Generator {
                                         if (w4 && backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
                                             backup[x][y - param_ruch] = znak;
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                            
 
                                             backup[x][y - param_ruch] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[x][y] = znak;
-                                            
-                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x));
-                                                  
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), 0, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
-                                                    
-                                                
-                                            
+
+                                            char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x));
+
+                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BWieza && (backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol||backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
+                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BWieza && (backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
                                                     || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CWieza || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CHetman))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CWieza && (backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol||backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
+                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CWieza && (backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
                                                     || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BWieza || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BHetman))) {
 
                                                 SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x][y - param_ruch];
                                                 backup[x][y - param_ruch] = znak;
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                                
 
                                                 backup[x][y - param_ruch] = przechowalnia;
                                                 backup[x][y] = znak;
-                                                  char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x));
-                                                       
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), 0, przechowalnia, backup));
-                                                        
-                                                    
-                                                
+                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x));
+
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
+
                                                 w4 = false;
                                             } else {
                                                 w4 = false;
@@ -7064,36 +6980,28 @@ class Generator {
                                             backup[x + param_ruch][y + param_ruch] = znak;
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
-                                            
-
                                             backup[x + param_ruch][y + param_ruch] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[x][y] = znak;
-                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x + param_ruch));
-                                                  
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), 0, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
-                                                    
-                                                
-                                            
+                                            char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x + param_ruch));
+
+                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BGoniec && (backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol||backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
+                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BGoniec && (backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
                                                     || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CWieza || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CHetman))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CGoniec && (backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol||backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
+                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CGoniec && (backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
                                                     || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BWieza || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BHetman))) {
                                                 SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x + param_ruch][y + param_ruch];
                                                 backup[x + param_ruch][y + param_ruch] = znak;
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
-                                                
-
                                                 backup[x + param_ruch][y + param_ruch] = przechowalnia;
                                                 backup[x][y] = znak;
-                                                
-                                                    char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x + param_ruch));
-                                                      
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), 0, przechowalnia, backup));
-                                                        
-                                                    
-                                                
+
+                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x + param_ruch));
+
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
+
                                                 d1 = false;
                                             } else {
                                                 d1 = false;
@@ -7111,37 +7019,29 @@ class Generator {
                                             backup[x - param_ruch][y - param_ruch] = znak;
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
-                                           
-
                                             backup[x - param_ruch][y - param_ruch] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[x][y] = znak;
-                                           
-                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x - param_ruch));
-                                                 
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), 0, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
-                                                    
-                                                
-                                            
+
+                                            char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x - param_ruch));
+
+                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BGoniec && (backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol||backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
+                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BGoniec && (backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
                                                     || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CWieza || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CHetman))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CGoniec && (backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol||backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
+                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CGoniec && (backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
                                                     || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BWieza || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BHetman))) {
                                                 SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x - param_ruch][y - param_ruch];
                                                 backup[x - param_ruch][y - param_ruch] = znak;
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
-                                               
-
                                                 backup[x - param_ruch][y - param_ruch] = przechowalnia;
                                                 backup[x][y] = znak;
-                                                
-                                                    char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x - param_ruch));
-                                                      
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), 0, przechowalnia, backup));
-                                                        
-                                                    
-                                                
+
+                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x - param_ruch));
+
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
+
                                                 d2 = false;
                                             } else {
                                                 d2 = false;
@@ -7157,35 +7057,29 @@ class Generator {
                                         if (d3 && backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
                                             backup[x + param_ruch][y - param_ruch] = znak;
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                            
 
                                             backup[x + param_ruch][y - param_ruch] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[x][y] = znak;
-                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x + param_ruch));
-                                                
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), 0, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
-                                                    
-                                                
-                                            
+                                            char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x + param_ruch));
+
+                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BGoniec && (backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol||backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
+                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BGoniec && (backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
                                                     || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CWieza || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CHetman))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CGoniec && (backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol||backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
+                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CGoniec && (backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
                                                     || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BWieza || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BHetman))) {
                                                 SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x + param_ruch][y - param_ruch];
                                                 backup[x + param_ruch][y - param_ruch] = znak;
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                               
 
                                                 backup[x + param_ruch][y - param_ruch] = przechowalnia;
                                                 backup[x][y] = znak;
-                                                
-                                                    char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x + param_ruch));
-                                                       
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), 0, przechowalnia, backup));
-                                                        
-                                                    
-                                                
+
+                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x + param_ruch));
+
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
+
                                                 d3 = false;
                                             } else {
                                                 d3 = false;
@@ -7202,36 +7096,29 @@ class Generator {
                                             backup[x - param_ruch][y + param_ruch] = znak;
                                             backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
-                                            
-
                                             backup[x - param_ruch][y + param_ruch] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
                                             backup[x][y] = znak;
-                                            
-                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x - param_ruch));
-                                               
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), 0, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
-                                                    
-                                            
+
+                                            char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x - param_ruch));
+
+                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BGoniec && (backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol||backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
+                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BGoniec && (backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CPion || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
                                                     || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CWieza || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CHetman))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CGoniec && (backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol||backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
+                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CGoniec && (backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
                                                     || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BWieza || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BHetman))) {
                                                 SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x - param_ruch][y + param_ruch];
                                                 backup[x - param_ruch][y + param_ruch] = znak;
                                                 backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
 
-                                               
-
                                                 backup[x - param_ruch][y + param_ruch] = przechowalnia;
                                                 backup[x][y] = znak;
-                                               
-                                                    char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x - param_ruch));
-                                                     
-                                                            lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), 0, przechowalnia, backup));
-                                                        
-                                                  
-                                                
+
+                                                char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x - param_ruch));
+
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
+
                                                 d4 = false;
                                             } else {
                                                 d4 = false;
@@ -7259,7 +7146,7 @@ class Generator {
 
                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (kolumna - 1)), y2 = (char) ('1' + (x - 1));
 
-                                lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "EP "), 0, SI_MIN_MAX_Alfa_Beta.figury.BPion, backup));
+                                lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "EP "), SI_MIN_MAX_Alfa_Beta.figury.BPion, backup));
 
                             }
 
@@ -7279,7 +7166,7 @@ class Generator {
                                             char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + b)), y2 = (char) ('1' + (x - 1));
 
                                             lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak)
-                                                    + "" + x1 + x2 + "x" + y1 + y2 + "-- "), 0, przechowalnie, backup));
+                                                    + "" + x1 + x2 + "x" + y1 + y2 + "-- "), przechowalnie, backup));
 
                                         } else {
                                             SI_MIN_MAX_Alfa_Beta.figury[] symbole = {SI_MIN_MAX_Alfa_Beta.figury.CHetman, SI_MIN_MAX_Alfa_Beta.figury.CWieza, SI_MIN_MAX_Alfa_Beta.figury.CGoniec, SI_MIN_MAX_Alfa_Beta.figury.CSkoczek};
@@ -7287,7 +7174,7 @@ class Generator {
 
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + b)), y2 = (char) ('1' + (x - 1));
 
-                                                lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), 0, przechowalnie, backup));
+                                                lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + x2 + "x" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), przechowalnie, backup));
 
                                             }
                                         }
@@ -7312,7 +7199,7 @@ class Generator {
 
                                         char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - 1));
 
-                                        lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "-- "), 0, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                        lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
 
                                     } else {
                                         SI_MIN_MAX_Alfa_Beta.figury[] symbole = {SI_MIN_MAX_Alfa_Beta.figury.CHetman, SI_MIN_MAX_Alfa_Beta.figury.CWieza, SI_MIN_MAX_Alfa_Beta.figury.CGoniec, SI_MIN_MAX_Alfa_Beta.figury.CSkoczek};
@@ -7326,7 +7213,7 @@ class Generator {
                                             char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - 1));
 
                                             lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak)
-                                                    + "" + x1 + x2 + "-" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), 0, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    + "" + x1 + x2 + "-" + y1 + y2 + "=" + pozyskaj_symbol(symbole[s]) + " "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
 
                                         }
                                     }
@@ -7351,7 +7238,7 @@ class Generator {
                                     backup[x - 2][y] = przechowalnie;
                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - 2));
 
-                                    lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "--+"), 0, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                    lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + x2 + "-" + y1 + y2 + "--+"), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
 
                                 }
                             }
@@ -7401,11 +7288,11 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + j)), y2 = (char) ('1' + (x + i));
                                                 if (przechowalnia == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
 
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), 0, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
 
                                                 } else {
 
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), 0, przechowalnia, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
 
                                                 }
                                             }
@@ -7431,11 +7318,11 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + j)), y2 = (char) ('1' + (x + i));
                                                 if (przech == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
 
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), 0, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
 
                                                 } else {
 
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), 0, przech, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przech, backup));
 
                                                 }
 
@@ -7462,11 +7349,11 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + j)), y2 = (char) ('1' + (x + i));
                                                 if (przech == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
 
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), 0, SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SI_MIN_MAX_Alfa_Beta.figury.pustka, backup));
 
                                                 } else {
 
-                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), 0, przech, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new Ruch(true, (pozyskaj_symbol(znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przech, backup));
 
                                                 }
 

@@ -29,7 +29,7 @@ public class RuchA {
     int wartosc_promocji = 0;
     figura korzystnosc_bicia;
 
-    RuchA(String lista, int sposob, SzachowaArena.figury bity, SzachowaArena.figury[][] szachownica) {
+    RuchA(String lista, SzachowaArena.figury bity, SzachowaArena.figury[][] szachownica) {
 
         switch (bity) {
             case BPion:
