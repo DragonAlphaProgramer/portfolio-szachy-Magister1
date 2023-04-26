@@ -2579,8 +2579,6 @@ public class SzachowaArena extends javax.swing.JFrame {
                                             }
                                             JOptionPane.showMessageDialog(rootPane, "3-krotne powtórzenie pozycji. \nREMIS!", "Zasada", JOptionPane.WARNING_MESSAGE);
                                             remis();
-                                            SI_ON = false;
-                    symulacja = false;
                                         }
                                     } else {
                                         powtorki = 0;
@@ -4227,7 +4225,6 @@ public class SzachowaArena extends javax.swing.JFrame {
 
                                                             JOptionPane.showMessageDialog(rootPane, "3-krotne powtórzenie pozycji. \nREMIS!", "Zasada", JOptionPane.WARNING_MESSAGE);
                                                             remis();
-                                                            
                                                         }
                                                     } else {
                                                         powtorki = 0;
@@ -13169,7 +13166,6 @@ public class SzachowaArena extends javax.swing.JFrame {
 
                                                             JOptionPane.showMessageDialog(rootPane, "3-krotne powtórzenie pozycji. \nREMIS!", "Zasada", JOptionPane.WARNING_MESSAGE);
                                                             SI_ON = false;
-                    symulacja = false;
                                                             remis();
                                                         }
                                                     } else {
