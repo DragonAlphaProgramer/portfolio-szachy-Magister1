@@ -2230,7 +2230,8 @@ public class SzachowaArena extends javax.swing.JFrame {
                         }
                         boolean zawrot = odwrot && siec == false;
 
-                        if ((((zawrot) && (odwrot == false))) || (odwrot && (SI_ON || siec))) {
+                        if (!symulacja || ((obrotowy.getText().equals("Obrót WŁ") && (odwrot == false)))
+                                || (odwrot && (SI_ON || siec))) {
 
                             switch (start.charAt(0)) {
                                 case 'A':
@@ -2538,7 +2539,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                         if (siec) {
                             try {
                                 msgwy = ruch;
-                                out.writeUTF(msgwy);
+                                out.writeUTF(msgwy+" Przeciwnik");
                             } catch (IOException ex) {
                                 Logger.getLogger(SzachowaArena.class
                                         .getName()).log(Level.SEVERE, null, ex);
@@ -3928,7 +3929,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                 if (polestart == false) {
 
                                     if (((lokalS[0] != lokalK[0]) || (lokalK[1] != lokalS[1])) && kon) {
-                                        if (SI_ON == false && siec == false && odwrot) {
+                                        if (SI_ON == false && siec == false && odwrot && obrotowy.getText().equals("Obrót WŁ")) {
                                             odwrot = !odwrot;
                                         }
                                         boolean zawrot = odwrot && siec == false;
@@ -4183,7 +4184,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                         if (siec) {
                                             try {
                                                 msgwy = ruch;
-                                                out.writeUTF(msgwy);
+                                                out.writeUTF(msgwy+" Przeciwnik");
                                             } catch (IOException ex) {
                                                 Logger.getLogger(SzachowaArena.class
                                                         .getName()).log(Level.SEVERE, null, ex);
@@ -4659,6 +4660,8 @@ public class SzachowaArena extends javax.swing.JFrame {
         Whitekingside.setVisible(false);
         Blackqueenside.setVisible(false);
         Whitequeenside.setVisible(false);
+        przelotowe.setVisible(false);
+        jLabel20.setVisible(false);
         Blackkingside.setBackground(Color.BLACK);
         Blackqueenside.setBackground(Color.BLACK);
         Whitekingside.setBackground(Color.WHITE);
@@ -6826,218 +6829,51 @@ public class SzachowaArena extends javax.swing.JFrame {
     }
 
     private void czysc_rame() {
-        A8.setBorder(null);
-        B8.setBorder(null);
-        D8.setBorder(null);
-        C8.setBorder(null);
-        E8.setBorder(null);
-        E7.setBorder(null);
-        D7.setBorder(null);
-        C7.setBorder(null);
-        B7.setBorder(null);
-        A7.setBorder(null);
-        H8.setBorder(null);
-        G8.setBorder(null);
-        F8.setBorder(null);
-        F7.setBorder(null);
-        G7.setBorder(null);
-        H7.setBorder(null);
-        H6.setBorder(null);
-        G6.setBorder(null);
-        F6.setBorder(null);
-        E6.setBorder(null);
-        D6.setBorder(null);
-        C6.setBorder(null);
-        B6.setBorder(null);
-        A6.setBorder(null);
-        A5.setBorder(null);
-        B5.setBorder(null);
-        C5.setBorder(null);
-        D5.setBorder(null);
-        E5.setBorder(null);
-        F5.setBorder(null);
-        G5.setBorder(null);
-        H5.setBorder(null);
-        H4.setBorder(null);
-        G4.setBorder(null);
-        F4.setBorder(null);
-        E4.setBorder(null);
-        D4.setBorder(null);
-        C4.setBorder(null);
-        B4.setBorder(null);
-        A4.setBorder(null);
-        A3.setBorder(null);
-        B3.setBorder(null);
-        C3.setBorder(null);
-        D3.setBorder(null);
-        E3.setBorder(null);
-        F3.setBorder(null);
-        G3.setBorder(null);
-        H3.setBorder(null);
-        H2.setBorder(null);
-        G2.setBorder(null);
-        F2.setBorder(null);
-        E2.setBorder(null);
-        D2.setBorder(null);
-        C2.setBorder(null);
-        B2.setBorder(null);
-        A2.setBorder(null);
-        A1.setBorder(null);
-        B1.setBorder(null);
-        C1.setBorder(null);
-        D1.setBorder(null);
-        E1.setBorder(null);
-        F1.setBorder(null);
-        G1.setBorder(null);
-        H1.setBorder(null);
+        for (int i = 1; i <= 8; i++) {
+            for (char j = 'A'; j <= 'H'; j++) {
+                dobierzprzycisk(String.valueOf(j + "" + i), false).setBorder(null);
+            }
+        }
     }
 
     private void koloruj_pola(boolean b, Color kolor) {
         if (b) {
-            H1.setBackground(kolor);
-            F1.setBackground(kolor);
-            D1.setBackground(kolor);
-            B1.setBackground(kolor);
-            A2.setBackground(kolor);
-            C2.setBackground(kolor);
-            E2.setBackground(kolor);
-            G2.setBackground(kolor);
-            H3.setBackground(kolor);
-            F3.setBackground(kolor);
-            D3.setBackground(kolor);
-            B3.setBackground(kolor);
-            A4.setBackground(kolor);
-            C4.setBackground(kolor);
-            E4.setBackground(kolor);
-            G4.setBackground(kolor);
-            H5.setBackground(kolor);
-            F5.setBackground(kolor);
-            D5.setBackground(kolor);
-            B5.setBackground(kolor);
-            A6.setBackground(kolor);
-            C6.setBackground(kolor);
-            E6.setBackground(kolor);
-            G6.setBackground(kolor);
-            H7.setBackground(kolor);
-            F7.setBackground(kolor);
-            D7.setBackground(kolor);
-            B7.setBackground(kolor);
-            A8.setBackground(kolor);
-            C8.setBackground(kolor);
-            E8.setBackground(kolor);
-            G8.setBackground(kolor);
+            for (int i = 1; i <= 8; i++) {
+                for (char j = 'A'; j <= 'H'; j++) {
+                    if ((i % 2 == 0 && j % 2 == 1) || (i % 2 == 1 && j % 2 == 0)) {
+                        dobierzprzycisk(String.valueOf(j + "" + i), false).setBackground(kolor);
+                    }
+                }
+            }
         } else {
-            A1.setBackground(kolor);
-            C1.setBackground(kolor);
-            E1.setBackground(kolor);
-            G1.setBackground(kolor);
-            B2.setBackground(kolor);
-            D2.setBackground(kolor);
-            F2.setBackground(kolor);
-            H2.setBackground(kolor);
-            A3.setBackground(kolor);
-            C3.setBackground(kolor);
-            E3.setBackground(kolor);
-            G3.setBackground(kolor);
-            B4.setBackground(kolor);
-            D4.setBackground(kolor);
-            F4.setBackground(kolor);
-            H4.setBackground(kolor);
-            A5.setBackground(kolor);
-            C5.setBackground(kolor);
-            E5.setBackground(kolor);
-            G5.setBackground(kolor);
-            B6.setBackground(kolor);
-            D6.setBackground(kolor);
-            F6.setBackground(kolor);
-            H6.setBackground(kolor);
-            A7.setBackground(kolor);
-            C7.setBackground(kolor);
-            E7.setBackground(kolor);
-            G7.setBackground(kolor);
-            B8.setBackground(kolor);
-            D8.setBackground(kolor);
-            F8.setBackground(kolor);
-            H8.setBackground(kolor);
+            for (int i = 1; i <= 8; i++) {
+                for (char j = 'A'; j <= 'H'; j++) {
+                    if ((i % 2 == 1 && j % 2 == 0) || (i % 2 == 0 && j % 2 == 1)) {
+                        dobierzprzycisk(String.valueOf(j + "" + i), false).setBackground(kolor);
+                    }
+                }
+            }
         }
         buttonGroup5.clearSelection();
     }
-
-    private ArrayList<String> lista_pol(char symbol, byte[] start) {
-
-        return null;
+static void dodaj_do_listy(String nazwa) {
+        listaip.add(nazwa);
     }
+    
 
     private void poprawrame() {
-        A8.setBorder(A8.getBorder() != null ? new LineBorder(rama, 4) : null);
-        B8.setBorder(B8.getBorder() != null ? new LineBorder(rama, 4) : null);
-        D8.setBorder(D8.getBorder() != null ? new LineBorder(rama, 4) : null);
-        C8.setBorder(C8.getBorder() != null ? new LineBorder(rama, 4) : null);
-        E8.setBorder(E8.getBorder() != null ? new LineBorder(rama, 4) : null);
-        E7.setBorder(E7.getBorder() != null ? new LineBorder(rama, 4) : null);
-        D7.setBorder(D7.getBorder() != null ? new LineBorder(rama, 4) : null);
-        C7.setBorder(C7.getBorder() != null ? new LineBorder(rama, 4) : null);
-        B7.setBorder(B7.getBorder() != null ? new LineBorder(rama, 4) : null);
-        A7.setBorder(A7.getBorder() != null ? new LineBorder(rama, 4) : null);
-        H8.setBorder(H8.getBorder() != null ? new LineBorder(rama, 4) : null);
-        G8.setBorder(G8.getBorder() != null ? new LineBorder(rama, 4) : null);
-        F8.setBorder(F8.getBorder() != null ? new LineBorder(rama, 4) : null);
-        F7.setBorder(F7.getBorder() != null ? new LineBorder(rama, 4) : null);
-        G7.setBorder(G7.getBorder() != null ? new LineBorder(rama, 4) : null);
-        H7.setBorder(H7.getBorder() != null ? new LineBorder(rama, 4) : null);
-        A6.setBorder(A6.getBorder() != null ? new LineBorder(rama, 4) : null);
-        B6.setBorder(B6.getBorder() != null ? new LineBorder(rama, 4) : null);
-        D6.setBorder(D6.getBorder() != null ? new LineBorder(rama, 4) : null);
-        C6.setBorder(C6.getBorder() != null ? new LineBorder(rama, 4) : null);
-        E6.setBorder(E6.getBorder() != null ? new LineBorder(rama, 4) : null);
-        E5.setBorder(E5.getBorder() != null ? new LineBorder(rama, 4) : null);
-        D5.setBorder(D5.getBorder() != null ? new LineBorder(rama, 4) : null);
-        C5.setBorder(C5.getBorder() != null ? new LineBorder(rama, 4) : null);
-        B5.setBorder(B5.getBorder() != null ? new LineBorder(rama, 4) : null);
-        A5.setBorder(A5.getBorder() != null ? new LineBorder(rama, 4) : null);
-        H6.setBorder(H6.getBorder() != null ? new LineBorder(rama, 4) : null);
-        G6.setBorder(G6.getBorder() != null ? new LineBorder(rama, 4) : null);
-        F6.setBorder(F6.getBorder() != null ? new LineBorder(rama, 4) : null);
-        F5.setBorder(F5.getBorder() != null ? new LineBorder(rama, 4) : null);
-        G5.setBorder(G5.getBorder() != null ? new LineBorder(rama, 4) : null);
-        H5.setBorder(H5.getBorder() != null ? new LineBorder(rama, 4) : null);
-        A1.setBorder(A1.getBorder() != null ? new LineBorder(rama, 4) : null);
-        B1.setBorder(B1.getBorder() != null ? new LineBorder(rama, 4) : null);
-        D1.setBorder(D1.getBorder() != null ? new LineBorder(rama, 4) : null);
-        C1.setBorder(C1.getBorder() != null ? new LineBorder(rama, 4) : null);
-        E1.setBorder(E1.getBorder() != null ? new LineBorder(rama, 4) : null);
-        E2.setBorder(E2.getBorder() != null ? new LineBorder(rama, 4) : null);
-        D2.setBorder(D2.getBorder() != null ? new LineBorder(rama, 4) : null);
-        C2.setBorder(C2.getBorder() != null ? new LineBorder(rama, 4) : null);
-        B2.setBorder(B2.getBorder() != null ? new LineBorder(rama, 4) : null);
-        A2.setBorder(A2.getBorder() != null ? new LineBorder(rama, 4) : null);
-        H1.setBorder(H1.getBorder() != null ? new LineBorder(rama, 4) : null);
-        G1.setBorder(G1.getBorder() != null ? new LineBorder(rama, 4) : null);
-        F1.setBorder(F1.getBorder() != null ? new LineBorder(rama, 4) : null);
-        F2.setBorder(F2.getBorder() != null ? new LineBorder(rama, 4) : null);
-        G2.setBorder(G2.getBorder() != null ? new LineBorder(rama, 4) : null);
-        H2.setBorder(H2.getBorder() != null ? new LineBorder(rama, 4) : null);
-        A3.setBorder(A3.getBorder() != null ? new LineBorder(rama, 4) : null);
-        B3.setBorder(B3.getBorder() != null ? new LineBorder(rama, 4) : null);
-        D3.setBorder(D3.getBorder() != null ? new LineBorder(rama, 4) : null);
-        C3.setBorder(C3.getBorder() != null ? new LineBorder(rama, 4) : null);
-        E3.setBorder(E3.getBorder() != null ? new LineBorder(rama, 4) : null);
-        E4.setBorder(E4.getBorder() != null ? new LineBorder(rama, 4) : null);
-        D4.setBorder(D4.getBorder() != null ? new LineBorder(rama, 4) : null);
-        C4.setBorder(C4.getBorder() != null ? new LineBorder(rama, 4) : null);
-        B4.setBorder(B4.getBorder() != null ? new LineBorder(rama, 4) : null);
-        A4.setBorder(A4.getBorder() != null ? new LineBorder(rama, 4) : null);
-        H3.setBorder(H3.getBorder() != null ? new LineBorder(rama, 4) : null);
-        G3.setBorder(G3.getBorder() != null ? new LineBorder(rama, 4) : null);
-        F3.setBorder(F3.getBorder() != null ? new LineBorder(rama, 4) : null);
-        F4.setBorder(F4.getBorder() != null ? new LineBorder(rama, 4) : null);
-        G4.setBorder(G4.getBorder() != null ? new LineBorder(rama, 4) : null);
-        H4.setBorder(H4.getBorder() != null ? new LineBorder(rama, 4) : null);
+        for (int i = 1; i <= 8; i++) {
+            for (char j = 'A'; j <= 'H'; j++) {
+                dobierzprzycisk(String.valueOf(j + "" + i), false)
+                        .setBorder(dobierzprzycisk(String.valueOf(j + "" + i), false)
+                                .getBorder() != null ? new LineBorder(rama, 4) : null);
+            }
+        }
     }
 
     private void polacz(int bazamin) throws IOException {
         jTextArea2.setText(jTextArea2.getText().trim() + "znaleziono gracza \n");
-
+        jMenu2.setEnabled(true);
         siec = true;
         obrotowy.setText("Obrót WYŁ");
         obrotowy.setVisible(false);
@@ -7080,70 +6916,11 @@ public class SzachowaArena extends javax.swing.JFrame {
             blacktime.start();
         }
         styl(kolor_zestaw, kroj_zestaw, kolor_plansza);
-        A8.setEnabled(true);
-        B8.setEnabled(true);
-        D8.setEnabled(true);
-        C8.setEnabled(true);
-        E8.setEnabled(true);
-        E7.setEnabled(true);
-        D7.setEnabled(true);
-        C7.setEnabled(true);
-        B7.setEnabled(true);
-        A7.setEnabled(true);
-        H8.setEnabled(true);
-        G8.setEnabled(true);
-        F8.setEnabled(true);
-        F7.setEnabled(true);
-        G7.setEnabled(true);
-        H7.setEnabled(true);
-        H6.setEnabled(true);
-        G6.setEnabled(true);
-        F6.setEnabled(true);
-        E6.setEnabled(true);
-        D6.setEnabled(true);
-        C6.setEnabled(true);
-        B6.setEnabled(true);
-        A6.setEnabled(true);
-        A5.setEnabled(true);
-        B5.setEnabled(true);
-        C5.setEnabled(true);
-        D5.setEnabled(true);
-        E5.setEnabled(true);
-        F5.setEnabled(true);
-        G5.setEnabled(true);
-        H5.setEnabled(true);
-        H4.setEnabled(true);
-        G4.setEnabled(true);
-        F4.setEnabled(true);
-        E4.setEnabled(true);
-        D4.setEnabled(true);
-        C4.setEnabled(true);
-        B4.setEnabled(true);
-        A4.setEnabled(true);
-        A3.setEnabled(true);
-        B3.setEnabled(true);
-        C3.setEnabled(true);
-        D3.setEnabled(true);
-        E3.setEnabled(true);
-        F3.setEnabled(true);
-        G3.setEnabled(true);
-        H3.setEnabled(true);
-        H2.setEnabled(true);
-        G2.setEnabled(true);
-        F2.setEnabled(true);
-        E2.setEnabled(true);
-        D2.setEnabled(true);
-        C2.setEnabled(true);
-        B2.setEnabled(true);
-        A2.setEnabled(true);
-        A1.setEnabled(true);
-        B1.setEnabled(true);
-        C1.setEnabled(true);
-        D1.setEnabled(true);
-        E1.setEnabled(true);
-        F1.setEnabled(true);
-        G1.setEnabled(true);
-        H1.setEnabled(true);
+        for (int i = 1; i <= 8; i++) {
+            for (char j = 'A'; j <= 'H'; j++) {
+                dobierzprzycisk(String.valueOf(j + "" + i), false).setEnabled(true);
+            }
+        }
         poddanie.setEnabled(true);
         remis_prop.setEnabled(true);
         gra_ustawka.setVisible(false);
@@ -7792,70 +7569,11 @@ public class SzachowaArena extends javax.swing.JFrame {
     private void dobierz_kursor_na_przycisku(char symbole, Image img) {
         mysz = symbole != ' ' ? Toolkit.getDefaultToolkit().createCustomCursor(img, new Point(0, 0), "custom Cursor")
                 : Cursor.getDefaultCursor();
-        A1.setCursor(mysz);
-        A2.setCursor(mysz);
-        A3.setCursor(mysz);
-        A4.setCursor(mysz);
-        A5.setCursor(mysz);
-        A6.setCursor(mysz);
-        A7.setCursor(mysz);
-        A8.setCursor(mysz);
-        B1.setCursor(mysz);
-        B2.setCursor(mysz);
-        B3.setCursor(mysz);
-        B4.setCursor(mysz);
-        B5.setCursor(mysz);
-        B6.setCursor(mysz);
-        B7.setCursor(mysz);
-        B8.setCursor(mysz);
-        C1.setCursor(mysz);
-        C2.setCursor(mysz);
-        C3.setCursor(mysz);
-        C4.setCursor(mysz);
-        C5.setCursor(mysz);
-        C6.setCursor(mysz);
-        C7.setCursor(mysz);
-        C8.setCursor(mysz);
-        D1.setCursor(mysz);
-        D2.setCursor(mysz);
-        D3.setCursor(mysz);
-        D4.setCursor(mysz);
-        D5.setCursor(mysz);
-        D6.setCursor(mysz);
-        D7.setCursor(mysz);
-        D8.setCursor(mysz);
-        E1.setCursor(mysz);
-        E2.setCursor(mysz);
-        E3.setCursor(mysz);
-        E4.setCursor(mysz);
-        E5.setCursor(mysz);
-        E6.setCursor(mysz);
-        E7.setCursor(mysz);
-        E8.setCursor(mysz);
-        F1.setCursor(mysz);
-        F2.setCursor(mysz);
-        F3.setCursor(mysz);
-        F4.setCursor(mysz);
-        F5.setCursor(mysz);
-        F6.setCursor(mysz);
-        F7.setCursor(mysz);
-        F8.setCursor(mysz);
-        G1.setCursor(mysz);
-        G2.setCursor(mysz);
-        G3.setCursor(mysz);
-        G4.setCursor(mysz);
-        G5.setCursor(mysz);
-        G6.setCursor(mysz);
-        G7.setCursor(mysz);
-        G8.setCursor(mysz);
-        H1.setCursor(mysz);
-        H2.setCursor(mysz);
-        H3.setCursor(mysz);
-        H4.setCursor(mysz);
-        H5.setCursor(mysz);
-        H6.setCursor(mysz);
-        H7.setCursor(mysz);
-        H8.setCursor(mysz);
+        for (int i = 1; i <= 8; i++) {
+            for (char j = 'A'; j <= 'H'; j++) {
+                dobierzprzycisk(String.valueOf(j + "" + i), false).setCursor(mysz);
+            }
+        }
     }
 
     /**
@@ -7890,7 +7608,53 @@ public class SzachowaArena extends javax.swing.JFrame {
                 String ostatni = "";
                 long czas_start = System.currentTimeMillis();
                 int licznik = 0;
-                /* List<Future<Ruch_wartosc>> wyniki = new ArrayList<>();
+                /*FiguraK[][] deska = new FiguraK[8][8];
+                for (int i = 0; i < 8; i++) {
+                    for (int j = 0; j < 8; j++) {
+                        switch (ust[i][j]) {
+                            case 'p':
+                                deska[i][j] = new Pion('p', false, i, j);
+                                break;
+                            case 'P':
+                                deska[i][j] = new Pion('P', true, i, j);
+                                break;
+                            case 'n':
+                                deska[i][j] = new Skoczek('n', false, i, j);
+                                break;
+                            case 'N':
+                                deska[i][j] = new Skoczek('N', true, i, j);
+                                break;
+                            case 'b':
+                                deska[i][j] = new Goniec('b', false, i, j);
+                                break;
+                            case 'B':
+                                deska[i][j] = new Goniec('B', true, i, j);
+                                break;
+                            case 'r':
+                                deska[i][j] = new Wieza('r', false, i, j);
+                                break;
+                            case 'R':
+                                deska[i][j] = new Wieza('R', true, i, j);
+                                break;
+                            case 'q':
+                                deska[i][j] = new Hetman('q', false, i, j);
+                                break;
+                            case 'Q':
+                                deska[i][j] = new Hetman('Q', true, i, j);
+                                break;
+                            case 'k':
+                                deska[i][j] = new Krol('k', false, i, j,kingrochC,bleft,bright);
+                                break;
+                            case 'K':
+                                deska[i][j] = new Krol('K', true, i, j,kingrochB,wleft,wright);
+                                break;
+                            default:
+                                deska[i][j] = null;
+                                break;
+                        }
+                    }
+                }*/
+ /* List<Future<Ruch_wartosc>> wyniki = new ArrayList<>();
                 Ruch_wartosc[] wyniki_ost = new Ruch_wartosc[dlugosc];
                 ExecutorService executor = Executors.newFixedThreadPool(dlugosc);
                 ExecutorCompletionService<Ruch_wartosc> completionService = new ExecutorCompletionService<Ruch_wartosc>(executor);
@@ -7920,6 +7684,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                         najlepszy = r.wartosc;
                     }
                 }*/
+
                 for (Ruch move : Generator.generuj_posuniecia(konwert(backup.clone()), ruchB, przelotcan,
                         bleft, bright, wleft, wright, kingrochB, kingrochC, kol, false, ' ', new int[2], false)) {
                     if (Generator.generuj_posuniecia(konwert(backup.clone()), ruchB, przelotcan,
@@ -7992,70 +7757,11 @@ public class SzachowaArena extends javax.swing.JFrame {
                 jTextArea2.append("zaanalizowano kombinacji: " + pula_sprawdzona + " \n");
                 jTextArea2.append("procent analizowanych kombinacji:" + procent + " \n \n");
                 jTextArea2.setCaretPosition(jTextArea2.getDocument().getLength());
-                A1.setEnabled(true);
-                A2.setEnabled(true);
-                A3.setEnabled(true);
-                A4.setEnabled(true);
-                A5.setEnabled(true);
-                A6.setEnabled(true);
-                A7.setEnabled(true);
-                A8.setEnabled(true);
-                B1.setEnabled(true);
-                B2.setEnabled(true);
-                B3.setEnabled(true);
-                B4.setEnabled(true);
-                B5.setEnabled(true);
-                B6.setEnabled(true);
-                B7.setEnabled(true);
-                B8.setEnabled(true);
-                C1.setEnabled(true);
-                C2.setEnabled(true);
-                C3.setEnabled(true);
-                C4.setEnabled(true);
-                C5.setEnabled(true);
-                C6.setEnabled(true);
-                C7.setEnabled(true);
-                C8.setEnabled(true);
-                D1.setEnabled(true);
-                D2.setEnabled(true);
-                D3.setEnabled(true);
-                D4.setEnabled(true);
-                D5.setEnabled(true);
-                D6.setEnabled(true);
-                D7.setEnabled(true);
-                D8.setEnabled(true);
-                E1.setEnabled(true);
-                E2.setEnabled(true);
-                E3.setEnabled(true);
-                E4.setEnabled(true);
-                E5.setEnabled(true);
-                E6.setEnabled(true);
-                E7.setEnabled(true);
-                E8.setEnabled(true);
-                F1.setEnabled(true);
-                F2.setEnabled(true);
-                F3.setEnabled(true);
-                F4.setEnabled(true);
-                F5.setEnabled(true);
-                F6.setEnabled(true);
-                F7.setEnabled(true);
-                F8.setEnabled(true);
-                G1.setEnabled(true);
-                G2.setEnabled(true);
-                G3.setEnabled(true);
-                G4.setEnabled(true);
-                G5.setEnabled(true);
-                G6.setEnabled(true);
-                G7.setEnabled(true);
-                G8.setEnabled(true);
-                H1.setEnabled(true);
-                H2.setEnabled(true);
-                H3.setEnabled(true);
-                H4.setEnabled(true);
-                H5.setEnabled(true);
-                H6.setEnabled(true);
-                H7.setEnabled(true);
-                H8.setEnabled(true);
+                for (int i = 1; i <= 8; i++) {
+                    for (char j = 'A'; j <= 'H'; j++) {
+                        dobierzprzycisk(String.valueOf(j + "" + i), false).setEnabled(true);
+                    }
+                }
                 SI_wyk = true;
                 System.out.println(oponet.substring(0, 3).equals("O-O"));
                 if ("O-O".equals(oponet.substring(0, 3))) {
@@ -8211,70 +7917,11 @@ public class SzachowaArena extends javax.swing.JFrame {
      */
     private void SI_ma_ruch() {
 
-        A1.setEnabled(false);
-        A2.setEnabled(false);
-        A3.setEnabled(false);
-        A4.setEnabled(false);
-        A5.setEnabled(false);
-        A6.setEnabled(false);
-        A7.setEnabled(false);
-        A8.setEnabled(false);
-        B1.setEnabled(false);
-        B2.setEnabled(false);
-        B3.setEnabled(false);
-        B4.setEnabled(false);
-        B5.setEnabled(false);
-        B6.setEnabled(false);
-        B7.setEnabled(false);
-        B8.setEnabled(false);
-        C1.setEnabled(false);
-        C2.setEnabled(false);
-        C3.setEnabled(false);
-        C4.setEnabled(false);
-        C5.setEnabled(false);
-        C6.setEnabled(false);
-        C7.setEnabled(false);
-        C8.setEnabled(false);
-        D1.setEnabled(false);
-        D2.setEnabled(false);
-        D3.setEnabled(false);
-        D4.setEnabled(false);
-        D5.setEnabled(false);
-        D6.setEnabled(false);
-        D7.setEnabled(false);
-        D8.setEnabled(false);
-        E1.setEnabled(false);
-        E2.setEnabled(false);
-        E3.setEnabled(false);
-        E4.setEnabled(false);
-        E5.setEnabled(false);
-        E6.setEnabled(false);
-        E7.setEnabled(false);
-        E8.setEnabled(false);
-        F1.setEnabled(false);
-        F2.setEnabled(false);
-        F3.setEnabled(false);
-        F4.setEnabled(false);
-        F5.setEnabled(false);
-        F6.setEnabled(false);
-        F7.setEnabled(false);
-        F8.setEnabled(false);
-        G1.setEnabled(false);
-        G2.setEnabled(false);
-        G3.setEnabled(false);
-        G4.setEnabled(false);
-        G5.setEnabled(false);
-        G6.setEnabled(false);
-        G7.setEnabled(false);
-        G8.setEnabled(false);
-        H1.setEnabled(false);
-        H2.setEnabled(false);
-        H3.setEnabled(false);
-        H4.setEnabled(false);
-        H5.setEnabled(false);
-        H6.setEnabled(false);
-        H7.setEnabled(false);
-        H8.setEnabled(false);
+        for (int i = 1; i <= 8; i++) {
+            for (char j = 'A'; j <= 'H'; j++) {
+                dobierzprzycisk(String.valueOf(j + "" + i), false).setEnabled(false);
+            }
+        }
         Progres_postep progresik = new Progres_postep();
         progresik.addPropertyChangeListener((PropertyChangeEvent evt) -> {
             String name1 = evt.getPropertyName();
@@ -8288,10 +7935,6 @@ public class SzachowaArena extends javax.swing.JFrame {
         System.out.println("uruchomiony");
 
         // oponet = ai.wykonaj(glebiaSI);
-    }
-
-    static void dodaj_do_listy(String nazwa) {
-        listaip.add(nazwa);
     }
 
     /**
@@ -8428,6 +8071,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             while (!msgwe.equals("exit")) {
                 try {
                     msgwe = in.readUTF();
+                    boolean rywal = msgwe.endsWith(" Przeciwnik");
+                    System.out.println(msgwe+" "+rywal);
+                    msgwe = msgwe.replace(" Przeciwnik", "");
                     if ("Gramy dalej".equals(msgwe)) {
                         poddanie.setEnabled(true);
                         remis_prop.setEnabled(true);
@@ -8473,14 +8119,16 @@ public class SzachowaArena extends javax.swing.JFrame {
                             if (msgwe.length() >= 8) {
                                 znak_promocji = msgwe.charAt(msgwe.charAt(7));
                             }
+                            if(rywal){
+                                System.out.println("TRUE");
                             if (!"O-O".equals(msgwe) && !"O-O-O".equals(msgwe) && msgwe.length() >= 6) {
                                 ruszaj = msgwe.substring(1, 3);
                                 zatrzymaj = msgwe.substring(4, 6);
-                                if (dobierzprzycisk(ruszaj, odwrot) != null && dobierzprzycisk(zatrzymaj, odwrot) != null) {
+                                System.out.println(ruszaj+"-"+zatrzymaj+" "+odwrot);
                                     wzor = true;
                                     aktywuj(odwrot, ruszaj);
                                     aktywuj(odwrot, zatrzymaj);
-                                    oczekiwanie = oczekiwanie == false;
+                                    oczekiwanie =false;
                                     if (oczekiwanie) {
                                         poddanie.setEnabled(false);
                                         remis_prop.setEnabled(false);
@@ -8489,7 +8137,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                         remis_prop.setEnabled(true);
                                     }
                                     wzor = false;
-                                }
+                                
                             }
                             if ("O-O".equals(msgwe)) {
                                 wzor = true;
@@ -8514,7 +8162,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                         }
                                     }
                                 }
-                                oczekiwanie = oczekiwanie == false;
+                                oczekiwanie =false;
                                 wzor = false;
                             }
                             if ("O-O-O".equals(msgwe)) {
@@ -8540,8 +8188,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                                         }
                                     }
                                 }
-                                oczekiwanie = oczekiwanie == false;
+                                oczekiwanie =false;
                                 wzor = false;
+                            }
                             }
                         } else {
                             if ("color:true".equals(msgwe)) {
@@ -8726,7 +8375,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                             }
                         }
                     }
-
+                    break;
                 }
             }
         }
@@ -10646,7 +10295,8 @@ public class SzachowaArena extends javax.swing.JFrame {
         byte pomocx = 0, pomocy = 0;
         char pomoc2, pomoc3;
         if (gra) {
-            if (siec == false || (siec && oczekiwanie == false) || wzor) {
+            System.out.println(oczekiwanie);
+            if (siec == false || (siec==true && oczekiwanie == false) || wzor==true) {
                 if (przelot) {
                 } else {
                     prze = false;
@@ -12635,10 +12285,11 @@ public class SzachowaArena extends javax.swing.JFrame {
                                 }
                                 if (polestart == false) {
                                     if (((lokalS[0] != lokalK[0]) || (lokalK[1] != lokalS[1])) && kon) {
-                                        if (SI_ON == false && siec == false && odwrot) {
+                                        if ((SI_ON == false && siec == false) && obrotowy.getText().equals("Obrót WŁ")) {
                                             odwrot = !odwrot;
+                                            System.out.println("zmiana");
                                         }
-
+                                        System.out.println("odwrot " + odwrot);
                                         if (tryb == 2) {
                                             if (odwrot == false) {
                                                 if (ruchB == false) {
@@ -12708,10 +12359,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     break;
                                             }
                                         }
-                                        boolean zawrot = odwrot && siec == false;
                                         //  System.out.println(zawrot);
-                                        if ((((zawrot) && (odwrot == false))) || (odwrot && (SI_ON || siec))) {
-                                            // System.out.println(start);
+                                        if ((obrotowy.getText().equals("Obrót WŁ") && odwrot == false)
+                                                || (odwrot==true&&(SI_ON==true || siec==true))) {
+                                             System.out.println("zamiana");
                                             switch (start.charAt(0)) {
                                                 case 'A':
                                                     start = start.replace('A', 'H');
@@ -13124,7 +12775,8 @@ public class SzachowaArena extends javax.swing.JFrame {
                                         if (siec) {
                                             try {
                                                 msgwy = ruch;
-                                                out.writeUTF(msgwy);
+                                                out.writeUTF(msgwy+((!oczekiwanie)?" Przeciwnik":""));
+                                                oczekiwanie=true;
                                             } catch (IOException ex) {
                                                 Logger.getLogger(SzachowaArena.class
                                                         .getName()).log(Level.SEVERE, null, ex);
@@ -13166,6 +12818,8 @@ public class SzachowaArena extends javax.swing.JFrame {
 
                                                             JOptionPane.showMessageDialog(rootPane, "3-krotne powtórzenie pozycji. \nREMIS!", "Zasada", JOptionPane.WARNING_MESSAGE);
                                                             SI_ON = false;
+                                                            symulacja = false;
+                                                            losowanko.setEnabled(false);
                                                             remis();
                                                         }
                                                     } else {
@@ -13213,6 +12867,8 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     JOptionPane.showMessageDialog(rootPane, "PAT! REMIS", "Remis",
                                                             JOptionPane.WARNING_MESSAGE);
                                                     SI_ON = false;
+                                                    losowanko.setEnabled(false);
+                                                    symulacja = false;
                                                     remis();
                                                 }
                                             }
@@ -13240,6 +12896,8 @@ public class SzachowaArena extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(rootPane, "SZACH MAT!", "Ostrzeżenie",
                             JOptionPane.WARNING_MESSAGE);
                     SI_ON = false;
+                    symulacja = false;
+                    losowanko.setEnabled(false);
                     kapitulacja();
                 }
                 if ((pionB < 1 && pionC < 1 && lekkieB < 2 && lekkieC < 2 && ciezkieB < 1 && ciezkieC < 1)) {
@@ -13249,6 +12907,8 @@ public class SzachowaArena extends javax.swing.JFrame {
                     }
                     JOptionPane.showMessageDialog(rootPane, "Remis na wskutek niewystarczajacego materiału do mata.", "Remis", JOptionPane.WARNING_MESSAGE);
                     SI_ON = false;
+                    symulacja = false;
+                    losowanko.setEnabled(false);
                     remis();
                 }
                 if (zasada50 == 50 && krolS == false && (hodu || protectme || hitme)) {
@@ -13258,6 +12918,8 @@ public class SzachowaArena extends javax.swing.JFrame {
                     }
                     JOptionPane.showMessageDialog(rootPane, "zasada 50 ruchów.(50 ruchów po obu stronach bez bicia lub ruchu pionem). \nREMIS!", "Zasada", JOptionPane.WARNING_MESSAGE);
                     SI_ON = false;
+                    symulacja = false;
+                    losowanko.setEnabled(false);
                     remis();
                 }
                 for (int i = 0; i < 8; i++) {
@@ -13916,6 +13578,8 @@ public class SzachowaArena extends javax.swing.JFrame {
         Blackkingside = new javax.swing.JCheckBox();
         Blackqueenside = new javax.swing.JCheckBox();
         Whitequeenside = new javax.swing.JCheckBox();
+        jLabel20 = new javax.swing.JLabel();
+        przelotowe = new javax.swing.JComboBox<>();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         plansza1 = new javax.swing.JMenu();
@@ -13936,7 +13600,7 @@ public class SzachowaArena extends javax.swing.JFrame {
         druk_odpis = new javax.swing.JMenuItem();
         druk_pozycja = new javax.swing.JMenuItem();
         mazyna_losujaca = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        losowanko = new javax.swing.JMenuItem();
 
         kroj.setText("zmien styl figur");
 
@@ -15451,6 +15115,10 @@ public class SzachowaArena extends javax.swing.JFrame {
             }
         });
 
+        jLabel20.setText("Bicie w przelocie");
+
+        przelotowe.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Niedostępne" }));
+
         jMenu1.setText("zmień styl");
 
         plansza1.setText("zmie styl szachownicy");
@@ -15589,14 +15257,14 @@ public class SzachowaArena extends javax.swing.JFrame {
         mazyna_losujaca.setText("Losuj Pozycje");
         mazyna_losujaca.setEnabled(false);
 
-        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        jMenuItem3.setText("Losuj pozycję od teraz");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        losowanko.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        losowanko.setText("Losuj pozycję od teraz");
+        losowanko.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                losowankoActionPerformed(evt);
             }
         });
-        mazyna_losujaca.add(jMenuItem3);
+        mazyna_losujaca.add(losowanko);
 
         jMenuBar1.add(mazyna_losujaca);
 
@@ -15782,37 +15450,6 @@ public class SzachowaArena extends javax.swing.JFrame {
                                 .addComponent(H3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton72, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(Whitekingside)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(Whitequeenside))
-                                    .addComponent(bialeRuch))
-                                .addGap(12, 12, 12)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(Blackqueenside)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(Blackkingside))
-                                    .addComponent(czarneRuch))
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(zegarczarne)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(zegarbiale)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(online_kreator, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(online_dolacz, javax.swing.GroupLayout.Alignment.LEADING)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jRadioButton11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -15832,8 +15469,45 @@ public class SzachowaArena extends javax.swing.JFrame {
                                         .addComponent(ustawBB, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(ustawBN, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                                         .addComponent(ustawBP, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(ustawBK, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addGap(18, 18, 18)
+                                    .addComponent(ustawBK, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(zegarczarne)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(zegarbiale)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(online_kreator, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(online_dolacz, javax.swing.GroupLayout.Alignment.LEADING))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(Whitekingside)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(Whitequeenside))
+                                            .addComponent(bialeRuch))
+                                        .addGap(12, 12, 12)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(Blackqueenside)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(Blackkingside))
+                                            .addComponent(czarneRuch)))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                            .addComponent(jLabel20)
+                                            .addGap(43, 43, 43)
+                                            .addComponent(przelotowe, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(jButton72, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -16066,9 +15740,13 @@ public class SzachowaArena extends javax.swing.JFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(Blackqueenside)
                                 .addComponent(Blackkingside)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(25, 25, 25)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel20)
+                            .addComponent(przelotowe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                         .addComponent(jButton72)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(online_kreator)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(online_dolacz, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -17231,7 +16909,7 @@ public class SzachowaArena extends javax.swing.JFrame {
         String[] wybor_trybu_klasyka = {"1.klasyczny bez limitu", "2.klasyczny na czas", "3.SzachMaty"};
         String[] opcje_czasu = {"01. 60", "02. 30", "03. 15+10", "04. 10", "05. 5+5",
             "06. 5", "07. 3+2", "08. 3", "09. 2+1", "10. 1", "11. inny system"};
-        String[] opcje_trybu_odmiany = {"1.Paco Sako", "2.Amazonka", "3.Grabież", "4.Antyszachy"};
+        String[] opcje_trybu_odmiany = {"1.Paco Sako", "2.Amazonka", "3.Grabież", "4.Antyszachy", "5.Mgła wojny"};
         Object[] opcje_rywala = {"Graj z innym graczem", "Graj z SI jako białe", "Graj z SI jako czarne"};
         sztuczny_rywal = (byte) JOptionPane.showOptionDialog(rootPane, "Gra z SI?", "opcje SI", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opcje_rywala, null);
         JSlider suwak_trudnosci = new JSlider(1, 14, 1);
@@ -17415,6 +17093,12 @@ public class SzachowaArena extends javax.swing.JFrame {
                 krole_biale = 1;
                 krole_czarne = 1;
                 break;
+            case 7:
+                JOptionPane.showMessageDialog(rootPane, "W tym trybie widzisz tylko tyle, na ile pozwala zasięg twoich figur.\n"
+                        + "Uważaj, ponieważ reszta planszy i pozycje przeciwnika są zamglone i niewidoczne"
+                        + "Zwycięża ten, co zbije króla przeciwnika.", "Właściwości mgły", JOptionPane.INFORMATION_MESSAGE);
+
+                break;
         }
         jMenu2.setEnabled(tryb < 3);
         blokada = new ReentrantLock();
@@ -17537,70 +17221,11 @@ public class SzachowaArena extends javax.swing.JFrame {
         online_kreator.setVisible(false);
         online_dolacz.setVisible(false);
         ustawka = false;
-        A8.setEnabled(true);
-        B8.setEnabled(true);
-        D8.setEnabled(true);
-        C8.setEnabled(true);
-        E8.setEnabled(true);
-        E7.setEnabled(true);
-        D7.setEnabled(true);
-        C7.setEnabled(true);
-        B7.setEnabled(true);
-        A7.setEnabled(true);
-        H8.setEnabled(true);
-        G8.setEnabled(true);
-        F8.setEnabled(true);
-        F7.setEnabled(true);
-        G7.setEnabled(true);
-        H7.setEnabled(true);
-        H6.setEnabled(true);
-        G6.setEnabled(true);
-        F6.setEnabled(true);
-        E6.setEnabled(true);
-        D6.setEnabled(true);
-        C6.setEnabled(true);
-        B6.setEnabled(true);
-        A6.setEnabled(true);
-        A5.setEnabled(true);
-        B5.setEnabled(true);
-        C5.setEnabled(true);
-        D5.setEnabled(true);
-        E5.setEnabled(true);
-        F5.setEnabled(true);
-        G5.setEnabled(true);
-        H5.setEnabled(true);
-        H4.setEnabled(true);
-        G4.setEnabled(true);
-        F4.setEnabled(true);
-        E4.setEnabled(true);
-        D4.setEnabled(true);
-        C4.setEnabled(true);
-        B4.setEnabled(true);
-        A4.setEnabled(true);
-        A3.setEnabled(true);
-        B3.setEnabled(true);
-        C3.setEnabled(true);
-        D3.setEnabled(true);
-        E3.setEnabled(true);
-        F3.setEnabled(true);
-        G3.setEnabled(true);
-        H3.setEnabled(true);
-        H2.setEnabled(true);
-        G2.setEnabled(true);
-        F2.setEnabled(true);
-        E2.setEnabled(true);
-        D2.setEnabled(true);
-        C2.setEnabled(true);
-        B2.setEnabled(true);
-        A2.setEnabled(true);
-        A1.setEnabled(true);
-        B1.setEnabled(true);
-        C1.setEnabled(true);
-        D1.setEnabled(true);
-        E1.setEnabled(true);
-        F1.setEnabled(true);
-        G1.setEnabled(true);
-        H1.setEnabled(true);
+        for (int i = 1; i <= 8; i++) {
+            for (char j = 'A'; j <= 'H'; j++) {
+                dobierzprzycisk(String.valueOf(j + "" + i), false).setEnabled(true);
+            }
+        }
         mazyna_losujaca.setEnabled(tryb == 0 && !SI_ON);
         styl(kolor_zestaw, kroj_zestaw, kolor_plansza);
         poddanie.setEnabled(true);
@@ -17643,6 +17268,7 @@ public class SzachowaArena extends javax.swing.JFrame {
             } catch (IOException ignored) {
             }
         }
+        losowanko.setEnabled(false);
         kapitulacja();
     }//GEN-LAST:event_poddanieActionPerformed
 
@@ -17679,6 +17305,7 @@ public class SzachowaArena extends javax.swing.JFrame {
     }//GEN-LAST:event_remis_odrzutActionPerformed
 
     private void remis_zgodaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_remis_zgodaActionPerformed
+        losowanko.setEnabled(false);
         remis();
     }//GEN-LAST:event_remis_zgodaActionPerformed
 
@@ -17948,9 +17575,14 @@ public class SzachowaArena extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(rootPane, "NIE MOŻNA WYKONYWAĆ RUCHU GDY DRUGI KRÓL JEST W SZACHU", "ZŁA POZYCJA",
                                 JOptionPane.WARNING_MESSAGE);
                     } else {
+                        przelotcan = przelotowe.getSelectedIndex() > 0;
                         char[][] USTAWIENIE1;
                         USTAWIENIE1 = ust.clone();
                         kontrolamat = ust.clone();
+                        if (przelotowe.getSelectedIndex() > 0) {
+                            kol = ((przelotowe.getSelectedItem().toString().charAt(przelotowe.getSelectedItem().toString().length() - 1)) - 'A') + 1;
+                            System.out.println(kol);
+                        }
                         for (byte i = 0; i < 8; i++) {
                             for (byte j = 0; j < 8; j++) {
                                 if ((ruchB && kontrolamat[i][j] == 'K') || (!ruchB && kontrolamat[i][j] == 'k')) {
@@ -18037,71 +17669,14 @@ public class SzachowaArena extends javax.swing.JFrame {
                             Whitekingside.setVisible(false);
                             Blackqueenside.setVisible(false);
                             Whitequeenside.setVisible(false);
-                            A8.setEnabled(true);
-                            B8.setEnabled(true);
-                            D8.setEnabled(true);
-                            C8.setEnabled(true);
-                            E8.setEnabled(true);
-                            E7.setEnabled(true);
-                            D7.setEnabled(true);
-                            C7.setEnabled(true);
-                            B7.setEnabled(true);
-                            A7.setEnabled(true);
-                            H8.setEnabled(true);
-                            G8.setEnabled(true);
-                            F8.setEnabled(true);
-                            F7.setEnabled(true);
-                            G7.setEnabled(true);
-                            H7.setEnabled(true);
-                            H6.setEnabled(true);
-                            G6.setEnabled(true);
-                            F6.setEnabled(true);
-                            E6.setEnabled(true);
-                            D6.setEnabled(true);
-                            C6.setEnabled(true);
-                            B6.setEnabled(true);
-                            A6.setEnabled(true);
-                            A5.setEnabled(true);
-                            B5.setEnabled(true);
-                            C5.setEnabled(true);
-                            D5.setEnabled(true);
-                            E5.setEnabled(true);
-                            F5.setEnabled(true);
-                            G5.setEnabled(true);
-                            H5.setEnabled(true);
-                            H4.setEnabled(true);
-                            G4.setEnabled(true);
-                            F4.setEnabled(true);
-                            E4.setEnabled(true);
-                            D4.setEnabled(true);
-                            C4.setEnabled(true);
-                            B4.setEnabled(true);
-                            A4.setEnabled(true);
-                            A3.setEnabled(true);
-                            B3.setEnabled(true);
-                            C3.setEnabled(true);
-                            D3.setEnabled(true);
-                            E3.setEnabled(true);
-                            F3.setEnabled(true);
-                            G3.setEnabled(true);
-                            H3.setEnabled(true);
-                            H2.setEnabled(true);
-                            G2.setEnabled(true);
-                            F2.setEnabled(true);
-                            E2.setEnabled(true);
-                            D2.setEnabled(true);
-                            C2.setEnabled(true);
-                            B2.setEnabled(true);
-                            A2.setEnabled(true);
-                            A1.setEnabled(true);
-                            B1.setEnabled(true);
-                            C1.setEnabled(true);
-                            D1.setEnabled(true);
-                            E1.setEnabled(true);
-                            F1.setEnabled(true);
-                            G1.setEnabled(true);
-                            H1.setEnabled(true);
+                            for (int i = 1; i <= 8; i++) {
+                                for (char j = 'A'; j <= 'H'; j++) {
+                                    dobierzprzycisk(String.valueOf(j + "" + i), false).setEnabled(true);
+                                }
+                            }
                             poddanie.setEnabled(true);
+                            przelotowe.setVisible(false);
+                            jLabel20.setVisible(false);
                             remis_prop.setEnabled(true);
                             pierwsza_kolej = ruchB;
                             zegarbiale.setText("--:--");
@@ -18144,6 +17719,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                     break;
                                 case 0:
                                 default:
+                                    obrotowy.setText("Obrót WŁ");
                                     odwrot = czarneRuch.isSelected();
                                     SI_ON = false;
                                     break;
@@ -18252,10 +17828,84 @@ public class SzachowaArena extends javax.swing.JFrame {
 
     private void bialeRuchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bialeRuchActionPerformed
         ruchB = true;
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        model.addElement("Niedostępne");
+        int index = 1;
+        for (int i = 0; i < 8; i++) {
+            if (i - 1 >= 0 && i + 1 < 8) {
+                if (ust[4][i] == 'P' && (ust[4][i - 1] == 'p')) {
+                    if (model.getIndexOf(("Na kolumnie " + (char) ('A' + i - 1))) == -1) {
+                        model.addElement(("Na kolumnie " + (char) ('A' + i - 1)));
+                        index++;
+                    }
+                }
+                if (ust[4][i] == 'P' && (ust[4][i + 1] == 'p')) {
+                    if (model.getIndexOf(("Na kolumnie " + (char) ('A' + i + 1))) == -1) {
+                        model.addElement(("Na kolumnie " + (char) ('A' + i + 1)));
+                        index++;
+                    }
+                }
+            }
+            if (i - 1 == -1) {
+                if (ust[4][i] == 'P' && (ust[4][i + 1] == 'p')) {
+                    if (model.getIndexOf(("Na kolumnie " + (char) ('A' + i - 1))) == -1) {
+                        model.addElement(("Na kolumnie " + (char) ('A' + i - 1)));
+                        index++;
+                    }
+                }
+            }
+            if (i + 1 == 8) {
+                if (ust[4][i] == 'P' && (ust[4][i - 1] == 'p')) {
+                    if (model.getIndexOf(("Na kolumnie " + (char) ('A' + i - 1))) == -1) {
+                        model.addElement(("Na kolumnie " + (char) ('A' + i - 1)));
+                        index++;
+                    }
+                }
+            }
+
+        }
+        przelotowe.setModel(model);
     }//GEN-LAST:event_bialeRuchActionPerformed
 
     private void czarneRuchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_czarneRuchActionPerformed
         ruchB = false;
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        model.addElement("Niedostępne");
+        int index = 1;
+        for (int i = 0; i < 8; i++) {
+            if (i - 1 >= 0 && i + 1 < 8) {
+                if (ust[3][i] == 'p' && (ust[3][i - 1] == 'P')) {
+                    if (model.getIndexOf(("Na kolumnie " + (char) ('A' + i - 1))) == -1) {
+                        model.addElement(("Na kolumnie " + (char) ('A' + i - 1)));
+                        index++;
+                    }
+                }
+                if (ust[3][i] == 'p' && (ust[3][i + 1] == 'P')) {
+                    if (model.getIndexOf(("Na kolumnie " + (char) ('A' + i + 1))) == -1) {
+                        model.addElement(("Na kolumnie " + (char) ('A' + i + 1)));
+                        index++;
+                    }
+                }
+            }
+            if (i - 1 == -1) {
+                if (ust[3][i] == 'p' && (ust[3][i + 1] == 'P')) {
+                    if (model.getIndexOf(("Na kolumnie " + (char) ('A' + i - 1))) == -1) {
+                        model.addElement(("Na kolumnie " + (char) ('A' + i - 1)));
+                        index++;
+                    }
+                }
+            }
+            if (i + 1 == 8) {
+                if (ust[3][i] == 'p' && (ust[3][i - 1] == 'P')) {
+                    if (model.getIndexOf(("Na kolumnie " + (char) ('A' + i - 1))) == -1) {
+                        model.addElement(("Na kolumnie " + (char) ('A' + i - 1)));
+                        index++;
+                    }
+                }
+            }
+
+        }
+        przelotowe.setModel(model);
     }//GEN-LAST:event_czarneRuchActionPerformed
 
     private void gra_ustawkaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gra_ustawkaActionPerformed
@@ -18269,6 +17919,8 @@ public class SzachowaArena extends javax.swing.JFrame {
                 odwrotna[i][j] = ' ';
             }
         }
+        przelotowe.setVisible(false);
+        jLabel20.setVisible(false);
         mazyna_losujaca.setEnabled(false);
         krole_biale = 0;
         krole_czarne = 0;
@@ -18278,134 +17930,12 @@ public class SzachowaArena extends javax.swing.JFrame {
         Blackqueenside.setVisible(true);
         Whitequeenside.setVisible(true);
         obrotowy.setVisible(!(SI_ON || siec));
-        A8.setEnabled(true);
-        B8.setEnabled(true);
-        D8.setEnabled(true);
-        C8.setEnabled(true);
-        E8.setEnabled(true);
-        E7.setEnabled(true);
-        D7.setEnabled(true);
-        C7.setEnabled(true);
-        B7.setEnabled(true);
-        A7.setEnabled(true);
-        H8.setEnabled(true);
-        G8.setEnabled(true);
-        F8.setEnabled(true);
-        F7.setEnabled(true);
-        G7.setEnabled(true);
-        H7.setEnabled(true);
-        H6.setEnabled(true);
-        G6.setEnabled(true);
-        F6.setEnabled(true);
-        E6.setEnabled(true);
-        D6.setEnabled(true);
-        C6.setEnabled(true);
-        B6.setEnabled(true);
-        A6.setEnabled(true);
-        A5.setEnabled(true);
-        B5.setEnabled(true);
-        C5.setEnabled(true);
-        D5.setEnabled(true);
-        E5.setEnabled(true);
-        F5.setEnabled(true);
-        G5.setEnabled(true);
-        H5.setEnabled(true);
-        H4.setEnabled(true);
-        G4.setEnabled(true);
-        F4.setEnabled(true);
-        E4.setEnabled(true);
-        D4.setEnabled(true);
-        C4.setEnabled(true);
-        B4.setEnabled(true);
-        A4.setEnabled(true);
-        A3.setEnabled(true);
-        B3.setEnabled(true);
-        C3.setEnabled(true);
-        D3.setEnabled(true);
-        E3.setEnabled(true);
-        F3.setEnabled(true);
-        G3.setEnabled(true);
-        H3.setEnabled(true);
-        H2.setEnabled(true);
-        G2.setEnabled(true);
-        F2.setEnabled(true);
-        E2.setEnabled(true);
-        D2.setEnabled(true);
-        C2.setEnabled(true);
-        B2.setEnabled(true);
-        A2.setEnabled(true);
-        A1.setEnabled(true);
-        B1.setEnabled(true);
-        C1.setEnabled(true);
-        D1.setEnabled(true);
-        E1.setEnabled(true);
-        F1.setEnabled(true);
-        G1.setEnabled(true);
-        H1.setEnabled(true);
-        A8.setIcon(null);
-        B8.setIcon(null);
-        D8.setIcon(null);
-        C8.setIcon(null);
-        E8.setIcon(null);
-        E7.setIcon(null);
-        D7.setIcon(null);
-        C7.setIcon(null);
-        B7.setIcon(null);
-        A7.setIcon(null);
-        H8.setIcon(null);
-        G8.setIcon(null);
-        F8.setIcon(null);
-        F7.setIcon(null);
-        G7.setIcon(null);
-        H7.setIcon(null);
-        H6.setIcon(null);
-        G6.setIcon(null);
-        F6.setIcon(null);
-        E6.setIcon(null);
-        D6.setIcon(null);
-        C6.setIcon(null);
-        B6.setIcon(null);
-        A6.setIcon(null);
-        A5.setIcon(null);
-        B5.setIcon(null);
-        C5.setIcon(null);
-        D5.setIcon(null);
-        E5.setIcon(null);
-        F5.setIcon(null);
-        G5.setIcon(null);
-        H5.setIcon(null);
-        H4.setIcon(null);
-        G4.setIcon(null);
-        F4.setIcon(null);
-        E4.setIcon(null);
-        D4.setIcon(null);
-        C4.setIcon(null);
-        B4.setIcon(null);
-        A4.setIcon(null);
-        A3.setIcon(null);
-        B3.setIcon(null);
-        C3.setIcon(null);
-        D3.setIcon(null);
-        E3.setIcon(null);
-        F3.setIcon(null);
-        G3.setIcon(null);
-        H3.setIcon(null);
-        H2.setIcon(null);
-        G2.setIcon(null);
-        F2.setIcon(null);
-        E2.setIcon(null);
-        D2.setIcon(null);
-        C2.setIcon(null);
-        B2.setIcon(null);
-        A2.setIcon(null);
-        A1.setIcon(null);
-        B1.setIcon(null);
-        C1.setIcon(null);
-        D1.setIcon(null);
-        E1.setIcon(null);
-        F1.setIcon(null);
-        G1.setIcon(null);
-        H1.setIcon(null);
+        for (int i = 1; i <= 8; i++) {
+            for (char j = 'A'; j <= 'H'; j++) {
+                dobierzprzycisk(String.valueOf(j + "" + i), false).setEnabled(true);
+                dobierzprzycisk(String.valueOf(j + "" + i), false).setIcon(null);
+            }
+        }
         nowa_gra.setVisible(false);
         gra_ustawka.setVisible(false);
         jButton72.setVisible(true);
@@ -18432,6 +17962,8 @@ public class SzachowaArena extends javax.swing.JFrame {
         ciezkieC = 0;
         pionB = 0;
         pionC = 0;
+        przelotowe.setVisible(true);
+        jLabel20.setVisible(true);
     }//GEN-LAST:event_gra_ustawkaActionPerformed
 
     private void jRadioButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton11ActionPerformed
@@ -18539,74 +18071,17 @@ public class SzachowaArena extends javax.swing.JFrame {
             SIOnOff.setEnabled(false);
             zegarbiale.setText("--:--");
             zegarczarne.setText("--:--");
+            obrotowy.setText("Obrót WYŁ");
+            jMenu2.setEnabled(true);
             polaczenie_net = new lacze();
             polaczenie_net.start();
             nowa_gra.setVisible(false);
             online_kreator.setVisible(false);
-            A8.setEnabled(true);
-            B8.setEnabled(true);
-            D8.setEnabled(true);
-            C8.setEnabled(true);
-            E8.setEnabled(true);
-            E7.setEnabled(true);
-            D7.setEnabled(true);
-            C7.setEnabled(true);
-            B7.setEnabled(true);
-            A7.setEnabled(true);
-            H8.setEnabled(true);
-            G8.setEnabled(true);
-            F8.setEnabled(true);
-            F7.setEnabled(true);
-            G7.setEnabled(true);
-            H7.setEnabled(true);
-            H6.setEnabled(true);
-            G6.setEnabled(true);
-            F6.setEnabled(true);
-            E6.setEnabled(true);
-            D6.setEnabled(true);
-            C6.setEnabled(true);
-            B6.setEnabled(true);
-            A6.setEnabled(true);
-            A5.setEnabled(true);
-            B5.setEnabled(true);
-            C5.setEnabled(true);
-            D5.setEnabled(true);
-            E5.setEnabled(true);
-            F5.setEnabled(true);
-            G5.setEnabled(true);
-            H5.setEnabled(true);
-            H4.setEnabled(true);
-            G4.setEnabled(true);
-            F4.setEnabled(true);
-            E4.setEnabled(true);
-            D4.setEnabled(true);
-            C4.setEnabled(true);
-            B4.setEnabled(true);
-            A4.setEnabled(true);
-            A3.setEnabled(true);
-            B3.setEnabled(true);
-            C3.setEnabled(true);
-            D3.setEnabled(true);
-            E3.setEnabled(true);
-            F3.setEnabled(true);
-            G3.setEnabled(true);
-            H3.setEnabled(true);
-            H2.setEnabled(true);
-            G2.setEnabled(true);
-            F2.setEnabled(true);
-            E2.setEnabled(true);
-            D2.setEnabled(true);
-            C2.setEnabled(true);
-            B2.setEnabled(true);
-            A2.setEnabled(true);
-            A1.setEnabled(true);
-            B1.setEnabled(true);
-            C1.setEnabled(true);
-            D1.setEnabled(true);
-            E1.setEnabled(true);
-            F1.setEnabled(true);
-            G1.setEnabled(true);
-            H1.setEnabled(true);
+            for (int i = 1; i <= 8; i++) {
+                for (char j = 'A'; j <= 'H'; j++) {
+                    dobierzprzycisk(String.valueOf(j + "" + i), false).setEnabled(true);
+                }
+            }
             gra_ustawka.setVisible(false);
             gra = true;
             zasada50 = 0;
@@ -18876,70 +18351,11 @@ public class SzachowaArena extends javax.swing.JFrame {
         remis_prop.setEnabled(false);
         online_dolacz.setVisible(true);
         online_kreator.setVisible(true);
-        A8.setEnabled(false);
-        B8.setEnabled(false);
-        D8.setEnabled(false);
-        C8.setEnabled(false);
-        E8.setEnabled(false);
-        E7.setEnabled(false);
-        D7.setEnabled(false);
-        C7.setEnabled(false);
-        B7.setEnabled(false);
-        A7.setEnabled(false);
-        H8.setEnabled(false);
-        G8.setEnabled(false);
-        F8.setEnabled(false);
-        F7.setEnabled(false);
-        G7.setEnabled(false);
-        H7.setEnabled(false);
-        H6.setEnabled(false);
-        G6.setEnabled(false);
-        F6.setEnabled(false);
-        E6.setEnabled(false);
-        D6.setEnabled(false);
-        C6.setEnabled(false);
-        B6.setEnabled(false);
-        A6.setEnabled(false);
-        A5.setEnabled(false);
-        B5.setEnabled(false);
-        C5.setEnabled(false);
-        D5.setEnabled(false);
-        E5.setEnabled(false);
-        F5.setEnabled(false);
-        G5.setEnabled(false);
-        H5.setEnabled(false);
-        H4.setEnabled(false);
-        G4.setEnabled(false);
-        F4.setEnabled(false);
-        E4.setEnabled(false);
-        D4.setEnabled(false);
-        C4.setEnabled(false);
-        B4.setEnabled(false);
-        A4.setEnabled(false);
-        A3.setEnabled(false);
-        B3.setEnabled(false);
-        C3.setEnabled(false);
-        D3.setEnabled(false);
-        E3.setEnabled(false);
-        F3.setEnabled(false);
-        G3.setEnabled(false);
-        H3.setEnabled(false);
-        H2.setEnabled(false);
-        G2.setEnabled(false);
-        F2.setEnabled(false);
-        E2.setEnabled(false);
-        D2.setEnabled(false);
-        C2.setEnabled(false);
-        B2.setEnabled(false);
-        A2.setEnabled(false);
-        A1.setEnabled(false);
-        B1.setEnabled(false);
-        C1.setEnabled(false);
-        D1.setEnabled(false);
-        E1.setEnabled(false);
-        F1.setEnabled(false);
-        G1.setEnabled(false);
-        H1.setEnabled(false);
+        for (int i = 1; i <= 8; i++) {
+            for (char j = 'A'; j <= 'H'; j++) {
+                dobierzprzycisk(String.valueOf(j + "" + i), false).setEnabled(false);
+            }
+        }
         SIOnOff.setEnabled(true);
         obrotowy.setVisible(true);
         bleft = true;
@@ -19299,70 +18715,11 @@ public class SzachowaArena extends javax.swing.JFrame {
                 online_kreator.setVisible(false);
                 online_dolacz.setVisible(false);
                 ustawka = false;
-                A8.setEnabled(true);
-                B8.setEnabled(true);
-                D8.setEnabled(true);
-                C8.setEnabled(true);
-                E8.setEnabled(true);
-                E7.setEnabled(true);
-                D7.setEnabled(true);
-                C7.setEnabled(true);
-                B7.setEnabled(true);
-                A7.setEnabled(true);
-                H8.setEnabled(true);
-                G8.setEnabled(true);
-                F8.setEnabled(true);
-                F7.setEnabled(true);
-                G7.setEnabled(true);
-                H7.setEnabled(true);
-                H6.setEnabled(true);
-                G6.setEnabled(true);
-                F6.setEnabled(true);
-                E6.setEnabled(true);
-                D6.setEnabled(true);
-                C6.setEnabled(true);
-                B6.setEnabled(true);
-                A6.setEnabled(true);
-                A5.setEnabled(true);
-                B5.setEnabled(true);
-                C5.setEnabled(true);
-                D5.setEnabled(true);
-                E5.setEnabled(true);
-                F5.setEnabled(true);
-                G5.setEnabled(true);
-                H5.setEnabled(true);
-                H4.setEnabled(true);
-                G4.setEnabled(true);
-                F4.setEnabled(true);
-                E4.setEnabled(true);
-                D4.setEnabled(true);
-                C4.setEnabled(true);
-                B4.setEnabled(true);
-                A4.setEnabled(true);
-                A3.setEnabled(true);
-                B3.setEnabled(true);
-                C3.setEnabled(true);
-                D3.setEnabled(true);
-                E3.setEnabled(true);
-                F3.setEnabled(true);
-                G3.setEnabled(true);
-                H3.setEnabled(true);
-                H2.setEnabled(true);
-                G2.setEnabled(true);
-                F2.setEnabled(true);
-                E2.setEnabled(true);
-                D2.setEnabled(true);
-                C2.setEnabled(true);
-                B2.setEnabled(true);
-                A2.setEnabled(true);
-                A1.setEnabled(true);
-                B1.setEnabled(true);
-                C1.setEnabled(true);
-                D1.setEnabled(true);
-                E1.setEnabled(true);
-                F1.setEnabled(true);
-                G1.setEnabled(true);
-                H1.setEnabled(true);
+                for (int i = 1; i <= 8; i++) {
+                    for (char j = 'A'; j <= 'H'; j++) {
+                        dobierzprzycisk(String.valueOf(j + "" + i), false).setEnabled(true);
+                    }
+                }
                 jMenu2.setEnabled(true);
                 styl(kolor_zestaw, kroj_zestaw, kolor_plansza);
                 poddanie.setEnabled(true);
@@ -19514,7 +18871,7 @@ public class SzachowaArena extends javax.swing.JFrame {
         styl(kolor_zestaw, kroj_zestaw, kolor_plansza);
     }//GEN-LAST:event_oldschoolActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    private void losowankoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_losowankoActionPerformed
         Los_postep progresik = new Los_postep();
         progresik.addPropertyChangeListener((PropertyChangeEvent evt2) -> {
             String name1 = evt2.getPropertyName();
@@ -19525,7 +18882,7 @@ public class SzachowaArena extends javax.swing.JFrame {
             }
         });
         progresik.execute();
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    }//GEN-LAST:event_losowankoActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -19662,6 +19019,7 @@ public class SzachowaArena extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -19674,7 +19032,6 @@ public class SzachowaArena extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPopupMenu jPopupMenu1;
     public static javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JRadioButton jRadioButton11;
@@ -19689,6 +19046,7 @@ public class SzachowaArena extends javax.swing.JFrame {
     private javax.swing.JMenu kolor1;
     private javax.swing.JMenu kroj;
     private javax.swing.JMenu kroj1;
+    private javax.swing.JMenuItem losowanko;
     private javax.swing.JMenu mazyna_losujaca;
     private javax.swing.JButton nowa_gra;
     private javax.swing.JButton obrotowy;
@@ -19701,6 +19059,7 @@ public class SzachowaArena extends javax.swing.JFrame {
     private javax.swing.JMenu plansza;
     private javax.swing.JMenu plansza1;
     private javax.swing.JButton poddanie;
+    private javax.swing.JComboBox<String> przelotowe;
     private javax.swing.JButton remis_odrzut;
     private javax.swing.JButton remis_prop;
     private javax.swing.JButton remis_zgoda;

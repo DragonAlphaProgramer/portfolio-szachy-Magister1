@@ -13,6 +13,550 @@ package szachy;
  */
 public class Ruch implements Comparable<Ruch> {
 
+    Ruch(boolean anty, String lista, SI_MIN_MAX_Alfa_Beta.figury bity, char[][] ust2) {
+        switch (bity) {
+            case BPion:
+            case CPion:
+                korzystnosc_bicia = figura.Pion;
+                break;
+            case BSkoczek:
+            case CSkoczek:
+                korzystnosc_bicia = figura.Skoczek;
+                break;
+            case BGoniec:
+            case CGoniec:
+                korzystnosc_bicia = figura.Goniec;
+                break;
+            case BWieza:
+            case CWieza:
+                korzystnosc_bicia = figura.Wieza;
+                break;
+            case BHetman:
+            case CHetman:
+                korzystnosc_bicia = figura.Hetman;
+                break;
+            case BKrol:
+            case CKrol:
+                korzystnosc_bicia = figura.Krol;
+                break;
+            default:
+                korzystnosc_bicia = figura.Pustka;
+        }
+        atak = (bity != SI_MIN_MAX_Alfa_Beta.figury.pustka)&&!anty;
+        roszada = lista.startsWith("O-O", 1);
+        dlugaroszada = lista.startsWith("O-O-O", 1);
+        przelot = lista.charAt(6) == ('E');
+        promocja = lista.charAt(6) == '='
+                && (lista.charAt(0) == 'p' || lista.charAt(0) == 'P');
+        if (lista.charAt(6) == '=') {
+            switch (lista.charAt(7)) {
+                case 'n':
+                case 'N':
+                    promowana = figura.Skoczek;
+                    wartosc_promocji = 1;
+                    break;
+                case 'b':
+                case 'B':
+                    promowana = figura.Goniec;
+                    wartosc_promocji = 2;
+                    break;
+                case 'r':
+                case 'R':
+                    promowana = figura.Wieza;
+                    wartosc_promocji = 3;
+                    break;
+                case 'q':
+                case 'Q':
+                    promowana = figura.Hetman;
+                    wartosc_promocji = 4;
+                    break;
+                default:
+                    promowana = figura.Pustka;
+                    break;
+            }
+        }
+        if (lista.startsWith("O-O", 1)) {
+            start1 = kolumna.KR;
+            start2 = rzad.RR;
+            koniec1 = kolumna.KR;
+            koniec2 = rzad.RR;
+        } else {
+            switch (lista.charAt(1)) {
+                case 'A':
+                    start1 = kolumna.k1;
+                    break;
+                case 'B':
+                    start1 = kolumna.k2;
+                    break;
+                case 'C':
+                    start1 = kolumna.k3;
+                    break;
+                case 'D':
+                    start1 = kolumna.k4;
+                    break;
+                case 'E':
+                    start1 = kolumna.k5;
+                    break;
+                case 'F':
+                    start1 = kolumna.k6;
+                    break;
+                case 'G':
+                    start1 = kolumna.k7;
+                    break;
+                case 'H':
+                    start1 = kolumna.k8;
+                    break;
+            }
+            switch (lista.charAt(4)) {
+                case 'A':
+                    koniec1 = kolumna.k1;
+                    break;
+                case 'B':
+                    koniec1 = kolumna.k2;
+                    break;
+                case 'C':
+                    koniec1 = kolumna.k3;
+                    break;
+                case 'D':
+                    koniec1 = kolumna.k4;
+                    break;
+                case 'E':
+                    koniec1 = kolumna.k5;
+                    break;
+                case 'F':
+                    koniec1 = kolumna.k6;
+                    break;
+                case 'G':
+                    koniec1 = kolumna.k7;
+                    break;
+                case 'H':
+                    koniec1 = kolumna.k8;
+                    break;
+            }
+            switch (lista.charAt(2)) {
+                case '1':
+                    start2 = rzad.r1;
+                    break;
+                case '2':
+                    start2 = rzad.r2;
+                    break;
+                case '3':
+                    start2 = rzad.r3;
+                    break;
+                case '4':
+                    start2 = rzad.r4;
+                    break;
+                case '5':
+                    start2 = rzad.r5;
+                    break;
+                case '6':
+                    start2 = rzad.r6;
+                    break;
+                case '7':
+                    start2 = rzad.r7;
+                    break;
+                case '8':
+                    start2 = rzad.r8;
+                    break;
+            }
+            switch (lista.charAt(5)) {
+                case '1':
+                    koniec2 = rzad.r1;
+                    break;
+                case '2':
+                    koniec2 = rzad.r2;
+                    break;
+                case '3':
+                    koniec2 = rzad.r3;
+                    break;
+                case '4':
+                    koniec2 = rzad.r4;
+                    break;
+                case '5':
+                    koniec2 = rzad.r5;
+                    break;
+                case '6':
+                    koniec2 = rzad.r6;
+                    break;
+                case '7':
+                    koniec2 = rzad.r7;
+                    break;
+                case '8':
+                    koniec2 = rzad.r8;
+                    break;
+            }
+        }
+        if (!lista.startsWith("O-O", 1)) {
+            switch (lista.charAt(0)) {
+                case 'p':
+                    czybialy = false;
+                    kolejnosc = figura.Pion;
+                    break;
+                case 'P':
+                    czybialy = true;
+                    kolejnosc = figura.Pion;
+                    break;
+                case 'n':
+                    czybialy = false;
+                    kolejnosc = figura.Skoczek;
+                    break;
+                case 'N':
+                    czybialy = true;
+                    kolejnosc = figura.Skoczek;
+                    break;
+                case 'b':
+                    czybialy = false;
+                    kolejnosc = figura.Goniec;
+                    break;
+                case 'B':
+                    czybialy = true;
+                    kolejnosc = figura.Goniec;
+                    break;
+                case 'r':
+                    czybialy = false;
+                    kolejnosc = figura.Wieza;
+                    break;
+                case 'R':
+                    czybialy = true;
+                    kolejnosc = figura.Wieza;
+                    break;
+                case 'q':
+                    czybialy = false;
+                    kolejnosc = figura.Hetman;
+                    break;
+                case 'Q':
+                    czybialy = true;
+                    kolejnosc = figura.Hetman;
+                    break;
+                case 'k':
+                    czybialy = false;
+                    kolejnosc = figura.Krol;
+                    break;
+                case 'K':
+                    czybialy = true;
+                    kolejnosc = figura.Krol;
+                    break;
+
+            }
+        } else {
+            kolejnosc = figura.Krol;
+            czybialy = lista.charAt(0) == 'K';
+        }
+        wspolczynnik_ruchu = wartosc(kolejnosc);
+        wspolczynnik_bitki = wartosc(bity);
+        for(int i = 0;i<8;i++){
+            for(int j = 0;j<8;j++){
+                switch(ust2[i][j]){
+            case 'p':
+                chessboard_before[i][j]=SI_MIN_MAX_Alfa_Beta.figury.CPion;break;
+            case 'P':
+                chessboard_before[i][j]=SI_MIN_MAX_Alfa_Beta.figury.BPion;break;
+            case 'n':
+                chessboard_before[i][j]=SI_MIN_MAX_Alfa_Beta.figury.CSkoczek;break;
+            case 'N':
+                chessboard_before[i][j]=SI_MIN_MAX_Alfa_Beta.figury.BSkoczek;break;
+            case 'b':
+                chessboard_before[i][j]=SI_MIN_MAX_Alfa_Beta.figury.CGoniec;break;
+            case 'B':
+                chessboard_before[i][j]=SI_MIN_MAX_Alfa_Beta.figury.BGoniec;break;
+            case 'r':
+                chessboard_before[i][j]=SI_MIN_MAX_Alfa_Beta.figury.CWieza;break;
+            case 'R':
+                chessboard_before[i][j]=SI_MIN_MAX_Alfa_Beta.figury.BWieza;break;
+            case 'q':
+                chessboard_before[i][j]=SI_MIN_MAX_Alfa_Beta.figury.CHetman;break;
+            case 'Q':
+                chessboard_before[i][j]=SI_MIN_MAX_Alfa_Beta.figury.BHetman;break;
+            case 'k':
+                chessboard_before[i][j]=SI_MIN_MAX_Alfa_Beta.figury.CKrol;break;
+            case 'K':
+                chessboard_before[i][j]=SI_MIN_MAX_Alfa_Beta.figury.BKrol;break;
+            case ' ':
+                chessboard_before[i][j]=SI_MIN_MAX_Alfa_Beta.figury.pustka;break;
+
+        }      
+        }
+        }
+        chessboard_after = zmiana(lista);
+        if(!anty){
+        czy_szach = lista.charAt(8)=='+';
+        }else{
+        czy_szach = false;    
+        }
+    }
+
+    Ruch(boolean anty, String lista, char bity, char[][] szachownica) {
+       switch (bity) {
+            case 'p':
+            case 'P':
+                korzystnosc_bicia = figura.Pion;
+                break;
+            case 'n':
+            case 'N':
+                korzystnosc_bicia = figura.Skoczek;
+                break;
+            case 'B':
+            case 'b':
+                korzystnosc_bicia = figura.Goniec;
+                break;
+            case 'R':
+            case 'r':
+                korzystnosc_bicia = figura.Wieza;
+                break;
+            case 'Q':
+            case 'q':
+                korzystnosc_bicia = figura.Hetman;
+                break;
+            case 'K':
+            case 'k':
+                korzystnosc_bicia = figura.Krol;
+                break;
+            default:
+                korzystnosc_bicia = figura.Pustka;
+        }
+        atak = (bity != ' ')&&!anty;
+        roszada = lista.startsWith("O-O", 1);
+        dlugaroszada = lista.startsWith("O-O-O", 1);
+        przelot = lista.charAt(6) == ('E');
+        promocja = lista.charAt(6) == '='
+                && (lista.charAt(0) == 'p' || lista.charAt(0) == 'P');
+        if (lista.charAt(6) == '=') {
+            switch (lista.charAt(7)) {
+                case 'n':
+                case 'N':
+                    promowana = figura.Skoczek;
+                    wartosc_promocji = 1;
+                    break;
+                case 'b':
+                case 'B':
+                    promowana = figura.Goniec;
+                    wartosc_promocji = 2;
+                    break;
+                case 'r':
+                case 'R':
+                    promowana = figura.Wieza;
+                    wartosc_promocji = 3;
+                    break;
+                case 'q':
+                case 'Q':
+                    promowana = figura.Hetman;
+                    wartosc_promocji = 4;
+                    break;
+                default:
+                    promowana = figura.Pustka;
+                    break;
+            }
+        }
+        if (lista.startsWith("O-O", 1)) {
+            start1 = kolumna.KR;
+            start2 = rzad.RR;
+            koniec1 = kolumna.KR;
+            koniec2 = rzad.RR;
+        } else {
+            switch (lista.charAt(1)) {
+                case 'A':
+                    start1 = kolumna.k1;
+                    break;
+                case 'B':
+                    start1 = kolumna.k2;
+                    break;
+                case 'C':
+                    start1 = kolumna.k3;
+                    break;
+                case 'D':
+                    start1 = kolumna.k4;
+                    break;
+                case 'E':
+                    start1 = kolumna.k5;
+                    break;
+                case 'F':
+                    start1 = kolumna.k6;
+                    break;
+                case 'G':
+                    start1 = kolumna.k7;
+                    break;
+                case 'H':
+                    start1 = kolumna.k8;
+                    break;
+            }
+            switch (lista.charAt(4)) {
+                case 'A':
+                    koniec1 = kolumna.k1;
+                    break;
+                case 'B':
+                    koniec1 = kolumna.k2;
+                    break;
+                case 'C':
+                    koniec1 = kolumna.k3;
+                    break;
+                case 'D':
+                    koniec1 = kolumna.k4;
+                    break;
+                case 'E':
+                    koniec1 = kolumna.k5;
+                    break;
+                case 'F':
+                    koniec1 = kolumna.k6;
+                    break;
+                case 'G':
+                    koniec1 = kolumna.k7;
+                    break;
+                case 'H':
+                    koniec1 = kolumna.k8;
+                    break;
+            }
+            switch (lista.charAt(2)) {
+                case '1':
+                    start2 = rzad.r1;
+                    break;
+                case '2':
+                    start2 = rzad.r2;
+                    break;
+                case '3':
+                    start2 = rzad.r3;
+                    break;
+                case '4':
+                    start2 = rzad.r4;
+                    break;
+                case '5':
+                    start2 = rzad.r5;
+                    break;
+                case '6':
+                    start2 = rzad.r6;
+                    break;
+                case '7':
+                    start2 = rzad.r7;
+                    break;
+                case '8':
+                    start2 = rzad.r8;
+                    break;
+            }
+            switch (lista.charAt(5)) {
+                case '1':
+                    koniec2 = rzad.r1;
+                    break;
+                case '2':
+                    koniec2 = rzad.r2;
+                    break;
+                case '3':
+                    koniec2 = rzad.r3;
+                    break;
+                case '4':
+                    koniec2 = rzad.r4;
+                    break;
+                case '5':
+                    koniec2 = rzad.r5;
+                    break;
+                case '6':
+                    koniec2 = rzad.r6;
+                    break;
+                case '7':
+                    koniec2 = rzad.r7;
+                    break;
+                case '8':
+                    koniec2 = rzad.r8;
+                    break;
+            }
+        }
+        if (!lista.startsWith("O-O", 1)) {
+            switch (lista.charAt(0)) {
+                case 'p':
+                    czybialy = false;
+                    kolejnosc = figura.Pion;
+                    break;
+                case 'P':
+                    czybialy = true;
+                    kolejnosc = figura.Pion;
+                    break;
+                case 'n':
+                    czybialy = false;
+                    kolejnosc = figura.Skoczek;
+                    break;
+                case 'N':
+                    czybialy = true;
+                    kolejnosc = figura.Skoczek;
+                    break;
+                case 'b':
+                    czybialy = false;
+                    kolejnosc = figura.Goniec;
+                    break;
+                case 'B':
+                    czybialy = true;
+                    kolejnosc = figura.Goniec;
+                    break;
+                case 'r':
+                    czybialy = false;
+                    kolejnosc = figura.Wieza;
+                    break;
+                case 'R':
+                    czybialy = true;
+                    kolejnosc = figura.Wieza;
+                    break;
+                case 'q':
+                    czybialy = false;
+                    kolejnosc = figura.Hetman;
+                    break;
+                case 'Q':
+                    czybialy = true;
+                    kolejnosc = figura.Hetman;
+                    break;
+                case 'k':
+                    czybialy = false;
+                    kolejnosc = figura.Krol;
+                    break;
+                case 'K':
+                    czybialy = true;
+                    kolejnosc = figura.Krol;
+                    break;
+
+            }
+        } else {
+            kolejnosc = figura.Krol;
+            czybialy = lista.charAt(0) == 'K';
+        }
+        wspolczynnik_ruchu = wartosc(kolejnosc);
+        wspolczynnik_bitki = wartosc(korzystnosc_bicia);
+        for(int i = 0;i<8;i++){
+            for(int j = 0;j<8;j++){
+                switch(szachownica[i][j]){
+            case 'p':
+                chessboard_before[i][j]=SI_MIN_MAX_Alfa_Beta.figury.CPion;break;
+            case 'P':
+                chessboard_before[i][j]=SI_MIN_MAX_Alfa_Beta.figury.BPion;break;
+            case 'n':
+                chessboard_before[i][j]=SI_MIN_MAX_Alfa_Beta.figury.CSkoczek;break;
+            case 'N':
+                chessboard_before[i][j]=SI_MIN_MAX_Alfa_Beta.figury.BSkoczek;break;
+            case 'b':
+                chessboard_before[i][j]=SI_MIN_MAX_Alfa_Beta.figury.CGoniec;break;
+            case 'B':
+                chessboard_before[i][j]=SI_MIN_MAX_Alfa_Beta.figury.BGoniec;break;
+            case 'r':
+                chessboard_before[i][j]=SI_MIN_MAX_Alfa_Beta.figury.CWieza;break;
+            case 'R':
+                chessboard_before[i][j]=SI_MIN_MAX_Alfa_Beta.figury.BWieza;break;
+            case 'q':
+                chessboard_before[i][j]=SI_MIN_MAX_Alfa_Beta.figury.CHetman;break;
+            case 'Q':
+                chessboard_before[i][j]=SI_MIN_MAX_Alfa_Beta.figury.BHetman;break;
+            case 'k':
+                chessboard_before[i][j]=SI_MIN_MAX_Alfa_Beta.figury.CKrol;break;
+            case 'K':
+                chessboard_before[i][j]=SI_MIN_MAX_Alfa_Beta.figury.BKrol;break;
+            case ' ':
+                chessboard_before[i][j]=SI_MIN_MAX_Alfa_Beta.figury.pustka;break;
+
+        }      
+        }
+        }
+        chessboard_after = zmiana(lista);
+        if(!anty){
+        czy_szach = lista.charAt(8)=='+';
+        }else{
+        czy_szach = false;    
+        }
+    }
+
    
     private SI_MIN_MAX_Alfa_Beta.figury[][] zmiana(String lista) {
         SI_MIN_MAX_Alfa_Beta.figury[][] wynik = new SI_MIN_MAX_Alfa_Beta.figury[8][8];
