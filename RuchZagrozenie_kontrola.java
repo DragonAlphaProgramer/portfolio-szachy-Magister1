@@ -810,7 +810,7 @@ public class RuchZagrozenie_kontrola {
      * @return czy ruch może być wykonany
      */
     public static boolean ruch(int[] lokalS, int[] lokalK, char symbol,
-            char[][] ustawienie, boolean czybiale, boolean przelotcan, int kol) {
+            char[][] ustawienie, boolean czybiale, boolean przelotcan, int kol,boolean mgla) {
         boolean krolZ;
         byte alfa, beta, gama, dela;
         boolean bez, wynik = false;
@@ -829,8 +829,8 @@ public class RuchZagrozenie_kontrola {
                 if (wynik == true) {
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
-                    krolZ = szach(ustawienie, czybiale);
-                    wynik = krolZ != true;
+                    krolZ = !mgla ?szach(ustawienie, czybiale):false;
+                    wynik = !mgla ? krolZ != true : true;
                     if (wynik == false) {
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
@@ -849,8 +849,8 @@ public class RuchZagrozenie_kontrola {
 
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
-                        krolZ = szach(ustawienie, czybiale);
-                        wynik = krolZ != true;
+                        krolZ =!mgla ? szach(ustawienie, czybiale):false;
+                        wynik = !mgla ? krolZ != true : true;
                         if (wynik == false) {
                             ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                             ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
@@ -920,8 +920,8 @@ public class RuchZagrozenie_kontrola {
 
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
-                        krolZ = szach(ustawienie, czybiale);
-                        wynik = krolZ != true;
+                        krolZ =!mgla ? szach(ustawienie, czybiale):false;
+                        wynik = !mgla ? krolZ != true : true;
                         if (wynik == false) {
                             ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                             ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
@@ -1008,8 +1008,8 @@ public class RuchZagrozenie_kontrola {
                 if (wynik == true) {
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
-                    krolZ = szach(ustawienie, czybiale);
-                    wynik = krolZ != true;
+                    krolZ =!mgla ? szach(ustawienie, czybiale):false;
+                    wynik = !mgla ? krolZ != true : true;
                     if (wynik == false) {
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
@@ -1023,8 +1023,8 @@ public class RuchZagrozenie_kontrola {
 
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
-                    krolZ = szach(ustawienie, czybiale);
-                    wynik = krolZ != true;
+                    krolZ =!mgla ? szach(ustawienie, czybiale):false;
+                    wynik = !mgla ? krolZ != true : true;
                     if (wynik == false) {
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                     }
@@ -1136,8 +1136,8 @@ public class RuchZagrozenie_kontrola {
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
                     ustawienie[lokalS[1] - 1][lokalK[0] - 1] = ' ';
-                    krolZ = szach(ustawienie, czybiale);
-                    wynik = krolZ != true;
+                    krolZ =!mgla ? szach(ustawienie, czybiale):false;
+                    wynik = !mgla ? krolZ != true : true;
                     if (wynik == false) {
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
@@ -1147,8 +1147,8 @@ public class RuchZagrozenie_kontrola {
                 if (wynik == true && przelotcan == false) {
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
-                    krolZ = szach(ustawienie, czybiale);
-                    wynik = krolZ != true;
+                    krolZ =!mgla ? szach(ustawienie, czybiale):false;
+                    wynik = !mgla ? krolZ != true : true;
                     if (wynik == false) {
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
@@ -1199,8 +1199,8 @@ public class RuchZagrozenie_kontrola {
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
                     ustawienie[lokalS[1] - 1][lokalK[0] - 1] = ' ';
-                    krolZ = szach(ustawienie, czybiale);
-                    wynik = krolZ != true;
+                    krolZ =!mgla ? szach(ustawienie, czybiale):false;
+                    wynik = !mgla ? krolZ != true : true;
                     if (wynik == false) {
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
@@ -1210,8 +1210,8 @@ public class RuchZagrozenie_kontrola {
                 if (wynik == true && przelotcan == false) {
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
-                    krolZ = szach(ustawienie, czybiale);
-                    wynik = krolZ != true;
+                    krolZ =!mgla ? szach(ustawienie, czybiale):false;
+                    wynik = !mgla ? krolZ != true : true;
                     if (wynik == false) {
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
@@ -1229,8 +1229,8 @@ public class RuchZagrozenie_kontrola {
 
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
-                    krolZ = szach(ustawienie, czybiale);
-                    wynik = krolZ != true;
+                    krolZ =!mgla ? szach(ustawienie, czybiale):false;
+                    wynik = !mgla ? krolZ != true : true;
                     if (wynik == false) {
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
@@ -1307,8 +1307,8 @@ public class RuchZagrozenie_kontrola {
 
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
-                        krolZ = szach(ustawienie, czybiale);
-                        wynik = krolZ != true;
+                        krolZ =!mgla ? szach(ustawienie, czybiale):false;
+                        wynik = !mgla ? krolZ != true : true;
                         if (wynik == false) {
                             ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                             ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
@@ -1378,8 +1378,8 @@ public class RuchZagrozenie_kontrola {
 
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
-                        krolZ = szach(ustawienie, czybiale);
-                        wynik = krolZ != true;
+                        krolZ =!mgla ? szach(ustawienie, czybiale):false;
+                        wynik = !mgla ? krolZ != true : true;
                         if (wynik == false) {
                             ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                             ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
@@ -1466,7 +1466,7 @@ public class RuchZagrozenie_kontrola {
                     symbol = ustawienie[lokalK[1] - 1][lokalK[0] - 1];
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = 'k';
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
-                    bez = szach(ustawienie, czybiale);
+                    bez =!mgla ? szach(ustawienie, czybiale):false;
                     wynik = bez != true;
                     if (wynik == true) {
                     } else {
@@ -1489,7 +1489,7 @@ public class RuchZagrozenie_kontrola {
                     symbol = ustawienie[lokalK[1] - 1][lokalK[0] - 1];
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = 'K';
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
-                    bez = szach(ustawienie, czybiale);
+                    bez = !mgla ? szach(ustawienie, czybiale):false;
                     wynik = bez != true;
                     if (wynik == true) {
                     } else {

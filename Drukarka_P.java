@@ -291,7 +291,7 @@ class Drukarka_P implements Printable {
         obraz.setStroke(new BasicStroke(2));
         obraz.drawOval(460, 410, 30, 30);
         int x = 0;
-        obraz.setFont(new Font("Courier New", Font.PLAIN, 10));
+        obraz.setFont(new Font("Liberation Mono", Font.PLAIN, 10));
         int temp = 1;
         for (int i = 0; i < text.size(); i++) {
             if (i % 2 == 0) {

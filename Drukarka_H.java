@@ -30,7 +30,7 @@ public class Drukarka_H implements Printable {
         obraz.fillRect(0, 0, 580, 850);
         obraz.setColor(Color.black);
         int x = 0;
-        obraz.setFont(new Font("Courier New", Font.PLAIN, 10));
+        obraz.setFont(new Font("Liberation Mono", Font.PLAIN, 10));
         int temp = 1;
         for (int i = 0; i < historia.size(); i++) {
           /*  switch (i % 8) {
@@ -79,6 +79,35 @@ public class Drukarka_H implements Printable {
         return bufferedImage;
     }
 
+    private Image konwert_na_grafike(ArrayList<String> historia,int przedzial) {
+        BufferedImage bufferedImage = new BufferedImage(580, 850, BufferedImage.TYPE_INT_RGB);
+        Graphics2D obraz = bufferedImage.createGraphics();
+        obraz.setColor(Color.white);
+        obraz.fillRect(0, 0, 580, 850);
+        obraz.setColor(Color.black);
+        int x = 0;
+        obraz.setFont(new Font("Liberation Mono", Font.PLAIN, 10));
+        int temp = 1;
+        for (int i = 0; i < historia.size(); i++) {
+             if (i % 2 == 0) {
+                obraz.drawString((String.valueOf(temp) + "." + historia.get(i)), x * 135, (i == 0) ? 10 : (i / 2) * 10 - (750 * x)+10);
+            } else {
+                obraz.drawString(historia.get(i), 80 + x * 135, (i != 1) ? ((i - 1) / 2) * 10 - (750 * x) +10: 10);
+                temp++;
+            }
+            if (((i + 1) % 150 == 0 && i > 0)) {
+                x = x + 1;
+            }
+        }
+        obraz.drawString(""+String.valueOf((przedzial-1)*300+1)+" - "+String.valueOf((przedzial)*300),300 ,790);
+        return bufferedImage;
+    }
+
+    
+    
+     public Drukarka_H(ArrayList<String> historia,int prezial) {
+        obraz = konwert_na_grafike(historia,prezial);
+    }
     public Drukarka_H(ArrayList<String> historia) {
         obraz = konwert_na_grafike(historia);
     }

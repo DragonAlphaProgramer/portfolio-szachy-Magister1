@@ -254,9 +254,8 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
     }
 
     synchronized private int maximum(final int glebia, byte kolumna, int biggest, int samllest, figury[][] chessboard) {
-        int[] temp1 = {0, 0};
         Collection<Ruch> lista = Generator.generuj_posuniecia(chessboard, this.tura_rywala, this.przelotcan,
-                this.bleft, this.bright, this.wleft, this.wright, this.kingrochB, this.kingrochC, kolumna, false, ' ', temp1, false);
+                this.bleft, this.bright, this.wleft, this.wright, this.kingrochB, this.kingrochC, kolumna, false);
         if (glebia == 0 || koniec(konwert(chessboard), this.tura_rywala, this.przelotcan, kolumna)
                 || lista.isEmpty()) {
             pozycje = pozycje + 1;
@@ -299,9 +298,8 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
     }
 
     synchronized private int minimum(final int glebia, byte kolumna, int biggest, int smallest, figury[][] chessboard) {
-        int[] temp1 = new int[2];
         Collection<Ruch> lista = Generator.generuj_posuniecia(chessboard, this.tura_rywala, this.przelotcan,
-                this.bleft, this.bright, this.wleft, this.wright, this.kingrochB, this.kingrochC, kolumna, false, ' ', temp1, false);
+                this.bleft, this.bright, this.wleft, this.wright, this.kingrochB, this.kingrochC, kolumna, false);
         if (glebia == 0 || koniec(konwert(chessboard), this.tura_rywala, this.przelotcan, kolumna)
                 || lista.isEmpty()) {
             pozycje = pozycje + 1;

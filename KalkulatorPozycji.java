@@ -6,7 +6,6 @@
 package szachy;
 
 import java.util.Collection;
-import szachy.Bezpieczenstwo_krol.analizator_odleglosci;
 
 /**
  *
@@ -373,7 +372,7 @@ public class KalkulatorPozycji
     private int ruchy_zbijajace(SI_MIN_MAX_Alfa_Beta.figury[][] ustawienie, boolean strona, boolean przelotcan,
             boolean bleft, boolean bright, boolean wleft, boolean wright, boolean roszadaB, boolean roszadaC, int kol) {
         ////System.out.printlnln("Wchodzi7");
-        Collection<Ruch> lista = Generator.generuj_posuniecia((ustawienie), strona, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol, false);
+        Collection<Ruch> lista = Generator.generuj_posuniecia((ustawienie), strona, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol, false,false);
         int licznik_ataku = 0;
 
         if (!lista.isEmpty()) {

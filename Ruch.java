@@ -561,9 +561,7 @@ public class Ruch implements Comparable<Ruch> {
     private SI_MIN_MAX_Alfa_Beta.figury[][] zmiana(String lista) {
         SI_MIN_MAX_Alfa_Beta.figury[][] wynik = new SI_MIN_MAX_Alfa_Beta.figury[8][8];
         for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                wynik[i][j] = this.chessboard_before[i][j];
-            }
+            System.arraycopy(this.chessboard_before[i], 0, wynik[i], 0, 8);
         }
         if (this.roszada) {
 
