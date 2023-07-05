@@ -11,7 +11,7 @@ package szachy;
  */
 interface Kalkulator {
     
-    int zliczacz(SI_MIN_MAX_Alfa_Beta.figury[][] ustawienie, boolean tura_rywala, boolean przelotcan,
+    int zliczacz(char[][] ustawienie, boolean tura_rywala, boolean przelotcan,
             boolean bleft, boolean bright, boolean wleft, boolean wright,
             boolean roszadaB, boolean roszadaC, boolean wykonanaRochB, boolean wykonanaRochC,
             int glebia, int kol);

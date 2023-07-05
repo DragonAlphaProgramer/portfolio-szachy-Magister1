@@ -18,8 +18,8 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
     int pozycje = 0;
     int all_position = 0;
     int licznik, maxglebia;
-    figury[][] pozycja = new figury[8][8];
-    figury[][] pozycja_wyjsciowa = new figury[8][8];
+    char[][] pozycja = new char[8][8];
+    char[][] pozycja_wyjsciowa = new char[8][8];
     boolean tura_rywala, przelotcan, bleft, bright, wleft, wright,
             kingrochB, kingrochC, didRochB, didRochC;
     int kolumna;
@@ -124,47 +124,7 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
         this.licznik = licznik;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                switch (ustawienie[i][j]) {
-                    case ' ':
-                        pozycja[i][j] = figury.pustka;
-                        break;
-                    case 'P':
-                        pozycja[i][j] = figury.BPion;
-                        break;
-                    case 'p':
-                        pozycja[i][j] = figury.CPion;
-                        break;
-                    case 'N':
-                        pozycja[i][j] = figury.BSkoczek;
-                        break;
-                    case 'n':
-                        pozycja[i][j] = figury.CSkoczek;
-                        break;
-                    case 'B':
-                        pozycja[i][j] = figury.BGoniec;
-                        break;
-                    case 'b':
-                        pozycja[i][j] = figury.CGoniec;
-                        break;
-                    case 'R':
-                        pozycja[i][j] = figury.BWieza;
-                        break;
-                    case 'r':
-                        pozycja[i][j] = figury.CWieza;
-                        break;
-                    case 'Q':
-                        pozycja[i][j] = figury.BHetman;
-                        break;
-                    case 'q':
-                        pozycja[i][j] = figury.CHetman;
-                        break;
-                    case 'K':
-                        pozycja[i][j] = figury.BKrol;
-                        break;
-                    case 'k':
-                        pozycja[i][j] = figury.CKrol;
-                        break;
-                }
+                ustawienie[i][j]=pozycja[i][j];
                 pozycja_wyjsciowa[i][j] = pozycja[i][j];
             }
         }
@@ -197,7 +157,7 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
         int biezaca_ogolna;
         all_position = all_position + 1;
         byte Nkolumna;
-        if (move.kolejnosc == Ruch.figura.Pion && (Math.abs(pozyskajkordkolumna(move.koniec2) - pozyskajkordkolumna(move.start2)) == 2)) {
+        if ((move.kolejnosc == 'P'||move.kolejnosc == 'p') && (Math.abs(pozyskajkordkolumna(move.koniec2) - pozyskajkordkolumna(move.start2)) == 2)) {
             Nkolumna = (byte) (pozyskajkordrzad(move.start1));
             this.przelotcan = true;
         } else {
@@ -206,8 +166,8 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
         }
         try {
 
-            if (!RuchZagrozenie_kontrola.szach(konwert(move.chessboard_after), this.tura_rywala)
-                    && obecnosc(this.pozycja)) {
+            if (!RuchZagrozenie_kontrola.szach((move.chessboard_after), this.tura_rywala)
+                    && obecnosc(move.chessboard_after)) {
                 aktualizacja_parametrow(move);
                 this.tura_rywala = !this.tura_rywala;
                 kombinacja.add(move);
@@ -216,9 +176,9 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
                         : maximum((glebia - 1), Nkolumna, najwieksza, najmniejsza, move.chessboard_after);
                 this.tura_rywala = !this.tura_rywala;
                 if (wyjsciowa_tura) {
-                    setPrzerwa(kontrola_mat(konwert(move.chessboard_after), false, Nkolumna, przelotcan));
+                    setPrzerwa(kontrola_mat((move.chessboard_after), false, Nkolumna, przelotcan));
                 } else {
-                    setPrzerwa(kontrola_mat(konwert(move.chessboard_after), true, Nkolumna, przelotcan));
+                    setPrzerwa(kontrola_mat((move.chessboard_after), true, Nkolumna, przelotcan));
                 }
 
                 przywroc_parametry(move);
@@ -235,7 +195,7 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
             for (int i = 7; i > -1; i--) {
                 for (int j = 0; j < 8; j++) {
 
-                    System.out.print("[" + konwert(this.pozycja)[i][j] + "]");
+                    System.out.print("[" + (this.pozycja[i][j]) + "]");
                 }
                 System.out.println();
             }
@@ -253,11 +213,9 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
         this.zakaz = zakaz;
     }
 
-    synchronized private int maximum(final int glebia, byte kolumna, int biggest, int samllest, figury[][] chessboard) {
-        Collection<Ruch> lista = Generator.generuj_posuniecia(chessboard, this.tura_rywala, this.przelotcan,
-                this.bleft, this.bright, this.wleft, this.wright, this.kingrochB, this.kingrochC, kolumna, false);
-        if (glebia == 0 || koniec(konwert(chessboard), this.tura_rywala, this.przelotcan, kolumna)
-                || lista.isEmpty()) {
+    synchronized private int maximum(final int glebia, byte kolumna, int biggest, int samllest, char[][] chessboard) {
+        if (glebia == 0 || koniec((chessboard), this.tura_rywala, this.przelotcan, kolumna)
+                ) {
             pozycje = pozycje + 1;
             /* for (Ruch r : kombinacja) {
                 System.out.print(r.toString() + ",");
@@ -267,14 +225,17 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
             return this.wynikowa.zliczacz(chessboard, tura_rywala, przelotcan,
                     bleft, bright, wleft, wright, kingrochB, kingrochC, didRochB, didRochC, glebia, kolumna);
         }
+        Collection<Ruch> lista = Generator.generuj_posuniecia(chessboard, this.tura_rywala, this.przelotcan,
+                this.bleft, this.bright, this.wleft, this.wright, this.kingrochB, this.kingrochC, kolumna, false);
+        
         int tempB = biggest;
         all_position = all_position + lista.size();
         for (final Ruch move : lista) {
-            if (!RuchZagrozenie_kontrola.szach(konwert(move.chessboard_after), this.tura_rywala)
+            if (!RuchZagrozenie_kontrola.szach((move.chessboard_after), this.tura_rywala)
                     && obecnosc(move.chessboard_after)) {
                 //    System.out.println(move.toString()+ "|"+move.wspolczynnik_bitki);
                 byte Nkolumna;
-                if (move.kolejnosc == Ruch.figura.Pion && (Math.abs(pozyskajkordkolumna(move.koniec2) - pozyskajkordkolumna(move.start2)) == 2)) {
+                if ((move.kolejnosc == 'P'||move.kolejnosc == 'p') && (Math.abs(pozyskajkordkolumna(move.koniec2) - pozyskajkordkolumna(move.start2)) == 2)) {
                     Nkolumna = (byte) (pozyskajkordrzad(move.start1));
                     this.przelotcan = true;
                 } else {
@@ -297,11 +258,8 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
         return tempB;
     }
 
-    synchronized private int minimum(final int glebia, byte kolumna, int biggest, int smallest, figury[][] chessboard) {
-        Collection<Ruch> lista = Generator.generuj_posuniecia(chessboard, this.tura_rywala, this.przelotcan,
-                this.bleft, this.bright, this.wleft, this.wright, this.kingrochB, this.kingrochC, kolumna, false);
-        if (glebia == 0 || koniec(konwert(chessboard), this.tura_rywala, this.przelotcan, kolumna)
-                || lista.isEmpty()) {
+    synchronized private int minimum(final int glebia, byte kolumna, int biggest, int smallest, char[][] chessboard) {
+       if (glebia == 0 || koniec((chessboard), this.tura_rywala, this.przelotcan, kolumna)) {
             pozycje = pozycje + 1;
             /* for (Ruch r : kombinacja) {
                 System.out.print(r.toString() + ",");
@@ -311,14 +269,17 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
             return this.wynikowa.zliczacz(chessboard, tura_rywala, przelotcan,
                     bleft, bright, wleft, wright, kingrochB, kingrochC, didRochB, didRochC, glebia, kolumna);
         }
+        Collection<Ruch> lista = Generator.generuj_posuniecia(chessboard, this.tura_rywala, this.przelotcan,
+                this.bleft, this.bright, this.wleft, this.wright, this.kingrochB, this.kingrochC, kolumna, false);
+        
         int tempM = smallest;
         all_position = all_position + lista.size();
         for (final Ruch move : lista) {
-            if (!RuchZagrozenie_kontrola.szach(konwert(move.chessboard_after), this.tura_rywala)
+            if (!RuchZagrozenie_kontrola.szach((move.chessboard_after), this.tura_rywala)
                     && obecnosc(move.chessboard_after)) {
                 byte Nkolumna;
                 // System.out.println(move.toString()+ "|"+move.wspolczynnik_bitki); 
-                if (move.kolejnosc == Ruch.figura.Pion && (Math.abs(pozyskajkordkolumna(move.koniec2) - pozyskajkordkolumna(move.start2)) == 2)) {
+                if ((move.kolejnosc == 'P'||move.kolejnosc == 'p') && (Math.abs(pozyskajkordkolumna(move.koniec2) - pozyskajkordkolumna(move.start2)) == 2)) {
                     Nkolumna = (byte) (pozyskajkordrzad(move.start1));
                     this.przelotcan = true;
                 } else {
@@ -341,14 +302,14 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
         return tempM;
     }
 
-    synchronized private boolean obecnosc(figury[][] ustawienie13) {
+    synchronized private boolean obecnosc(char[][] ustawienie13) {
         byte KB = 0, KC = 0;
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
-                if (ustawienie13[x][y] == figury.BKrol) {
+                if (ustawienie13[x][y] == 'K') {
                     KB++;
                 }
-                if (ustawienie13[x][y] == figury.CKrol) {
+                if (ustawienie13[x][y] == 'k') {
                     KC++;
                 }
             }
@@ -450,7 +411,8 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
             kingrochB = false;
         } else {
             switch (move.kolejnosc) {
-                case Wieza:
+                case 'r':
+                case 'R':
                     if (!tura_rywala) {
                         if (move.start1 == Ruch.kolumna.k1 && move.start2 == Ruch.rzad.r8) {
                             bleft = false;
@@ -465,7 +427,8 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
                         }
                     }
                     break;
-                case Krol:
+                case 'K':
+                    case 'k':
                     if (tura_rywala) {
                         if (move.start1 == Ruch.kolumna.k5 && move.start2 == Ruch.rzad.r1) {
                             kingrochB = false;
@@ -501,7 +464,8 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
             kingrochB = true;
         } else {
             switch (move.kolejnosc) {
-                case Wieza:
+                case 'r':
+                        case 'R':
                     if (!tura_rywala) {
                         if (move.start1 == Ruch.kolumna.k1 && move.start2 == Ruch.rzad.r8) {
                             bleft = true;
@@ -516,7 +480,8 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
                         }
                     }
                     break;
-                case Krol:
+                case 'k':
+                case 'K':
                     if (tura_rywala) {
                         if (move.start1 == Ruch.kolumna.k5 && move.start2 == Ruch.rzad.r1) {
                             kingrochB = true;

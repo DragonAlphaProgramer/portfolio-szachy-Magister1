@@ -168,7 +168,7 @@ public class KalkulatorPozycji
     }
 
     @Override
-    public int zliczacz(SI_MIN_MAX_Alfa_Beta.figury[][] ustawienie, boolean tura_rywala, boolean przelotcan,
+    public int zliczacz(char[][] ustawienie, boolean tura_rywala, boolean przelotcan,
             boolean bleft, boolean bright, boolean wleft, boolean wright,
             boolean roszadaB, boolean roszadaC, boolean wykonanaRochB, boolean wykonanaRochC,
             int glebia, int kol) {
@@ -198,7 +198,7 @@ public class KalkulatorPozycji
                 + wartosc_bierek(ustawienie);
     }
 
-    private int punktacja(SI_MIN_MAX_Alfa_Beta.figury[][] ustawienie, boolean strona, boolean przelotcan,
+    private int punktacja(char[][] ustawienie, boolean strona, boolean przelotcan,
             boolean bleft, boolean bright, boolean wleft, boolean wright,
             boolean roszadaB, boolean roszadaC, boolean wykonanaRochB, boolean wykonanaRochC,
             int glebia, int kol) {
@@ -209,7 +209,7 @@ public class KalkulatorPozycji
                 + ruchy_zbijajace(ustawienie, strona, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol);
     }
 
-    private int wartosc_bierek(SI_MIN_MAX_Alfa_Beta.figury[][] ustawienie) {
+    private int wartosc_bierek(char[][] ustawienie) {
         int wartosc = 0;
         int gonceB = 0;
         int gonceC = 0;
@@ -217,54 +217,54 @@ public class KalkulatorPozycji
             for (int y = 0; y < 8; y++) {
                // System.out.println(y+(8*(7-x))+"|"+ustawienie[x][y]);
                 switch (ustawienie[x][y]) {
-                    case CPion:
+                    case 'p':
                         wartosc = wartosc - (100 + BONUS_CZARNY_PION[y+(8*(7-x))]);
-                        //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + SI_MIN_MAX_Alfa_Beta.konwert(ustawienie)[x+(7*(7-y))] + BONUS_CZARNY_PION[x+(7*(7-y))] + "]");
+                        //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + (ustawienie)[x+(7*(7-y))] + BONUS_CZARNY_PION[x+(7*(7-y))] + "]");
                         break;
-                    case CSkoczek:
-                        //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + SI_MIN_MAX_Alfa_Beta.konwert(ustawienie)[x+(7*(7-y))] + BONUS_CZARNY_SKOCZEK[x+(7*(7-y))] + "]");
+                    case 'n':
+                        //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + (ustawienie)[x+(7*(7-y))] + BONUS_CZARNY_SKOCZEK[x+(7*(7-y))] + "]");
                         wartosc = wartosc - (300 + BONUS_CZARNY_SKOCZEK[y+(8*(7-x))]);
                         break;
-                    case CGoniec:
-                        //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + SI_MIN_MAX_Alfa_Beta.konwert(ustawienie)[x+(7*(7-y))] + BONUS_CZARNY_GONIEC[x+(7*(7-y))] + "]");
+                    case 'b':
+                        //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + (ustawienie)[x+(7*(7-y))] + BONUS_CZARNY_GONIEC[x+(7*(7-y))] + "]");
                         wartosc = wartosc - (330 + BONUS_CZARNY_GONIEC[y+(8*(7-x))]);
                         gonceC = gonceC + 1;
                         break;
-                    case CWieza:
-                        //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + SI_MIN_MAX_Alfa_Beta.konwert(ustawienie)[x+(7*(7-y))] + BONUS_CZARNA_WIEZA[x+(7*(7-y))] + "]");
+                    case 'r':
+                        //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + (ustawienie)[x+(7*(7-y))] + BONUS_CZARNA_WIEZA[x+(7*(7-y))] + "]");
                         wartosc = wartosc - (500 + BONUS_CZARNA_WIEZA[y+(8*(7-x))]);
                         break;
-                    case CHetman:
-                        //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + SI_MIN_MAX_Alfa_Beta.konwert(ustawienie)[x+(7*(7-y))] + BONUS_CZARNY_HETMAN[x+(7*(7-y))] + "]");
+                    case 'q':
+                        //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + (ustawienie)[x+(7*(7-y))] + BONUS_CZARNY_HETMAN[x+(7*(7-y))] + "]");
                         wartosc = wartosc - (900 + BONUS_CZARNY_HETMAN[y+(8*(7-x))]);
                         break;
-                    case CKrol:
-                        //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + SI_MIN_MAX_Alfa_Beta.konwert(ustawienie)[x+(7*(7-y))] + BONUS_CZARNY_KROL[x+(7*(7-y))] + "]");
+                    case 'k':
+                        //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + (ustawienie)[x+(7*(7-y))] + BONUS_CZARNY_KROL[x+(7*(7-y))] + "]");
                         wartosc = wartosc - (10000 + BONUS_CZARNY_KROL[y+(8*(7-x))]);
                         break;
-                    case BPion:
-                        //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + SI_MIN_MAX_Alfa_Beta.konwert(ustawienie)[x+(7*(7-y))] + BONUS_BIALY_PION[x+(7*(7-y))] + "]");
+                    case 'P':
+                        //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + (ustawienie)[x+(7*(7-y))] + BONUS_BIALY_PION[x+(7*(7-y))] + "]");
                         wartosc = wartosc + (100 + BONUS_BIALY_PION[y+(8*(7-x))]);
                         break;
-                    case BSkoczek:
-                        //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + SI_MIN_MAX_Alfa_Beta.konwert(ustawienie)[x+(7*(7-y))] + BONUS_BIALY_SKOCZEK[x+(7*(7-y))] + "]");
+                    case 'N':
+                        //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + (ustawienie)[x+(7*(7-y))] + BONUS_BIALY_SKOCZEK[x+(7*(7-y))] + "]");
                         wartosc = wartosc + (300 + BONUS_BIALY_SKOCZEK[y+(8*(7-x))]);
                         break;
-                    case BGoniec:
-                        //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + SI_MIN_MAX_Alfa_Beta.konwert(ustawienie)[x+(7*(7-y))] + BONUS_BIALY_GONIEC[x+(7*(7-y))] + "]");
+                    case 'B':
+                        //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + (ustawienie)[x+(7*(7-y))] + BONUS_BIALY_GONIEC[x+(7*(7-y))] + "]");
                         wartosc = wartosc + (330 + BONUS_BIALY_GONIEC[y+(8*(7-x))]);
                         gonceB = gonceB + 1;
                         break;
-                    case BWieza:
-                        //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + SI_MIN_MAX_Alfa_Beta.konwert(ustawienie)[x+(7*(7-y))] + BONUS_BIALA_WIEZA[x+(7*(7-y))] + "]");
+                    case 'R':
+                        //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + (ustawienie)[x+(7*(7-y))] + BONUS_BIALA_WIEZA[x+(7*(7-y))] + "]");
                         wartosc = wartosc + (500 + BONUS_BIALA_WIEZA[y+(8*(7-x))]);
                         break;
-                    case BHetman:
-                        //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + SI_MIN_MAX_Alfa_Beta.konwert(ustawienie)[x+(7*(7-y))] + BONUS_BIALY_HETMAN[x+(7*(7-y))] + "]");
+                    case 'Q':
+                        //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + (ustawienie)[x+(7*(7-y))] + BONUS_BIALY_HETMAN[x+(7*(7-y))] + "]");
                         wartosc = wartosc + (900 + BONUS_BIALY_HETMAN[y+(8*(7-x))]);
                         break;
-                    case BKrol:
-                        //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + SI_MIN_MAX_Alfa_Beta.konwert(ustawienie)[x+(7*(7-y))] + BONUS_BIALY_KROL[x+(7*(7-y))] + "]");
+                    case 'K':
+                        //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + (ustawienie)[x+(7*(7-y))] + BONUS_BIALY_KROL[x+(7*(7-y))] + "]");
                         wartosc = wartosc + (10000 + BONUS_BIALY_KROL[y+(8*(7-x))]);
                         break;
                     default:
@@ -277,7 +277,7 @@ public class KalkulatorPozycji
         return wartosc + (gonceB >= 2 ? 25 : 0) - (gonceC >= 2 ? 25 : 0);
     }
 
-    private int szachmat(boolean strona, SI_MIN_MAX_Alfa_Beta.figury[][] ustawienie, int glebia, boolean przelotcan, int kol) {
+    private int szachmat(boolean strona, char[][] ustawienie, int glebia, boolean przelotcan, int kol) {
         int[] krol = new int[2];
         if (RuchZagrozenie_kontrola.szach((ustawienie), !strona)) {
             char[][] backup = new char[8][8];
@@ -286,12 +286,12 @@ public class KalkulatorPozycji
             char[][] backup3 = new char[8][8];
             for (byte i = 0; i < 8; i++) {
                 for (byte j = 0; j < 8; j++) {
-                    backup[i][j] = SI_MIN_MAX_Alfa_Beta.konwert(ustawienie)[i][j];
-                    backup1[i][j] = SI_MIN_MAX_Alfa_Beta.konwert(ustawienie)[i][j];
-                    backup2[i][j] = SI_MIN_MAX_Alfa_Beta.konwert(ustawienie)[i][j];
-                    backup3[i][j] = SI_MIN_MAX_Alfa_Beta.konwert(ustawienie)[i][j];
-                    if ((ustawienie[i][j] == SI_MIN_MAX_Alfa_Beta.figury.CKrol && strona)
-                            || (ustawienie[i][j] == SI_MIN_MAX_Alfa_Beta.figury.BKrol && !strona)) {
+                    backup[i][j] = (ustawienie)[i][j];
+                    backup1[i][j] = (ustawienie)[i][j];
+                    backup2[i][j] = (ustawienie)[i][j];
+                    backup3[i][j] = (ustawienie)[i][j];
+                    if ((ustawienie[i][j] == 'k' && strona)
+                            || (ustawienie[i][j] == 'K' && !strona)) {
                         krol[0] = i;
                         krol[1] = j;
                     }
@@ -326,18 +326,18 @@ public class KalkulatorPozycji
         return 0;
     }
 
-    private int pionkiS(boolean strona, SI_MIN_MAX_Alfa_Beta.figury[][] ustawienie) {
+    private int pionkiS(boolean strona, char[][] ustawienie) {
 ////System.out.printlnln("Wchodzi5");
-        return pozycja_PION.punktacja(strona, SI_MIN_MAX_Alfa_Beta.konwert(ustawienie));
+        return pozycja_PION.punktacja(strona, (ustawienie));
     }
 
-   /* private int wiezeS(boolean strona, SI_MIN_MAX_Alfa_Beta.figury[][] ustawienie) {
+   /* private int wiezeS(boolean strona, char[][] ustawienie) {
         pozycja_WIEZA w = new pozycja_WIEZA();
         ////System.out.printlnln("Wchodzi6");
-        return w.punktacja(strona, SI_MIN_MAX_Alfa_Beta.konwert(ustawienie)) - w.punktacja(!strona, SI_MIN_MAX_Alfa_Beta.konwert(ustawienie));
+        return w.punktacja(strona, (ustawienie)) - w.punktacja(!strona, (ustawienie));
     }*/
 
-    private int mobilnosc(SI_MIN_MAX_Alfa_Beta.figury[][] ustawienie, boolean strona, boolean przelotcan,
+    private int mobilnosc(char[][] ustawienie, boolean strona, boolean przelotcan,
             boolean bleft, boolean bright, boolean wleft, boolean wright,
             boolean roszadaB, boolean roszadaC, int kol) {
         ////System.out.printlnln("Wchodzi4");
@@ -347,15 +347,15 @@ public class KalkulatorPozycji
         return RUCHY_BONUS * stosunek(ustawienie, strona, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol);
     }
 
-    private int stosunek(SI_MIN_MAX_Alfa_Beta.figury[][] ustawienie, boolean b, boolean przelotcan,
+    private int stosunek(char[][] ustawienie, boolean b, boolean przelotcan,
             boolean bleft, boolean bright, boolean wleft, boolean wright, boolean roszadaB, boolean roszadaC, int kol) {
         int swoje = (Generator.generuj_posuniecia(ustawienie, b, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol, true).size());
         int wrogie = Generator.generuj_posuniecia(ustawienie, !b, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol, true).size();
         //System.out.println((int) ((swoje*10.0f) / wrogie*1.0f));
-        if (RuchZagrozenie_kontrola.szach(SI_MIN_MAX_Alfa_Beta.konwert(ustawienie), !b)) {
+        if (RuchZagrozenie_kontrola.szach((ustawienie), !b)) {
             swoje++;
         }
-        if (RuchZagrozenie_kontrola.szach(SI_MIN_MAX_Alfa_Beta.konwert(ustawienie), b)) {
+        if (RuchZagrozenie_kontrola.szach((ustawienie), b)) {
             wrogie++;
         }
         return (int) ((swoje * 10.0f) / wrogie);
@@ -369,15 +369,15 @@ public class KalkulatorPozycji
         return save.getWartosc();
     }*/
 
-    private int ruchy_zbijajace(SI_MIN_MAX_Alfa_Beta.figury[][] ustawienie, boolean strona, boolean przelotcan,
+    private int ruchy_zbijajace(char[][] ustawienie, boolean strona, boolean przelotcan,
             boolean bleft, boolean bright, boolean wleft, boolean wright, boolean roszadaB, boolean roszadaC, int kol) {
         ////System.out.printlnln("Wchodzi7");
-        Collection<Ruch> lista = Generator.generuj_posuniecia((ustawienie), strona, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol, false,false);
+        Collection<Ruch> lista = Generator.generuj_posuniecia((ustawienie), strona, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol, false);
         int licznik_ataku = 0;
 
         if (!lista.isEmpty()) {
             for (Ruch ruch : lista) {
-                if (ruch.korzystnosc_bicia != Ruch.figura.Pustka) {
+                if (ruch.korzystnosc_bicia != ' ') {
                     int wartosc_atakujacego = wartosc(ruch.kolejnosc);
                     int wartosc_atakowanego = wartosc(ruch.korzystnosc_bicia);
                     if (wartosc_atakujacego <= wartosc_atakowanego) {
@@ -385,7 +385,7 @@ public class KalkulatorPozycji
                     }
                 }
             }
-            if (RuchZagrozenie_kontrola.szach(SI_MIN_MAX_Alfa_Beta.konwert(ustawienie), !strona)) {
+            if (RuchZagrozenie_kontrola.szach((ustawienie), !strona)) {
                 licznik_ataku++;
             }
         }
@@ -395,22 +395,30 @@ public class KalkulatorPozycji
         return (licznik_ataku * BICIA_BONUS);
     }
 
-    private int wartosc(Ruch.figura bierka) {
-        switch (bierka) {
-            case Pion:
-                return 100;
-            case Skoczek:
-                return 300;
-            case Goniec:
+    private int wartosc(char f) {
+        switch (f) {
+            case 'b':
+            case 'B':
                 return 350;
-            case Wieza:
-                return 500;
-            case Hetman:
+            case 'q':
+            case 'Q':
                 return 900;
-            case Krol:
+            case 'k':
+            case 'K':
                 return 10000;
+            case 'P':
+            case 'p':
+                return 100;
+            case 'n':
+            case 'N':
+                return 300;
+            case 'r':
+            case 'R':
+                return 500;
+            default:
+                return 0;
         }
-        return 0;
+
     }
 
     /*  private char pozyskaj_figure(Ruch.figura ruch) {

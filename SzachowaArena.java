@@ -308,7 +308,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                     char tempN = nakladki[temp2[1]][temp2[0]];
                     if (opcje_pomoc == 1 || opcje_pomoc == 2) {
                         if (tryb != 4) {
-                            for (Ruch move : Generator.generuj_posuniecia(konwert(temp1), ruchB, przelotcan,
+                            for (Ruch move : Generator.generuj_posuniecia((temp1), ruchB, przelotcan,
                                     bleft, bright, wleft, wright, kingrochB, kingrochC, kol, true, symbol, temp2, false, false)) {
                                 if (!move.toString().startsWith("O-O")) {
                                     JButton cel = dobierzprzycisk(move.toString().substring(4, 6), odwrot);
@@ -330,7 +330,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                 }
                             }
                             temp1[lokalS[1] - 1][lokalS[0] - 1] = tempN;
-                            for (Ruch move : Generator.generuj_posuniecia(konwert(temp1), ruchB, przelotcan,
+                            for (Ruch move : Generator.generuj_posuniecia((temp1), ruchB, przelotcan,
                                     bleft, bright, wleft, wright, kingrochB, kingrochC, kol, true, nakladki[temp2[1]][temp2[0]], temp2, false, false)) {
 
                                 JButton cel = dobierzprzycisk(move.toString().substring(4, 6), odwrot);
@@ -2899,9 +2899,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                                     }
                                     mordobicia.removeAll(mordobicia);
                                     zwyczajneR.removeAll(zwyczajneR);
-                                    for (Ruch move : Generator.generuj_posuniecia_antyszach(konwert(ust), ruchB, przelotcan, kolumna)) {
+                                    for (Ruch move : Generator.generuj_posuniecia_antyszach((ust), ruchB, przelotcan, kolumna)) {
                                         System.out.println(move.toString());
-                                        if (move.korzystnosc_bicia != Ruch.figura.Pustka) {
+                                        if (move.korzystnosc_bicia != ' ') {
                                             mordobicia.add(move);
                                         } else {
                                             zwyczajneR.add(move);
@@ -4255,7 +4255,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                 }
                 System.out.println();
             }
-            if ((Generator.generuj_posuniecia_antyszach(konwert(kontrolamat), ruchB, przelotcan, kolumna).size() == 0)
+            if ((Generator.generuj_posuniecia_antyszach((kontrolamat), ruchB, przelotcan, kolumna).size() == 0)
                     || ((ruchB && krole_biale == 0 && ciezkieB == 0 && lekkieB == 0 && pionB == 0)
                     || (!ruchB && krole_czarne == 0 && ciezkieC == 0 && lekkieC == 0 && pionC == 0))) {
                 if (czasgry != -1) {
@@ -4813,7 +4813,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                 temp2[1] = lokalS[0] - 1;
                 if (opcje_pomoc == 1 || opcje_pomoc == 2) {
                     System.out.println("opcja" + tryb);
-                    for (Ruch move : Generator.generuj_posuniecia(konwert(temp1), ruchB, przelotcan,
+                    for (Ruch move : Generator.generuj_posuniecia((temp1), ruchB, przelotcan,
                             bleft, bright, wleft, wright, kingrochB, kingrochC, kol, true, symbol, temp2, false, true)) {
                         if (!move.toString().startsWith("O-O")) {
                             JButton cel = dobierzprzycisk(move.toString().substring(4, 6), odwrot);
@@ -6227,6 +6227,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                 break;
                         }
                     }
+                    Toolkit.getDefaultToolkit().beep();
                     //  System.out.println(zawrot);
                     if ((obrotowy.getText().equals("Obrót WŁ") && odwrot == false)
                             || (odwrot == true && (SI_ON == true || siec == true))) {
@@ -6672,8 +6673,10 @@ public class SzachowaArena extends javax.swing.JFrame {
 
                     JOptionPane.showMessageDialog(rootPane, "Król białyh upadł. wygrywają czarne.", "Koniec", JOptionPane.WARNING_MESSAGE);
                     SI_ON = false;
+                    tryb=0;
                     symulacja = false;
                     losowanko.setEnabled(false);
+                    jTextArea3.setVisible(true);
                     kapitulacja();
                 }
                 if (krole_czarne == 0) {
@@ -6684,8 +6687,10 @@ public class SzachowaArena extends javax.swing.JFrame {
 
                     JOptionPane.showMessageDialog(rootPane, "Król carnych upadł. wygrywają białe.", "Koniec", JOptionPane.WARNING_MESSAGE);
                     SI_ON = false;
+                    tryb=0;
                     symulacja = false;
                     losowanko.setEnabled(false);
+                    jTextArea3.setVisible(true);
                     kapitulacja();
                 }
                 for (char i = 'A'; i < 'I'; i++) {
@@ -8966,15 +8971,15 @@ public class SzachowaArena extends javax.swing.JFrame {
                             case 1:
                                 switch (kolor_zestaw) {
                                     case 1:
-                                        switch (odwrotna[j][(int) i - 'A']) {
+                                        switch (tryb != 7 ? odwrotna[j][(int) i - 'A'] : ust[j][(int) i - 'A']) {
                                             case 'K':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking001.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking001.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wking001.png")));
                                                             break;
                                                         }
                                                     }
@@ -9009,10 +9014,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen01.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen01.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wqueen01.png")));
                                                             break;
                                                         }
                                                     }
@@ -9035,10 +9040,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook001.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook001.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wrook001.png")));
                                                             break;
                                                         }
                                                     }
@@ -9067,10 +9072,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop1.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop1.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wbishop1.png")));
                                                             break;
                                                         }
                                                     }
@@ -9099,10 +9104,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight1.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight1.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wknight1.png")));
                                                             break;
                                                         }
                                                     }
@@ -9132,10 +9137,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn001.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn001.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wpawn001.png")));
                                                             break;
                                                         }
                                                     }
@@ -9165,10 +9170,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking001.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking001.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bking001.png")));
                                                             break;
                                                         }
                                                     }
@@ -9203,10 +9208,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen01.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen01.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bqueen01.png")));
                                                             break;
                                                         }
                                                     }
@@ -9229,10 +9234,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook001.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook001.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Brook001.png")));
                                                             break;
                                                         }
                                                     }
@@ -9261,10 +9266,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop1.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop1.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bbishop1.png")));
                                                             break;
                                                         }
                                                     }
@@ -9293,10 +9298,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight1.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight1.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bknight1.png")));
                                                             break;
                                                         }
                                                     }
@@ -9326,10 +9331,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn001.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn001.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bpawn001.png")));
                                                             break;
                                                         }
                                                     }
@@ -9359,10 +9364,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(null);
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName())) {
-                                                            przycisk.setIcon(null);
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(null);
                                                             break;
                                                         }
                                                     }
@@ -9371,15 +9376,15 @@ public class SzachowaArena extends javax.swing.JFrame {
                                         }
                                         break;
                                     case 2:
-                                        switch (odwrotna[j][(int) i - 'A']) {
+                                        switch (tryb != 7 ? odwrotna[j][(int) i - 'A'] : ust[j][(int) i - 'A']) {
                                             case 'K':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking002.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking002.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wking002.png")));
                                                             break;
                                                         }
                                                     }
@@ -9414,10 +9419,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen02.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen02.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wqueen02.png")));
                                                             break;
                                                         }
                                                     }
@@ -9440,10 +9445,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook002.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook002.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wrook002.png")));
                                                             break;
                                                         }
                                                     }
@@ -9472,10 +9477,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop2.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop2.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wbishop2.png")));
                                                             break;
                                                         }
                                                     }
@@ -9504,10 +9509,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight2.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight2.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wknight2.png")));
                                                             break;
                                                         }
                                                     }
@@ -9537,10 +9542,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn002.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn002.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wpawn002.png")));
                                                             break;
                                                         }
                                                     }
@@ -9570,10 +9575,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking002.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking002.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bking002.png")));
                                                             break;
                                                         }
                                                     }
@@ -9608,10 +9613,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen02.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen02.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bqueen02.png")));
                                                             break;
                                                         }
                                                     }
@@ -9634,10 +9639,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook002.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook002.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Brook002.png")));
                                                             break;
                                                         }
                                                     }
@@ -9666,10 +9671,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop2.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop2.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bbishop2.png")));
                                                             break;
                                                         }
                                                     }
@@ -9698,10 +9703,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight2.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight2.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bknight2.png")));
                                                             break;
                                                         }
                                                     }
@@ -9731,10 +9736,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn002.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn002.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bpawn002.png")));
                                                             break;
                                                         }
                                                     }
@@ -9764,10 +9769,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(null);
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName())) {
-                                                            przycisk.setIcon(null);
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(null);
                                                             break;
                                                         }
                                                     }
@@ -9779,60 +9784,101 @@ public class SzachowaArena extends javax.swing.JFrame {
                                 break;
                             case 2:
                                 switch (kolor_zestaw) {
-                                    case 1:
-                                        switch (odwrotna[j][(int) i - 'A']) {
+                                    case 4:
+                                        switch (tryb != 7 ? odwrotna[j][(int) i - 'A'] : ust[j][(int) i - 'A']) {
                                             case 'K':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking004.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wking004.png")));
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'P':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking004SP.png")));
+                                                            break;
+                                                        case 'N':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking004SN.png")));
+                                                            break;
+                                                        case 'B':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking004SB.png")));
+                                                            break;
+                                                        case 'R':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking004SR.png")));
+                                                            break;
+                                                        case 'Q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking004SQ.png")));
+                                                            break;
+                                                        case ' ':
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking004.png")));
                                                             break;
-                                                        }
                                                     }
                                                 }
-
                                                 break;
                                             case 'A':
-                                                if (tryb != 7) {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wamazon4.png")));
-                                                } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
-                                                        if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wamazon4.png")));
-                                                            break;
-                                                        }
-                                                    }
-                                                }
-
+                                                przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wamazon4.png")));
                                                 break;
                                             case 'Q':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen04.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen04.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wqueen04.png")));
                                                             break;
                                                         }
                                                     }
                                                 }
-
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'P':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen04SP.png")));
+                                                            break;
+                                                        case 'N':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen04SN.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen04.png")));
+                                                            break;
+                                                    }
+                                                }
                                                 break;
                                             case 'R':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook004.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook004.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wrook004.png")));
                                                             break;
                                                         }
+                                                    }
+                                                }
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'P':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook004SP.png")));
+                                                            break;
+                                                        case 'N':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook004SN.png")));
+                                                            break;
+                                                        case 'B':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook004SB.png")));
+                                                            break;
+                                                        case 'Q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook004SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook004.png")));
+                                                            break;
                                                     }
                                                 }
                                                 break;
@@ -9840,12 +9886,31 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop4.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop4.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wbishop4.png")));
                                                             break;
                                                         }
+                                                    }
+                                                }
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'P':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop4SP.png")));
+                                                            break;
+                                                        case 'N':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop4SN.png")));
+                                                            break;
+                                                        case 'R':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop4SR.png")));
+                                                            break;
+                                                        case 'Q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop4SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop4.png")));
+                                                            break;
                                                     }
                                                 }
                                                 break;
@@ -9853,12 +9918,32 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight4.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight4.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wknight4.png")));
                                                             break;
                                                         }
+                                                    }
+                                                }
+
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'P':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight4SP.png")));
+                                                            break;
+                                                        case 'B':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight4SB.png")));
+                                                            break;
+                                                        case 'R':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight4SR.png")));
+                                                            break;
+                                                        case 'Q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight4SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight4.png")));
+                                                            break;
                                                     }
                                                 }
                                                 break;
@@ -9866,12 +9951,32 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn004.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn004.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wpawn004.png")));
                                                             break;
                                                         }
+                                                    }
+                                                }
+
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'N':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn004SN.png")));
+                                                            break;
+                                                        case 'B':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn004SB.png")));
+                                                            break;
+                                                        case 'R':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn004SR.png")));
+                                                            break;
+                                                        case 'Q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn004SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn004.png")));
+                                                            break;
                                                     }
                                                 }
                                                 break;
@@ -9879,66 +9984,127 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking004.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking004.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bking004.png")));
                                                             break;
                                                         }
+                                                    }
+                                                }
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'p':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking004SP.png")));
+                                                            break;
+                                                        case 'n':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking004SN.png")));
+                                                            break;
+                                                        case 'b':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking004SB.png")));
+                                                            break;
+                                                        case 'r':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking004SR.png")));
+                                                            break;
+                                                        case 'q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking004SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking004.png")));
+                                                            break;
                                                     }
                                                 }
                                                 break;
                                             case 'a':
-                                                if (tryb != 7) {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bamazon4.png")));
-                                                } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
-                                                        if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bamazon4.png")));
-                                                            break;
-                                                        }
-                                                    }
-                                                }
+                                                przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bamazon4.png")));
                                                 break;
                                             case 'q':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen04.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen04.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bqueen04.png")));
                                                             break;
                                                         }
                                                     }
                                                 }
-
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'p':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen04SP.png")));
+                                                            break;
+                                                        case 'n':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen04SN.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen04.png")));
+                                                            break;
+                                                    }
+                                                }
                                                 break;
                                             case 'r':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook004.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook004.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Brook004.png")));
                                                             break;
                                                         }
                                                     }
                                                 }
-
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'p':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook004SP.png")));
+                                                            break;
+                                                        case 'n':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook004SN.png")));
+                                                            break;
+                                                        case 'b':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook004SB.png")));
+                                                            break;
+                                                        case 'q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook004SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook004.png")));
+                                                            break;
+                                                    }
+                                                }
                                                 break;
                                             case 'b':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop4.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop4.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bbishop4.png")));
                                                             break;
                                                         }
+                                                    }
+                                                }
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'p':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop4SP.png")));
+                                                            break;
+                                                        case 'n':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop4SN.png")));
+                                                            break;
+                                                        case 'r':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop4SR.png")));
+                                                            break;
+                                                        case 'q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop4SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop4.png")));
+                                                            break;
                                                     }
                                                 }
                                                 break;
@@ -9946,38 +10112,76 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight4.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight4.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bknight4.png")));
                                                             break;
                                                         }
                                                     }
                                                 }
 
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'p':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight4SP.png")));
+                                                            break;
+                                                        case 'b':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight4SB.png")));
+                                                            break;
+                                                        case 'r':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight4SR.png")));
+                                                            break;
+                                                        case 'q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight4SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight4.png")));
+                                                            break;
+                                                    }
+                                                }
                                                 break;
                                             case 'p':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn004.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn004.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bpawn004.png")));
                                                             break;
                                                         }
                                                     }
                                                 }
 
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'n':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn004SN.png")));
+                                                            break;
+                                                        case 'b':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn004SB.png")));
+                                                            break;
+                                                        case 'r':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn004SR.png")));
+                                                            break;
+                                                        case 'q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn004SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn004.png")));
+                                                            break;
+                                                    }
+                                                }
                                                 break;
                                             case ' ':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(null);
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName())) {
-                                                            przycisk.setIcon(null);
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(null);
                                                             break;
                                                         }
                                                     }
@@ -9986,59 +10190,100 @@ public class SzachowaArena extends javax.swing.JFrame {
                                         }
                                         break;
                                     case 2:
-                                        switch (odwrotna[j][(int) i - 'A']) {
+                                        switch (tryb != 7 ? odwrotna[j][(int) i - 'A'] : ust[j][(int) i - 'A']) {
                                             case 'K':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking003.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wking003.png")));
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'P':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking003SP.png")));
+                                                            break;
+                                                        case 'N':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking003SN.png")));
+                                                            break;
+                                                        case 'B':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking003SB.png")));
+                                                            break;
+                                                        case 'R':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking003SR.png")));
+                                                            break;
+                                                        case 'Q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking003SQ.png")));
+                                                            break;
+                                                        case ' ':
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking003.png")));
                                                             break;
-                                                        }
                                                     }
                                                 }
-
                                                 break;
                                             case 'A':
-                                                if (tryb != 7) {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wamazon3.png")));
-                                                } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
-                                                        if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wamazon3.png")));
-                                                            break;
-                                                        }
-                                                    }
-                                                }
-
+                                                przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wamazon3.png")));
                                                 break;
                                             case 'Q':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen03.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen03.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wqueen03.png")));
                                                             break;
                                                         }
                                                     }
                                                 }
-
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'P':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen03SP.png")));
+                                                            break;
+                                                        case 'N':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen03SN.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen03.png")));
+                                                            break;
+                                                    }
+                                                }
                                                 break;
                                             case 'R':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook003.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook003.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wrook003.png")));
                                                             break;
                                                         }
+                                                    }
+                                                }
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'P':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook003SP.png")));
+                                                            break;
+                                                        case 'N':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook003SN.png")));
+                                                            break;
+                                                        case 'B':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook003SB.png")));
+                                                            break;
+                                                        case 'Q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook003SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook003.png")));
+                                                            break;
                                                     }
                                                 }
                                                 break;
@@ -10046,12 +10291,31 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop3.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop3.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wbishop3.png")));
                                                             break;
                                                         }
+                                                    }
+                                                }
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'P':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop3SP.png")));
+                                                            break;
+                                                        case 'N':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop3SN.png")));
+                                                            break;
+                                                        case 'R':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop3SR.png")));
+                                                            break;
+                                                        case 'Q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop3SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop3.png")));
+                                                            break;
                                                     }
                                                 }
                                                 break;
@@ -10059,12 +10323,32 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight3.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight3.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wknight3.png")));
                                                             break;
                                                         }
+                                                    }
+                                                }
+
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'P':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight3SP.png")));
+                                                            break;
+                                                        case 'B':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight3SB.png")));
+                                                            break;
+                                                        case 'R':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight3SR.png")));
+                                                            break;
+                                                        case 'Q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight3SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight3.png")));
+                                                            break;
                                                     }
                                                 }
                                                 break;
@@ -10072,12 +10356,32 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn003.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn003.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wpawn003.png")));
                                                             break;
                                                         }
+                                                    }
+                                                }
+
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'N':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn003SN.png")));
+                                                            break;
+                                                        case 'B':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn003SB.png")));
+                                                            break;
+                                                        case 'R':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn003SR.png")));
+                                                            break;
+                                                        case 'Q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn003SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn003.png")));
+                                                            break;
                                                     }
                                                 }
                                                 break;
@@ -10085,66 +10389,127 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking003.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking003.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bking003.png")));
                                                             break;
                                                         }
+                                                    }
+                                                }
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'p':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking003SP.png")));
+                                                            break;
+                                                        case 'n':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking003SN.png")));
+                                                            break;
+                                                        case 'b':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking003SB.png")));
+                                                            break;
+                                                        case 'r':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking003SR.png")));
+                                                            break;
+                                                        case 'q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking003SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking003.png")));
+                                                            break;
                                                     }
                                                 }
                                                 break;
                                             case 'a':
-                                                if (tryb != 7) {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bamazon3.png")));
-                                                } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
-                                                        if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bamazon3.png")));
-                                                            break;
-                                                        }
-                                                    }
-                                                }
+                                                przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bamazon3.png")));
                                                 break;
                                             case 'q':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen03.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen03.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bqueen03.png")));
                                                             break;
                                                         }
                                                     }
                                                 }
-
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'p':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen03SP.png")));
+                                                            break;
+                                                        case 'n':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen03SN.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen03.png")));
+                                                            break;
+                                                    }
+                                                }
                                                 break;
                                             case 'r':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook003.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook003.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Brook003.png")));
                                                             break;
                                                         }
                                                     }
                                                 }
-
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'p':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook003SP.png")));
+                                                            break;
+                                                        case 'n':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook003SN.png")));
+                                                            break;
+                                                        case 'b':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook003SB.png")));
+                                                            break;
+                                                        case 'q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook003SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook003.png")));
+                                                            break;
+                                                    }
+                                                }
                                                 break;
                                             case 'b':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop3.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop3.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bbishop3.png")));
                                                             break;
                                                         }
+                                                    }
+                                                }
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'p':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop3SP.png")));
+                                                            break;
+                                                        case 'n':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop3SN.png")));
+                                                            break;
+                                                        case 'r':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop3SR.png")));
+                                                            break;
+                                                        case 'q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop3SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop3.png")));
+                                                            break;
                                                     }
                                                 }
                                                 break;
@@ -10152,38 +10517,76 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight3.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight3.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bknight3.png")));
                                                             break;
                                                         }
                                                     }
                                                 }
 
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'p':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight3SP.png")));
+                                                            break;
+                                                        case 'b':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight3SB.png")));
+                                                            break;
+                                                        case 'r':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight3SR.png")));
+                                                            break;
+                                                        case 'q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight3SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight3.png")));
+                                                            break;
+                                                    }
+                                                }
                                                 break;
                                             case 'p':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn003.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn003.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bpawn003.png")));
                                                             break;
                                                         }
                                                     }
                                                 }
 
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'n':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn003SN.png")));
+                                                            break;
+                                                        case 'b':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn003SB.png")));
+                                                            break;
+                                                        case 'r':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn003SR.png")));
+                                                            break;
+                                                        case 'q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn003SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn003.png")));
+                                                            break;
+                                                    }
+                                                }
                                                 break;
                                             case ' ':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(null);
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName())) {
-                                                            przycisk.setIcon(null);
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(null);
                                                             break;
                                                         }
                                                     }
@@ -10195,60 +10598,101 @@ public class SzachowaArena extends javax.swing.JFrame {
                                 break;
                             case 3:
                                 switch (kolor_zestaw) {
-                                    case 1:
-                                        switch (odwrotna[j][(int) i - 'A']) {
+                                    case 6:
+                                        switch (tryb != 7 ? odwrotna[j][(int) i - 'A'] : ust[j][(int) i - 'A']) {
                                             case 'K':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking006.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wking006.png")));
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'P':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking006SP.png")));
+                                                            break;
+                                                        case 'N':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking006SN.png")));
+                                                            break;
+                                                        case 'B':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking006SB.png")));
+                                                            break;
+                                                        case 'R':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking006SR.png")));
+                                                            break;
+                                                        case 'Q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking006SQ.png")));
+                                                            break;
+                                                        case ' ':
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking006.png")));
                                                             break;
-                                                        }
                                                     }
                                                 }
-
                                                 break;
                                             case 'A':
-                                                if (tryb != 7) {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wamazon6.png")));
-                                                } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
-                                                        if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wamazon6.png")));
-                                                            break;
-                                                        }
-                                                    }
-                                                }
-
+                                                przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wamazon6.png")));
                                                 break;
                                             case 'Q':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen06.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen06.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wqueen06.png")));
                                                             break;
                                                         }
                                                     }
                                                 }
-
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'P':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen06SP.png")));
+                                                            break;
+                                                        case 'N':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen06SN.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen06.png")));
+                                                            break;
+                                                    }
+                                                }
                                                 break;
                                             case 'R':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook006.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook006.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wrook006.png")));
                                                             break;
                                                         }
+                                                    }
+                                                }
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'P':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook006SP.png")));
+                                                            break;
+                                                        case 'N':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook006SN.png")));
+                                                            break;
+                                                        case 'B':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook006SB.png")));
+                                                            break;
+                                                        case 'Q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook006SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook006.png")));
+                                                            break;
                                                     }
                                                 }
                                                 break;
@@ -10256,12 +10700,31 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop6.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop6.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wbishop6.png")));
                                                             break;
                                                         }
+                                                    }
+                                                }
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'P':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop6SP.png")));
+                                                            break;
+                                                        case 'N':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop6SN.png")));
+                                                            break;
+                                                        case 'R':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop6SR.png")));
+                                                            break;
+                                                        case 'Q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop6SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop6.png")));
+                                                            break;
                                                     }
                                                 }
                                                 break;
@@ -10269,12 +10732,32 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight6.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight6.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wknight6.png")));
                                                             break;
                                                         }
+                                                    }
+                                                }
+
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'P':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight6SP.png")));
+                                                            break;
+                                                        case 'B':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight6SB.png")));
+                                                            break;
+                                                        case 'R':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight6SR.png")));
+                                                            break;
+                                                        case 'Q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight6SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight6.png")));
+                                                            break;
                                                     }
                                                 }
                                                 break;
@@ -10282,12 +10765,32 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn006.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn006.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wpawn006.png")));
                                                             break;
                                                         }
+                                                    }
+                                                }
+
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'N':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn006SN.png")));
+                                                            break;
+                                                        case 'B':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn006SB.png")));
+                                                            break;
+                                                        case 'R':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn006SR.png")));
+                                                            break;
+                                                        case 'Q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn006SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn006.png")));
+                                                            break;
                                                     }
                                                 }
                                                 break;
@@ -10295,66 +10798,127 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking006.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking006.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bking006.png")));
                                                             break;
                                                         }
+                                                    }
+                                                }
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'p':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking006SP.png")));
+                                                            break;
+                                                        case 'n':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking006SN.png")));
+                                                            break;
+                                                        case 'b':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking006SB.png")));
+                                                            break;
+                                                        case 'r':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking006SR.png")));
+                                                            break;
+                                                        case 'q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking006SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking006.png")));
+                                                            break;
                                                     }
                                                 }
                                                 break;
                                             case 'a':
-                                                if (tryb != 7) {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bamazon6.png")));
-                                                } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
-                                                        if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bamazon6.png")));
-                                                            break;
-                                                        }
-                                                    }
-                                                }
+                                                przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bamazon6.png")));
                                                 break;
                                             case 'q':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen06.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen06.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bqueen06.png")));
                                                             break;
                                                         }
                                                     }
                                                 }
-
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'p':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen06SP.png")));
+                                                            break;
+                                                        case 'n':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen06SN.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen06.png")));
+                                                            break;
+                                                    }
+                                                }
                                                 break;
                                             case 'r':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook006.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook006.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Brook006.png")));
                                                             break;
                                                         }
                                                     }
                                                 }
-
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'p':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook006SP.png")));
+                                                            break;
+                                                        case 'n':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook006SN.png")));
+                                                            break;
+                                                        case 'b':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook006SB.png")));
+                                                            break;
+                                                        case 'q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook006SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook006.png")));
+                                                            break;
+                                                    }
+                                                }
                                                 break;
                                             case 'b':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop6.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop6.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bbishop6.png")));
                                                             break;
                                                         }
+                                                    }
+                                                }
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'p':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop6SP.png")));
+                                                            break;
+                                                        case 'n':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop6SN.png")));
+                                                            break;
+                                                        case 'r':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop6SR.png")));
+                                                            break;
+                                                        case 'q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop6SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop6.png")));
+                                                            break;
                                                     }
                                                 }
                                                 break;
@@ -10362,38 +10926,76 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight6.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight6.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bknight6.png")));
                                                             break;
                                                         }
                                                     }
                                                 }
 
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'p':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight6SP.png")));
+                                                            break;
+                                                        case 'b':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight6SB.png")));
+                                                            break;
+                                                        case 'r':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight6SR.png")));
+                                                            break;
+                                                        case 'q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight6SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight6.png")));
+                                                            break;
+                                                    }
+                                                }
                                                 break;
                                             case 'p':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn006.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn006.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bpawn006.png")));
                                                             break;
                                                         }
                                                     }
                                                 }
 
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'n':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn006SN.png")));
+                                                            break;
+                                                        case 'b':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn006SB.png")));
+                                                            break;
+                                                        case 'r':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn006SR.png")));
+                                                            break;
+                                                        case 'q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn006SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn006.png")));
+                                                            break;
+                                                    }
+                                                }
                                                 break;
                                             case ' ':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(null);
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName())) {
-                                                            przycisk.setIcon(null);
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(null);
                                                             break;
                                                         }
                                                     }
@@ -10402,59 +11004,100 @@ public class SzachowaArena extends javax.swing.JFrame {
                                         }
                                         break;
                                     case 2:
-                                        switch (odwrotna[j][(int) i - 'A']) {
+                                        switch (tryb != 7 ? odwrotna[j][(int) i - 'A'] : ust[j][(int) i - 'A']) {
                                             case 'K':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking005.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wking005.png")));
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'P':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking005SP.png")));
+                                                            break;
+                                                        case 'N':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking005SN.png")));
+                                                            break;
+                                                        case 'B':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking005SB.png")));
+                                                            break;
+                                                        case 'R':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking005SR.png")));
+                                                            break;
+                                                        case 'Q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking005SQ.png")));
+                                                            break;
+                                                        case ' ':
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking005.png")));
                                                             break;
-                                                        }
                                                     }
                                                 }
-
                                                 break;
                                             case 'A':
-                                                if (tryb != 7) {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wamazon5.png")));
-                                                } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
-                                                        if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wamazon5.png")));
-                                                            break;
-                                                        }
-                                                    }
-                                                }
-
+                                                przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wamazon5.png")));
                                                 break;
                                             case 'Q':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen05.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen05.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wqueen05.png")));
                                                             break;
                                                         }
                                                     }
                                                 }
-
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'P':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen05SP.png")));
+                                                            break;
+                                                        case 'N':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen05SN.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen05.png")));
+                                                            break;
+                                                    }
+                                                }
                                                 break;
                                             case 'R':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook005.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook005.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wrook005.png")));
                                                             break;
                                                         }
+                                                    }
+                                                }
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'P':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook005SP.png")));
+                                                            break;
+                                                        case 'N':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook005SN.png")));
+                                                            break;
+                                                        case 'B':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook005SB.png")));
+                                                            break;
+                                                        case 'Q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook005SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook005.png")));
+                                                            break;
                                                     }
                                                 }
                                                 break;
@@ -10462,12 +11105,31 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop5.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop5.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wbishop5.png")));
                                                             break;
                                                         }
+                                                    }
+                                                }
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'P':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop5SP.png")));
+                                                            break;
+                                                        case 'N':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop5SN.png")));
+                                                            break;
+                                                        case 'R':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop5SR.png")));
+                                                            break;
+                                                        case 'Q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop5SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop5.png")));
+                                                            break;
                                                     }
                                                 }
                                                 break;
@@ -10475,12 +11137,32 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight5.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight5.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wknight5.png")));
                                                             break;
                                                         }
+                                                    }
+                                                }
+
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'P':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight5SP.png")));
+                                                            break;
+                                                        case 'B':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight5SB.png")));
+                                                            break;
+                                                        case 'R':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight5SR.png")));
+                                                            break;
+                                                        case 'Q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight5SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight5.png")));
+                                                            break;
                                                     }
                                                 }
                                                 break;
@@ -10488,12 +11170,32 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn005.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn005.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wpawn005.png")));
                                                             break;
                                                         }
+                                                    }
+                                                }
+
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'N':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn005SN.png")));
+                                                            break;
+                                                        case 'B':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn005SB.png")));
+                                                            break;
+                                                        case 'R':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn005SR.png")));
+                                                            break;
+                                                        case 'Q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn005SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn005.png")));
+                                                            break;
                                                     }
                                                 }
                                                 break;
@@ -10501,66 +11203,127 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking005.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking005.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bking005.png")));
                                                             break;
                                                         }
+                                                    }
+                                                }
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'p':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking005SP.png")));
+                                                            break;
+                                                        case 'n':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking005SN.png")));
+                                                            break;
+                                                        case 'b':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking005SB.png")));
+                                                            break;
+                                                        case 'r':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking005SR.png")));
+                                                            break;
+                                                        case 'q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking005SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking005.png")));
+                                                            break;
                                                     }
                                                 }
                                                 break;
                                             case 'a':
-                                                if (tryb != 7) {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bamazon5.png")));
-                                                } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
-                                                        if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bamazon5.png")));
-                                                            break;
-                                                        }
-                                                    }
-                                                }
+                                                przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bamazon5.png")));
                                                 break;
                                             case 'q':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen05.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen05.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bqueen05.png")));
                                                             break;
                                                         }
                                                     }
                                                 }
-
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'p':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen05SP.png")));
+                                                            break;
+                                                        case 'n':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen05SN.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen05.png")));
+                                                            break;
+                                                    }
+                                                }
                                                 break;
                                             case 'r':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook005.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook005.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Brook005.png")));
                                                             break;
                                                         }
                                                     }
                                                 }
-
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'p':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook005SP.png")));
+                                                            break;
+                                                        case 'n':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook005SN.png")));
+                                                            break;
+                                                        case 'b':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook005SB.png")));
+                                                            break;
+                                                        case 'q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook005SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook005.png")));
+                                                            break;
+                                                    }
+                                                }
                                                 break;
                                             case 'b':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop5.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop5.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bbishop5.png")));
                                                             break;
                                                         }
+                                                    }
+                                                }
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'p':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop5SP.png")));
+                                                            break;
+                                                        case 'n':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop5SN.png")));
+                                                            break;
+                                                        case 'r':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop5SR.png")));
+                                                            break;
+                                                        case 'q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop5SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop5.png")));
+                                                            break;
                                                     }
                                                 }
                                                 break;
@@ -10568,38 +11331,76 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight5.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight5.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bknight5.png")));
                                                             break;
                                                         }
                                                     }
                                                 }
 
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'p':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight5SP.png")));
+                                                            break;
+                                                        case 'b':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight5SB.png")));
+                                                            break;
+                                                        case 'r':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight5SR.png")));
+                                                            break;
+                                                        case 'q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight5SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight5.png")));
+                                                            break;
+                                                    }
+                                                }
                                                 break;
                                             case 'p':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn005.png")));
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
-                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn005.png")));
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bpawn005.png")));
                                                             break;
                                                         }
                                                     }
                                                 }
 
+                                                if (tryb == 5) {
+                                                    switch (nakladki[7 - j][(int) 7 - i - 'A']) {
+                                                        case 'n':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn005SN.png")));
+                                                            break;
+                                                        case 'b':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn005SB.png")));
+                                                            break;
+                                                        case 'r':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn005SR.png")));
+                                                            break;
+                                                        case 'q':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn005SQ.png")));
+                                                            break;
+                                                        case ' ':
+                                                            przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn005.png")));
+                                                            break;
+                                                    }
+                                                }
                                                 break;
                                             case ' ':
                                                 if (tryb != 7) {
                                                     przycisk.setIcon(null);
                                                 } else {
-                                                    przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
+                                                    dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
                                                     for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName())) {
-                                                            przycisk.setIcon(null);
+                                                            dobierzprzycisk(przycisk.getName(), true).setIcon(null);
                                                             break;
                                                         }
                                                     }
@@ -11570,7 +12371,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                 for (int x = 0; x < 8; x++) {
                     System.arraycopy(ust[x], 0, backup[x], 0, 8);
                 }
-                int elem = 0, dlugosc = Generator.generuj_posuniecia(konwert(backup.clone()), ruchB, przelotcan,
+                int elem = 0, dlugosc = Generator.generuj_posuniecia((backup.clone()), ruchB, przelotcan,
                         bleft, bright, wleft, wright, kingrochB, kingrochC, kol, false, ' ', new int[2], false, false).size();
                 // System.out.println(dlugosc + "elem");
                 jProgressBar1.setMaximum(dlugosc);
@@ -11660,10 +12461,12 @@ public class SzachowaArena extends javax.swing.JFrame {
                     }
                 }*/
 
-                for (Ruch move : Generator.generuj_posuniecia(konwert(backup.clone()), ruchB, przelotcan,
-                        bleft, bright, wleft, wright, kingrochB, kingrochC, kol, false, ' ', new int[2], false, false)) {
-                    if (Generator.generuj_posuniecia(konwert(backup.clone()), ruchB, przelotcan,
-                            bleft, bright, wleft, wright, kingrochB, kingrochC, kol, false, ' ', new int[2], false, false).size() > 1) {
+                for (Ruch move : Generator.generuj_posuniecia(ust, ruchB, przelotcan,
+                        bleft, bright, wleft, wright, kingrochB, kingrochC, kol, false)) {
+                    System.out.println(Generator.generuj_posuniecia((ust), ruchB, przelotcan,
+                            bleft, bright, wleft, wright, kingrochB, kingrochC, kol, false).size());
+                    if (Generator.generuj_posuniecia((ust), ruchB, przelotcan,
+                            bleft, bright, wleft, wright, kingrochB, kingrochC, kol, false).size() > 1) {
                         elem++;
                         jProgressBar1.setValue(elem);
                         setProgress((int) (elem * 1f / dlugosc * 100.0f));
@@ -14538,7 +15341,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                     if (opcje_pomoc == 1 || opcje_pomoc == 2) {
                                         System.out.println("opcja" + tryb);
                                         if (tryb != 4) {
-                                            for (Ruch move : Generator.generuj_posuniecia(konwert(temp1), ruchB, przelotcan,
+                                            for (Ruch move : Generator.generuj_posuniecia((temp1), ruchB, przelotcan,
                                                     bleft, bright, wleft, wright, kingrochB, kingrochC, kol, true, symbol, temp2, false, false)) {
                                                 if (!move.toString().startsWith("O-O")) {
                                                     JButton cel = dobierzprzycisk(move.toString().substring(4, 6), odwrot);
@@ -21152,6 +21955,7 @@ public class SzachowaArena extends javax.swing.JFrame {
         oldschool1.setEnabled(tryb < 3 || tryb > 5);
         jMenu2.setEnabled(tryb < 3);
         System.out.println("tryb " + tryb);
+        jTextArea3.setVisible(true);
         switch (tryb) {
 
             case 1:
@@ -21269,9 +22073,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 krole_biale = 1;
                 krole_czarne = 1;
                 JOptionPane.showMessageDialog(rootPane, "W tym trybie widzisz tylko tyle, na ile pozwala zasięg twoich figur.\n"
-                        + "Uważaj, ponieważ reszta planszy i pozycje przeciwnika są zamglone i niewidoczne"
+                        + "Uważaj, ponieważ reszta planszy i pozycje przeciwnika są zamglone i niewidoczne\n"
                         + "Zwycięża ten, co zbije króla przeciwnika.", "Właściwości mgły", JOptionPane.INFORMATION_MESSAGE);
-
+                jTextArea3.setVisible(false);
                 break;
         }
         jMenu2.setEnabled(tryb < 3);
@@ -22616,6 +23420,7 @@ public class SzachowaArena extends javax.swing.JFrame {
         styl(kolor_zestaw, kroj_zestaw, kolor_plansza);
         jTextArea2.setText("");
         jTextArea3.setText("");
+        jTextArea3.setVisible(true);
         czysc_rame();
         mordobicia.clear();
         zwyczajneR.clear();
@@ -22976,7 +23781,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                 aset.add(new MediaPrintableArea(7.5f, 7.5f, 195f, 282f, MediaPrintableArea.MM));
                 PageFormat pf = job.getPageFormat(aset);
                 pf.setOrientation(PageFormat.PORTRAIT);
-                job.setPrintable(new Drukarka_P(ust, ruchB, ruchy_literowe), pf);
+                job.setPrintable(new Drukarka_P(ruchB ? ust : odwrotna, ruchB, ruchy_literowe), pf);
                 boolean ok = job.printDialog(aset);
                 if (ok) {
                     try {
@@ -22993,7 +23798,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                 aset.add(new MediaPrintableArea(7.5f, 7.5f, 195f, 282f, MediaPrintableArea.MM));
                 PageFormat pf = printJob.getPageFormat(aset);
                 pf.setOrientation(PageFormat.PORTRAIT);
-                book.append(new Drukarka_P(ust, ruchB), pf);
+                book.append(new Drukarka_P(ruchB ? ust : odwrotna, ruchB), pf);
                 if (ruchy_literowe.size() <= 600) {
                     book.append(new Drukarka_H(ruchy_literowe), pf);
                 } else {
@@ -23003,14 +23808,14 @@ public class SzachowaArena extends javax.swing.JFrame {
                         for (int i = 600 * (str - 1); i < str * 600; i++) {
                             lista.add(ruchy_literowe.get(i));
                         }
-                        book.append(new Drukarka_H(lista,str), pf);
+                        book.append(new Drukarka_H(lista, str), pf);
                         str++;
                     } while (str * 600 < ruchy_literowe.size());
                     ArrayList<String> lista = new ArrayList<>();
                     for (int i = 600 * (str - 1); i < ruchy_literowe.size(); i++) {
                         lista.add(ruchy_literowe.get(i));
                     }
-                    book.append(new Drukarka_H(lista,str), pf);
+                    book.append(new Drukarka_H(lista, str), pf);
                 }
                 printJob.setPageable(book);
 
@@ -23036,7 +23841,7 @@ public class SzachowaArena extends javax.swing.JFrame {
             aset.add(new MediaPrintableArea(7.5f, 7.5f, 195f, 282f, MediaPrintableArea.MM));
             PageFormat pf = job.getPageFormat(aset);
             pf.setOrientation(PageFormat.PORTRAIT);
-            job.setPrintable(new Drukarka_P(ust, ruchB), pf);
+            job.setPrintable(new Drukarka_P(ruchB ? ust : odwrotna, ruchB), pf);
             boolean ok = job.printDialog(aset);
             if (ok) {
                 try {

@@ -44,7 +44,7 @@ public class Bezpieczenstwo_krol {
                 }
             }
         }
-        Collection<Ruch> ruchy_rywala = Generator.generuj_posuniecia(konwert(ustawienie), !b, przelotcan, bl, br, wl, wr, RochB, RochC, kol,false,' ',new int[2],true,false);
+        Collection<Ruch> ruchy_rywala = Generator.generuj_posuniecia((ustawienie), !b, przelotcan, bl, br, wl, wr, RochB, RochC, kol,false,' ',new int[2],true,false);
         char symbol = ' ';
         int dystans = Integer.MAX_VALUE;
         for (Ruch move : ruchy_rywala) {

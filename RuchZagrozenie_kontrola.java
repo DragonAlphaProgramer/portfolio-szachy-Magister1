@@ -113,7 +113,7 @@ public class RuchZagrozenie_kontrola {
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
                     krolZ = szach(ustawienie, czybiale) || szach(ustawienie, nakladki, czybiale) || szach(ustawienie, nakladki, czybiale);
-                    wynik = krolZ != true;
+                    wynik = !krolZ;
                     if (wynik == false) {
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
