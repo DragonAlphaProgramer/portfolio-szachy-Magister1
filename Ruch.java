@@ -17,8 +17,8 @@ public class Ruch implements Comparable<Ruch> {
         korzystnosc_bicia = bity;
         kolejnosc = lista.charAt(0);
         atak = (bity != ' ')&&!anty;
-        roszada = lista.startsWith("O-O", 1);
-        dlugaroszada = lista.startsWith("O-O-O", 1);
+        roszada = lista.startsWith("O-O",1);
+        dlugaroszada = lista.startsWith("O-O-O",1);
         przelot = lista.charAt(6) == ('E');
         promocja = lista.charAt(6) == '='
                 && (lista.charAt(0) == 'p' || lista.charAt(0) == 'P');
@@ -27,7 +27,6 @@ public class Ruch implements Comparable<Ruch> {
             switch (lista.charAt(7)) {
                 case 'n':
                 case 'N':
-                    
                     wartosc_promocji = 1;
                     break;
                 case 'b':
@@ -46,7 +45,7 @@ public class Ruch implements Comparable<Ruch> {
                     break;
             }
         }
-        if (lista.startsWith("O-O", 1)) {
+        if (lista.startsWith("O-O",1)) {
             start1 = kolumna.KR;
             start2 = rzad.RR;
             koniec1 = kolumna.KR;
@@ -157,7 +156,7 @@ public class Ruch implements Comparable<Ruch> {
                     break;
             }
         }
-        if (!lista.startsWith("O-O", 1)) {
+        if (!lista.startsWith("O-O",1)) {
             switch (lista.charAt(0)) {
                 case 'p':
                     czybialy = false;
@@ -202,7 +201,7 @@ public class Ruch implements Comparable<Ruch> {
                     ||kolejnosc=='N'||kolejnosc=='B');
         } else {
             czybialy = lista.charAt(0) == 'K';
-            kolejnosc = lista.charAt(0);
+            kolejnosc = czybialy ? 'K' : 'k';
         }
         wspolczynnik_ruchu = wartosc(kolejnosc);
         wspolczynnik_bitki = wartosc(bity);
@@ -462,7 +461,7 @@ public class Ruch implements Comparable<Ruch> {
             } else if (promocja) {
                 wynik = wynik.concat("=");
                 
-                wynik.concat(""+promowana);
+                wynik = wynik.concat(""+promowana);
             } else {
                 wynik = wynik.concat("--");
             }

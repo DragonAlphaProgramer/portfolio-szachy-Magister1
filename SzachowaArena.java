@@ -12360,6 +12360,11 @@ public class SzachowaArena extends javax.swing.JFrame {
 
         @Override
         protected Object doInBackground() {
+            for(Ruch m : Generator.generuj_posuniecia(ust, ruchB, przelotcan,
+                        bleft, bright, wleft, wright, kingrochB, kingrochC, kol, false)){
+                System.out.println(m);
+        }
+            try{
             do {
                 if (symulacja) {
                     odwrot = false;
@@ -12371,8 +12376,8 @@ public class SzachowaArena extends javax.swing.JFrame {
                 for (int x = 0; x < 8; x++) {
                     System.arraycopy(ust[x], 0, backup[x], 0, 8);
                 }
-                int elem = 0, dlugosc = Generator.generuj_posuniecia((backup.clone()), ruchB, przelotcan,
-                        bleft, bright, wleft, wright, kingrochB, kingrochC, kol, false, ' ', new int[2], false, false).size();
+                int elem = 0, dlugosc = Generator.generuj_posuniecia(ust, ruchB, przelotcan,
+                        bleft, bright, wleft, wright, kingrochB, kingrochC, kol, false).size();
                 // System.out.println(dlugosc + "elem");
                 jProgressBar1.setMaximum(dlugosc);
                 jProgressBar1.setValue(0);
@@ -12463,9 +12468,7 @@ public class SzachowaArena extends javax.swing.JFrame {
 
                 for (Ruch move : Generator.generuj_posuniecia(ust, ruchB, przelotcan,
                         bleft, bright, wleft, wright, kingrochB, kingrochC, kol, false)) {
-                    System.out.println(Generator.generuj_posuniecia((ust), ruchB, przelotcan,
-                            bleft, bright, wleft, wright, kingrochB, kingrochC, kol, false).size());
-                    if (Generator.generuj_posuniecia((ust), ruchB, przelotcan,
+                   if (Generator.generuj_posuniecia((ust), ruchB, przelotcan,
                             bleft, bright, wleft, wright, kingrochB, kingrochC, kol, false).size() > 1) {
                         elem++;
                         jProgressBar1.setValue(elem);
@@ -12473,8 +12476,6 @@ public class SzachowaArena extends javax.swing.JFrame {
                         SI_MIN_MAX_Alfa_Beta ai = new SI_MIN_MAX_Alfa_Beta(backup.clone(), ruchB, przelotcan,
                                 bleft, bright, wleft, wright, kingrochB, kingrochC, dokonano_RB, dokonano_RC, kol, odwrot, licznik, glebiaSI);
                         jProgressBar1.setString("Rozpatrywane:" + (move.toString()) + "| bieżacy wybór:" + oponet);
-                        System.out.println("        " + (move) + " mysle");
-                        if (!move.roszada || !RuchZagrozenie_kontrola.szach(backup.clone(), ruchB)) {
                             // System.out.println(najmniejsza + "#" + najwieksza);
                             Ruch_wartosc wynik = ai.wykonaj(glebiaSI, move, najwieksza, najmniejsza);
                             pula_pozycji = pula_pozycji + ai.all_position;
@@ -12498,9 +12499,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                             }
                             // System.out.println((move.toString()) + " wynik(" + najlepszy + ")");
 
-                        } else {
-                            System.out.println("error castling");
-                        }
+                        
                         jProgressBar1.setString("Rozpatrywane:" + move + "| bieżacy wybór:" + oponet);
                         if (ai.isPrzerwa()) {
                             System.out.println("przerwa");
@@ -12579,6 +12578,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                     }
                 }
             } while (symulacja);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             return null;
         }
     }
@@ -23303,20 +23305,6 @@ public class SzachowaArena extends javax.swing.JFrame {
     }//GEN-LAST:event_SIOnOffActionPerformed
 
     private void resetgameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetgameActionPerformed
-        /* try {
-            final String javaBin = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
-            final File currentJar = new File(SzachowaArena.class
-                    .getProtectionDomain().getCodeSource().getLocation().toURI());
-            final ArrayList<String> command = new ArrayList<>();
-            command.add(javaBin);
-            command.add("-jar");
-            command.add(currentJar.getPath());
-            final ProcessBuilder builder = new ProcessBuilder(command);
-            builder.start();
-        } catch (URISyntaxException | IOException ex1) {
-            Logger.getLogger(SzachowaArena.class
-                    .getName()).log(Level.SEVERE, null, ex1);
-        }*/
         wleft = true;
         wright = true;
         bleft = true;
@@ -23474,7 +23462,6 @@ public class SzachowaArena extends javax.swing.JFrame {
         liczba_usciskow = 0;
         ostatni_start = "";
         ostatni_stop = "";
-        opcje_pomoc = 0;
         symulacja = false;
     }//GEN-LAST:event_resetgameActionPerformed
 

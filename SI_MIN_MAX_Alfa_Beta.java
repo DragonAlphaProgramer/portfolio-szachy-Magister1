@@ -165,7 +165,6 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
             this.przelotcan = false;
         }
         try {
-
             if (!RuchZagrozenie_kontrola.szach((move.chessboard_after), this.tura_rywala)
                     && obecnosc(move.chessboard_after)) {
                 aktualizacja_parametrow(move);

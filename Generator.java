@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import szachy.SzachowaArena.figury;
 
 /**
  *
@@ -149,9 +148,9 @@ class Generator {
                                                 if (wynik || all) {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + b)), y2 = (char) ('1' + (x + 1));
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("P" + "" + x1 + x2 + "x" + y1 + y2 + "=" + (symbole[s]) + "+"), przechowalnie, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("P" + "" + x1 + x2 + "x" + y1 + y2 + "=" + (""+symbole[s]) + "+"), przechowalnie, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("P" + "" + x1 + x2 + "x" + y1 + y2 + "=" + (symbole[s]) + " "), przechowalnie, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("P" + "" + x1 + x2 + "x" + y1 + y2 + "=" + (""+symbole[s]) + " "), przechowalnie, backup));
                                                     }
 
                                                 }
@@ -198,10 +197,10 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + 1));
                                                 if (szach) {
                                                     lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("P"
-                                                            + "" + x1 + x2 + "-" + y1 + y2 + "=" + (symbole[s]) + "+"), ' ', backup));
+                                                            + "" + x1 + x2 + "-" + y1 + y2 + "=" + (""+symbole[s]) + "+"), ' ', backup));
                                                 } else {
                                                     lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("P"
-                                                            + "" + x1 + x2 + "-" + y1 + y2 + "=" + (symbole[s]) + " "), ' ', backup));
+                                                            + "" + x1 + x2 + "-" + y1 + y2 + "=" + (""+symbole[s]) + " "), ' ', backup));
                                                 }
 
                                             }
@@ -1188,9 +1187,9 @@ class Generator {
                                                 if (wynik || all) {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + b)), y2 = (char) ('1' + (x - 1));
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("p" + "" + x1 + x2 + "x" + y1 + y2 + "=" + (symbole[s]) + "+"), przechowalnie, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("p" + "" + x1 + x2 + "x" + y1 + y2 + "=" + (""+symbole[s]) + "+"), przechowalnie, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("p" + "" + x1 + x2 + "x" + y1 + y2 + "=" + (symbole[s]) + " "), przechowalnie, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("p" + "" + x1 + x2 + "x" + y1 + y2 + "=" + (""+symbole[s]) + " "), przechowalnie, backup));
                                                     }
 
                                                 }
@@ -1238,10 +1237,10 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - 1));
                                                 if (szach) {
                                                     lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("p"
-                                                            + "" + x1 + x2 + "-" + y1 + y2 + "=" + (symbole[s]) + "+"), ' ', backup));
+                                                            + "" + x1 + x2 + "-" + y1 + y2 + "=" + (""+symbole[s]) + "+"), ' ', backup));
                                                 } else {
                                                     lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("p"
-                                                            + "" + x1 + x2 + "-" + y1 + y2 + "=" + (symbole[s]) + " "), ' ', backup));
+                                                            + "" + x1 + x2 + "-" + y1 + y2 + "=" + (""+symbole[s]) + " "), ' ', backup));
                                                 }
 
                                             }
@@ -1390,7 +1389,7 @@ class Generator {
                                     }
                                 }
                             }
-                            if (RuchZagrozenie_kontrola.szach((backup), true)) {
+                            if (!RuchZagrozenie_kontrola.szach((backup), true)) {
                                 if (kingrochB) {
                                     if (whiteright && (backup[0][5] == ' ')
                                             && (backup[0][6] == ' ')
@@ -1414,7 +1413,6 @@ class Generator {
                                             backup[0][7] = 'R';
                                             backup[0][5] = ' ';
                                             backup[0][6] = ' ';
-
                                             if (szach) {
                                                 lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O    +"),
                                                         ' ', backup));
@@ -1422,7 +1420,6 @@ class Generator {
                                                 lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O     "),
                                                         ' ', backup));
                                             }
-
                                         }
                                     }
                                     if (whiteleft && (backup[0][3] == ' ')
@@ -1448,7 +1445,6 @@ class Generator {
                                             backup[0][0] = 'R';
                                             backup[0][3] = ' ';
                                             backup[0][2] = ' ';
-
                                             if (szach) {
                                                 lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O-O  +"),
                                                         ' ', backup));
@@ -1456,7 +1452,6 @@ class Generator {
                                                 lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O-O   "),
                                                         ' ', backup));
                                             }
-
                                         }
                                     }
                                 }
