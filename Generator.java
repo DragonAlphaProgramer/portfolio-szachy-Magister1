@@ -1588,7 +1588,6 @@ class Generator {
             boolean kingrochB, boolean kingrochC, int kolumna, boolean konkret, char znak_start, int[] start, boolean all,
             boolean mgla
     ) {
-        long czas_start = System.currentTimeMillis();
         List<Ruch> lista_dopuszcalnych_Ruchow = new ArrayList<>();
         char[][] backup = new char[8][8];
         for (int x = 0; x < 8; x++) {
@@ -1603,7 +1602,6 @@ class Generator {
                 }
                 boolean szach;
                 boolean wynik;
-                szach = false;
                 char znak = backup[x][y];
 
                 int param_ruch = 1;
