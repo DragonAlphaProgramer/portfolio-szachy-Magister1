@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author Patryk Klasa odpowiedzialna za generowanie listy posunięć
  */
-class Generator {
+class Generator implements Generator_ruchow{
 
     /**
      * sprawdza, czy po ruchu są obecni królowie po obu stronach
@@ -22,7 +22,7 @@ class Generator {
      * @param backup sprawdzana pozycja
      * @return jeśli królowie są obecni, zwróci true
      */
-    private static boolean obecnosc(final char[][] backup) {
+    public boolean obecnosc(final char[][] backup) {
         boolean KB = false, KC = false;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -53,7 +53,8 @@ class Generator {
      * @param kolumna kolumna z dostępnym biciem w przelocie
      * @return bieżąca lista posunięć w danej pozycji
      */
-    static ArrayList<Ruch> generuj_posuniecia(char[][] ust, boolean tura_rywala, boolean przelotcan,
+    @Override
+    public ArrayList<Ruch> generuj_posuniecia(char[][] ust, boolean tura_rywala, boolean przelotcan,
             boolean blackleft, boolean blackright, boolean whiteleft, boolean whiteright,
             boolean kingrochB, boolean kingrochC, int kolumna, boolean all) {
 
@@ -1583,11 +1584,11 @@ class Generator {
 
     }
 
-    static Collection<Ruch> generuj_posuniecia(char[][] ust, boolean tura_rywala, boolean przelotcan,
+    @Override
+    public Collection<Ruch> generuj_posuniecia(char[][] ust, boolean tura_rywala, boolean przelotcan,
             boolean blackleft, boolean blackright, boolean whiteleft, boolean whiteright,
             boolean kingrochB, boolean kingrochC, int kolumna, boolean konkret, char znak_start, int[] start, boolean all,
-            boolean mgla
-    ) {
+            boolean mgla) {
         List<Ruch> lista_dopuszcalnych_Ruchow = new ArrayList<>();
         char[][] backup = new char[8][8];
         for (int x = 0; x < 8; x++) {
@@ -1619,8 +1620,8 @@ class Generator {
                                 backup[x][y] = ' ';
 
                                 if ((obecnosc(backup))) {
-                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                 } else {
                                     wynik = false;
                                     szach = false;
@@ -1656,8 +1657,8 @@ class Generator {
                                             backup[x][y] = ' ';
 
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -1682,8 +1683,8 @@ class Generator {
                                                 backup[x][y] = ' ';
 
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -1719,8 +1720,8 @@ class Generator {
                                         backup[x + 1][y] = znak;
                                         backup[x][y] = ' ';
                                         if ((obecnosc(backup))) {
-                                            wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                            szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                            wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                            szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                         } else {
                                             wynik = false;
                                             szach = false;
@@ -1746,8 +1747,8 @@ class Generator {
                                             backup[x + 1][y] = symbole[s];
                                             backup[x][y] = ' ';
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -1785,8 +1786,8 @@ class Generator {
                                     backup[x][y] = ' ';
 
                                     if ((obecnosc(backup))) {
-                                        wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                        szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                        wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                        szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                     } else {
                                         wynik = false;
                                         szach = false;
@@ -1833,8 +1834,8 @@ class Generator {
                                             backup[x][y] = ' ';
 
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -1864,8 +1865,8 @@ class Generator {
                                                 backup[x][y] = ' ';
 
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -1901,8 +1902,8 @@ class Generator {
                                             backup[x][y] = ' ';
 
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -1932,8 +1933,8 @@ class Generator {
                                                 backup[x][y] = ' ';
 
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -1967,8 +1968,8 @@ class Generator {
                                             backup[x + param_ruch][y - param_ruch] = znak;
                                             backup[x][y] = ' ';
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -1997,8 +1998,8 @@ class Generator {
                                                 backup[x + param_ruch][y - param_ruch] = znak;
                                                 backup[x][y] = ' ';
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -2033,8 +2034,8 @@ class Generator {
                                             backup[x][y] = ' ';
 
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -2064,8 +2065,8 @@ class Generator {
                                                 backup[x][y] = ' ';
 
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -2100,8 +2101,8 @@ class Generator {
                                             backup[x][y] = ' ';
 
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -2131,8 +2132,8 @@ class Generator {
                                                 backup[x][y] = ' ';
 
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -2167,8 +2168,8 @@ class Generator {
                                             backup[x][y] = ' ';
 
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -2198,8 +2199,8 @@ class Generator {
                                                 backup[x][y] = ' ';
 
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -2233,8 +2234,8 @@ class Generator {
                                             backup[x][y + param_ruch] = znak;
                                             backup[x][y] = ' ';
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -2263,8 +2264,8 @@ class Generator {
                                                 backup[x][y + param_ruch] = znak;
                                                 backup[x][y] = ' ';
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -2298,8 +2299,8 @@ class Generator {
                                             backup[x][y - param_ruch] = znak;
                                             backup[x][y] = ' ';
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -2329,8 +2330,8 @@ class Generator {
                                                 backup[x][y - param_ruch] = znak;
                                                 backup[x][y] = ' ';
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -2382,8 +2383,8 @@ class Generator {
                                             backup[x][y] = ' ';
 
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -2413,8 +2414,8 @@ class Generator {
                                                 backup[x][y] = ' ';
 
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -2449,8 +2450,8 @@ class Generator {
                                             backup[x][y] = ' ';
 
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -2480,8 +2481,8 @@ class Generator {
                                                 backup[x][y] = ' ';
 
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -2515,8 +2516,8 @@ class Generator {
                                             backup[x][y + param_ruch] = znak;
                                             backup[x][y] = ' ';
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -2545,8 +2546,8 @@ class Generator {
                                                 backup[x][y + param_ruch] = znak;
                                                 backup[x][y] = ' ';
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -2580,8 +2581,8 @@ class Generator {
                                             backup[x][y - param_ruch] = znak;
                                             backup[x][y] = ' ';
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -2611,8 +2612,8 @@ class Generator {
                                                 backup[x][y - param_ruch] = znak;
                                                 backup[x][y] = ' ';
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -2661,8 +2662,8 @@ class Generator {
                                             backup[x][y] = ' ';
 
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -2692,8 +2693,8 @@ class Generator {
                                                 backup[x][y] = ' ';
 
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -2729,8 +2730,8 @@ class Generator {
                                             backup[x][y] = ' ';
 
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -2760,8 +2761,8 @@ class Generator {
                                                 backup[x][y] = ' ';
 
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -2795,8 +2796,8 @@ class Generator {
                                             backup[x + param_ruch][y - param_ruch] = znak;
                                             backup[x][y] = ' ';
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -2825,8 +2826,8 @@ class Generator {
                                                 backup[x + param_ruch][y - param_ruch] = znak;
                                                 backup[x][y] = ' ';
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -2861,8 +2862,8 @@ class Generator {
                                             backup[x][y] = ' ';
 
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -2892,8 +2893,8 @@ class Generator {
                                                 backup[x][y] = ' ';
 
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -2933,8 +2934,8 @@ class Generator {
                                 backup[x][y] = ' ';
 
                                 if ((obecnosc(backup))) {
-                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                 } else {
                                     wynik = false;
                                     szach = false;
@@ -2970,8 +2971,8 @@ class Generator {
                                             backup[x][y] = ' ';
 
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -2996,8 +2997,8 @@ class Generator {
                                                 backup[x][y] = ' ';
 
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -3033,8 +3034,8 @@ class Generator {
                                         backup[x - 1][y] = znak;
                                         backup[x][y] = ' ';
                                         if ((obecnosc(backup))) {
-                                            wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                            szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                            wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                            szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                         } else {
                                             wynik = false;
                                             szach = false;
@@ -3060,8 +3061,8 @@ class Generator {
                                             backup[x - 1][y] = symbole[s];
                                             backup[x][y] = ' ';
                                             if ((obecnosc(backup))) {
-                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
@@ -3099,8 +3100,8 @@ class Generator {
                                     backup[x][y] = ' ';
 
                                     if ((obecnosc(backup))) {
-                                        wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                        szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                        wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                        szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                     } else {
                                         wynik = false;
                                         szach = false;
@@ -3164,8 +3165,8 @@ class Generator {
                                                 backup[x][y] = ' ';
 
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
 
                                                 } else {
                                                     wynik = false;
@@ -3215,8 +3216,8 @@ class Generator {
                                                 backup[x + i][y + j] = 'K';
                                                 backup[x][y] = ' ';
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
 
                                                 } else {
                                                     wynik = false;
@@ -3250,7 +3251,7 @@ class Generator {
                                     }
                                 }
                             }
-                            if (!RuchZagrozenie_kontrola.szach(konwert(backup), true) || mgla) {
+                            if (!RuchZagrozenie_kontrola.szach((backup), true) || mgla) {
                                 if (kingrochB) {
                                     if (whiteright && (backup[0][5] == ' ')
                                             && (backup[0][6] == ' ')
@@ -3260,7 +3261,7 @@ class Generator {
                                         for (int r = 1; r < 3; r++) {
                                             backup[0][4] = ' ';
                                             backup[0][4 + r] = 'K';
-                                            wyniki[r - 1] = !mgla ? !RuchZagrozenie_kontrola.szach(konwert(backup), true) : true;
+                                            wyniki[r - 1] = !mgla ? !RuchZagrozenie_kontrola.szach((backup), true) : true;
                                             backup[0][4] = 'K';
                                             backup[0][4 + r] = ' ';
                                         }
@@ -3269,7 +3270,7 @@ class Generator {
                                             backup[0][7] = ' ';
                                             backup[0][5] = 'R';
                                             backup[0][6] = 'K';
-                                            szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                            szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             backup[0][4] = 'K';
                                             backup[0][7] = 'R';
                                             backup[0][5] = ' ';
@@ -3294,7 +3295,7 @@ class Generator {
                                         for (int r = 1; r <= 2; r++) {
                                             backup[0][4] = ' ';
                                             backup[0][4 - r] = 'K';
-                                            wyniki[r - 1] = !mgla ? !RuchZagrozenie_kontrola.szach(konwert(backup), true) : true;
+                                            wyniki[r - 1] = !mgla ? !RuchZagrozenie_kontrola.szach((backup), true) : true;
                                             backup[0][4] = 'K';
                                             backup[0][4 - r] = ' ';
                                         }
@@ -3303,7 +3304,7 @@ class Generator {
                                             backup[0][0] = ' ';
                                             backup[0][3] = 'R';
                                             backup[0][2] = 'K';
-                                            szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                            szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             backup[0][4] = 'K';
                                             backup[0][0] = 'R';
                                             backup[0][3] = ' ';
@@ -3337,8 +3338,8 @@ class Generator {
                                                 backup[x + i][y + j] = 'k';
                                                 backup[x][y] = ' ';
                                                 if ((obecnosc(backup))) {
-                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false) : true);
-                                                    szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                                    wynik = (all || !mgla ? (RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false) : true);
+                                                    szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                                 } else {
                                                     wynik = false;
                                                     szach = false;
@@ -3371,7 +3372,7 @@ class Generator {
                                     }
                                 }
                             }
-                            if (!RuchZagrozenie_kontrola.szach(konwert(backup), false) || mgla) {
+                            if (!RuchZagrozenie_kontrola.szach((backup), false) || mgla) {
                                 if (kingrochC) {
                                     if (blackright && (backup[7][5] == ' ')
                                             && (backup[7][6] == ' ')
@@ -3381,7 +3382,7 @@ class Generator {
                                         for (int r = 1; r < 3; r++) {
                                             backup[7][4] = ' ';
                                             backup[7][4 + r] = 'k';
-                                            wyniki[r - 1] = !mgla ? !RuchZagrozenie_kontrola.szach(konwert(backup), false) : true;
+                                            wyniki[r - 1] = !mgla ? !RuchZagrozenie_kontrola.szach((backup), false) : true;
                                             backup[7][4] = 'k';
                                             backup[7][4 + r] = ' ';
                                         }
@@ -3390,7 +3391,7 @@ class Generator {
                                             backup[7][7] = ' ';
                                             backup[7][5] = 'r';
                                             backup[7][6] = 'k';
-                                            szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                            szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             backup[7][4] = 'k';
                                             backup[7][7] = 'r';
                                             backup[7][5] = ' ';
@@ -3415,7 +3416,7 @@ class Generator {
                                         for (int r = 1; r <= 2; r++) {
                                             backup[7][4] = ' ';
                                             backup[7][4 - r] = 'k';
-                                            wyniki[r - 1] = !mgla ? !RuchZagrozenie_kontrola.szach(konwert(backup), false) : true;
+                                            wyniki[r - 1] = !mgla ? !RuchZagrozenie_kontrola.szach((backup), false) : true;
                                             backup[7][4] = 'k';
                                             backup[7][4 - r] = ' ';
                                         }
@@ -3424,7 +3425,7 @@ class Generator {
                                             backup[7][0] = ' ';
                                             backup[7][3] = 'r';
                                             backup[7][2] = 'k';
-                                            szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
+                                            szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             backup[7][4] = 'k';
                                             backup[7][0] = 'r';
                                             backup[7][3] = ' ';
@@ -3459,48 +3460,48 @@ class Generator {
         return Collections.unmodifiableCollection(lista_dopuszcalnych_Ruchow);
     }
 
-    private static char[][] konwert(char[][] backup) {
+    public char[][] konwert(figury[][] backup) {
         char[][] pozycja = new char[8][8];
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 switch (backup[i][j]) {
-                    case ' ':
+                    case pustka:
                         pozycja[i][j] = ' ';
                         break;
-                    case 'P':
+                    case BPion:
                         pozycja[i][j] = 'P';
                         break;
-                    case 'p':
+                    case CPion:
                         pozycja[i][j] = 'p';
                         break;
-                    case 'N':
+                    case BSkoczek:
                         pozycja[i][j] = 'N';
                         break;
-                    case 'n':
+                    case CSkoczek:
                         pozycja[i][j] = 'n';
                         break;
-                    case 'B':
+                    case BGoniec:
                         pozycja[i][j] = 'B';
                         break;
-                    case 'b':
+                    case CGoniec:
                         pozycja[i][j] = 'b';
                         break;
-                    case 'R':
+                    case BWieza:
                         pozycja[i][j] = 'R';
                         break;
-                    case 'r':
+                    case CWieza:
                         pozycja[i][j] = 'r';
                         break;
-                    case 'Q':
+                    case BHetman:
                         pozycja[i][j] = 'Q';
                         break;
-                    case 'q':
+                    case CHetman:
                         pozycja[i][j] = 'q';
                         break;
-                    case 'K':
+                    case BKrol:
                         pozycja[i][j] = 'K';
                         break;
-                    case 'k':
+                    case CKrol:
                         pozycja[i][j] = 'k';
                         break;
                 }
@@ -3509,11 +3510,12 @@ class Generator {
         return pozycja;
     }
 
-    static Collection<RuchA> generuj_posunieciaA(SzachowaArena.figury[][] ust, boolean tura_rywala, boolean przelotcan,
+    @Override
+    public Collection<RuchA> generuj_posunieciaA(figuryA[][] ust, boolean tura_rywala, boolean przelotcan,
             boolean blackleft, boolean blackright, boolean whiteleft, boolean whiteright,
             boolean kingrochB, boolean kingrochC, int kolumna, boolean konkret, char znak_start, int[] start, boolean all) {
         List<RuchA> lista_dopuszcalnych_Ruchow = new ArrayList<>();
-        SzachowaArena.figury[][] backup = new SzachowaArena.figury[8][8];
+        figuryA[][] backup = new figuryA[8][8];
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 backup[x][y] = ust[x][y];
@@ -3524,7 +3526,7 @@ class Generator {
                 boolean szach;
                 boolean wynik;
                 szach = false;
-                SzachowaArena.figury znak = backup[x][y];
+                figuryA znak = backup[x][y];
 
                 int param_ruch = 1;
                 int przod;
@@ -3536,9 +3538,9 @@ class Generator {
                         if (tura_rywala != false) {
                             if (x == 4 && przelotcan && kolumna != 0 && (kolumna - 1 == y - 1 || kolumna - 1 == y + 1)) {
 
-                                backup[x + 1][kolumna - 1] = SzachowaArena.figury.BPion;
-                                backup[x][kolumna - 1] = SzachowaArena.figury.pustka;
-                                backup[x][y] = SzachowaArena.figury.pustka;
+                                backup[x + 1][kolumna - 1] = figuryA.BPion;
+                                backup[x][kolumna - 1] = figuryA.pustka;
+                                backup[x][y] = figuryA.pustka;
 
                                 if ((obecnosc(backup))) {
                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -3548,16 +3550,16 @@ class Generator {
                                     szach = false;
                                 }
 
-                                backup[x + 1][kolumna - 1] = SzachowaArena.figury.pustka;
-                                backup[x][kolumna - 1] = SzachowaArena.figury.CPion;
-                                backup[x][y] = SzachowaArena.figury.BPion;
+                                backup[x + 1][kolumna - 1] = figuryA.pustka;
+                                backup[x][kolumna - 1] = figuryA.CPion;
+                                backup[x][y] = figuryA.BPion;
                                 if (wynik || all) {
                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (kolumna - 1)), y2 = (char) ('1' + (x + 1));
                                     if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                         if (szach == false) {
-                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "x" + y1 + y2 + "EP "), SzachowaArena.figury.CPion, backup));
+                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "x" + y1 + y2 + "EP "), figuryA.CPion, backup));
                                         } else {
-                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "x" + y1 + y2 + "EP+"), SzachowaArena.figury.CPion, backup));
+                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "x" + y1 + y2 + "EP+"), figuryA.CPion, backup));
                                         }
                                     }
                                 }
@@ -3565,17 +3567,17 @@ class Generator {
                             for (int b = -1; b < 2; b++) {
 
                                 if (y + b > -1 && y + b < 8 && x + 1 < 8) {
-                                    if (b != 0 && ((backup[x + 1][y + b] == SzachowaArena.figury.CSkoczek)
-                                            || (backup[x + 1][y + b] == SzachowaArena.figury.CPion)
-                                            || (backup[x + 1][y + b] == SzachowaArena.figury.CGoniec)
-                                            || (backup[x + 1][y + b] == SzachowaArena.figury.CWieza)
-                                            || (backup[x + 1][y + b] == SzachowaArena.figury.CHetman)
-                                            || (backup[x + 1][y + b] == SzachowaArena.figury.CAmazonka))) {
-                                        SzachowaArena.figury przechowalnie;
+                                    if (b != 0 && ((backup[x + 1][y + b] == figuryA.CSkoczek)
+                                            || (backup[x + 1][y + b] == figuryA.CPion)
+                                            || (backup[x + 1][y + b] == figuryA.CGoniec)
+                                            || (backup[x + 1][y + b] == figuryA.CWieza)
+                                            || (backup[x + 1][y + b] == figuryA.CHetman)
+                                            || (backup[x + 1][y + b] == figuryA.CAmazonka))) {
+                                        figuryA przechowalnie;
                                         przechowalnie = backup[x + 1][y + b];
                                         if (x != 6) {
                                             backup[x + 1][y + b] = znak;
-                                            backup[x][y] = SzachowaArena.figury.pustka;
+                                            backup[x][y] = figuryA.pustka;
 
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -3598,10 +3600,10 @@ class Generator {
                                                 }
                                             }
                                         } else {
-                                            SzachowaArena.figury[] symbole = {SzachowaArena.figury.BHetman, SzachowaArena.figury.BWieza, SzachowaArena.figury.BGoniec, SzachowaArena.figury.BSkoczek};
+                                            figuryA[] symbole = {figuryA.BHetman, figuryA.BWieza, figuryA.BGoniec, figuryA.BSkoczek};
                                             for (int s = 0; s < 4; s++) {
                                                 backup[x + 1][y + b] = symbole[s];
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                                backup[x][y] = figuryA.pustka;
 
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -3630,16 +3632,16 @@ class Generator {
                             }
 
                             if (x + 1 < 8) {
-                                if (backup[x + 1][y] == SzachowaArena.figury.pustka || (backup[x + 1][y] != SzachowaArena.figury.CPion && backup[x + 1][y] != SzachowaArena.figury.BPion
-                                        && backup[x + 1][y] != SzachowaArena.figury.BSkoczek && backup[x + 1][y] != SzachowaArena.figury.CSkoczek && backup[x + 1][y] != SzachowaArena.figury.BGoniec
-                                        && backup[x + 1][y] != SzachowaArena.figury.CGoniec && backup[x + 1][y] != SzachowaArena.figury.BWieza && backup[x + 1][y] != SzachowaArena.figury.CWieza
-                                        && backup[x + 1][y] != SzachowaArena.figury.BHetman && backup[x + 1][y] != SzachowaArena.figury.CHetman && backup[x + 1][y] != SzachowaArena.figury.BKrol
-                                        && backup[x + 1][y] != SzachowaArena.figury.CKrol && backup[x + 1][y] != SzachowaArena.figury.CAmazonka && backup[x + 1][y] != SzachowaArena.figury.BAmazonka)) {
-                                    SzachowaArena.figury przechowalnie;
+                                if (backup[x + 1][y] == figuryA.pustka || (backup[x + 1][y] != figuryA.CPion && backup[x + 1][y] != figuryA.BPion
+                                        && backup[x + 1][y] != figuryA.BSkoczek && backup[x + 1][y] != figuryA.CSkoczek && backup[x + 1][y] != figuryA.BGoniec
+                                        && backup[x + 1][y] != figuryA.CGoniec && backup[x + 1][y] != figuryA.BWieza && backup[x + 1][y] != figuryA.CWieza
+                                        && backup[x + 1][y] != figuryA.BHetman && backup[x + 1][y] != figuryA.CHetman && backup[x + 1][y] != figuryA.BKrol
+                                        && backup[x + 1][y] != figuryA.CKrol && backup[x + 1][y] != figuryA.CAmazonka && backup[x + 1][y] != figuryA.BAmazonka)) {
+                                    figuryA przechowalnie;
                                     przechowalnie = backup[x + 1][y];
                                     if (x != 6) {
                                         backup[x + 1][y] = znak;
-                                        backup[x][y] = SzachowaArena.figury.pustka;
+                                        backup[x][y] = figuryA.pustka;
                                         if ((obecnosc(backup))) {
                                             wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
                                             szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
@@ -3654,17 +3656,17 @@ class Generator {
                                             char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + 1));
                                             if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "-" + y1 + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "-" + y1 + y2 + "--+"), figuryA.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "-" + y1 + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "-" + y1 + y2 + "-- "), figuryA.pustka, backup));
                                                 }
                                             }
                                         }
                                     } else {
-                                        SzachowaArena.figury[] symbole = {SzachowaArena.figury.CAmazonka, SzachowaArena.figury.CWieza, SzachowaArena.figury.CGoniec, SzachowaArena.figury.CSkoczek};
+                                        figuryA[] symbole = {figuryA.CAmazonka, figuryA.CWieza, figuryA.CGoniec, figuryA.CSkoczek};
                                         for (int s = 0; s < 4; s++) {
                                             backup[x + 1][y] = symbole[s];
-                                            backup[x][y] = SzachowaArena.figury.pustka;
+                                            backup[x][y] = figuryA.pustka;
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
                                                 szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
@@ -3679,9 +3681,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + 1));
                                                 if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "-" + y1 + y2 + "=" + (symbole[s]) + "+"), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "-" + y1 + y2 + "=" + (symbole[s]) + "+"), figuryA.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "-" + y1 + y2 + "=" + (symbole[s]) + " "), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "-" + y1 + y2 + "=" + (symbole[s]) + " "), figuryA.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -3690,19 +3692,19 @@ class Generator {
                                 }
                             }
                             if (x + 2 < 8) {
-                                if ((backup[x + 2][y] == SzachowaArena.figury.pustka || (backup[x + 2][y] != SzachowaArena.figury.CPion && backup[x + 2][y] != SzachowaArena.figury.BPion
-                                        && backup[x + 2][y] != SzachowaArena.figury.BSkoczek && backup[x + 2][y] != SzachowaArena.figury.CSkoczek && backup[x + 2][y] != SzachowaArena.figury.BGoniec
-                                        && backup[x + 2][y] != SzachowaArena.figury.CGoniec && backup[x + 2][y] != SzachowaArena.figury.BWieza && backup[x + 2][y] != SzachowaArena.figury.CWieza
-                                        && backup[x + 2][y] != SzachowaArena.figury.BHetman && backup[x + 2][y] != SzachowaArena.figury.CHetman && backup[x + 2][y] != SzachowaArena.figury.BKrol
-                                        && backup[x + 2][y] != SzachowaArena.figury.CKrol && backup[x + 2][y] != SzachowaArena.figury.CAmazonka && backup[x + 2][y] != SzachowaArena.figury.BAmazonka))
-                                        && (backup[x + 1][y] == SzachowaArena.figury.pustka || (backup[x + 1][y] != SzachowaArena.figury.CPion && backup[x + 1][y] != SzachowaArena.figury.BPion
-                                        && backup[x + 1][y] != SzachowaArena.figury.BSkoczek && backup[x + 1][y] != SzachowaArena.figury.CSkoczek && backup[x + 1][y] != SzachowaArena.figury.BGoniec
-                                        && backup[x + 1][y] != SzachowaArena.figury.CGoniec && backup[x + 1][y] != SzachowaArena.figury.BWieza && backup[x + 1][y] != SzachowaArena.figury.CWieza
-                                        && backup[x + 1][y] != SzachowaArena.figury.BHetman && backup[x + 1][y] != SzachowaArena.figury.CHetman && backup[x + 1][y] != SzachowaArena.figury.BKrol
-                                        && backup[x + 1][y] != SzachowaArena.figury.CKrol && backup[x + 1][y] != SzachowaArena.figury.CAmazonka && backup[x + 1][y] != SzachowaArena.figury.BAmazonka)) && x == 1) {
-                                    SzachowaArena.figury przechowalnie = backup[x + 2][y];
+                                if ((backup[x + 2][y] == figuryA.pustka || (backup[x + 2][y] != figuryA.CPion && backup[x + 2][y] != figuryA.BPion
+                                        && backup[x + 2][y] != figuryA.BSkoczek && backup[x + 2][y] != figuryA.CSkoczek && backup[x + 2][y] != figuryA.BGoniec
+                                        && backup[x + 2][y] != figuryA.CGoniec && backup[x + 2][y] != figuryA.BWieza && backup[x + 2][y] != figuryA.CWieza
+                                        && backup[x + 2][y] != figuryA.BHetman && backup[x + 2][y] != figuryA.CHetman && backup[x + 2][y] != figuryA.BKrol
+                                        && backup[x + 2][y] != figuryA.CKrol && backup[x + 2][y] != figuryA.CAmazonka && backup[x + 2][y] != figuryA.BAmazonka))
+                                        && (backup[x + 1][y] == figuryA.pustka || (backup[x + 1][y] != figuryA.CPion && backup[x + 1][y] != figuryA.BPion
+                                        && backup[x + 1][y] != figuryA.BSkoczek && backup[x + 1][y] != figuryA.CSkoczek && backup[x + 1][y] != figuryA.BGoniec
+                                        && backup[x + 1][y] != figuryA.CGoniec && backup[x + 1][y] != figuryA.BWieza && backup[x + 1][y] != figuryA.CWieza
+                                        && backup[x + 1][y] != figuryA.BHetman && backup[x + 1][y] != figuryA.CHetman && backup[x + 1][y] != figuryA.BKrol
+                                        && backup[x + 1][y] != figuryA.CKrol && backup[x + 1][y] != figuryA.CAmazonka && backup[x + 1][y] != figuryA.BAmazonka)) && x == 1) {
+                                    figuryA przechowalnie = backup[x + 2][y];
                                     backup[x + 2][y] = znak;
-                                    backup[x][y] = SzachowaArena.figury.pustka;
+                                    backup[x][y] = figuryA.pustka;
 
                                     if ((obecnosc(backup))) {
                                         wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -3718,9 +3720,9 @@ class Generator {
                                         char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + 2));
                                         if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                             if (szach) {
-                                                lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "-" + y1 + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "-" + y1 + y2 + "--+"), figuryA.pustka, backup));
                                             } else {
-                                                lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "-" + y1 + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "-" + y1 + y2 + "-- "), figuryA.pustka, backup));
                                             }
                                         }
                                     }
@@ -3730,7 +3732,7 @@ class Generator {
                         break;
                     case BAmazonka:
                     case CAmazonka:
-                        if ((tura_rywala != false && znak == SzachowaArena.figury.BAmazonka) || (tura_rywala == false && znak == SzachowaArena.figury.CAmazonka)) {
+                        if ((tura_rywala != false && znak == figuryA.BAmazonka) || (tura_rywala == false && znak == figuryA.CAmazonka)) {
                             d1 = true;
                             d2 = true;
                             d3 = true;
@@ -3744,43 +3746,41 @@ class Generator {
                             param_ruch = 1;
                             while (d1 || d2 || d3 || d4
                                     || w1 || w2 || w3 || w4) {
-                                if ((tura_rywala && znak == SzachowaArena.figury.BAmazonka) || (tura_rywala == false && znak == SzachowaArena.figury.CAmazonka)) {
+                                if ((tura_rywala && znak == figuryA.BAmazonka) || (tura_rywala == false && znak == figuryA.CAmazonka)) {
                                     if (x + param_ruch < 8 && y + param_ruch < 8 && d1) {
 
-                                        if (d1 && backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.pustka) {
+                                        if (d1 && backup[x + param_ruch][y + param_ruch] == figuryA.pustka) {
                                             backup[x + param_ruch][y + param_ruch] = znak;
-                                            backup[x][y] = SzachowaArena.figury.pustka;
+                                            backup[x][y] = figuryA.pustka;
 
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
                                                 szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
-                                                System.out.println("Amazonka: " + param_ruch + " " + (RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false));
-                                                System.out.println("Amazonka: " + param_ruch + " " + szach);
                                             } else {
                                                 wynik = false;
                                                 szach = false;
                                             }
 
-                                            backup[x + param_ruch][y + param_ruch] = SzachowaArena.figury.pustka;
+                                            backup[x + param_ruch][y + param_ruch] = figuryA.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), figuryA.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), figuryA.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BAmazonka && (backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CPion || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CSkoczek
-                                                    || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CGoniec || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CWieza || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CAmazonka))
-                                                    || (znak == SzachowaArena.figury.CAmazonka && (backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BPion || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BSkoczek
-                                                    || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BGoniec || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BWieza || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BAmazonka))) {
-                                                SzachowaArena.figury przechowalnia = backup[x + param_ruch][y + param_ruch];
+                                            if ((znak == figuryA.BAmazonka && (backup[x + param_ruch][y + param_ruch] == figuryA.CPion || backup[x + param_ruch][y + param_ruch] == figuryA.CSkoczek
+                                                    || backup[x + param_ruch][y + param_ruch] == figuryA.CGoniec || backup[x + param_ruch][y + param_ruch] == figuryA.CWieza || backup[x + param_ruch][y + param_ruch] == figuryA.CAmazonka))
+                                                    || (znak == figuryA.CAmazonka && (backup[x + param_ruch][y + param_ruch] == figuryA.BPion || backup[x + param_ruch][y + param_ruch] == figuryA.BSkoczek
+                                                    || backup[x + param_ruch][y + param_ruch] == figuryA.BGoniec || backup[x + param_ruch][y + param_ruch] == figuryA.BWieza || backup[x + param_ruch][y + param_ruch] == figuryA.BAmazonka))) {
+                                                figuryA przechowalnia = backup[x + param_ruch][y + param_ruch];
                                                 backup[x + param_ruch][y + param_ruch] = znak;
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                                backup[x][y] = figuryA.pustka;
 
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -3796,9 +3796,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -3811,13 +3811,13 @@ class Generator {
                                         d1 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SzachowaArena.figury.BAmazonka) || (tura_rywala == false && znak == SzachowaArena.figury.CAmazonka)) {
+                                if ((tura_rywala && znak == figuryA.BAmazonka) || (tura_rywala == false && znak == figuryA.CAmazonka)) {
                                     if (x - param_ruch > -1 && y - param_ruch > -1 && d2) {
                                         //////System.out.println((x+param_ruch)+" "+(y+param_ruch));
 
-                                        if (d2 && backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.pustka) {
+                                        if (d2 && backup[x - param_ruch][y - param_ruch] == figuryA.pustka) {
                                             backup[x - param_ruch][y - param_ruch] = znak;
-                                            backup[x][y] = SzachowaArena.figury.pustka;
+                                            backup[x][y] = figuryA.pustka;
 
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -3827,26 +3827,26 @@ class Generator {
                                                 szach = false;
                                             }
 
-                                            backup[x - param_ruch][y - param_ruch] = SzachowaArena.figury.pustka;
+                                            backup[x - param_ruch][y - param_ruch] = figuryA.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), figuryA.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), figuryA.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BAmazonka && (backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CPion || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CSkoczek
-                                                    || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CGoniec || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CWieza || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CAmazonka))
-                                                    || (znak == SzachowaArena.figury.CAmazonka && (backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BPion || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BSkoczek
-                                                    || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BGoniec || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BWieza || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BAmazonka))) {
-                                                SzachowaArena.figury przechowalnia = backup[x - param_ruch][y - param_ruch];
+                                            if ((znak == figuryA.BAmazonka && (backup[x - param_ruch][y - param_ruch] == figuryA.CPion || backup[x - param_ruch][y - param_ruch] == figuryA.CSkoczek
+                                                    || backup[x - param_ruch][y - param_ruch] == figuryA.CGoniec || backup[x - param_ruch][y - param_ruch] == figuryA.CWieza || backup[x - param_ruch][y - param_ruch] == figuryA.CAmazonka))
+                                                    || (znak == figuryA.CAmazonka && (backup[x - param_ruch][y - param_ruch] == figuryA.BPion || backup[x - param_ruch][y - param_ruch] == figuryA.BSkoczek
+                                                    || backup[x - param_ruch][y - param_ruch] == figuryA.BGoniec || backup[x - param_ruch][y - param_ruch] == figuryA.BWieza || backup[x - param_ruch][y - param_ruch] == figuryA.BAmazonka))) {
+                                                figuryA przechowalnia = backup[x - param_ruch][y - param_ruch];
                                                 backup[x - param_ruch][y - param_ruch] = znak;
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                                backup[x][y] = figuryA.pustka;
 
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -3862,9 +3862,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -3877,12 +3877,12 @@ class Generator {
                                         d2 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SzachowaArena.figury.BAmazonka) || (tura_rywala == false && znak == SzachowaArena.figury.CAmazonka)) {
+                                if ((tura_rywala && znak == figuryA.BAmazonka) || (tura_rywala == false && znak == figuryA.CAmazonka)) {
                                     if (x + param_ruch < 8 && y - param_ruch > -1 && d3) {
 
-                                        if (d3 && backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.pustka) {
+                                        if (d3 && backup[x + param_ruch][y - param_ruch] == figuryA.pustka) {
                                             backup[x + param_ruch][y - param_ruch] = znak;
-                                            backup[x][y] = SzachowaArena.figury.pustka;
+                                            backup[x][y] = figuryA.pustka;
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
                                                 szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
@@ -3891,26 +3891,26 @@ class Generator {
                                                 szach = false;
                                             }
 
-                                            backup[x + param_ruch][y - param_ruch] = SzachowaArena.figury.pustka;
+                                            backup[x + param_ruch][y - param_ruch] = figuryA.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), figuryA.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), figuryA.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BAmazonka && (backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CPion || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CSkoczek
-                                                    || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CGoniec || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CWieza || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CAmazonka))
-                                                    || (znak == SzachowaArena.figury.CAmazonka && (backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BPion || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BSkoczek
-                                                    || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BGoniec || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BWieza || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BAmazonka))) {
-                                                SzachowaArena.figury przechowalnia = backup[x + param_ruch][y - param_ruch];
+                                            if ((znak == figuryA.BAmazonka && (backup[x + param_ruch][y - param_ruch] == figuryA.CPion || backup[x + param_ruch][y - param_ruch] == figuryA.CSkoczek
+                                                    || backup[x + param_ruch][y - param_ruch] == figuryA.CGoniec || backup[x + param_ruch][y - param_ruch] == figuryA.CWieza || backup[x + param_ruch][y - param_ruch] == figuryA.CAmazonka))
+                                                    || (znak == figuryA.CAmazonka && (backup[x + param_ruch][y - param_ruch] == figuryA.BPion || backup[x + param_ruch][y - param_ruch] == figuryA.BSkoczek
+                                                    || backup[x + param_ruch][y - param_ruch] == figuryA.BGoniec || backup[x + param_ruch][y - param_ruch] == figuryA.BWieza || backup[x + param_ruch][y - param_ruch] == figuryA.BAmazonka))) {
+                                                figuryA przechowalnia = backup[x + param_ruch][y - param_ruch];
                                                 backup[x + param_ruch][y - param_ruch] = znak;
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                                backup[x][y] = figuryA.pustka;
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
                                                     szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
@@ -3925,9 +3925,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -3940,12 +3940,12 @@ class Generator {
                                         d3 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SzachowaArena.figury.BAmazonka) || (tura_rywala == false && znak == SzachowaArena.figury.CAmazonka)) {
+                                if ((tura_rywala && znak == figuryA.BAmazonka) || (tura_rywala == false && znak == figuryA.CAmazonka)) {
                                     if (x - param_ruch > -1 && y + param_ruch < 8 && d4) {
 
-                                        if (d4 && backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.pustka) {
+                                        if (d4 && backup[x - param_ruch][y + param_ruch] == figuryA.pustka) {
                                             backup[x - param_ruch][y + param_ruch] = znak;
-                                            backup[x][y] = SzachowaArena.figury.pustka;
+                                            backup[x][y] = figuryA.pustka;
 
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -3955,26 +3955,26 @@ class Generator {
                                                 szach = false;
                                             }
 
-                                            backup[x - param_ruch][y + param_ruch] = SzachowaArena.figury.pustka;
+                                            backup[x - param_ruch][y + param_ruch] = figuryA.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), figuryA.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), figuryA.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BAmazonka && (backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CPion || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CSkoczek
-                                                    || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CGoniec || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CWieza || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CAmazonka))
-                                                    || (znak == SzachowaArena.figury.CAmazonka && (backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BPion || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BSkoczek
-                                                    || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BGoniec || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BWieza || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BAmazonka))) {
-                                                SzachowaArena.figury przechowalnia = backup[x - param_ruch][y + param_ruch];
+                                            if ((znak == figuryA.BAmazonka && (backup[x - param_ruch][y + param_ruch] == figuryA.CPion || backup[x - param_ruch][y + param_ruch] == figuryA.CSkoczek
+                                                    || backup[x - param_ruch][y + param_ruch] == figuryA.CGoniec || backup[x - param_ruch][y + param_ruch] == figuryA.CWieza || backup[x - param_ruch][y + param_ruch] == figuryA.CAmazonka))
+                                                    || (znak == figuryA.CAmazonka && (backup[x - param_ruch][y + param_ruch] == figuryA.BPion || backup[x - param_ruch][y + param_ruch] == figuryA.BSkoczek
+                                                    || backup[x - param_ruch][y + param_ruch] == figuryA.BGoniec || backup[x - param_ruch][y + param_ruch] == figuryA.BWieza || backup[x - param_ruch][y + param_ruch] == figuryA.BAmazonka))) {
+                                                figuryA przechowalnia = backup[x - param_ruch][y + param_ruch];
                                                 backup[x - param_ruch][y + param_ruch] = znak;
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                                backup[x][y] = figuryA.pustka;
 
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -3990,9 +3990,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -4005,12 +4005,12 @@ class Generator {
                                         d4 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SzachowaArena.figury.BAmazonka) || (tura_rywala == false && znak == SzachowaArena.figury.CAmazonka)) {
+                                if ((tura_rywala && znak == figuryA.BAmazonka) || (tura_rywala == false && znak == figuryA.CAmazonka)) {
                                     if (x + param_ruch < 8 && w1) {
 
-                                        if (w1 && backup[x + param_ruch][y] == SzachowaArena.figury.pustka) {
+                                        if (w1 && backup[x + param_ruch][y] == figuryA.pustka) {
                                             backup[x + param_ruch][y] = znak;
-                                            backup[x][y] = SzachowaArena.figury.pustka;
+                                            backup[x][y] = figuryA.pustka;
 
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -4020,26 +4020,26 @@ class Generator {
                                                 szach = false;
                                             }
 
-                                            backup[x + param_ruch][y] = SzachowaArena.figury.pustka;
+                                            backup[x + param_ruch][y] = figuryA.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), figuryA.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), figuryA.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BAmazonka && (backup[x + param_ruch][y] == SzachowaArena.figury.CPion || backup[x + param_ruch][y] == SzachowaArena.figury.CSkoczek
-                                                    || backup[x + param_ruch][y] == SzachowaArena.figury.CGoniec || backup[x + param_ruch][y] == SzachowaArena.figury.CWieza || backup[x + param_ruch][y] == SzachowaArena.figury.CAmazonka))
-                                                    || (znak == SzachowaArena.figury.CAmazonka && (backup[x + param_ruch][y] == SzachowaArena.figury.BPion || backup[x + param_ruch][y] == SzachowaArena.figury.BSkoczek
-                                                    || backup[x + param_ruch][y] == SzachowaArena.figury.BGoniec || backup[x + param_ruch][y] == SzachowaArena.figury.BWieza || backup[x + param_ruch][y] == SzachowaArena.figury.BAmazonka))) {
-                                                SzachowaArena.figury przechowalnia = backup[x + param_ruch][y];
+                                            if ((znak == figuryA.BAmazonka && (backup[x + param_ruch][y] == figuryA.CPion || backup[x + param_ruch][y] == figuryA.CSkoczek
+                                                    || backup[x + param_ruch][y] == figuryA.CGoniec || backup[x + param_ruch][y] == figuryA.CWieza || backup[x + param_ruch][y] == figuryA.CAmazonka))
+                                                    || (znak == figuryA.CAmazonka && (backup[x + param_ruch][y] == figuryA.BPion || backup[x + param_ruch][y] == figuryA.BSkoczek
+                                                    || backup[x + param_ruch][y] == figuryA.BGoniec || backup[x + param_ruch][y] == figuryA.BWieza || backup[x + param_ruch][y] == figuryA.BAmazonka))) {
+                                                figuryA przechowalnia = backup[x + param_ruch][y];
                                                 backup[x + param_ruch][y] = znak;
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                                backup[x][y] = figuryA.pustka;
 
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -4055,9 +4055,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -4070,12 +4070,12 @@ class Generator {
                                         w1 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SzachowaArena.figury.BAmazonka) || (tura_rywala == false && znak == SzachowaArena.figury.CAmazonka)) {
+                                if ((tura_rywala && znak == figuryA.BAmazonka) || (tura_rywala == false && znak == figuryA.CAmazonka)) {
                                     if (x - param_ruch > -1 && w2) {
 
-                                        if (w2 && backup[x - param_ruch][y] == SzachowaArena.figury.pustka) {
+                                        if (w2 && backup[x - param_ruch][y] == figuryA.pustka) {
                                             backup[x - param_ruch][y] = znak;
-                                            backup[x][y] = SzachowaArena.figury.pustka;
+                                            backup[x][y] = figuryA.pustka;
 
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -4085,26 +4085,26 @@ class Generator {
                                                 szach = false;
                                             }
 
-                                            backup[x - param_ruch][y] = SzachowaArena.figury.pustka;
+                                            backup[x - param_ruch][y] = figuryA.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), figuryA.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), figuryA.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BAmazonka && (backup[x - param_ruch][y] == SzachowaArena.figury.CPion || backup[x - param_ruch][y] == SzachowaArena.figury.CSkoczek
-                                                    || backup[x - param_ruch][y] == SzachowaArena.figury.CGoniec || backup[x - param_ruch][y] == SzachowaArena.figury.CWieza || backup[x - param_ruch][y] == SzachowaArena.figury.CAmazonka))
-                                                    || (znak == SzachowaArena.figury.CAmazonka && (backup[x - param_ruch][y] == SzachowaArena.figury.BPion || backup[x - param_ruch][y] == SzachowaArena.figury.BSkoczek
-                                                    || backup[x - param_ruch][y] == SzachowaArena.figury.BGoniec || backup[x - param_ruch][y] == SzachowaArena.figury.BWieza || backup[x - param_ruch][y] == SzachowaArena.figury.BAmazonka))) {
-                                                SzachowaArena.figury przechowalnia = backup[x - param_ruch][y];
+                                            if ((znak == figuryA.BAmazonka && (backup[x - param_ruch][y] == figuryA.CPion || backup[x - param_ruch][y] == figuryA.CSkoczek
+                                                    || backup[x - param_ruch][y] == figuryA.CGoniec || backup[x - param_ruch][y] == figuryA.CWieza || backup[x - param_ruch][y] == figuryA.CAmazonka))
+                                                    || (znak == figuryA.CAmazonka && (backup[x - param_ruch][y] == figuryA.BPion || backup[x - param_ruch][y] == figuryA.BSkoczek
+                                                    || backup[x - param_ruch][y] == figuryA.BGoniec || backup[x - param_ruch][y] == figuryA.BWieza || backup[x - param_ruch][y] == figuryA.BAmazonka))) {
+                                                figuryA przechowalnia = backup[x - param_ruch][y];
                                                 backup[x - param_ruch][y] = znak;
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                                backup[x][y] = figuryA.pustka;
 
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -4120,9 +4120,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - param_ruch));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -4135,12 +4135,12 @@ class Generator {
                                         w2 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SzachowaArena.figury.BAmazonka) || (tura_rywala == false && znak == SzachowaArena.figury.CAmazonka)) {
+                                if ((tura_rywala && znak == figuryA.BAmazonka) || (tura_rywala == false && znak == figuryA.CAmazonka)) {
                                     if (y + param_ruch < 8 && w3) {
 
-                                        if (w3 && backup[x][y + param_ruch] == SzachowaArena.figury.pustka) {
+                                        if (w3 && backup[x][y + param_ruch] == figuryA.pustka) {
                                             backup[x][y + param_ruch] = znak;
-                                            backup[x][y] = SzachowaArena.figury.pustka;
+                                            backup[x][y] = figuryA.pustka;
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
                                                 szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
@@ -4149,26 +4149,26 @@ class Generator {
                                                 szach = false;
                                             }
 
-                                            backup[x][y + param_ruch] = SzachowaArena.figury.pustka;
+                                            backup[x][y + param_ruch] = figuryA.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), figuryA.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), figuryA.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BAmazonka && (backup[x][y + param_ruch] == SzachowaArena.figury.CPion || backup[x][y + param_ruch] == SzachowaArena.figury.CSkoczek
-                                                    || backup[x][y + param_ruch] == SzachowaArena.figury.CGoniec || backup[x][y + param_ruch] == SzachowaArena.figury.CWieza || backup[x][y + param_ruch] == SzachowaArena.figury.CAmazonka))
-                                                    || (znak == SzachowaArena.figury.CAmazonka && (backup[x][y + param_ruch] == SzachowaArena.figury.BPion || backup[x][y + param_ruch] == SzachowaArena.figury.BSkoczek
-                                                    || backup[x][y + param_ruch] == SzachowaArena.figury.BGoniec || backup[x][y + param_ruch] == SzachowaArena.figury.BWieza || backup[x][y + param_ruch] == SzachowaArena.figury.BAmazonka))) {
-                                                SzachowaArena.figury przechowalnia = backup[x][y + param_ruch];
+                                            if ((znak == figuryA.BAmazonka && (backup[x][y + param_ruch] == figuryA.CPion || backup[x][y + param_ruch] == figuryA.CSkoczek
+                                                    || backup[x][y + param_ruch] == figuryA.CGoniec || backup[x][y + param_ruch] == figuryA.CWieza || backup[x][y + param_ruch] == figuryA.CAmazonka))
+                                                    || (znak == figuryA.CAmazonka && (backup[x][y + param_ruch] == figuryA.BPion || backup[x][y + param_ruch] == figuryA.BSkoczek
+                                                    || backup[x][y + param_ruch] == figuryA.BGoniec || backup[x][y + param_ruch] == figuryA.BWieza || backup[x][y + param_ruch] == figuryA.BAmazonka))) {
+                                                figuryA przechowalnia = backup[x][y + param_ruch];
                                                 backup[x][y + param_ruch] = znak;
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                                backup[x][y] = figuryA.pustka;
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
                                                     szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
@@ -4183,9 +4183,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -4198,12 +4198,12 @@ class Generator {
                                         w3 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SzachowaArena.figury.BAmazonka) || (tura_rywala == false && znak == SzachowaArena.figury.CAmazonka)) {
+                                if ((tura_rywala && znak == figuryA.BAmazonka) || (tura_rywala == false && znak == figuryA.CAmazonka)) {
                                     if (y - param_ruch > -1 && w4) {
 
-                                        if (w4 && backup[x][y - param_ruch] == SzachowaArena.figury.pustka) {
+                                        if (w4 && backup[x][y - param_ruch] == figuryA.pustka) {
                                             backup[x][y - param_ruch] = znak;
-                                            backup[x][y] = SzachowaArena.figury.pustka;
+                                            backup[x][y] = figuryA.pustka;
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
                                                 szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
@@ -4212,27 +4212,27 @@ class Generator {
                                                 szach = false;
                                             }
 
-                                            backup[x][y - param_ruch] = SzachowaArena.figury.pustka;
+                                            backup[x][y - param_ruch] = figuryA.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), figuryA.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), figuryA.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BAmazonka && (backup[x][y - param_ruch] == SzachowaArena.figury.CPion || backup[x][y - param_ruch] == SzachowaArena.figury.CSkoczek
-                                                    || backup[x][y - param_ruch] == SzachowaArena.figury.CGoniec || backup[x][y - param_ruch] == SzachowaArena.figury.CWieza || backup[x][y - param_ruch] == SzachowaArena.figury.CAmazonka))
-                                                    || (znak == SzachowaArena.figury.CAmazonka && (backup[x][y - param_ruch] == SzachowaArena.figury.BPion || backup[x][y - param_ruch] == SzachowaArena.figury.BSkoczek
-                                                    || backup[x][y - param_ruch] == SzachowaArena.figury.BGoniec || backup[x][y - param_ruch] == SzachowaArena.figury.BWieza || backup[x][y - param_ruch] == SzachowaArena.figury.BAmazonka))) {
+                                            if ((znak == figuryA.BAmazonka && (backup[x][y - param_ruch] == figuryA.CPion || backup[x][y - param_ruch] == figuryA.CSkoczek
+                                                    || backup[x][y - param_ruch] == figuryA.CGoniec || backup[x][y - param_ruch] == figuryA.CWieza || backup[x][y - param_ruch] == figuryA.CAmazonka))
+                                                    || (znak == figuryA.CAmazonka && (backup[x][y - param_ruch] == figuryA.BPion || backup[x][y - param_ruch] == figuryA.BSkoczek
+                                                    || backup[x][y - param_ruch] == figuryA.BGoniec || backup[x][y - param_ruch] == figuryA.BWieza || backup[x][y - param_ruch] == figuryA.BAmazonka))) {
 
-                                                SzachowaArena.figury przechowalnia = backup[x][y - param_ruch];
+                                                figuryA przechowalnia = backup[x][y - param_ruch];
                                                 backup[x][y - param_ruch] = znak;
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                                backup[x][y] = figuryA.pustka;
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
                                                     szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
@@ -4247,9 +4247,9 @@ class Generator {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x));
                                                     if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                         if (szach) {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "--+"), przechowalnia, backup));
                                                         } else {
-                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
+                                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((tura_rywala ? "A" : "a") + "" + x1 + "" + x2 + "x" + y1 + "" + y2 + "-- "), przechowalnia, backup));
                                                         }
                                                     }
                                                 }
@@ -4267,46 +4267,46 @@ class Generator {
                                 przod = przod + 1;
                             }
                         }
-                        if ((tura_rywala != false && znak == SzachowaArena.figury.BAmazonka) || (tura_rywala == false && znak == SzachowaArena.figury.CAmazonka)) {
+                        if ((tura_rywala != false && znak == figuryA.BAmazonka) || (tura_rywala == false && znak == figuryA.CAmazonka)) {
                             for (int i = -2; i < 3; i++) {
                                 for (int j = -2; j < 3; j++) {
                                     if (x + i > -1 && x + i < 8 && y + j > -1 && y + j < 8) {
                                         if (Math.abs(j) - Math.abs(i) != 0 && i != 0 && j != 0) {
-                                            if ((znak == SzachowaArena.figury.CAmazonka
-                                                    && ((backup[x + i][y + j] == SzachowaArena.figury.pustka
-                                                    || backup[x + i][y + j] == SzachowaArena.figury.BPion
-                                                    || backup[x + i][y + j] == SzachowaArena.figury.BSkoczek
-                                                    || backup[x + i][y + j] == SzachowaArena.figury.BGoniec
-                                                    || backup[x + i][y + j] == SzachowaArena.figury.BWieza
-                                                    || backup[x + i][y + j] == SzachowaArena.figury.BAmazonka
-                                                    || backup[x + i][y + j] == SzachowaArena.figury.BHetman)
-                                                    || (backup[x + i][y + j] != SzachowaArena.figury.CPion
-                                                    && backup[x + i][y + j] != SzachowaArena.figury.CSkoczek
-                                                    && backup[x + i][y + j] != SzachowaArena.figury.CGoniec
-                                                    && backup[x + i][y + j] != SzachowaArena.figury.CWieza
-                                                    && backup[x + i][y + j] != SzachowaArena.figury.CHetman
-                                                    && backup[x + i][y + j] != SzachowaArena.figury.CAmazonka
-                                                    && backup[x + i][y + j] != SzachowaArena.figury.CKrol
-                                                    && backup[x + i][y + j] != SzachowaArena.figury.BKrol)))
-                                                    || (znak == SzachowaArena.figury.BAmazonka
-                                                    && ((backup[x + i][y + j] == SzachowaArena.figury.pustka
-                                                    || backup[x + i][y + j] == SzachowaArena.figury.CPion
-                                                    || backup[x + i][y + j] == SzachowaArena.figury.CSkoczek
-                                                    || backup[x + i][y + j] == SzachowaArena.figury.CGoniec
-                                                    || backup[x + i][y + j] == SzachowaArena.figury.CWieza
-                                                    || backup[x + i][y + j] == SzachowaArena.figury.CAmazonka
-                                                    || backup[x + i][y + j] == SzachowaArena.figury.CHetman)
-                                                    || (backup[x + i][y + j] != SzachowaArena.figury.BPion
-                                                    && backup[x + i][y + j] != SzachowaArena.figury.BSkoczek
-                                                    && backup[x + i][y + j] != SzachowaArena.figury.BGoniec
-                                                    && backup[x + i][y + j] != SzachowaArena.figury.BWieza
-                                                    && backup[x + i][y + j] != SzachowaArena.figury.BHetman
-                                                    && backup[x + i][y + j] != SzachowaArena.figury.BAmazonka
-                                                    && backup[x + i][y + j] != SzachowaArena.figury.BKrol
-                                                    && backup[x + i][y + j] != SzachowaArena.figury.CKrol)))) {
-                                                SzachowaArena.figury przechowalnia = backup[x + i][y + j];
+                                            if ((znak == figuryA.CAmazonka
+                                                    && ((backup[x + i][y + j] == figuryA.pustka
+                                                    || backup[x + i][y + j] == figuryA.BPion
+                                                    || backup[x + i][y + j] == figuryA.BSkoczek
+                                                    || backup[x + i][y + j] == figuryA.BGoniec
+                                                    || backup[x + i][y + j] == figuryA.BWieza
+                                                    || backup[x + i][y + j] == figuryA.BAmazonka
+                                                    || backup[x + i][y + j] == figuryA.BHetman)
+                                                    || (backup[x + i][y + j] != figuryA.CPion
+                                                    && backup[x + i][y + j] != figuryA.CSkoczek
+                                                    && backup[x + i][y + j] != figuryA.CGoniec
+                                                    && backup[x + i][y + j] != figuryA.CWieza
+                                                    && backup[x + i][y + j] != figuryA.CHetman
+                                                    && backup[x + i][y + j] != figuryA.CAmazonka
+                                                    && backup[x + i][y + j] != figuryA.CKrol
+                                                    && backup[x + i][y + j] != figuryA.BKrol)))
+                                                    || (znak == figuryA.BAmazonka
+                                                    && ((backup[x + i][y + j] == figuryA.pustka
+                                                    || backup[x + i][y + j] == figuryA.CPion
+                                                    || backup[x + i][y + j] == figuryA.CSkoczek
+                                                    || backup[x + i][y + j] == figuryA.CGoniec
+                                                    || backup[x + i][y + j] == figuryA.CWieza
+                                                    || backup[x + i][y + j] == figuryA.CAmazonka
+                                                    || backup[x + i][y + j] == figuryA.CHetman)
+                                                    || (backup[x + i][y + j] != figuryA.BPion
+                                                    && backup[x + i][y + j] != figuryA.BSkoczek
+                                                    && backup[x + i][y + j] != figuryA.BGoniec
+                                                    && backup[x + i][y + j] != figuryA.BWieza
+                                                    && backup[x + i][y + j] != figuryA.BHetman
+                                                    && backup[x + i][y + j] != figuryA.BAmazonka
+                                                    && backup[x + i][y + j] != figuryA.BKrol
+                                                    && backup[x + i][y + j] != figuryA.CKrol)))) {
+                                                figuryA przechowalnia = backup[x + i][y + j];
                                                 backup[x + i][y + j] = znak;
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                                backup[x][y] = figuryA.pustka;
 
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -4321,12 +4321,12 @@ class Generator {
                                                 backup[x + i][y + j] = przechowalnia;
                                                 if (wynik || all) {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + j)), y2 = (char) ('1' + (x + i));
-                                                    if (przechowalnia == SzachowaArena.figury.pustka) {
+                                                    if (przechowalnia == figuryA.pustka) {
                                                         if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                             if (szach) {
-                                                                lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), figuryA.pustka, backup));
                                                             } else {
-                                                                lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), figuryA.pustka, backup));
                                                             }
                                                         }
                                                     } else {
@@ -4349,7 +4349,7 @@ class Generator {
                     case CHetman:
                     case BHetman:
 
-                        if ((tura_rywala != false && znak == SzachowaArena.figury.BHetman) || (tura_rywala == false && znak == SzachowaArena.figury.CHetman)) {
+                        if ((tura_rywala != false && znak == figuryA.BHetman) || (tura_rywala == false && znak == figuryA.CHetman)) {
                             d1 = true;
                             d2 = true;
                             d3 = true;
@@ -4363,12 +4363,12 @@ class Generator {
                             param_ruch = 1;
                             while (d1 || d2 || d3 || d4
                                     || w1 || w2 || w3 || w4) {
-                                if ((tura_rywala && znak == SzachowaArena.figury.BHetman) || (tura_rywala == false && znak == SzachowaArena.figury.CHetman)) {
+                                if ((tura_rywala && znak == figuryA.BHetman) || (tura_rywala == false && znak == figuryA.CHetman)) {
                                     if (x + param_ruch < 8 && y + param_ruch < 8 && d1) {
 
-                                        if (d1 && backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.pustka) {
+                                        if (d1 && backup[x + param_ruch][y + param_ruch] == figuryA.pustka) {
                                             backup[x + param_ruch][y + param_ruch] = znak;
-                                            backup[x][y] = SzachowaArena.figury.pustka;
+                                            backup[x][y] = figuryA.pustka;
 
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -4378,26 +4378,26 @@ class Generator {
                                                 szach = false;
                                             }
 
-                                            backup[x + param_ruch][y + param_ruch] = SzachowaArena.figury.pustka;
+                                            backup[x + param_ruch][y + param_ruch] = figuryA.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), figuryA.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), figuryA.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BHetman && (backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CPion || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CSkoczek || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CAmazonka
-                                                    || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CGoniec || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CWieza || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CHetman && (backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BPion || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BSkoczek || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BAmazonka
-                                                    || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BGoniec || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BWieza || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BHetman))) {
-                                                SzachowaArena.figury przechowalnia = backup[x + param_ruch][y + param_ruch];
+                                            if ((znak == figuryA.BHetman && (backup[x + param_ruch][y + param_ruch] == figuryA.CPion || backup[x + param_ruch][y + param_ruch] == figuryA.CSkoczek || backup[x + param_ruch][y + param_ruch] == figuryA.CAmazonka
+                                                    || backup[x + param_ruch][y + param_ruch] == figuryA.CGoniec || backup[x + param_ruch][y + param_ruch] == figuryA.CWieza || backup[x + param_ruch][y + param_ruch] == figuryA.CHetman))
+                                                    || (znak == figuryA.CHetman && (backup[x + param_ruch][y + param_ruch] == figuryA.BPion || backup[x + param_ruch][y + param_ruch] == figuryA.BSkoczek || backup[x + param_ruch][y + param_ruch] == figuryA.BAmazonka
+                                                    || backup[x + param_ruch][y + param_ruch] == figuryA.BGoniec || backup[x + param_ruch][y + param_ruch] == figuryA.BWieza || backup[x + param_ruch][y + param_ruch] == figuryA.BHetman))) {
+                                                figuryA przechowalnia = backup[x + param_ruch][y + param_ruch];
                                                 backup[x + param_ruch][y + param_ruch] = znak;
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                                backup[x][y] = figuryA.pustka;
 
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -4428,13 +4428,13 @@ class Generator {
                                         d1 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SzachowaArena.figury.BHetman) || (tura_rywala == false && znak == SzachowaArena.figury.CHetman)) {
+                                if ((tura_rywala && znak == figuryA.BHetman) || (tura_rywala == false && znak == figuryA.CHetman)) {
                                     if (x - param_ruch > -1 && y - param_ruch > -1 && d2) {
                                         //////System.out.println((x+param_ruch)+" "+(y+param_ruch));
 
-                                        if (d2 && backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.pustka) {
+                                        if (d2 && backup[x - param_ruch][y - param_ruch] == figuryA.pustka) {
                                             backup[x - param_ruch][y - param_ruch] = znak;
-                                            backup[x][y] = SzachowaArena.figury.pustka;
+                                            backup[x][y] = figuryA.pustka;
 
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -4444,26 +4444,26 @@ class Generator {
                                                 szach = false;
                                             }
 
-                                            backup[x - param_ruch][y - param_ruch] = SzachowaArena.figury.pustka;
+                                            backup[x - param_ruch][y - param_ruch] = figuryA.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), figuryA.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), figuryA.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BHetman && (backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CPion || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CSkoczek || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CAmazonka
-                                                    || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CGoniec || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CWieza || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CHetman && (backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BPion || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BSkoczek || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BAmazonka
-                                                    || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BGoniec || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BWieza || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BHetman))) {
-                                                SzachowaArena.figury przechowalnia = backup[x - param_ruch][y - param_ruch];
+                                            if ((znak == figuryA.BHetman && (backup[x - param_ruch][y - param_ruch] == figuryA.CPion || backup[x - param_ruch][y - param_ruch] == figuryA.CSkoczek || backup[x - param_ruch][y - param_ruch] == figuryA.CAmazonka
+                                                    || backup[x - param_ruch][y - param_ruch] == figuryA.CGoniec || backup[x - param_ruch][y - param_ruch] == figuryA.CWieza || backup[x - param_ruch][y - param_ruch] == figuryA.CHetman))
+                                                    || (znak == figuryA.CHetman && (backup[x - param_ruch][y - param_ruch] == figuryA.BPion || backup[x - param_ruch][y - param_ruch] == figuryA.BSkoczek || backup[x - param_ruch][y - param_ruch] == figuryA.BAmazonka
+                                                    || backup[x - param_ruch][y - param_ruch] == figuryA.BGoniec || backup[x - param_ruch][y - param_ruch] == figuryA.BWieza || backup[x - param_ruch][y - param_ruch] == figuryA.BHetman))) {
+                                                figuryA przechowalnia = backup[x - param_ruch][y - param_ruch];
                                                 backup[x - param_ruch][y - param_ruch] = znak;
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                                backup[x][y] = figuryA.pustka;
 
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -4494,12 +4494,12 @@ class Generator {
                                         d2 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SzachowaArena.figury.BHetman) || (tura_rywala == false && znak == SzachowaArena.figury.CHetman)) {
+                                if ((tura_rywala && znak == figuryA.BHetman) || (tura_rywala == false && znak == figuryA.CHetman)) {
                                     if (x + param_ruch < 8 && y - param_ruch > -1 && d3) {
 
-                                        if (d3 && backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.pustka) {
+                                        if (d3 && backup[x + param_ruch][y - param_ruch] == figuryA.pustka) {
                                             backup[x + param_ruch][y - param_ruch] = znak;
-                                            backup[x][y] = SzachowaArena.figury.pustka;
+                                            backup[x][y] = figuryA.pustka;
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
                                                 szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
@@ -4508,26 +4508,26 @@ class Generator {
                                                 szach = false;
                                             }
 
-                                            backup[x + param_ruch][y - param_ruch] = SzachowaArena.figury.pustka;
+                                            backup[x + param_ruch][y - param_ruch] = figuryA.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), figuryA.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), figuryA.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BHetman && (backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CPion || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CSkoczek || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CAmazonka
-                                                    || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CGoniec || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CWieza || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CHetman && (backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BPion || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BSkoczek || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BAmazonka
-                                                    || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BGoniec || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BWieza || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BHetman))) {
-                                                SzachowaArena.figury przechowalnia = backup[x + param_ruch][y - param_ruch];
+                                            if ((znak == figuryA.BHetman && (backup[x + param_ruch][y - param_ruch] == figuryA.CPion || backup[x + param_ruch][y - param_ruch] == figuryA.CSkoczek || backup[x + param_ruch][y - param_ruch] == figuryA.CAmazonka
+                                                    || backup[x + param_ruch][y - param_ruch] == figuryA.CGoniec || backup[x + param_ruch][y - param_ruch] == figuryA.CWieza || backup[x + param_ruch][y - param_ruch] == figuryA.CHetman))
+                                                    || (znak == figuryA.CHetman && (backup[x + param_ruch][y - param_ruch] == figuryA.BPion || backup[x + param_ruch][y - param_ruch] == figuryA.BSkoczek || backup[x + param_ruch][y - param_ruch] == figuryA.BAmazonka
+                                                    || backup[x + param_ruch][y - param_ruch] == figuryA.BGoniec || backup[x + param_ruch][y - param_ruch] == figuryA.BWieza || backup[x + param_ruch][y - param_ruch] == figuryA.BHetman))) {
+                                                figuryA przechowalnia = backup[x + param_ruch][y - param_ruch];
                                                 backup[x + param_ruch][y - param_ruch] = znak;
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                                backup[x][y] = figuryA.pustka;
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
                                                     szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
@@ -4557,12 +4557,12 @@ class Generator {
                                         d3 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SzachowaArena.figury.BHetman) || (tura_rywala == false && znak == SzachowaArena.figury.CHetman)) {
+                                if ((tura_rywala && znak == figuryA.BHetman) || (tura_rywala == false && znak == figuryA.CHetman)) {
                                     if (x - param_ruch > -1 && y + param_ruch < 8 && d4) {
 
-                                        if (d4 && backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.pustka) {
+                                        if (d4 && backup[x - param_ruch][y + param_ruch] == figuryA.pustka) {
                                             backup[x - param_ruch][y + param_ruch] = znak;
-                                            backup[x][y] = SzachowaArena.figury.pustka;
+                                            backup[x][y] = figuryA.pustka;
 
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -4572,26 +4572,26 @@ class Generator {
                                                 szach = false;
                                             }
 
-                                            backup[x - param_ruch][y + param_ruch] = SzachowaArena.figury.pustka;
+                                            backup[x - param_ruch][y + param_ruch] = figuryA.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), figuryA.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), figuryA.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BHetman && (backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CPion || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CSkoczek || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CAmazonka
-                                                    || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CGoniec || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CWieza || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CHetman && (backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BPion || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BSkoczek || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BAmazonka
-                                                    || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BGoniec || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BWieza || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BHetman))) {
-                                                SzachowaArena.figury przechowalnia = backup[x - param_ruch][y + param_ruch];
+                                            if ((znak == figuryA.BHetman && (backup[x - param_ruch][y + param_ruch] == figuryA.CPion || backup[x - param_ruch][y + param_ruch] == figuryA.CSkoczek || backup[x - param_ruch][y + param_ruch] == figuryA.CAmazonka
+                                                    || backup[x - param_ruch][y + param_ruch] == figuryA.CGoniec || backup[x - param_ruch][y + param_ruch] == figuryA.CWieza || backup[x - param_ruch][y + param_ruch] == figuryA.CHetman))
+                                                    || (znak == figuryA.CHetman && (backup[x - param_ruch][y + param_ruch] == figuryA.BPion || backup[x - param_ruch][y + param_ruch] == figuryA.BSkoczek || backup[x - param_ruch][y + param_ruch] == figuryA.BAmazonka
+                                                    || backup[x - param_ruch][y + param_ruch] == figuryA.BGoniec || backup[x - param_ruch][y + param_ruch] == figuryA.BWieza || backup[x - param_ruch][y + param_ruch] == figuryA.BHetman))) {
+                                                figuryA przechowalnia = backup[x - param_ruch][y + param_ruch];
                                                 backup[x - param_ruch][y + param_ruch] = znak;
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                                backup[x][y] = figuryA.pustka;
 
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -4622,12 +4622,12 @@ class Generator {
                                         d4 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SzachowaArena.figury.BHetman) || (tura_rywala == false && znak == SzachowaArena.figury.CHetman)) {
+                                if ((tura_rywala && znak == figuryA.BHetman) || (tura_rywala == false && znak == figuryA.CHetman)) {
                                     if (x + param_ruch < 8 && w1) {
 
-                                        if (w1 && backup[x + param_ruch][y] == SzachowaArena.figury.pustka) {
+                                        if (w1 && backup[x + param_ruch][y] == figuryA.pustka) {
                                             backup[x + param_ruch][y] = znak;
-                                            backup[x][y] = SzachowaArena.figury.pustka;
+                                            backup[x][y] = figuryA.pustka;
 
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -4637,26 +4637,26 @@ class Generator {
                                                 szach = false;
                                             }
 
-                                            backup[x + param_ruch][y] = SzachowaArena.figury.pustka;
+                                            backup[x + param_ruch][y] = figuryA.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), figuryA.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), figuryA.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BHetman && (backup[x + param_ruch][y] == SzachowaArena.figury.CPion || backup[x + param_ruch][y] == SzachowaArena.figury.CSkoczek || backup[x + param_ruch][y] == SzachowaArena.figury.CAmazonka
-                                                    || backup[x + param_ruch][y] == SzachowaArena.figury.CGoniec || backup[x + param_ruch][y] == SzachowaArena.figury.CWieza || backup[x + param_ruch][y] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CHetman && (backup[x + param_ruch][y] == SzachowaArena.figury.BPion || backup[x + param_ruch][y] == SzachowaArena.figury.BSkoczek
-                                                    || backup[x + param_ruch][y] == SzachowaArena.figury.BGoniec || backup[x + param_ruch][y] == SzachowaArena.figury.BWieza || backup[x + param_ruch][y] == SzachowaArena.figury.BHetman))) {
-                                                SzachowaArena.figury przechowalnia = backup[x + param_ruch][y];
+                                            if ((znak == figuryA.BHetman && (backup[x + param_ruch][y] == figuryA.CPion || backup[x + param_ruch][y] == figuryA.CSkoczek || backup[x + param_ruch][y] == figuryA.CAmazonka
+                                                    || backup[x + param_ruch][y] == figuryA.CGoniec || backup[x + param_ruch][y] == figuryA.CWieza || backup[x + param_ruch][y] == figuryA.CHetman))
+                                                    || (znak == figuryA.CHetman && (backup[x + param_ruch][y] == figuryA.BPion || backup[x + param_ruch][y] == figuryA.BSkoczek
+                                                    || backup[x + param_ruch][y] == figuryA.BGoniec || backup[x + param_ruch][y] == figuryA.BWieza || backup[x + param_ruch][y] == figuryA.BHetman))) {
+                                                figuryA przechowalnia = backup[x + param_ruch][y];
                                                 backup[x + param_ruch][y] = znak;
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                                backup[x][y] = figuryA.pustka;
 
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -4687,12 +4687,12 @@ class Generator {
                                         w1 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SzachowaArena.figury.BHetman) || (tura_rywala == false && znak == SzachowaArena.figury.CHetman)) {
+                                if ((tura_rywala && znak == figuryA.BHetman) || (tura_rywala == false && znak == figuryA.CHetman)) {
                                     if (x - param_ruch > -1 && w2) {
 
-                                        if (w2 && backup[x - param_ruch][y] == SzachowaArena.figury.pustka) {
+                                        if (w2 && backup[x - param_ruch][y] == figuryA.pustka) {
                                             backup[x - param_ruch][y] = znak;
-                                            backup[x][y] = SzachowaArena.figury.pustka;
+                                            backup[x][y] = figuryA.pustka;
 
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -4702,26 +4702,26 @@ class Generator {
                                                 szach = false;
                                             }
 
-                                            backup[x - param_ruch][y] = SzachowaArena.figury.pustka;
+                                            backup[x - param_ruch][y] = figuryA.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), figuryA.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), figuryA.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BHetman && (backup[x - param_ruch][y] == SzachowaArena.figury.CPion || backup[x - param_ruch][y] == SzachowaArena.figury.CSkoczek || backup[x - param_ruch][y] == SzachowaArena.figury.CAmazonka
-                                                    || backup[x - param_ruch][y] == SzachowaArena.figury.CGoniec || backup[x - param_ruch][y] == SzachowaArena.figury.CWieza || backup[x - param_ruch][y] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CHetman && (backup[x - param_ruch][y] == SzachowaArena.figury.BPion || backup[x - param_ruch][y] == SzachowaArena.figury.BSkoczek
-                                                    || backup[x - param_ruch][y] == SzachowaArena.figury.BGoniec || backup[x - param_ruch][y] == SzachowaArena.figury.BWieza || backup[x - param_ruch][y] == SzachowaArena.figury.BHetman))) {
-                                                SzachowaArena.figury przechowalnia = backup[x - param_ruch][y];
+                                            if ((znak == figuryA.BHetman && (backup[x - param_ruch][y] == figuryA.CPion || backup[x - param_ruch][y] == figuryA.CSkoczek || backup[x - param_ruch][y] == figuryA.CAmazonka
+                                                    || backup[x - param_ruch][y] == figuryA.CGoniec || backup[x - param_ruch][y] == figuryA.CWieza || backup[x - param_ruch][y] == figuryA.CHetman))
+                                                    || (znak == figuryA.CHetman && (backup[x - param_ruch][y] == figuryA.BPion || backup[x - param_ruch][y] == figuryA.BSkoczek
+                                                    || backup[x - param_ruch][y] == figuryA.BGoniec || backup[x - param_ruch][y] == figuryA.BWieza || backup[x - param_ruch][y] == figuryA.BHetman))) {
+                                                figuryA przechowalnia = backup[x - param_ruch][y];
                                                 backup[x - param_ruch][y] = znak;
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                                backup[x][y] = figuryA.pustka;
 
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -4752,12 +4752,12 @@ class Generator {
                                         w2 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SzachowaArena.figury.BHetman) || (tura_rywala == false && znak == SzachowaArena.figury.CHetman)) {
+                                if ((tura_rywala && znak == figuryA.BHetman) || (tura_rywala == false && znak == figuryA.CHetman)) {
                                     if (y + param_ruch < 8 && w3) {
 
-                                        if (w3 && backup[x][y + param_ruch] == SzachowaArena.figury.pustka) {
+                                        if (w3 && backup[x][y + param_ruch] == figuryA.pustka) {
                                             backup[x][y + param_ruch] = znak;
-                                            backup[x][y] = SzachowaArena.figury.pustka;
+                                            backup[x][y] = figuryA.pustka;
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
                                                 szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
@@ -4766,26 +4766,26 @@ class Generator {
                                                 szach = false;
                                             }
 
-                                            backup[x][y + param_ruch] = SzachowaArena.figury.pustka;
+                                            backup[x][y + param_ruch] = figuryA.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), figuryA.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), figuryA.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BHetman && (backup[x][y + param_ruch] == SzachowaArena.figury.CPion || backup[x][y + param_ruch] == SzachowaArena.figury.CSkoczek || backup[x][y + param_ruch] == SzachowaArena.figury.CAmazonka
-                                                    || backup[x][y + param_ruch] == SzachowaArena.figury.CGoniec || backup[x][y + param_ruch] == SzachowaArena.figury.CWieza || backup[x][y + param_ruch] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CHetman && (backup[x][y + param_ruch] == SzachowaArena.figury.BPion || backup[x][y + param_ruch] == SzachowaArena.figury.BSkoczek
-                                                    || backup[x][y + param_ruch] == SzachowaArena.figury.BGoniec || backup[x][y + param_ruch] == SzachowaArena.figury.BWieza || backup[x][y + param_ruch] == SzachowaArena.figury.BHetman))) {
-                                                SzachowaArena.figury przechowalnia = backup[x][y + param_ruch];
+                                            if ((znak == figuryA.BHetman && (backup[x][y + param_ruch] == figuryA.CPion || backup[x][y + param_ruch] == figuryA.CSkoczek || backup[x][y + param_ruch] == figuryA.CAmazonka
+                                                    || backup[x][y + param_ruch] == figuryA.CGoniec || backup[x][y + param_ruch] == figuryA.CWieza || backup[x][y + param_ruch] == figuryA.CHetman))
+                                                    || (znak == figuryA.CHetman && (backup[x][y + param_ruch] == figuryA.BPion || backup[x][y + param_ruch] == figuryA.BSkoczek
+                                                    || backup[x][y + param_ruch] == figuryA.BGoniec || backup[x][y + param_ruch] == figuryA.BWieza || backup[x][y + param_ruch] == figuryA.BHetman))) {
+                                                figuryA przechowalnia = backup[x][y + param_ruch];
                                                 backup[x][y + param_ruch] = znak;
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                                backup[x][y] = figuryA.pustka;
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
                                                     szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
@@ -4815,12 +4815,12 @@ class Generator {
                                         w3 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SzachowaArena.figury.BHetman) || (tura_rywala == false && znak == SzachowaArena.figury.CHetman)) {
+                                if ((tura_rywala && znak == figuryA.BHetman) || (tura_rywala == false && znak == figuryA.CHetman)) {
                                     if (y - param_ruch > -1 && w4) {
 
-                                        if (w4 && backup[x][y - param_ruch] == SzachowaArena.figury.pustka) {
+                                        if (w4 && backup[x][y - param_ruch] == figuryA.pustka) {
                                             backup[x][y - param_ruch] = znak;
-                                            backup[x][y] = SzachowaArena.figury.pustka;
+                                            backup[x][y] = figuryA.pustka;
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
                                                 szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
@@ -4829,26 +4829,26 @@ class Generator {
                                                 szach = false;
                                             }
 
-                                            backup[x][y - param_ruch] = SzachowaArena.figury.pustka;
+                                            backup[x][y - param_ruch] = figuryA.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), figuryA.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), figuryA.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BHetman && (backup[x][y - param_ruch] == SzachowaArena.figury.CPion || backup[x][y - param_ruch] == SzachowaArena.figury.CSkoczek || backup[x][y - param_ruch] == SzachowaArena.figury.CAmazonka
-                                                    || backup[x][y - param_ruch] == SzachowaArena.figury.CGoniec || backup[x][y - param_ruch] == SzachowaArena.figury.CWieza || backup[x][y - param_ruch] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CHetman && (backup[x][y - param_ruch] == SzachowaArena.figury.BPion || backup[x][y - param_ruch] == SzachowaArena.figury.BSkoczek
-                                                    || backup[x][y - param_ruch] == SzachowaArena.figury.BGoniec || backup[x][y - param_ruch] == SzachowaArena.figury.BWieza || backup[x][y - param_ruch] == SzachowaArena.figury.BHetman))) {
-                                                SzachowaArena.figury przechowalnia = backup[x][y - param_ruch];
+                                            if ((znak == figuryA.BHetman && (backup[x][y - param_ruch] == figuryA.CPion || backup[x][y - param_ruch] == figuryA.CSkoczek || backup[x][y - param_ruch] == figuryA.CAmazonka
+                                                    || backup[x][y - param_ruch] == figuryA.CGoniec || backup[x][y - param_ruch] == figuryA.CWieza || backup[x][y - param_ruch] == figuryA.CHetman))
+                                                    || (znak == figuryA.CHetman && (backup[x][y - param_ruch] == figuryA.BPion || backup[x][y - param_ruch] == figuryA.BSkoczek
+                                                    || backup[x][y - param_ruch] == figuryA.BGoniec || backup[x][y - param_ruch] == figuryA.BWieza || backup[x][y - param_ruch] == figuryA.BHetman))) {
+                                                figuryA przechowalnia = backup[x][y - param_ruch];
                                                 backup[x][y - param_ruch] = znak;
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                                backup[x][y] = figuryA.pustka;
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
                                                     szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
@@ -4886,7 +4886,7 @@ class Generator {
                         break;
                     case BWieza:
                     case CWieza:
-                        if ((tura_rywala != false && znak == SzachowaArena.figury.BWieza) || (tura_rywala == false && znak == SzachowaArena.figury.CWieza)) {
+                        if ((tura_rywala != false && znak == figuryA.BWieza) || (tura_rywala == false && znak == figuryA.CWieza)) {
                             w1 = true;
                             w2 = true;
                             w3 = true;
@@ -4895,12 +4895,12 @@ class Generator {
                             przod = 1;
                             tyl = -1;
                             while (w1 || w2 || w3 || w4) {
-                                if ((tura_rywala && znak == SzachowaArena.figury.BWieza) || (tura_rywala == false && znak == SzachowaArena.figury.CWieza)) {
+                                if ((tura_rywala && znak == figuryA.BWieza) || (tura_rywala == false && znak == figuryA.CWieza)) {
                                     if (x + param_ruch < 8 && w1) {
 
-                                        if (w1 && backup[x + param_ruch][y] == SzachowaArena.figury.pustka) {
+                                        if (w1 && backup[x + param_ruch][y] == figuryA.pustka) {
                                             backup[x + param_ruch][y] = znak;
-                                            backup[x][y] = SzachowaArena.figury.pustka;
+                                            backup[x][y] = figuryA.pustka;
 
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -4910,26 +4910,26 @@ class Generator {
                                                 szach = false;
                                             }
 
-                                            backup[x + param_ruch][y] = SzachowaArena.figury.pustka;
+                                            backup[x + param_ruch][y] = figuryA.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), figuryA.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), figuryA.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BWieza && (backup[x + param_ruch][y] == SzachowaArena.figury.CPion || backup[x + param_ruch][y] == SzachowaArena.figury.CSkoczek || backup[x + param_ruch][y] == SzachowaArena.figury.CAmazonka
-                                                    || backup[x + param_ruch][y] == SzachowaArena.figury.CGoniec || backup[x + param_ruch][y] == SzachowaArena.figury.CWieza || backup[x + param_ruch][y] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CWieza && (backup[x + param_ruch][y] == SzachowaArena.figury.BPion || backup[x + param_ruch][y] == SzachowaArena.figury.BSkoczek || backup[x + param_ruch][y] == SzachowaArena.figury.BAmazonka
-                                                    || backup[x + param_ruch][y] == SzachowaArena.figury.BGoniec || backup[x + param_ruch][y] == SzachowaArena.figury.BWieza || backup[x + param_ruch][y] == SzachowaArena.figury.BHetman))) {
-                                                SzachowaArena.figury przechowalnia = backup[x + param_ruch][y];
+                                            if ((znak == figuryA.BWieza && (backup[x + param_ruch][y] == figuryA.CPion || backup[x + param_ruch][y] == figuryA.CSkoczek || backup[x + param_ruch][y] == figuryA.CAmazonka
+                                                    || backup[x + param_ruch][y] == figuryA.CGoniec || backup[x + param_ruch][y] == figuryA.CWieza || backup[x + param_ruch][y] == figuryA.CHetman))
+                                                    || (znak == figuryA.CWieza && (backup[x + param_ruch][y] == figuryA.BPion || backup[x + param_ruch][y] == figuryA.BSkoczek || backup[x + param_ruch][y] == figuryA.BAmazonka
+                                                    || backup[x + param_ruch][y] == figuryA.BGoniec || backup[x + param_ruch][y] == figuryA.BWieza || backup[x + param_ruch][y] == figuryA.BHetman))) {
+                                                figuryA przechowalnia = backup[x + param_ruch][y];
                                                 backup[x + param_ruch][y] = znak;
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                                backup[x][y] = figuryA.pustka;
 
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -4961,12 +4961,12 @@ class Generator {
                                         w1 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SzachowaArena.figury.BWieza) || (tura_rywala == false && znak == SzachowaArena.figury.CWieza)) {
+                                if ((tura_rywala && znak == figuryA.BWieza) || (tura_rywala == false && znak == figuryA.CWieza)) {
                                     if (x - param_ruch > -1 && w2) {
 
-                                        if (w2 && backup[x - param_ruch][y] == SzachowaArena.figury.pustka) {
+                                        if (w2 && backup[x - param_ruch][y] == figuryA.pustka) {
                                             backup[x - param_ruch][y] = znak;
-                                            backup[x][y] = SzachowaArena.figury.pustka;
+                                            backup[x][y] = figuryA.pustka;
 
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -4976,26 +4976,26 @@ class Generator {
                                                 szach = false;
                                             }
 
-                                            backup[x - param_ruch][y] = SzachowaArena.figury.pustka;
+                                            backup[x - param_ruch][y] = figuryA.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (!konkret || (konkret && start[0] == x && start[1] == y)) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), figuryA.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), figuryA.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BWieza && (backup[x - param_ruch][y] == SzachowaArena.figury.CPion || backup[x - param_ruch][y] == SzachowaArena.figury.CSkoczek || backup[x - param_ruch][y] == SzachowaArena.figury.CAmazonka
-                                                    || backup[x - param_ruch][y] == SzachowaArena.figury.CGoniec || backup[x - param_ruch][y] == SzachowaArena.figury.CWieza || backup[x - param_ruch][y] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CWieza && (backup[x - param_ruch][y] == SzachowaArena.figury.BPion || backup[x - param_ruch][y] == SzachowaArena.figury.BSkoczek || backup[x - param_ruch][y] == SzachowaArena.figury.BAmazonka
-                                                    || backup[x - param_ruch][y] == SzachowaArena.figury.BGoniec || backup[x - param_ruch][y] == SzachowaArena.figury.BWieza || backup[x - param_ruch][y] == SzachowaArena.figury.BHetman))) {
-                                                SzachowaArena.figury przechowalnia = backup[x - param_ruch][y];
+                                            if ((znak == figuryA.BWieza && (backup[x - param_ruch][y] == figuryA.CPion || backup[x - param_ruch][y] == figuryA.CSkoczek || backup[x - param_ruch][y] == figuryA.CAmazonka
+                                                    || backup[x - param_ruch][y] == figuryA.CGoniec || backup[x - param_ruch][y] == figuryA.CWieza || backup[x - param_ruch][y] == figuryA.CHetman))
+                                                    || (znak == figuryA.CWieza && (backup[x - param_ruch][y] == figuryA.BPion || backup[x - param_ruch][y] == figuryA.BSkoczek || backup[x - param_ruch][y] == figuryA.BAmazonka
+                                                    || backup[x - param_ruch][y] == figuryA.BGoniec || backup[x - param_ruch][y] == figuryA.BWieza || backup[x - param_ruch][y] == figuryA.BHetman))) {
+                                                figuryA przechowalnia = backup[x - param_ruch][y];
                                                 backup[x - param_ruch][y] = znak;
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                                backup[x][y] = figuryA.pustka;
 
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -5026,12 +5026,12 @@ class Generator {
                                         w2 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SzachowaArena.figury.BWieza) || (tura_rywala == false && znak == SzachowaArena.figury.CWieza)) {
+                                if ((tura_rywala && znak == figuryA.BWieza) || (tura_rywala == false && znak == figuryA.CWieza)) {
                                     if (y + param_ruch < 8 && w3) {
 
-                                        if (w3 && backup[x][y + param_ruch] == SzachowaArena.figury.pustka) {
+                                        if (w3 && backup[x][y + param_ruch] == figuryA.pustka) {
                                             backup[x][y + param_ruch] = znak;
-                                            backup[x][y] = SzachowaArena.figury.pustka;
+                                            backup[x][y] = figuryA.pustka;
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
                                                 szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
@@ -5040,26 +5040,26 @@ class Generator {
                                                 szach = false;
                                             }
 
-                                            backup[x][y + param_ruch] = SzachowaArena.figury.pustka;
+                                            backup[x][y + param_ruch] = figuryA.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x));
                                                 if (!konkret || (konkret && start[0] == x && start[1] == y)) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), figuryA.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), figuryA.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BWieza && (backup[x][y + param_ruch] == SzachowaArena.figury.CPion || backup[x][y + param_ruch] == SzachowaArena.figury.CSkoczek || backup[x][y + param_ruch] == SzachowaArena.figury.CAmazonka
-                                                    || backup[x][y + param_ruch] == SzachowaArena.figury.CGoniec || backup[x][y + param_ruch] == SzachowaArena.figury.CWieza || backup[x][y + param_ruch] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CWieza && (backup[x][y + param_ruch] == SzachowaArena.figury.BPion || backup[x][y + param_ruch] == SzachowaArena.figury.BSkoczek || backup[x][y + param_ruch] == SzachowaArena.figury.BAmazonka
-                                                    || backup[x][y + param_ruch] == SzachowaArena.figury.BGoniec || backup[x][y + param_ruch] == SzachowaArena.figury.BWieza || backup[x][y + param_ruch] == SzachowaArena.figury.BHetman))) {
-                                                SzachowaArena.figury przechowalnia = backup[x][y + param_ruch];
+                                            if ((znak == figuryA.BWieza && (backup[x][y + param_ruch] == figuryA.CPion || backup[x][y + param_ruch] == figuryA.CSkoczek || backup[x][y + param_ruch] == figuryA.CAmazonka
+                                                    || backup[x][y + param_ruch] == figuryA.CGoniec || backup[x][y + param_ruch] == figuryA.CWieza || backup[x][y + param_ruch] == figuryA.CHetman))
+                                                    || (znak == figuryA.CWieza && (backup[x][y + param_ruch] == figuryA.BPion || backup[x][y + param_ruch] == figuryA.BSkoczek || backup[x][y + param_ruch] == figuryA.BAmazonka
+                                                    || backup[x][y + param_ruch] == figuryA.BGoniec || backup[x][y + param_ruch] == figuryA.BWieza || backup[x][y + param_ruch] == figuryA.BHetman))) {
+                                                figuryA przechowalnia = backup[x][y + param_ruch];
                                                 backup[x][y + param_ruch] = znak;
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                                backup[x][y] = figuryA.pustka;
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
                                                     szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
@@ -5089,12 +5089,12 @@ class Generator {
                                         w3 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SzachowaArena.figury.BWieza) || (tura_rywala == false && znak == SzachowaArena.figury.CWieza)) {
+                                if ((tura_rywala && znak == figuryA.BWieza) || (tura_rywala == false && znak == figuryA.CWieza)) {
                                     if (y - param_ruch > -1 && w4) {
 
-                                        if (w4 && backup[x][y - param_ruch] == SzachowaArena.figury.pustka) {
+                                        if (w4 && backup[x][y - param_ruch] == figuryA.pustka) {
                                             backup[x][y - param_ruch] = znak;
-                                            backup[x][y] = SzachowaArena.figury.pustka;
+                                            backup[x][y] = figuryA.pustka;
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
                                                 szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
@@ -5103,26 +5103,26 @@ class Generator {
                                                 szach = false;
                                             }
 
-                                            backup[x][y - param_ruch] = SzachowaArena.figury.pustka;
+                                            backup[x][y - param_ruch] = figuryA.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x));
                                                 if (!konkret || (konkret && start[0] == x && start[1] == y)) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), figuryA.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), figuryA.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BWieza && (backup[x][y - param_ruch] == SzachowaArena.figury.CPion || backup[x][y - param_ruch] == SzachowaArena.figury.CSkoczek || backup[x][y - param_ruch] == SzachowaArena.figury.CAmazonka
-                                                    || backup[x][y - param_ruch] == SzachowaArena.figury.CGoniec || backup[x][y - param_ruch] == SzachowaArena.figury.CWieza || backup[x][y - param_ruch] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CWieza && (backup[x][y - param_ruch] == SzachowaArena.figury.BPion || backup[x][y - param_ruch] == SzachowaArena.figury.BSkoczek || backup[x][y - param_ruch] == SzachowaArena.figury.BAmazonka
-                                                    || backup[x][y - param_ruch] == SzachowaArena.figury.BGoniec || backup[x][y - param_ruch] == SzachowaArena.figury.BWieza || backup[x][y - param_ruch] == SzachowaArena.figury.BHetman))) {
-                                                SzachowaArena.figury przechowalnia = backup[x][y - param_ruch];
+                                            if ((znak == figuryA.BWieza && (backup[x][y - param_ruch] == figuryA.CPion || backup[x][y - param_ruch] == figuryA.CSkoczek || backup[x][y - param_ruch] == figuryA.CAmazonka
+                                                    || backup[x][y - param_ruch] == figuryA.CGoniec || backup[x][y - param_ruch] == figuryA.CWieza || backup[x][y - param_ruch] == figuryA.CHetman))
+                                                    || (znak == figuryA.CWieza && (backup[x][y - param_ruch] == figuryA.BPion || backup[x][y - param_ruch] == figuryA.BSkoczek || backup[x][y - param_ruch] == figuryA.BAmazonka
+                                                    || backup[x][y - param_ruch] == figuryA.BGoniec || backup[x][y - param_ruch] == figuryA.BWieza || backup[x][y - param_ruch] == figuryA.BHetman))) {
+                                                figuryA przechowalnia = backup[x][y - param_ruch];
                                                 backup[x][y - param_ruch] = znak;
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                                backup[x][y] = figuryA.pustka;
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
                                                     szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
@@ -5160,18 +5160,18 @@ class Generator {
                         break;
                     case BGoniec:
                     case CGoniec:
-                        if ((tura_rywala != false && znak == SzachowaArena.figury.BGoniec) || (tura_rywala == false && znak == SzachowaArena.figury.CGoniec)) {
+                        if ((tura_rywala != false && znak == figuryA.BGoniec) || (tura_rywala == false && znak == figuryA.CGoniec)) {
                             d1 = true;
                             d2 = true;
                             d3 = true;
                             d4 = true;
                             while (d1 || d2 || d3 || d4) {
-                                if ((tura_rywala && znak == SzachowaArena.figury.BGoniec) || (tura_rywala == false && znak == SzachowaArena.figury.CGoniec)) {
+                                if ((tura_rywala && znak == figuryA.BGoniec) || (tura_rywala == false && znak == figuryA.CGoniec)) {
                                     if (x + param_ruch < 8 && y + param_ruch < 8 && d1) {
 
-                                        if (d1 && backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.pustka) {
+                                        if (d1 && backup[x + param_ruch][y + param_ruch] == figuryA.pustka) {
                                             backup[x + param_ruch][y + param_ruch] = znak;
-                                            backup[x][y] = SzachowaArena.figury.pustka;
+                                            backup[x][y] = figuryA.pustka;
 
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -5181,26 +5181,26 @@ class Generator {
                                                 szach = false;
                                             }
 
-                                            backup[x + param_ruch][y + param_ruch] = SzachowaArena.figury.pustka;
+                                            backup[x + param_ruch][y + param_ruch] = figuryA.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), figuryA.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), figuryA.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BGoniec && (backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CPion || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CSkoczek || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CAmazonka
-                                                    || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CGoniec || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CWieza || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CGoniec && (backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BPion || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BSkoczek || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BAmazonka
-                                                    || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BGoniec || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BWieza || backup[x + param_ruch][y + param_ruch] == SzachowaArena.figury.BHetman))) {
-                                                SzachowaArena.figury przechowalnia = backup[x + param_ruch][y + param_ruch];
+                                            if ((znak == figuryA.BGoniec && (backup[x + param_ruch][y + param_ruch] == figuryA.CPion || backup[x + param_ruch][y + param_ruch] == figuryA.CSkoczek || backup[x + param_ruch][y + param_ruch] == figuryA.CAmazonka
+                                                    || backup[x + param_ruch][y + param_ruch] == figuryA.CGoniec || backup[x + param_ruch][y + param_ruch] == figuryA.CWieza || backup[x + param_ruch][y + param_ruch] == figuryA.CHetman))
+                                                    || (znak == figuryA.CGoniec && (backup[x + param_ruch][y + param_ruch] == figuryA.BPion || backup[x + param_ruch][y + param_ruch] == figuryA.BSkoczek || backup[x + param_ruch][y + param_ruch] == figuryA.BAmazonka
+                                                    || backup[x + param_ruch][y + param_ruch] == figuryA.BGoniec || backup[x + param_ruch][y + param_ruch] == figuryA.BWieza || backup[x + param_ruch][y + param_ruch] == figuryA.BHetman))) {
+                                                figuryA przechowalnia = backup[x + param_ruch][y + param_ruch];
                                                 backup[x + param_ruch][y + param_ruch] = znak;
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                                backup[x][y] = figuryA.pustka;
 
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -5231,13 +5231,13 @@ class Generator {
                                         d1 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SzachowaArena.figury.BGoniec) || (tura_rywala == false && znak == SzachowaArena.figury.CGoniec)) {
+                                if ((tura_rywala && znak == figuryA.BGoniec) || (tura_rywala == false && znak == figuryA.CGoniec)) {
                                     if (x - param_ruch > -1 && y - param_ruch > -1 && d2) {
                                         //////System.out.println((x+param_ruch)+" "+(y+param_ruch));
 
-                                        if (d2 && backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.pustka) {
+                                        if (d2 && backup[x - param_ruch][y - param_ruch] == figuryA.pustka) {
                                             backup[x - param_ruch][y - param_ruch] = znak;
-                                            backup[x][y] = SzachowaArena.figury.pustka;
+                                            backup[x][y] = figuryA.pustka;
 
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -5247,26 +5247,26 @@ class Generator {
                                                 szach = false;
                                             }
 
-                                            backup[x - param_ruch][y - param_ruch] = SzachowaArena.figury.pustka;
+                                            backup[x - param_ruch][y - param_ruch] = figuryA.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), figuryA.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), figuryA.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BGoniec && (backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CPion || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CSkoczek || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CAmazonka
-                                                    || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CGoniec || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CWieza || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CGoniec && (backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BPion || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BSkoczek || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BAmazonka
-                                                    || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BGoniec || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BWieza || backup[x - param_ruch][y - param_ruch] == SzachowaArena.figury.BHetman))) {
-                                                SzachowaArena.figury przechowalnia = backup[x - param_ruch][y - param_ruch];
+                                            if ((znak == figuryA.BGoniec && (backup[x - param_ruch][y - param_ruch] == figuryA.CPion || backup[x - param_ruch][y - param_ruch] == figuryA.CSkoczek || backup[x - param_ruch][y - param_ruch] == figuryA.CAmazonka
+                                                    || backup[x - param_ruch][y - param_ruch] == figuryA.CGoniec || backup[x - param_ruch][y - param_ruch] == figuryA.CWieza || backup[x - param_ruch][y - param_ruch] == figuryA.CHetman))
+                                                    || (znak == figuryA.CGoniec && (backup[x - param_ruch][y - param_ruch] == figuryA.BPion || backup[x - param_ruch][y - param_ruch] == figuryA.BSkoczek || backup[x - param_ruch][y - param_ruch] == figuryA.BAmazonka
+                                                    || backup[x - param_ruch][y - param_ruch] == figuryA.BGoniec || backup[x - param_ruch][y - param_ruch] == figuryA.BWieza || backup[x - param_ruch][y - param_ruch] == figuryA.BHetman))) {
+                                                figuryA przechowalnia = backup[x - param_ruch][y - param_ruch];
                                                 backup[x - param_ruch][y - param_ruch] = znak;
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                                backup[x][y] = figuryA.pustka;
 
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -5297,12 +5297,12 @@ class Generator {
                                         d2 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SzachowaArena.figury.BGoniec) || (tura_rywala == false && znak == SzachowaArena.figury.CGoniec)) {
+                                if ((tura_rywala && znak == figuryA.BGoniec) || (tura_rywala == false && znak == figuryA.CGoniec)) {
                                     if (x + param_ruch < 8 && y - param_ruch > -1 && d3) {
 
-                                        if (d3 && backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.pustka) {
+                                        if (d3 && backup[x + param_ruch][y - param_ruch] == figuryA.pustka) {
                                             backup[x + param_ruch][y - param_ruch] = znak;
-                                            backup[x][y] = SzachowaArena.figury.pustka;
+                                            backup[x][y] = figuryA.pustka;
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
                                                 szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
@@ -5311,26 +5311,26 @@ class Generator {
                                                 szach = false;
                                             }
 
-                                            backup[x + param_ruch][y - param_ruch] = SzachowaArena.figury.pustka;
+                                            backup[x + param_ruch][y - param_ruch] = figuryA.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x + param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), figuryA.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), figuryA.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BGoniec && (backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CPion || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CSkoczek || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CAmazonka
-                                                    || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CGoniec || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CWieza || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CGoniec && (backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BPion || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BSkoczek || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BAmazonka
-                                                    || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BGoniec || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BWieza || backup[x + param_ruch][y - param_ruch] == SzachowaArena.figury.BHetman))) {
-                                                SzachowaArena.figury przechowalnia = backup[x + param_ruch][y - param_ruch];
+                                            if ((znak == figuryA.BGoniec && (backup[x + param_ruch][y - param_ruch] == figuryA.CPion || backup[x + param_ruch][y - param_ruch] == figuryA.CSkoczek || backup[x + param_ruch][y - param_ruch] == figuryA.CAmazonka
+                                                    || backup[x + param_ruch][y - param_ruch] == figuryA.CGoniec || backup[x + param_ruch][y - param_ruch] == figuryA.CWieza || backup[x + param_ruch][y - param_ruch] == figuryA.CHetman))
+                                                    || (znak == figuryA.CGoniec && (backup[x + param_ruch][y - param_ruch] == figuryA.BPion || backup[x + param_ruch][y - param_ruch] == figuryA.BSkoczek || backup[x + param_ruch][y - param_ruch] == figuryA.BAmazonka
+                                                    || backup[x + param_ruch][y - param_ruch] == figuryA.BGoniec || backup[x + param_ruch][y - param_ruch] == figuryA.BWieza || backup[x + param_ruch][y - param_ruch] == figuryA.BHetman))) {
+                                                figuryA przechowalnia = backup[x + param_ruch][y - param_ruch];
                                                 backup[x + param_ruch][y - param_ruch] = znak;
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                                backup[x][y] = figuryA.pustka;
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
                                                     szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
@@ -5360,12 +5360,12 @@ class Generator {
                                         d3 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SzachowaArena.figury.BGoniec) || (tura_rywala == false && znak == SzachowaArena.figury.CGoniec)) {
+                                if ((tura_rywala && znak == figuryA.BGoniec) || (tura_rywala == false && znak == figuryA.CGoniec)) {
                                     if (x - param_ruch > -1 && y + param_ruch < 8 && d4) {
 
-                                        if (d4 && backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.pustka) {
+                                        if (d4 && backup[x - param_ruch][y + param_ruch] == figuryA.pustka) {
                                             backup[x - param_ruch][y + param_ruch] = znak;
-                                            backup[x][y] = SzachowaArena.figury.pustka;
+                                            backup[x][y] = figuryA.pustka;
 
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -5375,26 +5375,26 @@ class Generator {
                                                 szach = false;
                                             }
 
-                                            backup[x - param_ruch][y + param_ruch] = SzachowaArena.figury.pustka;
+                                            backup[x - param_ruch][y + param_ruch] = figuryA.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x - param_ruch));
                                                 if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), figuryA.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), figuryA.pustka, backup));
                                                     }
                                                 }
                                             }
                                         } else {
-                                            if ((znak == SzachowaArena.figury.BGoniec && (backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CPion || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CSkoczek || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CAmazonka
-                                                    || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CGoniec || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CWieza || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.CHetman))
-                                                    || (znak == SzachowaArena.figury.CGoniec && (backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BPion || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BSkoczek || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BAmazonka
-                                                    || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BGoniec || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BWieza || backup[x - param_ruch][y + param_ruch] == SzachowaArena.figury.BHetman))) {
-                                                SzachowaArena.figury przechowalnia = backup[x - param_ruch][y + param_ruch];
+                                            if ((znak == figuryA.BGoniec && (backup[x - param_ruch][y + param_ruch] == figuryA.CPion || backup[x - param_ruch][y + param_ruch] == figuryA.CSkoczek || backup[x - param_ruch][y + param_ruch] == figuryA.CAmazonka
+                                                    || backup[x - param_ruch][y + param_ruch] == figuryA.CGoniec || backup[x - param_ruch][y + param_ruch] == figuryA.CWieza || backup[x - param_ruch][y + param_ruch] == figuryA.CHetman))
+                                                    || (znak == figuryA.CGoniec && (backup[x - param_ruch][y + param_ruch] == figuryA.BPion || backup[x - param_ruch][y + param_ruch] == figuryA.BSkoczek || backup[x - param_ruch][y + param_ruch] == figuryA.BAmazonka
+                                                    || backup[x - param_ruch][y + param_ruch] == figuryA.BGoniec || backup[x - param_ruch][y + param_ruch] == figuryA.BWieza || backup[x - param_ruch][y + param_ruch] == figuryA.BHetman))) {
+                                                figuryA przechowalnia = backup[x - param_ruch][y + param_ruch];
                                                 backup[x - param_ruch][y + param_ruch] = znak;
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                                backup[x][y] = figuryA.pustka;
 
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -5433,9 +5433,9 @@ class Generator {
                         if (tura_rywala == false) {
                             if (x == 3 && przelotcan && kolumna != 0 && (kolumna - 1 == y - 1 || kolumna - 1 == y + 1)) {
 
-                                backup[x - 1][kolumna - 1] = SzachowaArena.figury.CPion;
-                                backup[x][kolumna - 1] = SzachowaArena.figury.pustka;
-                                backup[x][y] = SzachowaArena.figury.pustka;
+                                backup[x - 1][kolumna - 1] = figuryA.CPion;
+                                backup[x][kolumna - 1] = figuryA.pustka;
+                                backup[x][y] = figuryA.pustka;
 
                                 if ((obecnosc(backup))) {
                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -5445,16 +5445,16 @@ class Generator {
                                     szach = false;
                                 }
 
-                                backup[x - 1][kolumna - 1] = SzachowaArena.figury.pustka;
-                                backup[x][kolumna - 1] = SzachowaArena.figury.BPion;
-                                backup[x][y] = SzachowaArena.figury.CPion;
+                                backup[x - 1][kolumna - 1] = figuryA.pustka;
+                                backup[x][kolumna - 1] = figuryA.BPion;
+                                backup[x][y] = figuryA.CPion;
                                 if (wynik || all) {
                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (kolumna - 1)), y2 = (char) ('1' + (x - 1));
                                     if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                         if (szach == false) {
-                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "x" + y1 + y2 + "EP "), SzachowaArena.figury.BPion, backup));
+                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "x" + y1 + y2 + "EP "), figuryA.BPion, backup));
                                         } else {
-                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "x" + y1 + y2 + "EP+"), SzachowaArena.figury.BPion, backup));
+                                            lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "x" + y1 + y2 + "EP+"), figuryA.BPion, backup));
                                         }
                                     }
                                 }
@@ -5462,17 +5462,17 @@ class Generator {
                             for (int b = -1; b < 2; b++) {
 
                                 if (y + b > -1 && y + b < 8 && x - 1 > -1) {
-                                    if (b != 0 && ((backup[x - 1][y + b] == SzachowaArena.figury.BSkoczek)
-                                            || (backup[x - 1][y + b] == SzachowaArena.figury.BPion)
-                                            || (backup[x - 1][y + b] == SzachowaArena.figury.BGoniec)
-                                            || (backup[x - 1][y + b] == SzachowaArena.figury.BWieza)
-                                            || (backup[x - 1][y + b] == SzachowaArena.figury.BHetman)
-                                            || (backup[x - 1][y + b] == SzachowaArena.figury.BAmazonka))) {
-                                        SzachowaArena.figury przechowalnie;
+                                    if (b != 0 && ((backup[x - 1][y + b] == figuryA.BSkoczek)
+                                            || (backup[x - 1][y + b] == figuryA.BPion)
+                                            || (backup[x - 1][y + b] == figuryA.BGoniec)
+                                            || (backup[x - 1][y + b] == figuryA.BWieza)
+                                            || (backup[x - 1][y + b] == figuryA.BHetman)
+                                            || (backup[x - 1][y + b] == figuryA.BAmazonka))) {
+                                        figuryA przechowalnie;
                                         przechowalnie = backup[x - 1][y + b];
                                         if (x != 1) {
                                             backup[x - 1][y + b] = znak;
-                                            backup[x][y] = SzachowaArena.figury.pustka;
+                                            backup[x][y] = figuryA.pustka;
 
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -5495,10 +5495,10 @@ class Generator {
                                                 }
                                             }
                                         } else {
-                                            SzachowaArena.figury[] symbole = {SzachowaArena.figury.CAmazonka, SzachowaArena.figury.CWieza, SzachowaArena.figury.CGoniec, SzachowaArena.figury.CSkoczek};
+                                            figuryA[] symbole = {figuryA.CAmazonka, figuryA.CWieza, figuryA.CGoniec, figuryA.CSkoczek};
                                             for (int s = 0; s < 4; s++) {
                                                 backup[x - 1][y + b] = symbole[s];
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                                backup[x][y] = figuryA.pustka;
 
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -5527,16 +5527,16 @@ class Generator {
                             }
 
                             if (x - 1 > -1) {
-                                if (backup[x - 1][y] == SzachowaArena.figury.pustka || (backup[x - 1][y] != SzachowaArena.figury.CPion && backup[x - 1][y] != SzachowaArena.figury.BPion
-                                        && backup[x - 1][y] != SzachowaArena.figury.BSkoczek && backup[x - 1][y] != SzachowaArena.figury.CSkoczek && backup[x - 1][y] != SzachowaArena.figury.BGoniec
-                                        && backup[x - 1][y] != SzachowaArena.figury.CGoniec && backup[x - 1][y] != SzachowaArena.figury.BWieza && backup[x - 1][y] != SzachowaArena.figury.CWieza
-                                        && backup[x - 1][y] != SzachowaArena.figury.BHetman && backup[x - 1][y] != SzachowaArena.figury.CHetman && backup[x - 1][y] != SzachowaArena.figury.BKrol
-                                        && backup[x - 1][y] != SzachowaArena.figury.CKrol && backup[x - 1][y] != SzachowaArena.figury.CAmazonka && backup[x - 1][y] != SzachowaArena.figury.BAmazonka)) {
-                                    SzachowaArena.figury przechowalnie;
+                                if (backup[x - 1][y] == figuryA.pustka || (backup[x - 1][y] != figuryA.CPion && backup[x - 1][y] != figuryA.BPion
+                                        && backup[x - 1][y] != figuryA.BSkoczek && backup[x - 1][y] != figuryA.CSkoczek && backup[x - 1][y] != figuryA.BGoniec
+                                        && backup[x - 1][y] != figuryA.CGoniec && backup[x - 1][y] != figuryA.BWieza && backup[x - 1][y] != figuryA.CWieza
+                                        && backup[x - 1][y] != figuryA.BHetman && backup[x - 1][y] != figuryA.CHetman && backup[x - 1][y] != figuryA.BKrol
+                                        && backup[x - 1][y] != figuryA.CKrol && backup[x - 1][y] != figuryA.CAmazonka && backup[x - 1][y] != figuryA.BAmazonka)) {
+                                    figuryA przechowalnie;
                                     przechowalnie = backup[x - 1][y];
                                     if (x != 1) {
                                         backup[x - 1][y] = znak;
-                                        backup[x][y] = SzachowaArena.figury.pustka;
+                                        backup[x][y] = figuryA.pustka;
                                         if ((obecnosc(backup))) {
                                             wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
                                             szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
@@ -5551,17 +5551,17 @@ class Generator {
                                             char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - 1));
                                             if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                 if (szach) {
-                                                    lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "-" + y1 + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "-" + y1 + y2 + "--+"), figuryA.pustka, backup));
                                                 } else {
-                                                    lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "-" + y1 + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                    lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "-" + y1 + y2 + "-- "), figuryA.pustka, backup));
                                                 }
                                             }
                                         }
                                     } else {
-                                        SzachowaArena.figury[] symbole = {SzachowaArena.figury.CHetman, SzachowaArena.figury.CWieza, SzachowaArena.figury.CGoniec, SzachowaArena.figury.CSkoczek};
+                                        figuryA[] symbole = {figuryA.CHetman, figuryA.CWieza, figuryA.CGoniec, figuryA.CSkoczek};
                                         for (int s = 0; s < 4; s++) {
                                             backup[x - 1][y] = symbole[s];
-                                            backup[x][y] = SzachowaArena.figury.pustka;
+                                            backup[x][y] = figuryA.pustka;
                                             if ((obecnosc(backup))) {
                                                 wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
                                                 szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
@@ -5576,9 +5576,9 @@ class Generator {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - 1));
                                                 if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                     if (szach) {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "-" + y1 + y2 + "=" + (symbole[s]) + "+"), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "-" + y1 + y2 + "=" + (symbole[s]) + "+"), figuryA.pustka, backup));
                                                     } else {
-                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "-" + y1 + y2 + "=" + (symbole[s]) + " "), SzachowaArena.figury.pustka, backup));
+                                                        lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "-" + y1 + y2 + "=" + (symbole[s]) + " "), figuryA.pustka, backup));
                                                     }
                                                 }
                                             }
@@ -5587,19 +5587,19 @@ class Generator {
                                 }
                             }
                             if (x - 2 > -1) {
-                                if ((backup[x - 2][y] == SzachowaArena.figury.pustka || (backup[x - 2][y] != SzachowaArena.figury.CPion && backup[x - 2][y] != SzachowaArena.figury.BPion
-                                        && backup[x - 2][y] != SzachowaArena.figury.BSkoczek && backup[x - 2][y] != SzachowaArena.figury.CSkoczek && backup[x - 2][y] != SzachowaArena.figury.BGoniec
-                                        && backup[x - 2][y] != SzachowaArena.figury.CGoniec && backup[x - 2][y] != SzachowaArena.figury.BWieza && backup[x - 2][y] != SzachowaArena.figury.CWieza
-                                        && backup[x - 2][y] != SzachowaArena.figury.BHetman && backup[x - 2][y] != SzachowaArena.figury.CHetman && backup[x - 2][y] != SzachowaArena.figury.BKrol
-                                        && backup[x - 2][y] != SzachowaArena.figury.CKrol && backup[x - 2][y] != SzachowaArena.figury.CAmazonka && backup[x - 2][y] != SzachowaArena.figury.BAmazonka))
-                                        && (backup[x - 1][y] == SzachowaArena.figury.pustka || (backup[x - 1][y] != SzachowaArena.figury.CPion && backup[x - 1][y] != SzachowaArena.figury.BPion
-                                        && backup[x - 1][y] != SzachowaArena.figury.BSkoczek && backup[x - 1][y] != SzachowaArena.figury.CSkoczek && backup[x - 1][y] != SzachowaArena.figury.BGoniec
-                                        && backup[x - 1][y] != SzachowaArena.figury.CGoniec && backup[x - 1][y] != SzachowaArena.figury.BWieza && backup[x - 1][y] != SzachowaArena.figury.CWieza
-                                        && backup[x - 1][y] != SzachowaArena.figury.BHetman && backup[x - 1][y] != SzachowaArena.figury.CHetman && backup[x - 1][y] != SzachowaArena.figury.BKrol
-                                        && backup[x - 1][y] != SzachowaArena.figury.CKrol && backup[x - 1][y] != SzachowaArena.figury.CAmazonka && backup[x - 1][y] != SzachowaArena.figury.BAmazonka)) && x == 6) {
-                                    SzachowaArena.figury przechowalnie = backup[x - 2][y];
+                                if ((backup[x - 2][y] == figuryA.pustka || (backup[x - 2][y] != figuryA.CPion && backup[x - 2][y] != figuryA.BPion
+                                        && backup[x - 2][y] != figuryA.BSkoczek && backup[x - 2][y] != figuryA.CSkoczek && backup[x - 2][y] != figuryA.BGoniec
+                                        && backup[x - 2][y] != figuryA.CGoniec && backup[x - 2][y] != figuryA.BWieza && backup[x - 2][y] != figuryA.CWieza
+                                        && backup[x - 2][y] != figuryA.BHetman && backup[x - 2][y] != figuryA.CHetman && backup[x - 2][y] != figuryA.BKrol
+                                        && backup[x - 2][y] != figuryA.CKrol && backup[x - 2][y] != figuryA.CAmazonka && backup[x - 2][y] != figuryA.BAmazonka))
+                                        && (backup[x - 1][y] == figuryA.pustka || (backup[x - 1][y] != figuryA.CPion && backup[x - 1][y] != figuryA.BPion
+                                        && backup[x - 1][y] != figuryA.BSkoczek && backup[x - 1][y] != figuryA.CSkoczek && backup[x - 1][y] != figuryA.BGoniec
+                                        && backup[x - 1][y] != figuryA.CGoniec && backup[x - 1][y] != figuryA.BWieza && backup[x - 1][y] != figuryA.CWieza
+                                        && backup[x - 1][y] != figuryA.BHetman && backup[x - 1][y] != figuryA.CHetman && backup[x - 1][y] != figuryA.BKrol
+                                        && backup[x - 1][y] != figuryA.CKrol && backup[x - 1][y] != figuryA.CAmazonka && backup[x - 1][y] != figuryA.BAmazonka)) && x == 6) {
+                                    figuryA przechowalnie = backup[x - 2][y];
                                     backup[x - 2][y] = znak;
-                                    backup[x][y] = SzachowaArena.figury.pustka;
+                                    backup[x][y] = figuryA.pustka;
 
                                     if ((obecnosc(backup))) {
                                         wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -5615,9 +5615,9 @@ class Generator {
                                         char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - 2));
                                         if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                             if (szach) {
-                                                lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "-" + y1 + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "-" + y1 + y2 + "--+"), figuryA.pustka, backup));
                                             } else {
-                                                lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "-" + y1 + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + x2 + "-" + y1 + y2 + "-- "), figuryA.pustka, backup));
                                             }
                                         }
                                     }
@@ -5627,46 +5627,46 @@ class Generator {
                         break;
                     case CSkoczek:
                     case BSkoczek:
-                        if ((tura_rywala != false && znak == SzachowaArena.figury.BSkoczek) || (tura_rywala == false && znak == SzachowaArena.figury.CSkoczek)) {
+                        if ((tura_rywala != false && znak == figuryA.BSkoczek) || (tura_rywala == false && znak == figuryA.CSkoczek)) {
                             for (int i = -2; i < 3; i++) {
                                 for (int j = -2; j < 3; j++) {
                                     if (x + i > -1 && x + i < 8 && y + j > -1 && y + j < 8) {
                                         if (Math.abs(j) - Math.abs(i) != 0 && i != 0 && j != 0) {
-                                            if ((znak == SzachowaArena.figury.CSkoczek
-                                                    && ((backup[x + i][y + j] == SzachowaArena.figury.pustka
-                                                    || backup[x + i][y + j] == SzachowaArena.figury.BPion
-                                                    || backup[x + i][y + j] == SzachowaArena.figury.BSkoczek
-                                                    || backup[x + i][y + j] == SzachowaArena.figury.BGoniec
-                                                    || backup[x + i][y + j] == SzachowaArena.figury.BWieza
-                                                    || backup[x + i][y + j] == SzachowaArena.figury.BHetman
-                                                    || backup[x + i][y + j] == SzachowaArena.figury.BAmazonka)
-                                                    || (backup[x + i][y + j] != SzachowaArena.figury.CPion
-                                                    && backup[x + i][y + j] != SzachowaArena.figury.CSkoczek
-                                                    && backup[x + i][y + j] != SzachowaArena.figury.CGoniec
-                                                    && backup[x + i][y + j] != SzachowaArena.figury.CWieza
-                                                    && backup[x + i][y + j] != SzachowaArena.figury.CHetman
-                                                    && backup[x + i][y + j] != SzachowaArena.figury.CKrol
-                                                    && backup[x + i][y + j] != SzachowaArena.figury.BKrol
-                                                    && backup[x + i][y + j] != SzachowaArena.figury.CAmazonka)))
-                                                    || (znak == SzachowaArena.figury.BSkoczek
-                                                    && ((backup[x + i][y + j] == SzachowaArena.figury.pustka
-                                                    || backup[x + i][y + j] == SzachowaArena.figury.CPion
-                                                    || backup[x + i][y + j] == SzachowaArena.figury.CSkoczek
-                                                    || backup[x + i][y + j] == SzachowaArena.figury.CGoniec
-                                                    || backup[x + i][y + j] == SzachowaArena.figury.CWieza
-                                                    || backup[x + i][y + j] == SzachowaArena.figury.CHetman
-                                                    || backup[x + i][y + j] == SzachowaArena.figury.CAmazonka)
-                                                    || (backup[x + i][y + j] != SzachowaArena.figury.BPion
-                                                    && backup[x + i][y + j] != SzachowaArena.figury.BSkoczek
-                                                    && backup[x + i][y + j] != SzachowaArena.figury.BGoniec
-                                                    && backup[x + i][y + j] != SzachowaArena.figury.BWieza
-                                                    && backup[x + i][y + j] != SzachowaArena.figury.BHetman
-                                                    && backup[x + i][y + j] != SzachowaArena.figury.BAmazonka
-                                                    && backup[x + i][y + j] != SzachowaArena.figury.BKrol
-                                                    && backup[x + i][y + j] != SzachowaArena.figury.CKrol)))) {
-                                                SzachowaArena.figury przechowalnia = backup[x + i][y + j];
+                                            if ((znak == figuryA.CSkoczek
+                                                    && ((backup[x + i][y + j] == figuryA.pustka
+                                                    || backup[x + i][y + j] == figuryA.BPion
+                                                    || backup[x + i][y + j] == figuryA.BSkoczek
+                                                    || backup[x + i][y + j] == figuryA.BGoniec
+                                                    || backup[x + i][y + j] == figuryA.BWieza
+                                                    || backup[x + i][y + j] == figuryA.BHetman
+                                                    || backup[x + i][y + j] == figuryA.BAmazonka)
+                                                    || (backup[x + i][y + j] != figuryA.CPion
+                                                    && backup[x + i][y + j] != figuryA.CSkoczek
+                                                    && backup[x + i][y + j] != figuryA.CGoniec
+                                                    && backup[x + i][y + j] != figuryA.CWieza
+                                                    && backup[x + i][y + j] != figuryA.CHetman
+                                                    && backup[x + i][y + j] != figuryA.CKrol
+                                                    && backup[x + i][y + j] != figuryA.BKrol
+                                                    && backup[x + i][y + j] != figuryA.CAmazonka)))
+                                                    || (znak == figuryA.BSkoczek
+                                                    && ((backup[x + i][y + j] == figuryA.pustka
+                                                    || backup[x + i][y + j] == figuryA.CPion
+                                                    || backup[x + i][y + j] == figuryA.CSkoczek
+                                                    || backup[x + i][y + j] == figuryA.CGoniec
+                                                    || backup[x + i][y + j] == figuryA.CWieza
+                                                    || backup[x + i][y + j] == figuryA.CHetman
+                                                    || backup[x + i][y + j] == figuryA.CAmazonka)
+                                                    || (backup[x + i][y + j] != figuryA.BPion
+                                                    && backup[x + i][y + j] != figuryA.BSkoczek
+                                                    && backup[x + i][y + j] != figuryA.BGoniec
+                                                    && backup[x + i][y + j] != figuryA.BWieza
+                                                    && backup[x + i][y + j] != figuryA.BHetman
+                                                    && backup[x + i][y + j] != figuryA.BAmazonka
+                                                    && backup[x + i][y + j] != figuryA.BKrol
+                                                    && backup[x + i][y + j] != figuryA.CKrol)))) {
+                                                figuryA przechowalnia = backup[x + i][y + j];
                                                 backup[x + i][y + j] = znak;
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                                backup[x][y] = figuryA.pustka;
 
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
@@ -5681,12 +5681,12 @@ class Generator {
                                                 backup[x + i][y + j] = przechowalnia;
                                                 if (wynik || all) {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + j)), y2 = (char) ('1' + (x + i));
-                                                    if (przechowalnia == SzachowaArena.figury.pustka) {
+                                                    if (przechowalnia == figuryA.pustka) {
                                                         if (!konkret || (konkret && ((x == start[0] && y == start[1])))) {
                                                             if (szach) {
-                                                                lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), figuryA.pustka, backup));
                                                             } else {
-                                                                lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), figuryA.pustka, backup));
                                                             }
                                                         }
                                                     } else {
@@ -5712,11 +5712,11 @@ class Generator {
                                 for (int j = -1; j <= 1; j++) {
                                     if (i != 0 || j != 0) {
                                         if ((x + i > -1 && x + i < 8) && (y + j > -1 && y + j < 8)) {
-                                            if (backup[x + i][y + j] == SzachowaArena.figury.pustka
-                                                    || (backup[x + i][y + j] == SzachowaArena.figury.CPion || backup[x + i][y + j] == SzachowaArena.figury.CSkoczek || backup[x + i][y + j] == SzachowaArena.figury.CGoniec || backup[x + i][y + j] == SzachowaArena.figury.CWieza || backup[x + i][y + j] == SzachowaArena.figury.CHetman)) {
-                                                SzachowaArena.figury przech = backup[x + i][y + j];
-                                                backup[x + i][y + j] = SzachowaArena.figury.BKrol;
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                            if (backup[x + i][y + j] == figuryA.pustka
+                                                    || (backup[x + i][y + j] == figuryA.CPion || backup[x + i][y + j] == figuryA.CSkoczek || backup[x + i][y + j] == figuryA.CGoniec || backup[x + i][y + j] == figuryA.CWieza || backup[x + i][y + j] == figuryA.CHetman)) {
+                                                figuryA przech = backup[x + i][y + j];
+                                                backup[x + i][y + j] = figuryA.BKrol;
+                                                backup[x][y] = figuryA.pustka;
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
                                                     szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
@@ -5727,15 +5727,15 @@ class Generator {
                                                 }
 
                                                 backup[x + i][y + j] = przech;
-                                                backup[x][y] = SzachowaArena.figury.BKrol;
+                                                backup[x][y] = figuryA.BKrol;
                                                 if (wynik || all) {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + j)), y2 = (char) ('1' + (x + i));
-                                                    if (przech == SzachowaArena.figury.pustka) {
+                                                    if (przech == figuryA.pustka) {
                                                         if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                             if (szach) {
-                                                                lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), figuryA.pustka, backup));
                                                             } else {
-                                                                lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), figuryA.pustka, backup));
                                                             }
                                                         }
                                                     } else {
@@ -5755,69 +5755,69 @@ class Generator {
                             }
                             if (!RuchZagrozenie_kontrola.szach(konwert(backup), true)) {
                                 if (kingrochB) {
-                                    if (whiteright && (backup[0][5] == SzachowaArena.figury.pustka)
-                                            && (backup[0][6] == SzachowaArena.figury.pustka)
-                                            && (backup[0][4] == SzachowaArena.figury.BKrol)
-                                            && (backup[0][7] == SzachowaArena.figury.BWieza)) {
+                                    if (whiteright && (backup[0][5] == figuryA.pustka)
+                                            && (backup[0][6] == figuryA.pustka)
+                                            && (backup[0][4] == figuryA.BKrol)
+                                            && (backup[0][7] == figuryA.BWieza)) {
                                         boolean[] wyniki = new boolean[2];
                                         for (int r = 1; r < 3; r++) {
-                                            backup[0][4] = SzachowaArena.figury.pustka;
-                                            backup[0][4 + r] = SzachowaArena.figury.BKrol;
+                                            backup[0][4] = figuryA.pustka;
+                                            backup[0][4 + r] = figuryA.BKrol;
                                             wyniki[r - 1] = !RuchZagrozenie_kontrola.szach(konwert(backup), true);
-                                            backup[0][4] = SzachowaArena.figury.BKrol;
-                                            backup[0][4 + r] = SzachowaArena.figury.pustka;
+                                            backup[0][4] = figuryA.BKrol;
+                                            backup[0][4 + r] = figuryA.pustka;
                                         }
                                         if (wyniki[0] && wyniki[1]) {
-                                            backup[0][4] = SzachowaArena.figury.pustka;
-                                            backup[0][7] = SzachowaArena.figury.pustka;
-                                            backup[0][5] = SzachowaArena.figury.BWieza;
-                                            backup[0][6] = SzachowaArena.figury.BKrol;
+                                            backup[0][4] = figuryA.pustka;
+                                            backup[0][7] = figuryA.pustka;
+                                            backup[0][5] = figuryA.BWieza;
+                                            backup[0][6] = figuryA.BKrol;
                                             szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
-                                            backup[0][4] = SzachowaArena.figury.BKrol;
-                                            backup[0][7] = SzachowaArena.figury.BWieza;
-                                            backup[0][5] = SzachowaArena.figury.pustka;
-                                            backup[0][6] = SzachowaArena.figury.pustka;
+                                            backup[0][4] = figuryA.BKrol;
+                                            backup[0][7] = figuryA.BWieza;
+                                            backup[0][5] = figuryA.pustka;
+                                            backup[0][6] = figuryA.pustka;
                                             if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                 if (szach) {
                                                     lista_dopuszcalnych_Ruchow.add(new RuchA(("KO-O+   "),
-                                                            SzachowaArena.figury.pustka, backup));
+                                                            figuryA.pustka, backup));
                                                 } else {
                                                     lista_dopuszcalnych_Ruchow.add(new RuchA(("KO-O    "),
-                                                            SzachowaArena.figury.pustka, backup));
+                                                            figuryA.pustka, backup));
                                                 }
                                             }
                                         }
                                     }
-                                    if (whiteleft && (backup[0][3] == SzachowaArena.figury.pustka)
-                                            && (backup[0][2] == SzachowaArena.figury.pustka)
-                                            && (backup[0][1] == SzachowaArena.figury.pustka)
-                                            && (backup[0][4] == SzachowaArena.figury.BKrol)
-                                            && (backup[0][0] == SzachowaArena.figury.BWieza)) {
+                                    if (whiteleft && (backup[0][3] == figuryA.pustka)
+                                            && (backup[0][2] == figuryA.pustka)
+                                            && (backup[0][1] == figuryA.pustka)
+                                            && (backup[0][4] == figuryA.BKrol)
+                                            && (backup[0][0] == figuryA.BWieza)) {
                                         boolean[] wyniki = new boolean[2];
                                         for (int r = 1; r <= 2; r++) {
-                                            backup[0][4] = SzachowaArena.figury.pustka;
-                                            backup[0][4 - r] = SzachowaArena.figury.BKrol;
+                                            backup[0][4] = figuryA.pustka;
+                                            backup[0][4 - r] = figuryA.BKrol;
                                             wyniki[r - 1] = !RuchZagrozenie_kontrola.szach(konwert(backup), true);
-                                            backup[0][4] = SzachowaArena.figury.BKrol;
-                                            backup[0][4 - r] = SzachowaArena.figury.pustka;
+                                            backup[0][4] = figuryA.BKrol;
+                                            backup[0][4 - r] = figuryA.pustka;
                                         }
                                         if (wyniki[0] && wyniki[1]) {
-                                            backup[0][4] = SzachowaArena.figury.pustka;
-                                            backup[0][0] = SzachowaArena.figury.pustka;
-                                            backup[0][3] = SzachowaArena.figury.BWieza;
-                                            backup[0][2] = SzachowaArena.figury.BKrol;
+                                            backup[0][4] = figuryA.pustka;
+                                            backup[0][0] = figuryA.pustka;
+                                            backup[0][3] = figuryA.BWieza;
+                                            backup[0][2] = figuryA.BKrol;
                                             szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
-                                            backup[0][4] = SzachowaArena.figury.BKrol;
-                                            backup[0][0] = SzachowaArena.figury.BWieza;
-                                            backup[0][3] = SzachowaArena.figury.pustka;
-                                            backup[0][2] = SzachowaArena.figury.pustka;
+                                            backup[0][4] = figuryA.BKrol;
+                                            backup[0][0] = figuryA.BWieza;
+                                            backup[0][3] = figuryA.pustka;
+                                            backup[0][2] = figuryA.pustka;
                                             if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                 if (szach) {
                                                     lista_dopuszcalnych_Ruchow.add(new RuchA(("KO-O-O+  "),
-                                                            SzachowaArena.figury.pustka, backup));
+                                                            figuryA.pustka, backup));
                                                 } else {
                                                     lista_dopuszcalnych_Ruchow.add(new RuchA(("KO-O-O   "),
-                                                            SzachowaArena.figury.pustka, backup));
+                                                            figuryA.pustka, backup));
                                                 }
                                             }
                                         }
@@ -5832,11 +5832,11 @@ class Generator {
                                 for (int j = -1; j <= 1; j++) {
                                     if (i != 0 || j != 0) {
                                         if ((x + i > -1 && x + i < 8) && (y + j > -1 && y + j < 8)) {
-                                            if (backup[x + i][y + j] == SzachowaArena.figury.pustka
-                                                    || (backup[x + i][y + j] == SzachowaArena.figury.BPion || backup[x + i][y + j] == SzachowaArena.figury.BSkoczek || backup[x + i][y + j] == SzachowaArena.figury.BGoniec || backup[x + i][y + j] == SzachowaArena.figury.BWieza || backup[x + i][y + j] == SzachowaArena.figury.BHetman)) {
-                                                SzachowaArena.figury przech = backup[x + i][y + j];
-                                                backup[x + i][y + j] = SzachowaArena.figury.CKrol;
-                                                backup[x][y] = SzachowaArena.figury.pustka;
+                                            if (backup[x + i][y + j] == figuryA.pustka
+                                                    || (backup[x + i][y + j] == figuryA.BPion || backup[x + i][y + j] == figuryA.BSkoczek || backup[x + i][y + j] == figuryA.BGoniec || backup[x + i][y + j] == figuryA.BWieza || backup[x + i][y + j] == figuryA.BHetman)) {
+                                                figuryA przech = backup[x + i][y + j];
+                                                backup[x + i][y + j] = figuryA.CKrol;
+                                                backup[x][y] = figuryA.pustka;
                                                 if ((obecnosc(backup))) {
                                                     wynik = (all || RuchZagrozenie_kontrola.szach(konwert(backup), tura_rywala) == false);
                                                     szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
@@ -5846,15 +5846,15 @@ class Generator {
                                                 }
 
                                                 backup[x + i][y + j] = przech;
-                                                backup[x][y] = SzachowaArena.figury.CKrol;
+                                                backup[x][y] = figuryA.CKrol;
                                                 if (wynik || all) {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + j)), y2 = (char) ('1' + (x + i));
-                                                    if (przech == SzachowaArena.figury.pustka) {
+                                                    if (przech == figuryA.pustka) {
                                                         if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                             if (szach) {
-                                                                lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), SzachowaArena.figury.pustka, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), figuryA.pustka, backup));
                                                             } else {
-                                                                lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), SzachowaArena.figury.pustka, backup));
+                                                                lista_dopuszcalnych_Ruchow.add(new RuchA(((znak) + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "-- "), figuryA.pustka, backup));
                                                             }
                                                         }
                                                     } else {
@@ -5874,69 +5874,69 @@ class Generator {
                             }
                             if (!RuchZagrozenie_kontrola.szach(konwert(backup), false)) {
                                 if (kingrochC) {
-                                    if (blackright && (backup[7][5] == SzachowaArena.figury.pustka)
-                                            && (backup[7][6] == SzachowaArena.figury.pustka)
-                                            && (backup[7][4] == SzachowaArena.figury.CKrol)
-                                            && (backup[7][7] == SzachowaArena.figury.CWieza)) {
+                                    if (blackright && (backup[7][5] == figuryA.pustka)
+                                            && (backup[7][6] == figuryA.pustka)
+                                            && (backup[7][4] == figuryA.CKrol)
+                                            && (backup[7][7] == figuryA.CWieza)) {
                                         boolean[] wyniki = new boolean[2];
                                         for (int r = 1; r < 3; r++) {
-                                            backup[7][4] = SzachowaArena.figury.pustka;
-                                            backup[7][4 + r] = SzachowaArena.figury.CKrol;
+                                            backup[7][4] = figuryA.pustka;
+                                            backup[7][4 + r] = figuryA.CKrol;
                                             wyniki[r - 1] = !RuchZagrozenie_kontrola.szach(konwert(backup), false);
-                                            backup[7][4] = SzachowaArena.figury.CKrol;
-                                            backup[7][4 + r] = SzachowaArena.figury.pustka;
+                                            backup[7][4] = figuryA.CKrol;
+                                            backup[7][4 + r] = figuryA.pustka;
                                         }
                                         if (wyniki[0] && wyniki[1]) {
-                                            backup[7][4] = SzachowaArena.figury.pustka;
-                                            backup[7][7] = SzachowaArena.figury.pustka;
-                                            backup[7][5] = SzachowaArena.figury.CWieza;
-                                            backup[7][6] = SzachowaArena.figury.CKrol;
+                                            backup[7][4] = figuryA.pustka;
+                                            backup[7][7] = figuryA.pustka;
+                                            backup[7][5] = figuryA.CWieza;
+                                            backup[7][6] = figuryA.CKrol;
                                             szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
-                                            backup[7][4] = SzachowaArena.figury.CKrol;
-                                            backup[7][7] = SzachowaArena.figury.CWieza;
-                                            backup[7][5] = SzachowaArena.figury.pustka;
-                                            backup[7][6] = SzachowaArena.figury.pustka;
+                                            backup[7][4] = figuryA.CKrol;
+                                            backup[7][7] = figuryA.CWieza;
+                                            backup[7][5] = figuryA.pustka;
+                                            backup[7][6] = figuryA.pustka;
                                             if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                 if (szach) {
                                                     lista_dopuszcalnych_Ruchow.add(new RuchA(("kO-O+     "),
-                                                            SzachowaArena.figury.pustka, backup));
+                                                            figuryA.pustka, backup));
                                                 } else {
                                                     lista_dopuszcalnych_Ruchow.add(new RuchA(("kO-O      "),
-                                                            SzachowaArena.figury.pustka, backup));
+                                                            figuryA.pustka, backup));
                                                 }
                                             }
                                         }
                                     }
-                                    if (blackleft && (backup[7][3] == SzachowaArena.figury.pustka)
-                                            && (backup[7][2] == SzachowaArena.figury.pustka)
-                                            && (backup[7][1] == SzachowaArena.figury.pustka)
-                                            && (backup[7][4] == SzachowaArena.figury.CKrol)
-                                            && (backup[7][0] == SzachowaArena.figury.CWieza)) {
+                                    if (blackleft && (backup[7][3] == figuryA.pustka)
+                                            && (backup[7][2] == figuryA.pustka)
+                                            && (backup[7][1] == figuryA.pustka)
+                                            && (backup[7][4] == figuryA.CKrol)
+                                            && (backup[7][0] == figuryA.CWieza)) {
                                         boolean[] wyniki = new boolean[2];
                                         for (int r = 1; r <= 2; r++) {
-                                            backup[7][4] = SzachowaArena.figury.pustka;
-                                            backup[7][4 - r] = SzachowaArena.figury.CKrol;
+                                            backup[7][4] = figuryA.pustka;
+                                            backup[7][4 - r] = figuryA.CKrol;
                                             wyniki[r - 1] = !RuchZagrozenie_kontrola.szach(konwert(backup), false);
-                                            backup[7][4] = SzachowaArena.figury.CKrol;
-                                            backup[7][4 - r] = SzachowaArena.figury.pustka;
+                                            backup[7][4] = figuryA.CKrol;
+                                            backup[7][4 - r] = figuryA.pustka;
                                         }
                                         if (wyniki[0] && wyniki[1]) {
-                                            backup[7][4] = SzachowaArena.figury.pustka;
-                                            backup[7][0] = SzachowaArena.figury.pustka;
-                                            backup[7][3] = SzachowaArena.figury.CWieza;
-                                            backup[7][2] = SzachowaArena.figury.CKrol;
+                                            backup[7][4] = figuryA.pustka;
+                                            backup[7][0] = figuryA.pustka;
+                                            backup[7][3] = figuryA.CWieza;
+                                            backup[7][2] = figuryA.CKrol;
                                             szach = RuchZagrozenie_kontrola.szach(konwert(backup), !tura_rywala);
-                                            backup[7][4] = SzachowaArena.figury.CKrol;
-                                            backup[7][0] = SzachowaArena.figury.CWieza;
-                                            backup[7][3] = SzachowaArena.figury.pustka;
-                                            backup[7][2] = SzachowaArena.figury.pustka;
+                                            backup[7][4] = figuryA.CKrol;
+                                            backup[7][0] = figuryA.CWieza;
+                                            backup[7][3] = figuryA.pustka;
+                                            backup[7][2] = figuryA.pustka;
                                             if (!konkret || (konkret && x == start[0] && y == start[1])) {
                                                 if (szach) {
                                                     lista_dopuszcalnych_Ruchow.add(new RuchA(("kO-O-O+  "),
-                                                            SzachowaArena.figury.pustka, backup));
+                                                            figuryA.pustka, backup));
                                                 } else {
                                                     lista_dopuszcalnych_Ruchow.add(new RuchA(("kO-O-O   "),
-                                                            SzachowaArena.figury.pustka, backup));
+                                                            figuryA.pustka, backup));
                                                 }
                                             }
                                         }
@@ -5954,14 +5954,14 @@ class Generator {
         return Collections.unmodifiableCollection(lista_dopuszcalnych_Ruchow);
     }
 
-    private static boolean obecnosc(final SzachowaArena.figury[][] backup) {
+    public boolean obecnosc(final figuryA[][] backup) {
         boolean KB = false, KC = false;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                if (backup[i][j] == SzachowaArena.figury.BKrol) {
+                if (backup[i][j] == figuryA.BKrol) {
                     KB = KB == false;
                 }
-                if (backup[i][j] == SzachowaArena.figury.CKrol) {
+                if (backup[i][j] == figuryA.CKrol) {
                     KC = KC == false;
                 }
             }
@@ -5969,7 +5969,8 @@ class Generator {
         return KC && KB;
     }
 
-    static Collection<Ruch> generuj_posuniecia_antyszach(char[][] ust, boolean tura_rywala, boolean przelotcan, int kolumna) {
+    @Override
+    public Collection<Ruch> generuj_posuniecia_antyszach(char[][] ust, boolean tura_rywala, boolean przelotcan, int kolumna) {
         List<Ruch> lista_dopuszcalnych_Ruchow = new ArrayList<>();
         char[][] backup = new char[8][8];
         for (int x = 0; x < 8; x++) {
@@ -6995,12 +6996,13 @@ class Generator {
         return lista_dopuszcalnych_Ruchow;
     }
 
-    static ArrayList<Ruch> generuj_posuniecia(SI_MIN_MAX_Alfa_Beta.figury[][] ust, boolean tura_rywala, boolean przelotcan,
+    @Override
+    public ArrayList<Ruch> generuj_posuniecia(figury[][] ust, boolean tura_rywala, boolean przelotcan,
             boolean blackleft, boolean blackright, boolean whiteleft, boolean whiteright,
             boolean kingrochB, boolean kingrochC, int kolumna, boolean all, boolean mgla) {
 
         ArrayList<Ruch> lista_dopuszcalnych_Ruchow = new ArrayList<>();
-        SI_MIN_MAX_Alfa_Beta.figury[][] backup = new SI_MIN_MAX_Alfa_Beta.figury[8][8];
+        figury[][] backup = new figury[8][8];
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 backup[x][y] = ust[x][y];
@@ -7008,12 +7010,12 @@ class Generator {
         }
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
-                if (backup[x][y] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
+                if (backup[x][y] == figury.pustka) {
                     continue;
                 }
                 boolean szach = false;
                 boolean wynik;
-                SI_MIN_MAX_Alfa_Beta.figury znak = backup[x][y];
+                figury znak = backup[x][y];
 
                 int param_ruch = 1;
                 int przod;
@@ -7025,15 +7027,15 @@ class Generator {
                         if (tura_rywala) {
                             if (x == 4 && przelotcan && kolumna != 0 && (kolumna - 1 == y - 1 || kolumna - 1 == y + 1)) {
 
-                                backup[x + 1][kolumna - 1] = SI_MIN_MAX_Alfa_Beta.figury.BPion;
-                                backup[x][kolumna - 1] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                backup[x + 1][kolumna - 1] = figury.BPion;
+                                backup[x][kolumna - 1] = figury.pustka;
+                                backup[x][y] = figury.pustka;
 
                                 wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
-                                backup[x + 1][kolumna - 1] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                backup[x][kolumna - 1] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.BPion;
+                                backup[x + 1][kolumna - 1] = figury.pustka;
+                                backup[x][kolumna - 1] = figury.pustka;
+                                backup[x][y] = figury.BPion;
                                 if (wynik || all) {
                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (kolumna - 1)), y2 = (char) ('1' + (x + 1));
 
@@ -7048,17 +7050,17 @@ class Generator {
                             for (int b = -1; b < 2; b++) {
 
                                 if (y + b > -1 && y + b < 8 && x + 1 < 8) {
-                                    if (b != 0 && ((backup[x + 1][y + b] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek)
-                                            || (backup[x + 1][y + b] == SI_MIN_MAX_Alfa_Beta.figury.pustka)
-                                            || (backup[x + 1][y + b] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec)
-                                            || (backup[x + 1][y + b] == SI_MIN_MAX_Alfa_Beta.figury.CWieza)
-                                            || (backup[x + 1][y + b] == SI_MIN_MAX_Alfa_Beta.figury.CHetman)
-                                            || (mgla && backup[x + 1][y + b] == SI_MIN_MAX_Alfa_Beta.figury.CKrol))) {
-                                        SI_MIN_MAX_Alfa_Beta.figury przechowalnie;
+                                    if (b != 0 && ((backup[x + 1][y + b] == figury.CSkoczek)
+                                            || (backup[x + 1][y + b] == figury.pustka)
+                                            || (backup[x + 1][y + b] == figury.CGoniec)
+                                            || (backup[x + 1][y + b] == figury.CWieza)
+                                            || (backup[x + 1][y + b] == figury.CHetman)
+                                            || (mgla && backup[x + 1][y + b] == figury.CKrol))) {
+                                        figury przechowalnie;
                                         przechowalnie = backup[x + 1][y + b];
                                         if (x != 6) {
                                             backup[x + 1][y + b] = znak;
-                                            backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x][y] = figury.pustka;
 
                                             wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
@@ -7076,10 +7078,10 @@ class Generator {
 
                                             }
                                         } else {
-                                            SI_MIN_MAX_Alfa_Beta.figury[] symbole = {SI_MIN_MAX_Alfa_Beta.figury.BHetman, SI_MIN_MAX_Alfa_Beta.figury.BWieza, SI_MIN_MAX_Alfa_Beta.figury.BGoniec, SI_MIN_MAX_Alfa_Beta.figury.BSkoczek};
+                                            figury[] symbole = {figury.BHetman, figury.BWieza, figury.BGoniec, figury.BSkoczek};
                                             for (int s = 0; s < 4; s++) {
                                                 backup[x + 1][y + b] = symbole[s];
-                                                backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                                backup[x][y] = figury.pustka;
 
                                                 wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
@@ -7101,16 +7103,16 @@ class Generator {
                             }
 
                             if (x + 1 < 8) {
-                                if (backup[x + 1][y] == SI_MIN_MAX_Alfa_Beta.figury.pustka || (backup[x + 1][y] != SI_MIN_MAX_Alfa_Beta.figury.pustka && backup[x + 1][y] != SI_MIN_MAX_Alfa_Beta.figury.BPion
-                                        && backup[x + 1][y] != SI_MIN_MAX_Alfa_Beta.figury.BSkoczek && backup[x + 1][y] != SI_MIN_MAX_Alfa_Beta.figury.CSkoczek && backup[x + 1][y] != SI_MIN_MAX_Alfa_Beta.figury.BGoniec
-                                        && backup[x + 1][y] != SI_MIN_MAX_Alfa_Beta.figury.CGoniec && backup[x + 1][y] != SI_MIN_MAX_Alfa_Beta.figury.BWieza && backup[x + 1][y] != SI_MIN_MAX_Alfa_Beta.figury.CWieza
-                                        && backup[x + 1][y] != SI_MIN_MAX_Alfa_Beta.figury.BHetman && backup[x + 1][y] != SI_MIN_MAX_Alfa_Beta.figury.CHetman && backup[x + 1][y] != SI_MIN_MAX_Alfa_Beta.figury.BKrol
-                                        && backup[x + 1][y] != SI_MIN_MAX_Alfa_Beta.figury.CKrol)) {
-                                    SI_MIN_MAX_Alfa_Beta.figury przechowalnie;
+                                if (backup[x + 1][y] == figury.pustka || (backup[x + 1][y] != figury.pustka && backup[x + 1][y] != figury.BPion
+                                        && backup[x + 1][y] != figury.BSkoczek && backup[x + 1][y] != figury.CSkoczek && backup[x + 1][y] != figury.BGoniec
+                                        && backup[x + 1][y] != figury.CGoniec && backup[x + 1][y] != figury.BWieza && backup[x + 1][y] != figury.CWieza
+                                        && backup[x + 1][y] != figury.BHetman && backup[x + 1][y] != figury.CHetman && backup[x + 1][y] != figury.BKrol
+                                        && backup[x + 1][y] != figury.CKrol)) {
+                                    figury przechowalnie;
                                     przechowalnie = backup[x + 1][y];
                                     if (x != 6) {
                                         backup[x + 1][y] = znak;
-                                        backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                        backup[x][y] = figury.pustka;
                                         wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
                                         backup[x][y] = znak;
@@ -7125,10 +7127,10 @@ class Generator {
 
                                         }
                                     } else {
-                                        SI_MIN_MAX_Alfa_Beta.figury[] symbole = {SI_MIN_MAX_Alfa_Beta.figury.BHetman, SI_MIN_MAX_Alfa_Beta.figury.BWieza, SI_MIN_MAX_Alfa_Beta.figury.BGoniec, SI_MIN_MAX_Alfa_Beta.figury.BSkoczek};
+                                        figury[] symbole = {figury.BHetman, figury.BWieza, figury.BGoniec, figury.BSkoczek};
                                         for (int s = 0; s < 4; s++) {
                                             backup[x + 1][y] = symbole[s];
-                                            backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x][y] = figury.pustka;
                                             wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
                                             backup[x][y] = znak;
@@ -7149,19 +7151,19 @@ class Generator {
                                 }
                             }
                             if (x + 2 < 8) {
-                                if ((backup[x + 2][y] == SI_MIN_MAX_Alfa_Beta.figury.pustka || (backup[x + 2][y] != SI_MIN_MAX_Alfa_Beta.figury.pustka && backup[x + 2][y] != SI_MIN_MAX_Alfa_Beta.figury.BPion
-                                        && backup[x + 2][y] != SI_MIN_MAX_Alfa_Beta.figury.BSkoczek && backup[x + 2][y] != SI_MIN_MAX_Alfa_Beta.figury.CSkoczek && backup[x + 2][y] != SI_MIN_MAX_Alfa_Beta.figury.BGoniec
-                                        && backup[x + 2][y] != SI_MIN_MAX_Alfa_Beta.figury.CGoniec && backup[x + 2][y] != SI_MIN_MAX_Alfa_Beta.figury.BWieza && backup[x + 2][y] != SI_MIN_MAX_Alfa_Beta.figury.CWieza
-                                        && backup[x + 2][y] != SI_MIN_MAX_Alfa_Beta.figury.BHetman && backup[x + 2][y] != SI_MIN_MAX_Alfa_Beta.figury.CHetman && backup[x + 2][y] != SI_MIN_MAX_Alfa_Beta.figury.BKrol
-                                        && backup[x + 2][y] != SI_MIN_MAX_Alfa_Beta.figury.CKrol))
-                                        && (backup[x + 1][y] == SI_MIN_MAX_Alfa_Beta.figury.pustka || (backup[x + 1][y] != SI_MIN_MAX_Alfa_Beta.figury.pustka && backup[x + 1][y] != SI_MIN_MAX_Alfa_Beta.figury.BPion
-                                        && backup[x + 1][y] != SI_MIN_MAX_Alfa_Beta.figury.BSkoczek && backup[x + 1][y] != SI_MIN_MAX_Alfa_Beta.figury.CSkoczek && backup[x + 1][y] != SI_MIN_MAX_Alfa_Beta.figury.BGoniec
-                                        && backup[x + 1][y] != SI_MIN_MAX_Alfa_Beta.figury.CGoniec && backup[x + 1][y] != SI_MIN_MAX_Alfa_Beta.figury.BWieza && backup[x + 1][y] != SI_MIN_MAX_Alfa_Beta.figury.CWieza
-                                        && backup[x + 1][y] != SI_MIN_MAX_Alfa_Beta.figury.BHetman && backup[x + 1][y] != SI_MIN_MAX_Alfa_Beta.figury.CHetman && backup[x + 1][y] != SI_MIN_MAX_Alfa_Beta.figury.BKrol
-                                        && backup[x + 1][y] != SI_MIN_MAX_Alfa_Beta.figury.CKrol)) && x == 1) {
-                                    SI_MIN_MAX_Alfa_Beta.figury przechowalnie = backup[x + 2][y];
+                                if ((backup[x + 2][y] == figury.pustka || (backup[x + 2][y] != figury.pustka && backup[x + 2][y] != figury.BPion
+                                        && backup[x + 2][y] != figury.BSkoczek && backup[x + 2][y] != figury.CSkoczek && backup[x + 2][y] != figury.BGoniec
+                                        && backup[x + 2][y] != figury.CGoniec && backup[x + 2][y] != figury.BWieza && backup[x + 2][y] != figury.CWieza
+                                        && backup[x + 2][y] != figury.BHetman && backup[x + 2][y] != figury.CHetman && backup[x + 2][y] != figury.BKrol
+                                        && backup[x + 2][y] != figury.CKrol))
+                                        && (backup[x + 1][y] == figury.pustka || (backup[x + 1][y] != figury.pustka && backup[x + 1][y] != figury.BPion
+                                        && backup[x + 1][y] != figury.BSkoczek && backup[x + 1][y] != figury.CSkoczek && backup[x + 1][y] != figury.BGoniec
+                                        && backup[x + 1][y] != figury.CGoniec && backup[x + 1][y] != figury.BWieza && backup[x + 1][y] != figury.CWieza
+                                        && backup[x + 1][y] != figury.BHetman && backup[x + 1][y] != figury.CHetman && backup[x + 1][y] != figury.BKrol
+                                        && backup[x + 1][y] != figury.CKrol)) && x == 1) {
+                                    figury przechowalnie = backup[x + 2][y];
                                     backup[x + 2][y] = znak;
-                                    backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                    backup[x][y] = figury.pustka;
 
                                     wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
@@ -7183,7 +7185,7 @@ class Generator {
                     case CHetman:
                     case BHetman:
 
-                        if ((tura_rywala && znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman) || (!tura_rywala && znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman)) {
+                        if ((tura_rywala && znak == figury.BHetman) || (!tura_rywala && znak == figury.CHetman)) {
                             d1 = true;
                             d2 = true;
                             d3 = true;
@@ -7197,16 +7199,16 @@ class Generator {
                             param_ruch = 1;
                             while (d1 || d2 || d3 || d4
                                     || w1 || w2 || w3 || w4) {
-                                if ((tura_rywala && znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman) || (tura_rywala == false && znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman)) {
+                                if ((tura_rywala && znak == figury.BHetman) || (tura_rywala == false && znak == figury.CHetman)) {
                                     if (x + param_ruch < 8 && y + param_ruch < 8 && d1) {
 
-                                        if (d1 && backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
+                                        if (d1 && backup[x + param_ruch][y + param_ruch] == figury.pustka) {
                                             backup[x + param_ruch][y + param_ruch] = znak;
-                                            backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x][y] = figury.pustka;
 
                                             wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
-                                            backup[x + param_ruch][y + param_ruch] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x + param_ruch][y + param_ruch] = figury.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x + param_ruch));
@@ -7220,19 +7222,19 @@ class Generator {
 
                                             }
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman && (backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
-                                                    || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CWieza || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CHetman
-                                                    || (backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol && mgla)))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman
-                                                    && (backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion
-                                                    || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
-                                                    || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec
-                                                    || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BWieza
-                                                    || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BHetman
-                                                    || (backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol && mgla)))) {
-                                                SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x + param_ruch][y + param_ruch];
+                                            if ((znak == figury.BHetman && (backup[x + param_ruch][y + param_ruch] == figury.pustka || backup[x + param_ruch][y + param_ruch] == figury.CSkoczek
+                                                    || backup[x + param_ruch][y + param_ruch] == figury.CGoniec || backup[x + param_ruch][y + param_ruch] == figury.CWieza || backup[x + param_ruch][y + param_ruch] == figury.CHetman
+                                                    || (backup[x + param_ruch][y + param_ruch] == figury.CKrol && mgla)))
+                                                    || (znak == figury.CHetman
+                                                    && (backup[x + param_ruch][y + param_ruch] == figury.BPion
+                                                    || backup[x + param_ruch][y + param_ruch] == figury.BSkoczek
+                                                    || backup[x + param_ruch][y + param_ruch] == figury.BGoniec
+                                                    || backup[x + param_ruch][y + param_ruch] == figury.BWieza
+                                                    || backup[x + param_ruch][y + param_ruch] == figury.BHetman
+                                                    || (backup[x + param_ruch][y + param_ruch] == figury.BKrol && mgla)))) {
+                                                figury przechowalnia = backup[x + param_ruch][y + param_ruch];
                                                 backup[x + param_ruch][y + param_ruch] = znak;
-                                                backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                                backup[x][y] = figury.pustka;
 
                                                 wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
@@ -7256,17 +7258,17 @@ class Generator {
                                         d1 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman) || (tura_rywala == false && znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman)) {
+                                if ((tura_rywala && znak == figury.BHetman) || (tura_rywala == false && znak == figury.CHetman)) {
                                     if (x - param_ruch > -1 && y - param_ruch > -1 && d2) {
                                         //////System.out.println((x+param_ruch)+" "+(y+param_ruch));
 
-                                        if (d2 && backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
+                                        if (d2 && backup[x - param_ruch][y - param_ruch] == figury.pustka) {
                                             backup[x - param_ruch][y - param_ruch] = znak;
-                                            backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x][y] = figury.pustka;
 
                                             wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
-                                            backup[x - param_ruch][y - param_ruch] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x - param_ruch][y - param_ruch] = figury.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x - param_ruch));
@@ -7280,19 +7282,19 @@ class Generator {
 
                                             }
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman && (backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
-                                                    || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CWieza || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CHetman
-                                                    || (backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol && mgla)))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman
-                                                    && (backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion
-                                                    || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
-                                                    || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec
-                                                    || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BWieza
-                                                    || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BHetman
-                                                    || (backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol && mgla)))) {
-                                                SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x - param_ruch][y - param_ruch];
+                                            if ((znak == figury.BHetman && (backup[x - param_ruch][y - param_ruch] == figury.pustka || backup[x - param_ruch][y - param_ruch] == figury.CSkoczek
+                                                    || backup[x - param_ruch][y - param_ruch] == figury.CGoniec || backup[x - param_ruch][y - param_ruch] == figury.CWieza || backup[x - param_ruch][y - param_ruch] == figury.CHetman
+                                                    || (backup[x - param_ruch][y - param_ruch] == figury.CKrol && mgla)))
+                                                    || (znak == figury.CHetman
+                                                    && (backup[x - param_ruch][y - param_ruch] == figury.BPion
+                                                    || backup[x - param_ruch][y - param_ruch] == figury.BSkoczek
+                                                    || backup[x - param_ruch][y - param_ruch] == figury.BGoniec
+                                                    || backup[x - param_ruch][y - param_ruch] == figury.BWieza
+                                                    || backup[x - param_ruch][y - param_ruch] == figury.BHetman
+                                                    || (backup[x - param_ruch][y - param_ruch] == figury.BKrol && mgla)))) {
+                                                figury przechowalnia = backup[x - param_ruch][y - param_ruch];
                                                 backup[x - param_ruch][y - param_ruch] = znak;
-                                                backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                                backup[x][y] = figury.pustka;
 
                                                 wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
@@ -7316,15 +7318,15 @@ class Generator {
                                         d2 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman) || (tura_rywala == false && znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman)) {
+                                if ((tura_rywala && znak == figury.BHetman) || (tura_rywala == false && znak == figury.CHetman)) {
                                     if (x + param_ruch < 8 && y - param_ruch > -1 && d3) {
 
-                                        if (d3 && backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
+                                        if (d3 && backup[x + param_ruch][y - param_ruch] == figury.pustka) {
                                             backup[x + param_ruch][y - param_ruch] = znak;
-                                            backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x][y] = figury.pustka;
                                             wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
-                                            backup[x + param_ruch][y - param_ruch] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x + param_ruch][y - param_ruch] = figury.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x + param_ruch));
@@ -7338,19 +7340,19 @@ class Generator {
 
                                             }
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman && (backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
-                                                    || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CWieza || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CHetman
-                                                    || (backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol && mgla)))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman
-                                                    && (backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion
-                                                    || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
-                                                    || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec
-                                                    || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BWieza
-                                                    || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BHetman
-                                                    || (backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol && mgla)))) {
-                                                SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x + param_ruch][y - param_ruch];
+                                            if ((znak == figury.BHetman && (backup[x + param_ruch][y - param_ruch] == figury.pustka || backup[x + param_ruch][y - param_ruch] == figury.CSkoczek
+                                                    || backup[x + param_ruch][y - param_ruch] == figury.CGoniec || backup[x + param_ruch][y - param_ruch] == figury.CWieza || backup[x + param_ruch][y - param_ruch] == figury.CHetman
+                                                    || (backup[x + param_ruch][y - param_ruch] == figury.CKrol && mgla)))
+                                                    || (znak == figury.CHetman
+                                                    && (backup[x + param_ruch][y - param_ruch] == figury.BPion
+                                                    || backup[x + param_ruch][y - param_ruch] == figury.BSkoczek
+                                                    || backup[x + param_ruch][y - param_ruch] == figury.BGoniec
+                                                    || backup[x + param_ruch][y - param_ruch] == figury.BWieza
+                                                    || backup[x + param_ruch][y - param_ruch] == figury.BHetman
+                                                    || (backup[x + param_ruch][y - param_ruch] == figury.BKrol && mgla)))) {
+                                                figury przechowalnia = backup[x + param_ruch][y - param_ruch];
                                                 backup[x + param_ruch][y - param_ruch] = znak;
-                                                backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                                backup[x][y] = figury.pustka;
                                                 wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
                                                 backup[x + param_ruch][y - param_ruch] = przechowalnia;
@@ -7373,16 +7375,16 @@ class Generator {
                                         d3 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman) || (tura_rywala == false && znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman)) {
+                                if ((tura_rywala && znak == figury.BHetman) || (tura_rywala == false && znak == figury.CHetman)) {
                                     if (x - param_ruch > -1 && y + param_ruch < 8 && d4) {
 
-                                        if (d4 && backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
+                                        if (d4 && backup[x - param_ruch][y + param_ruch] == figury.pustka) {
                                             backup[x - param_ruch][y + param_ruch] = znak;
-                                            backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x][y] = figury.pustka;
 
                                             wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
-                                            backup[x - param_ruch][y + param_ruch] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x - param_ruch][y + param_ruch] = figury.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x - param_ruch));
@@ -7396,19 +7398,19 @@ class Generator {
 
                                             }
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman && (backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
-                                                    || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CWieza || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CHetman
-                                                    || (backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol && mgla)))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman
-                                                    && (backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion
-                                                    || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
-                                                    || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec
-                                                    || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BWieza
-                                                    || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BHetman
-                                                    || (backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol && mgla)))) {
-                                                SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x - param_ruch][y + param_ruch];
+                                            if ((znak == figury.BHetman && (backup[x - param_ruch][y + param_ruch] == figury.pustka || backup[x - param_ruch][y + param_ruch] == figury.CSkoczek
+                                                    || backup[x - param_ruch][y + param_ruch] == figury.CGoniec || backup[x - param_ruch][y + param_ruch] == figury.CWieza || backup[x - param_ruch][y + param_ruch] == figury.CHetman
+                                                    || (backup[x - param_ruch][y + param_ruch] == figury.CKrol && mgla)))
+                                                    || (znak == figury.CHetman
+                                                    && (backup[x - param_ruch][y + param_ruch] == figury.BPion
+                                                    || backup[x - param_ruch][y + param_ruch] == figury.BSkoczek
+                                                    || backup[x - param_ruch][y + param_ruch] == figury.BGoniec
+                                                    || backup[x - param_ruch][y + param_ruch] == figury.BWieza
+                                                    || backup[x - param_ruch][y + param_ruch] == figury.BHetman
+                                                    || (backup[x - param_ruch][y + param_ruch] == figury.BKrol && mgla)))) {
+                                                figury przechowalnia = backup[x - param_ruch][y + param_ruch];
                                                 backup[x - param_ruch][y + param_ruch] = znak;
-                                                backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                                backup[x][y] = figury.pustka;
                                                 wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
                                                 backup[x - param_ruch][y + param_ruch] = przechowalnia;
@@ -7431,16 +7433,16 @@ class Generator {
                                         d4 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman) || (tura_rywala == false && znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman)) {
+                                if ((tura_rywala && znak == figury.BHetman) || (tura_rywala == false && znak == figury.CHetman)) {
                                     if (x + param_ruch < 8 && w1) {
 
-                                        if (w1 && backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
+                                        if (w1 && backup[x + param_ruch][y] == figury.pustka) {
                                             backup[x + param_ruch][y] = znak;
-                                            backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x][y] = figury.pustka;
 
                                             wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
-                                            backup[x + param_ruch][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x + param_ruch][y] = figury.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + param_ruch));
@@ -7454,23 +7456,23 @@ class Generator {
 
                                             }
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BWieza
-                                                    && (backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.pustka
-                                                    || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
-                                                    || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec
-                                                    || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CWieza
-                                                    || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CHetman
-                                                    || (backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CKrol & mgla)))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CWieza
-                                                    && (backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BPion
-                                                    || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
-                                                    || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec
-                                                    || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BWieza
-                                                    || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BHetman
-                                                    || (backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BKrol & mgla)))) {
-                                                SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x + param_ruch][y];
+                                            if ((znak == figury.BWieza
+                                                    && (backup[x + param_ruch][y] == figury.pustka
+                                                    || backup[x + param_ruch][y] == figury.CSkoczek
+                                                    || backup[x + param_ruch][y] == figury.CGoniec
+                                                    || backup[x + param_ruch][y] == figury.CWieza
+                                                    || backup[x + param_ruch][y] == figury.CHetman
+                                                    || (backup[x + param_ruch][y] == figury.CKrol & mgla)))
+                                                    || (znak == figury.CWieza
+                                                    && (backup[x + param_ruch][y] == figury.BPion
+                                                    || backup[x + param_ruch][y] == figury.BSkoczek
+                                                    || backup[x + param_ruch][y] == figury.BGoniec
+                                                    || backup[x + param_ruch][y] == figury.BWieza
+                                                    || backup[x + param_ruch][y] == figury.BHetman
+                                                    || (backup[x + param_ruch][y] == figury.BKrol & mgla)))) {
+                                                figury przechowalnia = backup[x + param_ruch][y];
                                                 backup[x + param_ruch][y] = znak;
-                                                backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                                backup[x][y] = figury.pustka;
 
                                                 wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
@@ -7494,15 +7496,15 @@ class Generator {
                                         w1 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman) || (tura_rywala == false && znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman)) {
+                                if ((tura_rywala && znak == figury.BHetman) || (tura_rywala == false && znak == figury.CHetman)) {
                                     if (x - param_ruch > -1 && w2) {
 
-                                        if (w2 && backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
+                                        if (w2 && backup[x - param_ruch][y] == figury.pustka) {
                                             backup[x - param_ruch][y] = znak;
-                                            backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x][y] = figury.pustka;
                                             wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
-                                            backup[x - param_ruch][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x - param_ruch][y] = figury.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - param_ruch));
@@ -7516,23 +7518,23 @@ class Generator {
 
                                             }
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BWieza
-                                                    && (backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.pustka
-                                                    || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
-                                                    || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec
-                                                    || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CWieza
-                                                    || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CHetman
-                                                    || (backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CKrol & mgla)))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CWieza
-                                                    && (backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BPion
-                                                    || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
-                                                    || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec
-                                                    || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BWieza
-                                                    || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BHetman
-                                                    || (backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BKrol & mgla)))) {
-                                                SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x - param_ruch][y];
+                                            if ((znak == figury.BWieza
+                                                    && (backup[x - param_ruch][y] == figury.pustka
+                                                    || backup[x - param_ruch][y] == figury.CSkoczek
+                                                    || backup[x - param_ruch][y] == figury.CGoniec
+                                                    || backup[x - param_ruch][y] == figury.CWieza
+                                                    || backup[x - param_ruch][y] == figury.CHetman
+                                                    || (backup[x - param_ruch][y] == figury.CKrol & mgla)))
+                                                    || (znak == figury.CWieza
+                                                    && (backup[x - param_ruch][y] == figury.BPion
+                                                    || backup[x - param_ruch][y] == figury.BSkoczek
+                                                    || backup[x - param_ruch][y] == figury.BGoniec
+                                                    || backup[x - param_ruch][y] == figury.BWieza
+                                                    || backup[x - param_ruch][y] == figury.BHetman
+                                                    || (backup[x - param_ruch][y] == figury.BKrol & mgla)))) {
+                                                figury przechowalnia = backup[x - param_ruch][y];
                                                 backup[x - param_ruch][y] = znak;
-                                                backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                                backup[x][y] = figury.pustka;
 
                                                 wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
@@ -7556,15 +7558,15 @@ class Generator {
                                         w2 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman) || (tura_rywala == false && znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman)) {
+                                if ((tura_rywala && znak == figury.BHetman) || (tura_rywala == false && znak == figury.CHetman)) {
                                     if (y + param_ruch < 8 && w3) {
 
-                                        if (w3 && backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
+                                        if (w3 && backup[x][y + param_ruch] == figury.pustka) {
                                             backup[x][y + param_ruch] = znak;
-                                            backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x][y] = figury.pustka;
                                             wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
-                                            backup[x][y + param_ruch] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x][y + param_ruch] = figury.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x));
@@ -7578,23 +7580,23 @@ class Generator {
 
                                             }
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BWieza
-                                                    && (backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka
-                                                    || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
-                                                    || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec
-                                                    || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CWieza
-                                                    || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CHetman
-                                                    || (backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol & mgla)))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CWieza
-                                                    && (backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion
-                                                    || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
-                                                    || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec
-                                                    || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BWieza
-                                                    || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BHetman
-                                                    || (backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol & mgla)))) {
-                                                SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x][y + param_ruch];
+                                            if ((znak == figury.BWieza
+                                                    && (backup[x][y + param_ruch] == figury.pustka
+                                                    || backup[x][y + param_ruch] == figury.CSkoczek
+                                                    || backup[x][y + param_ruch] == figury.CGoniec
+                                                    || backup[x][y + param_ruch] == figury.CWieza
+                                                    || backup[x][y + param_ruch] == figury.CHetman
+                                                    || (backup[x][y + param_ruch] == figury.CKrol & mgla)))
+                                                    || (znak == figury.CWieza
+                                                    && (backup[x][y + param_ruch] == figury.BPion
+                                                    || backup[x][y + param_ruch] == figury.BSkoczek
+                                                    || backup[x][y + param_ruch] == figury.BGoniec
+                                                    || backup[x][y + param_ruch] == figury.BWieza
+                                                    || backup[x][y + param_ruch] == figury.BHetman
+                                                    || (backup[x][y + param_ruch] == figury.BKrol & mgla)))) {
+                                                figury przechowalnia = backup[x][y + param_ruch];
                                                 backup[x][y + param_ruch] = znak;
-                                                backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                                backup[x][y] = figury.pustka;
                                                 wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
                                                 backup[x][y + param_ruch] = (przechowalnia);
@@ -7617,15 +7619,15 @@ class Generator {
                                         w3 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SI_MIN_MAX_Alfa_Beta.figury.BHetman) || (tura_rywala == false && znak == SI_MIN_MAX_Alfa_Beta.figury.CHetman)) {
+                                if ((tura_rywala && znak == figury.BHetman) || (tura_rywala == false && znak == figury.CHetman)) {
                                     if (y - param_ruch > -1 && w4) {
 
-                                        if (w4 && backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
+                                        if (w4 && backup[x][y - param_ruch] == figury.pustka) {
                                             backup[x][y - param_ruch] = znak;
-                                            backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x][y] = figury.pustka;
                                             wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
-                                            backup[x][y - param_ruch] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x][y - param_ruch] = figury.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x));
@@ -7639,23 +7641,23 @@ class Generator {
 
                                             }
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BWieza
-                                                    && (backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka
-                                                    || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
-                                                    || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec
-                                                    || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CWieza
-                                                    || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CHetman
-                                                    || (backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol & mgla)))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CWieza
-                                                    && (backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion
-                                                    || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
-                                                    || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec
-                                                    || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BWieza
-                                                    || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BHetman
-                                                    || (backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol & mgla)))) {
-                                                SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x][y - param_ruch];
+                                            if ((znak == figury.BWieza
+                                                    && (backup[x][y - param_ruch] == figury.pustka
+                                                    || backup[x][y - param_ruch] == figury.CSkoczek
+                                                    || backup[x][y - param_ruch] == figury.CGoniec
+                                                    || backup[x][y - param_ruch] == figury.CWieza
+                                                    || backup[x][y - param_ruch] == figury.CHetman
+                                                    || (backup[x][y - param_ruch] == figury.CKrol & mgla)))
+                                                    || (znak == figury.CWieza
+                                                    && (backup[x][y - param_ruch] == figury.BPion
+                                                    || backup[x][y - param_ruch] == figury.BSkoczek
+                                                    || backup[x][y - param_ruch] == figury.BGoniec
+                                                    || backup[x][y - param_ruch] == figury.BWieza
+                                                    || backup[x][y - param_ruch] == figury.BHetman
+                                                    || (backup[x][y - param_ruch] == figury.BKrol & mgla)))) {
+                                                figury przechowalnia = backup[x][y - param_ruch];
                                                 backup[x][y - param_ruch] = znak;
-                                                backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                                backup[x][y] = figury.pustka;
                                                 wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
                                                 backup[x][y - param_ruch] = (przechowalnia);
@@ -7686,7 +7688,7 @@ class Generator {
                         break;
                     case BWieza:
                     case CWieza:
-                        if ((tura_rywala != false && znak == SI_MIN_MAX_Alfa_Beta.figury.BWieza) || (tura_rywala == false && znak == SI_MIN_MAX_Alfa_Beta.figury.CWieza)) {
+                        if ((tura_rywala != false && znak == figury.BWieza) || (tura_rywala == false && znak == figury.CWieza)) {
                             w1 = true;
                             w2 = true;
                             w3 = true;
@@ -7695,16 +7697,16 @@ class Generator {
                             przod = 1;
                             tyl = -1;
                             while (w1 || w2 || w3 || w4) {
-                                if ((tura_rywala && znak == SI_MIN_MAX_Alfa_Beta.figury.BWieza) || (tura_rywala == false && znak == SI_MIN_MAX_Alfa_Beta.figury.CWieza)) {
+                                if ((tura_rywala && znak == figury.BWieza) || (tura_rywala == false && znak == figury.CWieza)) {
                                     if (x + param_ruch < 8 && w1) {
 
-                                        if (w1 && backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
+                                        if (w1 && backup[x + param_ruch][y] == figury.pustka) {
                                             backup[x + param_ruch][y] = znak;
-                                            backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x][y] = figury.pustka;
 
                                             wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
-                                            backup[x + param_ruch][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x + param_ruch][y] = figury.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + param_ruch));
@@ -7718,23 +7720,23 @@ class Generator {
 
                                             }
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BWieza
-                                                    && (backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.pustka
-                                                    || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
-                                                    || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec
-                                                    || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CWieza
-                                                    || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CHetman
-                                                    || (backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CKrol & mgla)))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CWieza
-                                                    && (backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BPion
-                                                    || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
-                                                    || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec
-                                                    || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BWieza
-                                                    || backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BHetman
-                                                    || (backup[x + param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BKrol & mgla)))) {
-                                                SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x + param_ruch][y];
+                                            if ((znak == figury.BWieza
+                                                    && (backup[x + param_ruch][y] == figury.pustka
+                                                    || backup[x + param_ruch][y] == figury.CSkoczek
+                                                    || backup[x + param_ruch][y] == figury.CGoniec
+                                                    || backup[x + param_ruch][y] == figury.CWieza
+                                                    || backup[x + param_ruch][y] == figury.CHetman
+                                                    || (backup[x + param_ruch][y] == figury.CKrol & mgla)))
+                                                    || (znak == figury.CWieza
+                                                    && (backup[x + param_ruch][y] == figury.BPion
+                                                    || backup[x + param_ruch][y] == figury.BSkoczek
+                                                    || backup[x + param_ruch][y] == figury.BGoniec
+                                                    || backup[x + param_ruch][y] == figury.BWieza
+                                                    || backup[x + param_ruch][y] == figury.BHetman
+                                                    || (backup[x + param_ruch][y] == figury.BKrol & mgla)))) {
+                                                figury przechowalnia = backup[x + param_ruch][y];
                                                 backup[x + param_ruch][y] = znak;
-                                                backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                                backup[x][y] = figury.pustka;
 
                                                 wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
@@ -7758,16 +7760,16 @@ class Generator {
                                         w1 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SI_MIN_MAX_Alfa_Beta.figury.BWieza) || (tura_rywala == false && znak == SI_MIN_MAX_Alfa_Beta.figury.CWieza)) {
+                                if ((tura_rywala && znak == figury.BWieza) || (tura_rywala == false && znak == figury.CWieza)) {
                                     if (x - param_ruch > -1 && w2) {
 
-                                        if (w2 && backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
+                                        if (w2 && backup[x - param_ruch][y] == figury.pustka) {
                                             backup[x - param_ruch][y] = znak;
-                                            backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x][y] = figury.pustka;
 
                                             wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
-                                            backup[x - param_ruch][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x - param_ruch][y] = figury.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x - param_ruch));
@@ -7781,23 +7783,23 @@ class Generator {
 
                                             }
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BWieza
-                                                    && (backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.pustka
-                                                    || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
-                                                    || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec
-                                                    || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CWieza
-                                                    || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CHetman
-                                                    || (backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.CKrol & mgla)))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CWieza
-                                                    && (backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BPion
-                                                    || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
-                                                    || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec
-                                                    || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BWieza
-                                                    || backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BHetman
-                                                    || (backup[x - param_ruch][y] == SI_MIN_MAX_Alfa_Beta.figury.BKrol & mgla)))) {
-                                                SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x - param_ruch][y];
+                                            if ((znak == figury.BWieza
+                                                    && (backup[x - param_ruch][y] == figury.pustka
+                                                    || backup[x - param_ruch][y] == figury.CSkoczek
+                                                    || backup[x - param_ruch][y] == figury.CGoniec
+                                                    || backup[x - param_ruch][y] == figury.CWieza
+                                                    || backup[x - param_ruch][y] == figury.CHetman
+                                                    || (backup[x - param_ruch][y] == figury.CKrol & mgla)))
+                                                    || (znak == figury.CWieza
+                                                    && (backup[x - param_ruch][y] == figury.BPion
+                                                    || backup[x - param_ruch][y] == figury.BSkoczek
+                                                    || backup[x - param_ruch][y] == figury.BGoniec
+                                                    || backup[x - param_ruch][y] == figury.BWieza
+                                                    || backup[x - param_ruch][y] == figury.BHetman
+                                                    || (backup[x - param_ruch][y] == figury.BKrol & mgla)))) {
+                                                figury przechowalnia = backup[x - param_ruch][y];
                                                 backup[x - param_ruch][y] = znak;
-                                                backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                                backup[x][y] = figury.pustka;
 
                                                 wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
@@ -7821,15 +7823,15 @@ class Generator {
                                         w2 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SI_MIN_MAX_Alfa_Beta.figury.BWieza) || (tura_rywala == false && znak == SI_MIN_MAX_Alfa_Beta.figury.CWieza)) {
+                                if ((tura_rywala && znak == figury.BWieza) || (tura_rywala == false && znak == figury.CWieza)) {
                                     if (y + param_ruch < 8 && w3) {
 
-                                        if (w3 && backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
+                                        if (w3 && backup[x][y + param_ruch] == figury.pustka) {
                                             backup[x][y + param_ruch] = znak;
-                                            backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x][y] = figury.pustka;
                                             wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
-                                            backup[x][y + param_ruch] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x][y + param_ruch] = figury.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x));
@@ -7843,23 +7845,23 @@ class Generator {
 
                                             }
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BWieza
-                                                    && (backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka
-                                                    || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
-                                                    || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec
-                                                    || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CWieza
-                                                    || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CHetman
-                                                    || (backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol & mgla)))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CWieza
-                                                    && (backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion
-                                                    || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
-                                                    || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec
-                                                    || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BWieza
-                                                    || backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BHetman
-                                                    || (backup[x][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol & mgla)))) {
-                                                SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x][y + param_ruch];
+                                            if ((znak == figury.BWieza
+                                                    && (backup[x][y + param_ruch] == figury.pustka
+                                                    || backup[x][y + param_ruch] == figury.CSkoczek
+                                                    || backup[x][y + param_ruch] == figury.CGoniec
+                                                    || backup[x][y + param_ruch] == figury.CWieza
+                                                    || backup[x][y + param_ruch] == figury.CHetman
+                                                    || (backup[x][y + param_ruch] == figury.CKrol & mgla)))
+                                                    || (znak == figury.CWieza
+                                                    && (backup[x][y + param_ruch] == figury.BPion
+                                                    || backup[x][y + param_ruch] == figury.BSkoczek
+                                                    || backup[x][y + param_ruch] == figury.BGoniec
+                                                    || backup[x][y + param_ruch] == figury.BWieza
+                                                    || backup[x][y + param_ruch] == figury.BHetman
+                                                    || (backup[x][y + param_ruch] == figury.BKrol & mgla)))) {
+                                                figury przechowalnia = backup[x][y + param_ruch];
                                                 backup[x][y + param_ruch] = znak;
-                                                backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                                backup[x][y] = figury.pustka;
                                                 wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
                                                 backup[x][y + param_ruch] = (przechowalnia);
@@ -7882,15 +7884,15 @@ class Generator {
                                         w3 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SI_MIN_MAX_Alfa_Beta.figury.BWieza) || (tura_rywala == false && znak == SI_MIN_MAX_Alfa_Beta.figury.CWieza)) {
+                                if ((tura_rywala && znak == figury.BWieza) || (tura_rywala == false && znak == figury.CWieza)) {
                                     if (y - param_ruch > -1 && w4) {
 
-                                        if (w4 && backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
+                                        if (w4 && backup[x][y - param_ruch] == figury.pustka) {
                                             backup[x][y - param_ruch] = znak;
-                                            backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x][y] = figury.pustka;
                                             wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
-                                            backup[x][y - param_ruch] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x][y - param_ruch] = figury.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x));
@@ -7904,23 +7906,23 @@ class Generator {
 
                                             }
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BWieza
-                                                    && (backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka
-                                                    || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
-                                                    || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec
-                                                    || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CWieza
-                                                    || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CHetman
-                                                    || (backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol & mgla)))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CWieza
-                                                    && (backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion
-                                                    || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
-                                                    || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec
-                                                    || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BWieza
-                                                    || backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BHetman
-                                                    || (backup[x][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol & mgla)))) {
-                                                SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x][y - param_ruch];
+                                            if ((znak == figury.BWieza
+                                                    && (backup[x][y - param_ruch] == figury.pustka
+                                                    || backup[x][y - param_ruch] == figury.CSkoczek
+                                                    || backup[x][y - param_ruch] == figury.CGoniec
+                                                    || backup[x][y - param_ruch] == figury.CWieza
+                                                    || backup[x][y - param_ruch] == figury.CHetman
+                                                    || (backup[x][y - param_ruch] == figury.CKrol & mgla)))
+                                                    || (znak == figury.CWieza
+                                                    && (backup[x][y - param_ruch] == figury.BPion
+                                                    || backup[x][y - param_ruch] == figury.BSkoczek
+                                                    || backup[x][y - param_ruch] == figury.BGoniec
+                                                    || backup[x][y - param_ruch] == figury.BWieza
+                                                    || backup[x][y - param_ruch] == figury.BHetman
+                                                    || (backup[x][y - param_ruch] == figury.BKrol & mgla)))) {
+                                                figury przechowalnia = backup[x][y - param_ruch];
                                                 backup[x][y - param_ruch] = znak;
-                                                backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                                backup[x][y] = figury.pustka;
                                                 wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
                                                 backup[x][y - param_ruch] = (przechowalnia);
@@ -7951,22 +7953,22 @@ class Generator {
                         break;
                     case BGoniec:
                     case CGoniec:
-                        if ((tura_rywala != false && znak == SI_MIN_MAX_Alfa_Beta.figury.BGoniec) || (tura_rywala == false && znak == SI_MIN_MAX_Alfa_Beta.figury.CGoniec)) {
+                        if ((tura_rywala != false && znak == figury.BGoniec) || (tura_rywala == false && znak == figury.CGoniec)) {
                             d1 = true;
                             d2 = true;
                             d3 = true;
                             d4 = true;
                             while (d1 || d2 || d3 || d4) {
-                                if ((tura_rywala && znak == SI_MIN_MAX_Alfa_Beta.figury.BGoniec) || (tura_rywala == false && znak == SI_MIN_MAX_Alfa_Beta.figury.CGoniec)) {
+                                if ((tura_rywala && znak == figury.BGoniec) || (tura_rywala == false && znak == figury.CGoniec)) {
                                     if (x + param_ruch < 8 && y + param_ruch < 8 && d1) {
 
-                                        if (d1 && backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
+                                        if (d1 && backup[x + param_ruch][y + param_ruch] == figury.pustka) {
                                             backup[x + param_ruch][y + param_ruch] = znak;
-                                            backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x][y] = figury.pustka;
 
                                             wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
-                                            backup[x + param_ruch][y + param_ruch] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x + param_ruch][y + param_ruch] = figury.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x + param_ruch));
@@ -7980,19 +7982,19 @@ class Generator {
 
                                             }
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BGoniec && (backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
-                                                    || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CWieza || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CHetman
-                                                    || (backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol && mgla)))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CGoniec
-                                                    && (backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion
-                                                    || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
-                                                    || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec
-                                                    || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BWieza
-                                                    || backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BHetman
-                                                    || (backup[x + param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol && mgla)))) {
-                                                SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x + param_ruch][y + param_ruch];
+                                            if ((znak == figury.BGoniec && (backup[x + param_ruch][y + param_ruch] == figury.pustka || backup[x + param_ruch][y + param_ruch] == figury.CSkoczek
+                                                    || backup[x + param_ruch][y + param_ruch] == figury.CGoniec || backup[x + param_ruch][y + param_ruch] == figury.CWieza || backup[x + param_ruch][y + param_ruch] == figury.CHetman
+                                                    || (backup[x + param_ruch][y + param_ruch] == figury.CKrol && mgla)))
+                                                    || (znak == figury.CGoniec
+                                                    && (backup[x + param_ruch][y + param_ruch] == figury.BPion
+                                                    || backup[x + param_ruch][y + param_ruch] == figury.BSkoczek
+                                                    || backup[x + param_ruch][y + param_ruch] == figury.BGoniec
+                                                    || backup[x + param_ruch][y + param_ruch] == figury.BWieza
+                                                    || backup[x + param_ruch][y + param_ruch] == figury.BHetman
+                                                    || (backup[x + param_ruch][y + param_ruch] == figury.BKrol && mgla)))) {
+                                                figury przechowalnia = backup[x + param_ruch][y + param_ruch];
                                                 backup[x + param_ruch][y + param_ruch] = znak;
-                                                backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                                backup[x][y] = figury.pustka;
 
                                                 wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
@@ -8016,17 +8018,17 @@ class Generator {
                                         d1 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SI_MIN_MAX_Alfa_Beta.figury.BGoniec) || (tura_rywala == false && znak == SI_MIN_MAX_Alfa_Beta.figury.CGoniec)) {
+                                if ((tura_rywala && znak == figury.BGoniec) || (tura_rywala == false && znak == figury.CGoniec)) {
                                     if (x - param_ruch > -1 && y - param_ruch > -1 && d2) {
                                         //////System.out.println((x+param_ruch)+" "+(y+param_ruch));
 
-                                        if (d2 && backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
+                                        if (d2 && backup[x - param_ruch][y - param_ruch] == figury.pustka) {
                                             backup[x - param_ruch][y - param_ruch] = znak;
-                                            backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x][y] = figury.pustka;
 
                                             wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
-                                            backup[x - param_ruch][y - param_ruch] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x - param_ruch][y - param_ruch] = figury.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x - param_ruch));
@@ -8040,19 +8042,19 @@ class Generator {
 
                                             }
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BGoniec && (backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
-                                                    || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CWieza || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CHetman
-                                                    || (backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol && mgla)))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CGoniec
-                                                    && (backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion
-                                                    || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
-                                                    || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec
-                                                    || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BWieza
-                                                    || backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BHetman
-                                                    || (backup[x - param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol && mgla)))) {
-                                                SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x - param_ruch][y - param_ruch];
+                                            if ((znak == figury.BGoniec && (backup[x - param_ruch][y - param_ruch] == figury.pustka || backup[x - param_ruch][y - param_ruch] == figury.CSkoczek
+                                                    || backup[x - param_ruch][y - param_ruch] == figury.CGoniec || backup[x - param_ruch][y - param_ruch] == figury.CWieza || backup[x - param_ruch][y - param_ruch] == figury.CHetman
+                                                    || (backup[x - param_ruch][y - param_ruch] == figury.CKrol && mgla)))
+                                                    || (znak == figury.CGoniec
+                                                    && (backup[x - param_ruch][y - param_ruch] == figury.BPion
+                                                    || backup[x - param_ruch][y - param_ruch] == figury.BSkoczek
+                                                    || backup[x - param_ruch][y - param_ruch] == figury.BGoniec
+                                                    || backup[x - param_ruch][y - param_ruch] == figury.BWieza
+                                                    || backup[x - param_ruch][y - param_ruch] == figury.BHetman
+                                                    || (backup[x - param_ruch][y - param_ruch] == figury.BKrol && mgla)))) {
+                                                figury przechowalnia = backup[x - param_ruch][y - param_ruch];
                                                 backup[x - param_ruch][y - param_ruch] = znak;
-                                                backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                                backup[x][y] = figury.pustka;
 
                                                 wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
@@ -8076,15 +8078,15 @@ class Generator {
                                         d2 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SI_MIN_MAX_Alfa_Beta.figury.BGoniec) || (tura_rywala == false && znak == SI_MIN_MAX_Alfa_Beta.figury.CGoniec)) {
+                                if ((tura_rywala && znak == figury.BGoniec) || (tura_rywala == false && znak == figury.CGoniec)) {
                                     if (x + param_ruch < 8 && y - param_ruch > -1 && d3) {
 
-                                        if (d3 && backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
+                                        if (d3 && backup[x + param_ruch][y - param_ruch] == figury.pustka) {
                                             backup[x + param_ruch][y - param_ruch] = znak;
-                                            backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x][y] = figury.pustka;
                                             wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
-                                            backup[x + param_ruch][y - param_ruch] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x + param_ruch][y - param_ruch] = figury.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y - param_ruch)), y2 = (char) ('1' + (x + param_ruch));
@@ -8098,19 +8100,19 @@ class Generator {
 
                                             }
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BGoniec && (backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
-                                                    || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CWieza || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CHetman
-                                                    || (backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol && mgla)))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CGoniec
-                                                    && (backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion
-                                                    || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
-                                                    || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec
-                                                    || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BWieza
-                                                    || backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BHetman
-                                                    || (backup[x + param_ruch][y - param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol && mgla)))) {
-                                                SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x + param_ruch][y - param_ruch];
+                                            if ((znak == figury.BGoniec && (backup[x + param_ruch][y - param_ruch] == figury.pustka || backup[x + param_ruch][y - param_ruch] == figury.CSkoczek
+                                                    || backup[x + param_ruch][y - param_ruch] == figury.CGoniec || backup[x + param_ruch][y - param_ruch] == figury.CWieza || backup[x + param_ruch][y - param_ruch] == figury.CHetman
+                                                    || (backup[x + param_ruch][y - param_ruch] == figury.CKrol && mgla)))
+                                                    || (znak == figury.CGoniec
+                                                    && (backup[x + param_ruch][y - param_ruch] == figury.BPion
+                                                    || backup[x + param_ruch][y - param_ruch] == figury.BSkoczek
+                                                    || backup[x + param_ruch][y - param_ruch] == figury.BGoniec
+                                                    || backup[x + param_ruch][y - param_ruch] == figury.BWieza
+                                                    || backup[x + param_ruch][y - param_ruch] == figury.BHetman
+                                                    || (backup[x + param_ruch][y - param_ruch] == figury.BKrol && mgla)))) {
+                                                figury przechowalnia = backup[x + param_ruch][y - param_ruch];
                                                 backup[x + param_ruch][y - param_ruch] = znak;
-                                                backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                                backup[x][y] = figury.pustka;
                                                 wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
                                                 backup[x + param_ruch][y - param_ruch] = (przechowalnia);
@@ -8133,16 +8135,16 @@ class Generator {
                                         d3 = false;
                                     }
                                 }
-                                if ((tura_rywala && znak == SI_MIN_MAX_Alfa_Beta.figury.BGoniec) || (tura_rywala == false && znak == SI_MIN_MAX_Alfa_Beta.figury.CGoniec)) {
+                                if ((tura_rywala && znak == figury.BGoniec) || (tura_rywala == false && znak == figury.CGoniec)) {
                                     if (x - param_ruch > -1 && y + param_ruch < 8 && d4) {
 
-                                        if (d4 && backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
+                                        if (d4 && backup[x - param_ruch][y + param_ruch] == figury.pustka) {
                                             backup[x - param_ruch][y + param_ruch] = znak;
-                                            backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x][y] = figury.pustka;
 
                                             wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
-                                            backup[x - param_ruch][y + param_ruch] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x - param_ruch][y + param_ruch] = figury.pustka;
                                             backup[x][y] = znak;
                                             if (wynik || all) {
                                                 char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + param_ruch)), y2 = (char) ('1' + (x - param_ruch));
@@ -8156,19 +8158,19 @@ class Generator {
 
                                             }
                                         } else {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.BGoniec && (backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.pustka || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
-                                                    || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CWieza || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CHetman
-                                                    || (backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.CKrol && mgla)))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.CGoniec
-                                                    && (backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BPion
-                                                    || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
-                                                    || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec
-                                                    || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BWieza
-                                                    || backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BHetman
-                                                    || (backup[x - param_ruch][y + param_ruch] == SI_MIN_MAX_Alfa_Beta.figury.BKrol && mgla)))) {
-                                                SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x - param_ruch][y + param_ruch];
+                                            if ((znak == figury.BGoniec && (backup[x - param_ruch][y + param_ruch] == figury.pustka || backup[x - param_ruch][y + param_ruch] == figury.CSkoczek
+                                                    || backup[x - param_ruch][y + param_ruch] == figury.CGoniec || backup[x - param_ruch][y + param_ruch] == figury.CWieza || backup[x - param_ruch][y + param_ruch] == figury.CHetman
+                                                    || (backup[x - param_ruch][y + param_ruch] == figury.CKrol && mgla)))
+                                                    || (znak == figury.CGoniec
+                                                    && (backup[x - param_ruch][y + param_ruch] == figury.BPion
+                                                    || backup[x - param_ruch][y + param_ruch] == figury.BSkoczek
+                                                    || backup[x - param_ruch][y + param_ruch] == figury.BGoniec
+                                                    || backup[x - param_ruch][y + param_ruch] == figury.BWieza
+                                                    || backup[x - param_ruch][y + param_ruch] == figury.BHetman
+                                                    || (backup[x - param_ruch][y + param_ruch] == figury.BKrol && mgla)))) {
+                                                figury przechowalnia = backup[x - param_ruch][y + param_ruch];
                                                 backup[x - param_ruch][y + param_ruch] = znak;
-                                                backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                                backup[x][y] = figury.pustka;
 
                                                 wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
@@ -8200,15 +8202,15 @@ class Generator {
                         if (tura_rywala == false) {
                             if (x == 3 && przelotcan && kolumna != 0 && (kolumna - 1 == y - 1 || kolumna - 1 == y + 1)) {
 
-                                backup[x - 1][kolumna - 1] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                backup[x][kolumna - 1] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                backup[x - 1][kolumna - 1] = figury.pustka;
+                                backup[x][kolumna - 1] = figury.pustka;
+                                backup[x][y] = figury.pustka;
 
                                 wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
-                                backup[x - 1][kolumna - 1] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                backup[x][kolumna - 1] = SI_MIN_MAX_Alfa_Beta.figury.BPion;
-                                backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                backup[x - 1][kolumna - 1] = figury.pustka;
+                                backup[x][kolumna - 1] = figury.BPion;
+                                backup[x][y] = figury.pustka;
                                 if (wynik || all) {
                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (kolumna - 1)), y2 = (char) ('1' + (x - 1));
                                     if (szach == false) {
@@ -8222,17 +8224,17 @@ class Generator {
                             for (int b = -1; b < 2; b++) {
 
                                 if (y + b > -1 && y + b < 8 && x - 1 > -1) {
-                                    if (b != 0 && ((backup[x - 1][y + b] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek)
-                                            || (backup[x - 1][y + b] == SI_MIN_MAX_Alfa_Beta.figury.BPion)
-                                            || (backup[x - 1][y + b] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec)
-                                            || (backup[x - 1][y + b] == SI_MIN_MAX_Alfa_Beta.figury.BWieza)
-                                            || (backup[x - 1][y + b] == SI_MIN_MAX_Alfa_Beta.figury.BHetman)
-                                            || (mgla && backup[x - 1][y + b] == SI_MIN_MAX_Alfa_Beta.figury.BKrol))) {
-                                        SI_MIN_MAX_Alfa_Beta.figury przechowalnie;
+                                    if (b != 0 && ((backup[x - 1][y + b] == figury.BSkoczek)
+                                            || (backup[x - 1][y + b] == figury.BPion)
+                                            || (backup[x - 1][y + b] == figury.BGoniec)
+                                            || (backup[x - 1][y + b] == figury.BWieza)
+                                            || (backup[x - 1][y + b] == figury.BHetman)
+                                            || (mgla && backup[x - 1][y + b] == figury.BKrol))) {
+                                        figury przechowalnie;
                                         przechowalnie = backup[x - 1][y + b];
                                         if (x != 1) {
                                             backup[x - 1][y + b] = znak;
-                                            backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x][y] = figury.pustka;
 
                                             wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
@@ -8250,10 +8252,10 @@ class Generator {
 
                                             }
                                         } else {
-                                            SI_MIN_MAX_Alfa_Beta.figury[] symbole = {SI_MIN_MAX_Alfa_Beta.figury.CHetman, SI_MIN_MAX_Alfa_Beta.figury.CWieza, SI_MIN_MAX_Alfa_Beta.figury.CGoniec, SI_MIN_MAX_Alfa_Beta.figury.CSkoczek};
+                                            figury[] symbole = {figury.CHetman, figury.CWieza, figury.CGoniec, figury.CSkoczek};
                                             for (int s = 0; s < 4; s++) {
                                                 backup[x - 1][y + b] = symbole[s];
-                                                backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                                backup[x][y] = figury.pustka;
 
                                                 wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
@@ -8275,16 +8277,16 @@ class Generator {
                             }
 
                             if (x - 1 > -1) {
-                                if (backup[x - 1][y] == SI_MIN_MAX_Alfa_Beta.figury.pustka || (backup[x - 1][y] != SI_MIN_MAX_Alfa_Beta.figury.pustka && backup[x - 1][y] != SI_MIN_MAX_Alfa_Beta.figury.BPion
-                                        && backup[x - 1][y] != SI_MIN_MAX_Alfa_Beta.figury.BSkoczek && backup[x - 1][y] != SI_MIN_MAX_Alfa_Beta.figury.CSkoczek && backup[x - 1][y] != SI_MIN_MAX_Alfa_Beta.figury.BGoniec
-                                        && backup[x - 1][y] != SI_MIN_MAX_Alfa_Beta.figury.CGoniec && backup[x - 1][y] != SI_MIN_MAX_Alfa_Beta.figury.BWieza && backup[x - 1][y] != SI_MIN_MAX_Alfa_Beta.figury.CWieza
-                                        && backup[x - 1][y] != SI_MIN_MAX_Alfa_Beta.figury.BHetman && backup[x - 1][y] != SI_MIN_MAX_Alfa_Beta.figury.CHetman && backup[x - 1][y] != SI_MIN_MAX_Alfa_Beta.figury.BKrol
-                                        && backup[x - 1][y] != SI_MIN_MAX_Alfa_Beta.figury.CKrol)) {
-                                    SI_MIN_MAX_Alfa_Beta.figury przechowalnie;
+                                if (backup[x - 1][y] == figury.pustka || (backup[x - 1][y] != figury.pustka && backup[x - 1][y] != figury.BPion
+                                        && backup[x - 1][y] != figury.BSkoczek && backup[x - 1][y] != figury.CSkoczek && backup[x - 1][y] != figury.BGoniec
+                                        && backup[x - 1][y] != figury.CGoniec && backup[x - 1][y] != figury.BWieza && backup[x - 1][y] != figury.CWieza
+                                        && backup[x - 1][y] != figury.BHetman && backup[x - 1][y] != figury.CHetman && backup[x - 1][y] != figury.BKrol
+                                        && backup[x - 1][y] != figury.CKrol)) {
+                                    figury przechowalnie;
                                     przechowalnie = backup[x - 1][y];
                                     if (x != 1) {
                                         backup[x - 1][y] = znak;
-                                        backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                        backup[x][y] = figury.pustka;
                                         wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
                                         backup[x][y] = znak;
@@ -8299,10 +8301,10 @@ class Generator {
 
                                         }
                                     } else {
-                                        SI_MIN_MAX_Alfa_Beta.figury[] symbole = {SI_MIN_MAX_Alfa_Beta.figury.CHetman, SI_MIN_MAX_Alfa_Beta.figury.CWieza, SI_MIN_MAX_Alfa_Beta.figury.CGoniec, SI_MIN_MAX_Alfa_Beta.figury.CSkoczek};
+                                        figury[] symbole = {figury.CHetman, figury.CWieza, figury.CGoniec, figury.CSkoczek};
                                         for (int s = 0; s < 4; s++) {
                                             backup[x - 1][y] = symbole[s];
-                                            backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[x][y] = figury.pustka;
                                             wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
                                             backup[x][y] = znak;
@@ -8323,19 +8325,19 @@ class Generator {
                                 }
                             }
                             if (x - 2 > -1) {
-                                if ((backup[x - 2][y] == SI_MIN_MAX_Alfa_Beta.figury.pustka || (backup[x - 2][y] != SI_MIN_MAX_Alfa_Beta.figury.pustka && backup[x - 2][y] != SI_MIN_MAX_Alfa_Beta.figury.BPion
-                                        && backup[x - 2][y] != SI_MIN_MAX_Alfa_Beta.figury.BSkoczek && backup[x - 2][y] != SI_MIN_MAX_Alfa_Beta.figury.CSkoczek && backup[x - 2][y] != SI_MIN_MAX_Alfa_Beta.figury.BGoniec
-                                        && backup[x - 2][y] != SI_MIN_MAX_Alfa_Beta.figury.CGoniec && backup[x - 2][y] != SI_MIN_MAX_Alfa_Beta.figury.BWieza && backup[x - 2][y] != SI_MIN_MAX_Alfa_Beta.figury.CWieza
-                                        && backup[x - 2][y] != SI_MIN_MAX_Alfa_Beta.figury.BHetman && backup[x - 2][y] != SI_MIN_MAX_Alfa_Beta.figury.CHetman && backup[x - 2][y] != SI_MIN_MAX_Alfa_Beta.figury.BKrol
-                                        && backup[x - 2][y] != SI_MIN_MAX_Alfa_Beta.figury.CKrol))
-                                        && (backup[x - 1][y] == SI_MIN_MAX_Alfa_Beta.figury.pustka || (backup[x - 1][y] != SI_MIN_MAX_Alfa_Beta.figury.pustka && backup[x - 1][y] != SI_MIN_MAX_Alfa_Beta.figury.BPion
-                                        && backup[x - 1][y] != SI_MIN_MAX_Alfa_Beta.figury.BSkoczek && backup[x - 1][y] != SI_MIN_MAX_Alfa_Beta.figury.CSkoczek && backup[x - 1][y] != SI_MIN_MAX_Alfa_Beta.figury.BGoniec
-                                        && backup[x - 1][y] != SI_MIN_MAX_Alfa_Beta.figury.CGoniec && backup[x - 1][y] != SI_MIN_MAX_Alfa_Beta.figury.BWieza && backup[x - 1][y] != SI_MIN_MAX_Alfa_Beta.figury.CWieza
-                                        && backup[x - 1][y] != SI_MIN_MAX_Alfa_Beta.figury.BHetman && backup[x - 1][y] != SI_MIN_MAX_Alfa_Beta.figury.CHetman && backup[x - 1][y] != SI_MIN_MAX_Alfa_Beta.figury.BKrol
-                                        && backup[x - 1][y] != SI_MIN_MAX_Alfa_Beta.figury.CKrol)) && x == 6) {
-                                    SI_MIN_MAX_Alfa_Beta.figury przechowalnie = backup[x - 2][y];
+                                if ((backup[x - 2][y] == figury.pustka || (backup[x - 2][y] != figury.pustka && backup[x - 2][y] != figury.BPion
+                                        && backup[x - 2][y] != figury.BSkoczek && backup[x - 2][y] != figury.CSkoczek && backup[x - 2][y] != figury.BGoniec
+                                        && backup[x - 2][y] != figury.CGoniec && backup[x - 2][y] != figury.BWieza && backup[x - 2][y] != figury.CWieza
+                                        && backup[x - 2][y] != figury.BHetman && backup[x - 2][y] != figury.CHetman && backup[x - 2][y] != figury.BKrol
+                                        && backup[x - 2][y] != figury.CKrol))
+                                        && (backup[x - 1][y] == figury.pustka || (backup[x - 1][y] != figury.pustka && backup[x - 1][y] != figury.BPion
+                                        && backup[x - 1][y] != figury.BSkoczek && backup[x - 1][y] != figury.CSkoczek && backup[x - 1][y] != figury.BGoniec
+                                        && backup[x - 1][y] != figury.CGoniec && backup[x - 1][y] != figury.BWieza && backup[x - 1][y] != figury.CWieza
+                                        && backup[x - 1][y] != figury.BHetman && backup[x - 1][y] != figury.CHetman && backup[x - 1][y] != figury.BKrol
+                                        && backup[x - 1][y] != figury.CKrol)) && x == 6) {
+                                    figury przechowalnie = backup[x - 2][y];
                                     backup[x - 2][y] = znak;
-                                    backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                    backup[x][y] = figury.pustka;
 
                                     wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
@@ -8356,42 +8358,42 @@ class Generator {
                         break;
                     case CSkoczek:
                     case BSkoczek:
-                        if ((tura_rywala != false && znak == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek) || (tura_rywala == false && znak == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek)) {
+                        if ((tura_rywala != false && znak == figury.BSkoczek) || (tura_rywala == false && znak == figury.CSkoczek)) {
                             for (int i = -2; i < 3; i++) {
                                 for (int j = -2; j < 3; j++) {
                                     if (x + i > -1 && x + i < 8 && y + j > -1 && y + j < 8) {
                                         if (Math.abs(j) - Math.abs(i) != 0 && i != 0 && j != 0) {
-                                            if ((znak == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
-                                                    && ((backup[x + i][y + j] == SI_MIN_MAX_Alfa_Beta.figury.pustka
-                                                    || backup[x + i][y + j] == SI_MIN_MAX_Alfa_Beta.figury.BPion
-                                                    || backup[x + i][y + j] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
-                                                    || backup[x + i][y + j] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec
-                                                    || backup[x + i][y + j] == SI_MIN_MAX_Alfa_Beta.figury.BWieza
-                                                    || backup[x + i][y + j] == SI_MIN_MAX_Alfa_Beta.figury.BHetman
-                                                    || (backup[x + i][y + j] == SI_MIN_MAX_Alfa_Beta.figury.BKrol && mgla))
-                                                    || (backup[x + i][y + j] != SI_MIN_MAX_Alfa_Beta.figury.pustka
-                                                    && backup[x + i][y + j] != SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
-                                                    && backup[x + i][y + j] != SI_MIN_MAX_Alfa_Beta.figury.CGoniec
-                                                    && backup[x + i][y + j] != SI_MIN_MAX_Alfa_Beta.figury.CWieza
-                                                    && backup[x + i][y + j] != SI_MIN_MAX_Alfa_Beta.figury.CHetman
-                                                    && backup[x + i][y + j] != SI_MIN_MAX_Alfa_Beta.figury.CKrol)))
-                                                    || (znak == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
-                                                    && ((backup[x + i][y + j] == SI_MIN_MAX_Alfa_Beta.figury.pustka
-                                                    || backup[x + i][y + j] == SI_MIN_MAX_Alfa_Beta.figury.pustka
-                                                    || backup[x + i][y + j] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
-                                                    || backup[x + i][y + j] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec
-                                                    || backup[x + i][y + j] == SI_MIN_MAX_Alfa_Beta.figury.CWieza
-                                                    || backup[x + i][y + j] == SI_MIN_MAX_Alfa_Beta.figury.CHetman
-                                                    || backup[x + i][y + j] == SI_MIN_MAX_Alfa_Beta.figury.CKrol && mgla)
-                                                    || (backup[x + i][y + j] != SI_MIN_MAX_Alfa_Beta.figury.BPion
-                                                    && backup[x + i][y + j] != SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
-                                                    && backup[x + i][y + j] != SI_MIN_MAX_Alfa_Beta.figury.BGoniec
-                                                    && backup[x + i][y + j] != SI_MIN_MAX_Alfa_Beta.figury.BWieza
-                                                    && backup[x + i][y + j] != SI_MIN_MAX_Alfa_Beta.figury.BHetman
-                                                    && backup[x + i][y + j] != SI_MIN_MAX_Alfa_Beta.figury.BKrol)))) {
-                                                SI_MIN_MAX_Alfa_Beta.figury przechowalnia = backup[x + i][y + j];
+                                            if ((znak == figury.CSkoczek
+                                                    && ((backup[x + i][y + j] == figury.pustka
+                                                    || backup[x + i][y + j] == figury.BPion
+                                                    || backup[x + i][y + j] == figury.BSkoczek
+                                                    || backup[x + i][y + j] == figury.BGoniec
+                                                    || backup[x + i][y + j] == figury.BWieza
+                                                    || backup[x + i][y + j] == figury.BHetman
+                                                    || (backup[x + i][y + j] == figury.BKrol && mgla))
+                                                    || (backup[x + i][y + j] != figury.pustka
+                                                    && backup[x + i][y + j] != figury.CSkoczek
+                                                    && backup[x + i][y + j] != figury.CGoniec
+                                                    && backup[x + i][y + j] != figury.CWieza
+                                                    && backup[x + i][y + j] != figury.CHetman
+                                                    && backup[x + i][y + j] != figury.CKrol)))
+                                                    || (znak == figury.BSkoczek
+                                                    && ((backup[x + i][y + j] == figury.pustka
+                                                    || backup[x + i][y + j] == figury.pustka
+                                                    || backup[x + i][y + j] == figury.CSkoczek
+                                                    || backup[x + i][y + j] == figury.CGoniec
+                                                    || backup[x + i][y + j] == figury.CWieza
+                                                    || backup[x + i][y + j] == figury.CHetman
+                                                    || backup[x + i][y + j] == figury.CKrol && mgla)
+                                                    || (backup[x + i][y + j] != figury.BPion
+                                                    && backup[x + i][y + j] != figury.BSkoczek
+                                                    && backup[x + i][y + j] != figury.BGoniec
+                                                    && backup[x + i][y + j] != figury.BWieza
+                                                    && backup[x + i][y + j] != figury.BHetman
+                                                    && backup[x + i][y + j] != figury.BKrol)))) {
+                                                figury przechowalnia = backup[x + i][y + j];
                                                 backup[x + i][y + j] = znak;
-                                                backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                                backup[x][y] = figury.pustka;
 
                                                 wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
@@ -8399,7 +8401,7 @@ class Generator {
                                                 backup[x + i][y + j] = (przechowalnia);
                                                 if (wynik || all) {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + j)), y2 = (char) ('1' + (x + i));
-                                                    if ((przechowalnia) == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
+                                                    if ((przechowalnia) == figury.pustka) {
                                                         if (szach) {
                                                             lista_dopuszcalnych_Ruchow.add(new Ruch(false, ((tura_rywala ? "N" : "n") + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), ' ', (konwert(backup))));
                                                         } else {
@@ -8428,23 +8430,23 @@ class Generator {
                                 for (int j = -1; j <= 1; j++) {
                                     if (i != 0 || j != 0) {
                                         if ((x + i > -1 && x + i < 8) && (y + j > -1 && y + j < 8)) {
-                                            if (backup[x + i][y + j] == SI_MIN_MAX_Alfa_Beta.figury.pustka
-                                                    || (backup[x + i][y + j] == SI_MIN_MAX_Alfa_Beta.figury.pustka
-                                                    || backup[x + i][y + j] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek
-                                                    || backup[x + i][y + j] == SI_MIN_MAX_Alfa_Beta.figury.CGoniec
-                                                    || backup[x + i][y + j] == SI_MIN_MAX_Alfa_Beta.figury.CWieza
-                                                    || backup[x + i][y + j] == SI_MIN_MAX_Alfa_Beta.figury.CHetman
-                                                    || (backup[x + i][y + j] == SI_MIN_MAX_Alfa_Beta.figury.CKrol && mgla))) {
-                                                SI_MIN_MAX_Alfa_Beta.figury przech = backup[x + i][y + j];
-                                                backup[x + i][y + j] = SI_MIN_MAX_Alfa_Beta.figury.BKrol;
-                                                backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            if (backup[x + i][y + j] == figury.pustka
+                                                    || (backup[x + i][y + j] == figury.pustka
+                                                    || backup[x + i][y + j] == figury.CSkoczek
+                                                    || backup[x + i][y + j] == figury.CGoniec
+                                                    || backup[x + i][y + j] == figury.CWieza
+                                                    || backup[x + i][y + j] == figury.CHetman
+                                                    || (backup[x + i][y + j] == figury.CKrol && mgla))) {
+                                                figury przech = backup[x + i][y + j];
+                                                backup[x + i][y + j] = figury.BKrol;
+                                                backup[x][y] = figury.pustka;
                                                 wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
                                                 backup[x + i][y + j] = przech;
-                                                backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.BKrol;
+                                                backup[x][y] = figury.BKrol;
                                                 if (wynik || all) {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + j)), y2 = (char) ('1' + (x + i));
-                                                    if (przech == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
+                                                    if (przech == figury.pustka) {
                                                         if (szach) {
                                                             lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("K" + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), ' ', (konwert(backup))));
                                                         } else {
@@ -8467,28 +8469,28 @@ class Generator {
                             }
                             if (RuchZagrozenie_kontrola.szach((backup), true)) {
                                 if (kingrochB) {
-                                    if (whiteright && (backup[0][5] == SI_MIN_MAX_Alfa_Beta.figury.pustka)
-                                            && (backup[0][6] == SI_MIN_MAX_Alfa_Beta.figury.pustka)
-                                            && (backup[0][4] == SI_MIN_MAX_Alfa_Beta.figury.BKrol)
-                                            && (backup[0][7] == SI_MIN_MAX_Alfa_Beta.figury.BWieza)) {
+                                    if (whiteright && (backup[0][5] == figury.pustka)
+                                            && (backup[0][6] == figury.pustka)
+                                            && (backup[0][4] == figury.BKrol)
+                                            && (backup[0][7] == figury.BWieza)) {
                                         boolean[] wyniki = new boolean[2];
                                         for (int r = 1; r < 3; r++) {
-                                            backup[0][4] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                            backup[0][4 + r] = SI_MIN_MAX_Alfa_Beta.figury.BKrol;
+                                            backup[0][4] = figury.pustka;
+                                            backup[0][4 + r] = figury.BKrol;
                                             wyniki[r - 1] = !RuchZagrozenie_kontrola.szach((backup), true);
-                                            backup[0][4] = SI_MIN_MAX_Alfa_Beta.figury.BKrol;
-                                            backup[0][4 + r] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[0][4] = figury.BKrol;
+                                            backup[0][4 + r] = figury.pustka;
                                         }
                                         if (wyniki[0] && wyniki[1]) {
-                                            backup[0][4] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                            backup[0][7] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                            backup[0][5] = SI_MIN_MAX_Alfa_Beta.figury.BWieza;
-                                            backup[0][6] = SI_MIN_MAX_Alfa_Beta.figury.BKrol;
+                                            backup[0][4] = figury.pustka;
+                                            backup[0][7] = figury.pustka;
+                                            backup[0][5] = figury.BWieza;
+                                            backup[0][6] = figury.BKrol;
 
-                                            backup[0][4] = SI_MIN_MAX_Alfa_Beta.figury.BKrol;
-                                            backup[0][7] = SI_MIN_MAX_Alfa_Beta.figury.BWieza;
-                                            backup[0][5] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                            backup[0][6] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[0][4] = figury.BKrol;
+                                            backup[0][7] = figury.BWieza;
+                                            backup[0][5] = figury.pustka;
+                                            backup[0][6] = figury.pustka;
 
                                             if (szach) {
                                                 lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O    +"),
@@ -8500,29 +8502,29 @@ class Generator {
 
                                         }
                                     }
-                                    if (whiteleft && (backup[0][3] == SI_MIN_MAX_Alfa_Beta.figury.pustka)
-                                            && (backup[0][2] == SI_MIN_MAX_Alfa_Beta.figury.pustka)
-                                            && (backup[0][1] == SI_MIN_MAX_Alfa_Beta.figury.pustka)
-                                            && (backup[0][4] == SI_MIN_MAX_Alfa_Beta.figury.BKrol)
-                                            && (backup[0][0] == SI_MIN_MAX_Alfa_Beta.figury.BWieza)) {
+                                    if (whiteleft && (backup[0][3] == figury.pustka)
+                                            && (backup[0][2] == figury.pustka)
+                                            && (backup[0][1] == figury.pustka)
+                                            && (backup[0][4] == figury.BKrol)
+                                            && (backup[0][0] == figury.BWieza)) {
                                         boolean[] wyniki = new boolean[2];
                                         for (int r = 1; r <= 2; r++) {
-                                            backup[0][4] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                            backup[0][4 - r] = SI_MIN_MAX_Alfa_Beta.figury.BKrol;
+                                            backup[0][4] = figury.pustka;
+                                            backup[0][4 - r] = figury.BKrol;
                                             wyniki[r - 1] = !RuchZagrozenie_kontrola.szach((backup), true);
-                                            backup[0][4] = SI_MIN_MAX_Alfa_Beta.figury.BKrol;
-                                            backup[0][4 - r] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[0][4] = figury.BKrol;
+                                            backup[0][4 - r] = figury.pustka;
                                         }
                                         if (wyniki[0] && wyniki[1]) {
-                                            backup[0][4] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                            backup[0][0] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                            backup[0][3] = SI_MIN_MAX_Alfa_Beta.figury.BWieza;
-                                            backup[0][2] = SI_MIN_MAX_Alfa_Beta.figury.BKrol;
+                                            backup[0][4] = figury.pustka;
+                                            backup[0][0] = figury.pustka;
+                                            backup[0][3] = figury.BWieza;
+                                            backup[0][2] = figury.BKrol;
 
-                                            backup[0][4] = SI_MIN_MAX_Alfa_Beta.figury.BKrol;
-                                            backup[0][0] = SI_MIN_MAX_Alfa_Beta.figury.BWieza;
-                                            backup[0][3] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                            backup[0][2] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[0][4] = figury.BKrol;
+                                            backup[0][0] = figury.BWieza;
+                                            backup[0][3] = figury.pustka;
+                                            backup[0][2] = figury.pustka;
 
                                             if (szach) {
                                                 lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("KO-O-O  +"),
@@ -8544,23 +8546,23 @@ class Generator {
                                 for (int j = -1; j <= 1; j++) {
                                     if (i != 0 || j != 0) {
                                         if ((x + i > -1 && x + i < 8) && (y + j > -1 && y + j < 8)) {
-                                            if (backup[x + i][y + j] == SI_MIN_MAX_Alfa_Beta.figury.pustka
-                                                    || (backup[x + i][y + j] == SI_MIN_MAX_Alfa_Beta.figury.BPion
-                                                    || backup[x + i][y + j] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek
-                                                    || backup[x + i][y + j] == SI_MIN_MAX_Alfa_Beta.figury.BGoniec
-                                                    || backup[x + i][y + j] == SI_MIN_MAX_Alfa_Beta.figury.BWieza
-                                                    || backup[x + i][y + j] == SI_MIN_MAX_Alfa_Beta.figury.BHetman
-                                                    || (backup[x + i][y + j] == SI_MIN_MAX_Alfa_Beta.figury.BKrol && mgla))) {
-                                                SI_MIN_MAX_Alfa_Beta.figury przech = backup[x + i][y + j];
-                                                backup[x + i][y + j] = SI_MIN_MAX_Alfa_Beta.figury.CKrol;
-                                                backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            if (backup[x + i][y + j] == figury.pustka
+                                                    || (backup[x + i][y + j] == figury.BPion
+                                                    || backup[x + i][y + j] == figury.BSkoczek
+                                                    || backup[x + i][y + j] == figury.BGoniec
+                                                    || backup[x + i][y + j] == figury.BWieza
+                                                    || backup[x + i][y + j] == figury.BHetman
+                                                    || (backup[x + i][y + j] == figury.BKrol && mgla))) {
+                                                figury przech = backup[x + i][y + j];
+                                                backup[x + i][y + j] = figury.CKrol;
+                                                backup[x][y] = figury.pustka;
                                                 wynik = mgla || (all || !RuchZagrozenie_kontrola.szach((backup), tura_rywala));
 
                                                 backup[x + i][y + j] = przech;
-                                                backup[x][y] = SI_MIN_MAX_Alfa_Beta.figury.CKrol;
+                                                backup[x][y] = figury.CKrol;
                                                 if (wynik || all) {
                                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y + j)), y2 = (char) ('1' + (x + i));
-                                                    if (przech == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
+                                                    if (przech == figury.pustka) {
                                                         if (szach) {
                                                             lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("k" + "" + x1 + "" + x2 + "-" + y1 + "" + y2 + "--+"), ' ', (konwert(backup))));
                                                         } else {
@@ -8583,28 +8585,28 @@ class Generator {
                             }
                             if (!RuchZagrozenie_kontrola.szach((backup), false)) {
                                 if (kingrochC) {
-                                    if (blackright && (backup[7][5] == SI_MIN_MAX_Alfa_Beta.figury.pustka)
-                                            && (backup[7][6] == SI_MIN_MAX_Alfa_Beta.figury.pustka)
-                                            && (backup[7][4] == SI_MIN_MAX_Alfa_Beta.figury.CKrol)
-                                            && (backup[7][7] == SI_MIN_MAX_Alfa_Beta.figury.CWieza)) {
+                                    if (blackright && (backup[7][5] == figury.pustka)
+                                            && (backup[7][6] == figury.pustka)
+                                            && (backup[7][4] == figury.CKrol)
+                                            && (backup[7][7] == figury.CWieza)) {
                                         boolean[] wyniki = new boolean[2];
                                         for (int r = 1; r < 3; r++) {
-                                            backup[7][4] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                            backup[7][4 + r] = SI_MIN_MAX_Alfa_Beta.figury.CKrol;
+                                            backup[7][4] = figury.pustka;
+                                            backup[7][4 + r] = figury.CKrol;
                                             wyniki[r - 1] = !RuchZagrozenie_kontrola.szach((backup), false);
-                                            backup[7][4] = SI_MIN_MAX_Alfa_Beta.figury.CKrol;
-                                            backup[7][4 + r] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[7][4] = figury.CKrol;
+                                            backup[7][4 + r] = figury.pustka;
                                         }
                                         if (wyniki[0] && wyniki[1]) {
-                                            backup[7][4] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                            backup[7][7] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                            backup[7][5] = SI_MIN_MAX_Alfa_Beta.figury.CWieza;
-                                            backup[7][6] = SI_MIN_MAX_Alfa_Beta.figury.CKrol;
+                                            backup[7][4] = figury.pustka;
+                                            backup[7][7] = figury.pustka;
+                                            backup[7][5] = figury.CWieza;
+                                            backup[7][6] = figury.CKrol;
 
-                                            backup[7][4] = SI_MIN_MAX_Alfa_Beta.figury.CKrol;
-                                            backup[7][7] = SI_MIN_MAX_Alfa_Beta.figury.CWieza;
-                                            backup[7][5] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                            backup[7][6] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[7][4] = figury.CKrol;
+                                            backup[7][7] = figury.CWieza;
+                                            backup[7][5] = figury.pustka;
+                                            backup[7][6] = figury.pustka;
                                             if (szach) {
                                                 lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("kO-O    +"),
                                                         ' ', (konwert(backup))));
@@ -8615,29 +8617,29 @@ class Generator {
 
                                         }
                                     }
-                                    if (blackleft && (backup[7][3] == SI_MIN_MAX_Alfa_Beta.figury.pustka)
-                                            && (backup[7][2] == SI_MIN_MAX_Alfa_Beta.figury.pustka)
-                                            && (backup[7][1] == SI_MIN_MAX_Alfa_Beta.figury.pustka)
-                                            && (backup[7][4] == SI_MIN_MAX_Alfa_Beta.figury.CKrol)
-                                            && (backup[7][0] == SI_MIN_MAX_Alfa_Beta.figury.CWieza)) {
+                                    if (blackleft && (backup[7][3] == figury.pustka)
+                                            && (backup[7][2] == figury.pustka)
+                                            && (backup[7][1] == figury.pustka)
+                                            && (backup[7][4] == figury.CKrol)
+                                            && (backup[7][0] == figury.CWieza)) {
                                         boolean[] wyniki = new boolean[2];
                                         for (int r = 1; r <= 2; r++) {
-                                            backup[7][4] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                            backup[7][4 - r] = SI_MIN_MAX_Alfa_Beta.figury.CKrol;
+                                            backup[7][4] = figury.pustka;
+                                            backup[7][4 - r] = figury.CKrol;
                                             wyniki[r - 1] = !RuchZagrozenie_kontrola.szach((backup), false);
-                                            backup[7][4] = SI_MIN_MAX_Alfa_Beta.figury.CKrol;
-                                            backup[7][4 - r] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[7][4] = figury.CKrol;
+                                            backup[7][4 - r] = figury.pustka;
                                         }
                                         if (wyniki[0] && wyniki[1]) {
-                                            backup[7][4] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                            backup[7][0] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                            backup[7][3] = SI_MIN_MAX_Alfa_Beta.figury.CWieza;
-                                            backup[7][2] = SI_MIN_MAX_Alfa_Beta.figury.CKrol;
+                                            backup[7][4] = figury.pustka;
+                                            backup[7][0] = figury.pustka;
+                                            backup[7][3] = figury.CWieza;
+                                            backup[7][2] = figury.CKrol;
 
-                                            backup[7][4] = SI_MIN_MAX_Alfa_Beta.figury.CKrol;
-                                            backup[7][0] = SI_MIN_MAX_Alfa_Beta.figury.CWieza;
-                                            backup[7][3] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
-                                            backup[7][2] = SI_MIN_MAX_Alfa_Beta.figury.pustka;
+                                            backup[7][4] = figury.CKrol;
+                                            backup[7][0] = figury.CWieza;
+                                            backup[7][3] = figury.pustka;
+                                            backup[7][2] = figury.pustka;
                                             if (szach) {
                                                 lista_dopuszcalnych_Ruchow.add(new Ruch(false, ("kO-O-O  +"),
                                                         ' ', (konwert(backup))));
@@ -8667,7 +8669,7 @@ class Generator {
 
     }
 
-    public static char[][] konwert(SzachowaArena.figury[][] decha) {
+    public char[][] konwert(figuryA[][] decha) {
         char[][] wynik = new char[8][8];
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
@@ -8719,54 +8721,8 @@ class Generator {
         }
         return wynik;
     }
-    public static char[][] konwert(SI_MIN_MAX_Alfa_Beta.figury[][] decha) {
-        char[][] wynik = new char[8][8];
-        for (int x = 0; x < 8; x++) {
-            for (int y = 0; y < 8; y++) {
-                switch (decha[x][y]) {
-                    case BKrol:
-                        wynik[x][y] = 'K';
-                        break;
-                    case CKrol:
-                        wynik[x][y] = 'k';
-                        break;
-                    case BHetman:
-                        wynik[x][y] = 'Q';
-                        break;
-                    case CHetman:
-                        wynik[x][y] = 'q';
-                        break;
-                    case BWieza:
-                        wynik[x][y] = 'R';
-                        break;
-                    case CWieza:
-                        wynik[x][y] = 'r';
-                        break;
-                    case BGoniec:
-                        wynik[x][y] = 'B';
-                        break;
-                    case CGoniec:
-                        wynik[x][y] = 'b';
-                        break;
-                    case BSkoczek:
-                        wynik[x][y] = 'N';
-                        break;
-                    case CSkoczek:
-                        wynik[x][y] = 'n';
-                        break;
-                    case BPion:
-                        wynik[x][y] = 'P';
-                        break;
-                    case CPion:
-                        wynik[x][y] = 'p';
-                        break;
-                }
-            }
-        }
-        return wynik;
-    }
-
-    private static char pozyskaj_symbol(SI_MIN_MAX_Alfa_Beta.figury przechowalnie) {
+    
+    public char pozyskaj_symbol(figury przechowalnie) {
         switch (przechowalnie) {
                     case BKrol:
                         return 'K';

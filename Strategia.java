@@ -4,10 +4,12 @@
  */
 package szachy;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author PatrykK
  */
 public interface Strategia {
-    public Ruch_wartosc wykonaj(int glebia, Ruch move, int najwieksza, int najmniejsza);
+    Ruch_wartosc wykonaj(int glebia, ArrayList<Ruch> move, int najwieksza, int najmniejsza);
 }

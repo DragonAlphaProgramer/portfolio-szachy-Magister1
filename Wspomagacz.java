@@ -116,7 +116,7 @@ public class Wspomagacz {
             ustawienie[poszukiwanie[0]][poszukiwanie[1]] = ' ';
             //System.out.println(akceptacja);
             if (akceptacja) {
-               // System.out.println(zaslona[0] + "|" + zaslona[1]);
+                //System.out.println(zaslona[0] + "|" + zaslona[1]);
                 return zaslona;
             }
         }
@@ -178,7 +178,7 @@ public class Wspomagacz {
                         ustawienie[zaslona[0]][zaslona[1]] = figura;
                         if (akceptacja) {
 
-                           // System.out.println(zaslona[0] + "|" + zaslona[1]);
+                            //System.out.println(zaslona[0] + "|" + zaslona[1]);
                             return zaslona;
                         } else {
                             zaslona[0] = -1;
@@ -244,7 +244,7 @@ public class Wspomagacz {
                         ustawienie[poszukiwanie[0]][poszukiwanie[1]] = ' ';
                         ustawienie[zaslona[0]][zaslona[1]] = figura;
                         if (akceptacja) {
-                           // System.out.println(zaslona[0] + "|" + zaslona[1]);
+                            //System.out.println(zaslona[0] + "|" + zaslona[1]);
                             return zaslona;
                         } else {
                             zaslona[0] = -1;
@@ -312,7 +312,7 @@ public class Wspomagacz {
                         ustawienie[zaslona[0]][zaslona[1]] = figura;
                         if (akceptacja) {
 
-                           // System.out.println(zaslona[0] + "|" + zaslona[1]);
+                            //System.out.println(zaslona[0] + "|" + zaslona[1]);
                             return zaslona;
                         } else {
                             zaslona[0] = -1;
@@ -381,7 +381,7 @@ public class Wspomagacz {
                         ustawienie[zaslona[0]][zaslona[1]] = figura;
                         if (akceptacja) {
 
-                           // System.out.println(zaslona[0] + "|" + zaslona[1]);
+                            //System.out.println(zaslona[0] + "|" + zaslona[1]);
                             return zaslona;
                         } else {
                             zaslona[0] = -1;
@@ -565,7 +565,7 @@ public class Wspomagacz {
                     ustawienie[zaslona[0]][zaslona[1]] = figura;
                     if (akceptacja) {
 
-                      // // System.out.println(zaslona[0] + "|" + zaslona[1]);
+                        //System.out.println(zaslona[0] + "|" + zaslona[1]);
                         return zaslona;
                     } else {
                         zaslona[0] = -1;
@@ -625,7 +625,7 @@ public class Wspomagacz {
                     ustawienie[zaslona[0]][zaslona[1]] = figura;
                     if (akceptacja) {
 
-                      // // System.out.println(zaslona[0] + "|" + zaslona[1]);
+                        //System.out.println(zaslona[0] + "|" + zaslona[1]);
                         return zaslona;
                     } else {
                         zaslona[0] = -1;
@@ -635,7 +635,7 @@ public class Wspomagacz {
                 break;
             }
         }
-      // // System.out.println(zaslona[0] + "|" + zaslona[1]);
+        //System.out.println(zaslona[0] + "|" + zaslona[1]);
         return zaslona;
     }
 
@@ -1140,7 +1140,7 @@ public class Wspomagacz {
             nakladki[poszukiwanie[0]][poszukiwanie[1]] = ' ';
             //System.out.println(akceptacja);
             if (akceptacja) {
-               // System.out.println(zaslona[0] + "|" + zaslona[1]);
+                //System.out.println(zaslona[0] + "|" + zaslona[1]);
                 return zaslona;
             }
         }
@@ -1195,7 +1195,7 @@ public class Wspomagacz {
                         nakladki[poszukiwanie[0]][poszukiwanie[1]] = ' ';
                         if (akceptacja) {
 
-                       //    // System.out.println(zaslona[0] + "|" + zaslona[1]);
+                            //System.out.println(zaslona[0] + "|" + zaslona[1]);
                             return zaslona;
                         } else {
                             zaslona[0] = -1;
@@ -1254,7 +1254,7 @@ public class Wspomagacz {
                         nakladki[zaslona[0]][zaslona[1]] = nakladki[poszukiwanie[0]][poszukiwanie[1]];
                         nakladki[poszukiwanie[0]][poszukiwanie[1]] = ' ';
                         if (akceptacja) {
-                           // System.out.println(zaslona[0] + "|" + zaslona[1]);
+                            //System.out.println(zaslona[0] + "|" + zaslona[1]);
                             return zaslona;
                         } else {
                             zaslona[0] = -1;
@@ -1316,7 +1316,7 @@ public class Wspomagacz {
                         nakladki[poszukiwanie[0]][poszukiwanie[1]] = ' ';
                         if (akceptacja) {
 
-                          // // System.out.println(zaslona[0] + "|" + zaslona[1]);
+                            //System.out.println(zaslona[0] + "|" + zaslona[1]);
                             return zaslona;
                         } else {
                             zaslona[0] = -1;
@@ -1379,7 +1379,7 @@ public class Wspomagacz {
                         nakladki[poszukiwanie[0]][poszukiwanie[1]] = ' ';
                         if (akceptacja) {
 
-                           // System.out.println(zaslona[0] + "|" + zaslona[1]);
+                            //System.out.println(zaslona[0] + "|" + zaslona[1]);
                             return zaslona;
                         } else {
                             zaslona[0] = -1;

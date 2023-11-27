@@ -459,9 +459,7 @@ public class Ruch implements Comparable<Ruch> {
             if (przelot) {
                 wynik = wynik.concat("EP");
             } else if (promocja) {
-                wynik = wynik.concat("=");
-                
-                wynik = wynik.concat(""+promowana);
+                wynik = wynik.concat("="+promowana);
             } else {
                 wynik = wynik.concat("--");
             }

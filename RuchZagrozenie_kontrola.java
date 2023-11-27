@@ -5,7 +5,6 @@
  */
 package szachy;
 
-import szachy.SI_MIN_MAX_Alfa_Beta;
 /**
  *
  * @author Patryk Sprawdza ruch pod kątem dopuszczalności
@@ -109,12 +108,12 @@ public class RuchZagrozenie_kontrola {
                         || (((lokalS[0] - lokalK[0]) == -1) && ((lokalS[1] - lokalK[1]) == 2))
                         || (((lokalS[0] - lokalK[0]) == 1) && ((lokalS[1] - lokalK[1]) == -2))
                         || (((lokalS[0] - lokalK[0]) == -1) && ((lokalS[1] - lokalK[1]) == -2)));
-                if (wynik == true) {
+                if (wynik) {
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
                     krolZ = szach(ustawienie, czybiale) || szach(ustawienie, nakladki, czybiale) || szach(ustawienie, nakladki, czybiale);
                     wynik = !krolZ;
-                    if (wynik == false) {
+                    if (!wynik) {
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
                     }
@@ -128,14 +127,14 @@ public class RuchZagrozenie_kontrola {
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
                     krolZ = szach(ustawienie, czybiale) || szach(ustawienie, nakladki, czybiale);
-                    wynik = krolZ != true;
-                    if (wynik == false) {
+                    wynik = !krolZ;
+                    if (!wynik) {
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                     }
                 } else {
                     if ((lokalS[0] - lokalK[0]) == (lokalS[1] - lokalK[1])) {
                         if (lokalS[1] > lokalK[1]) {
-                            outerLoop:
+                            
                             for (byte i = 0; i <= (lokalS[1] - lokalK[1] - 2); i++) {
                                 alfa = (byte) (lokalS[0] - i - 2);
                                 beta = (byte) (lokalS[1] - i - 2);
@@ -150,7 +149,7 @@ public class RuchZagrozenie_kontrola {
                                 }
                             }
                         } else {
-                            outerLoop:
+                            
                             for (byte i = 0; i <= (lokalK[1] - lokalS[1] - 2); i++) {
                                 alfa = (byte) (lokalS[0] + i);
                                 beta = (byte) (lokalS[1] + i);
@@ -169,7 +168,7 @@ public class RuchZagrozenie_kontrola {
                         }
                     } else {
                         if (lokalK[1] > lokalS[1]) {
-                            outerLoop:
+                            
                             for (byte i = 0; i <= (lokalK[1] - lokalS[1] - 2); i++) {
                                 alfa = (byte) (lokalS[0] - i - 2);
                                 beta = (byte) (lokalS[1] + i);
@@ -184,7 +183,7 @@ public class RuchZagrozenie_kontrola {
                                 }
                             }
                         } else {
-                            outerLoop:
+                            
                             for (byte i = 0; i <= (lokalS[1] - lokalK[1] - 2); i++) {
                                 alfa = (byte) (lokalS[0] + i);
                                 beta = (byte) (lokalS[1] - i - 2);
@@ -219,7 +218,7 @@ public class RuchZagrozenie_kontrola {
                     if (dela - alfa == 1) {
                         if (beta - 1 >= 0 && gama - beta == -1) {
                             z1 = ustawienie[alfa + 1][beta - 1];
-                            if (przelotcan == true && alfa - dela == -1 && alfa == 4 && beta == kol) {
+                            if (przelotcan && alfa - dela == -1 && alfa == 4 && beta == kol) {
                                 wynik = ustawienie[alfa + 1][beta - 1] == ' ' && ustawienie[alfa][beta - 1] == 'p';
                             } else {
                                 wynik = (z1 == 'q' || z1 == 'r' || z1 == 'b' || z1 == 'n' || z1 == 'p');
@@ -227,7 +226,7 @@ public class RuchZagrozenie_kontrola {
                         } else {
                             if (beta + 1 <= 7 && gama - beta == 1) {
                                 z1 = ustawienie[alfa + 1][beta + 1];
-                                if (przelotcan == true && alfa - dela == -1 && alfa == 4 && beta + 2 == kol) {
+                                if (przelotcan && alfa - dela == -1 && alfa == 4 && beta + 2 == kol) {
                                     wynik = ustawienie[alfa + 1][beta + 1] == ' ' && ustawienie[alfa][beta + 1] == 'p';
                                 } else {
                                     wynik = (z1 == 'q' || z1 == 'r' || z1 == 'b' || z1 == 'n' || z1 == 'p');
@@ -240,24 +239,24 @@ public class RuchZagrozenie_kontrola {
                         wynik = false;
                     }
                 }
-                if (wynik == true && przelotcan == true && (symbol == 'P' && lokalS[1] == 5)) {
+                if (wynik && przelotcan && (symbol == 'P' && lokalS[1] == 5)) {
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
                     ustawienie[lokalS[1] - 1][lokalK[0] - 1] = ' ';
                     krolZ = szach(ustawienie, czybiale) || szach(ustawienie, nakladki, czybiale);
-                    wynik = krolZ != true;
-                    if (wynik == false) {
+                    wynik = !krolZ;
+                    if (!wynik) {
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = 'p';
                     }
                 }
-                if (wynik == true && przelotcan == false) {
+                if (wynik && !przelotcan) {
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
                     krolZ = szach(ustawienie, czybiale) || szach(ustawienie, nakladki, czybiale);
-                    wynik = krolZ != true;
-                    if (wynik == false) {
+                    wynik = !krolZ;
+                    if (!wynik) {
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
                     }
@@ -286,7 +285,7 @@ public class RuchZagrozenie_kontrola {
                     if (dela - alfa == -1) {
                         if (beta - 1 >= 0 && gama - beta == -1) {
                             z1 = ustawienie[alfa - 1][beta - 1];
-                            if (przelotcan == true && alfa - dela == 1 && alfa == 3 && beta == kol) {
+                            if (przelotcan && alfa - dela == 1 && alfa == 3 && beta == kol) {
                                 wynik = (z1 != 'K' && z1 != 'k' && z1 != 'Q' && z1 != 'q' && z1 != 'R' && z1 != 'r' && z1 != 'B' && z1 != 'b' && z1 != 'N' && z1 != 'n' && z1 != 'P' && z1 != 'p') && ustawienie[alfa][beta - 1] == 'P';
                             } else {
                                 wynik = (z1 == 'Q' || z1 == 'R' || z1 == 'B' || z1 == 'N' || z1 == 'P');
@@ -294,7 +293,7 @@ public class RuchZagrozenie_kontrola {
                         } else {
                             if (beta + 1 <= 7 && gama - beta == 1) {
                                 z1 = ustawienie[alfa - 1][beta + 1];
-                                if (przelotcan == true && alfa - dela == 1 && alfa == 3 && beta + 2 == kol) {
+                                if (przelotcan && alfa - dela == 1 && alfa == 3 && beta + 2 == kol) {
                                     wynik = (z1 != 'K' && z1 != 'k' && z1 != 'Q' && z1 != 'q' && z1 != 'R' && z1 != 'r' && z1 != 'B' && z1 != 'b' && z1 != 'N' && z1 != 'n' && z1 != 'P' && z1 != 'p') && ustawienie[alfa][beta + 1] == 'P';
                                 } else {
                                     wynik = (z1 == 'Q' || z1 == 'R' || z1 == 'B' || z1 == 'N' || z1 == 'P');
@@ -307,24 +306,24 @@ public class RuchZagrozenie_kontrola {
                         wynik = false;
                     }
                 }
-                if (wynik == true && przelotcan == true && (symbol == 'p' && lokalS[1] == 4)) {
+                if (wynik && przelotcan && (symbol == 'p' && lokalS[1] == 4)) {
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
                     ustawienie[lokalS[1] - 1][lokalK[0] - 1] = ' ';
                     krolZ = szach(ustawienie, czybiale) || szach(ustawienie, nakladki, czybiale);
-                    wynik = krolZ != true;
-                    if (wynik == false) {
+                    wynik = !krolZ;
+                    if (!wynik) {
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = 'p';
                     }
                 }
-                if (wynik == true && przelotcan == false) {
+                if (wynik && !przelotcan) {
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
                     krolZ = szach(ustawienie, czybiale) || szach(ustawienie, nakladki, czybiale);
-                    wynik = krolZ != true;
-                    if (wynik == false) {
+                    wynik = !krolZ;
+                    if (!wynik) {
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
                     }
@@ -342,8 +341,8 @@ public class RuchZagrozenie_kontrola {
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
                     krolZ = szach(ustawienie, czybiale) || szach(ustawienie, nakladki, czybiale);
-                    wynik = krolZ != true;
-                    if (wynik == false) {
+                    wynik = !krolZ;
+                    if (!wynik) {
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
                     }
@@ -420,8 +419,8 @@ public class RuchZagrozenie_kontrola {
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
                         krolZ = szach(ustawienie, czybiale) || szach(ustawienie, nakladki, czybiale);
-                        wynik = krolZ != true;
-                        if (wynik == false) {
+                        wynik = !krolZ;
+                        if (!wynik) {
                             ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                             ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
                         }
@@ -491,15 +490,15 @@ public class RuchZagrozenie_kontrola {
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
                         krolZ = szach(ustawienie, czybiale) || szach(ustawienie, nakladki, czybiale);
-                        wynik = krolZ != true;
-                        if (wynik == false) {
+                        wynik = !krolZ;
+                        if (!wynik) {
                             ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                             ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
                         }
                     } else {
                         if ((lokalS[0] - lokalK[0]) == (lokalS[1] - lokalK[1])) {
                             if (lokalS[1] > lokalK[1]) {
-                                outerLoop:
+                                
                                 for (byte i = 0; i <= (lokalS[1] - lokalK[1] - 2); i++) {
                                     alfa = (byte) (lokalS[0] - i - 2);
                                     beta = (byte) (lokalS[1] - i - 2);
@@ -514,7 +513,7 @@ public class RuchZagrozenie_kontrola {
                                     }
                                 }
                             } else {
-                                outerLoop:
+                                
                                 for (byte i = 0; i <= (lokalK[1] - lokalS[1] - 2); i++) {
                                     alfa = (byte) (lokalS[0] + i);
                                     beta = (byte) (lokalS[1] + i);
@@ -531,7 +530,7 @@ public class RuchZagrozenie_kontrola {
                             }
                         } else {
                             if (lokalK[1] > lokalS[1]) {
-                                outerLoop:
+                                
                                 for (byte i = 0; i <= (lokalK[1] - lokalS[1] - 2); i++) {
                                     alfa = (byte) (lokalS[0] - i - 2);
                                     beta = (byte) (lokalS[1] + i);
@@ -546,7 +545,7 @@ public class RuchZagrozenie_kontrola {
                                     }
                                 }
                             } else {
-                                outerLoop:
+                                
                                 for (byte i = 0; i <= (lokalS[1] - lokalK[1] - 2); i++) {
                                     alfa = (byte) (lokalS[0] + i);
                                     beta = (byte) (lokalS[1] - i - 2);
@@ -579,8 +578,8 @@ public class RuchZagrozenie_kontrola {
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = 'k';
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     bez = szach(ustawienie, czybiale);
-                    wynik = bez != true;
-                    if (wynik == true) {
+                    wynik = !bez;
+                    if (wynik) {
                     } else {
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
                     }
@@ -602,8 +601,8 @@ public class RuchZagrozenie_kontrola {
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = 'K';
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     bez = szach(ustawienie, czybiale);
-                    wynik = bez != true;
-                    if (wynik == true) {
+                    wynik = !bez;
+                    if (wynik) {
                     } else {
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
                     }
@@ -745,8 +744,6 @@ public class RuchZagrozenie_kontrola {
                 }
             }
         }
-        alfa = krolX;
-        beta = krolY;
         for (byte i = (byte) (alfa + 1); i <= 11; i++) {
             if (pomocnicze[i][beta] == ' ') {
             } else {
@@ -807,6 +804,7 @@ public class RuchZagrozenie_kontrola {
      * @param czybiale kto wykonuje ruch
      * @param przelotcan dostęp do bicia w przelocie
      * @param kol kolumna z biciem w przelocie
+     * @param mgla
      * @return czy ruch może być wykonany
      */
     public static boolean ruch(int[] lokalS, int[] lokalK, char symbol,
@@ -826,17 +824,17 @@ public class RuchZagrozenie_kontrola {
                         || (((lokalS[0] - lokalK[0]) == -1) && ((lokalS[1] - lokalK[1]) == 2))
                         || (((lokalS[0] - lokalK[0]) == 1) && ((lokalS[1] - lokalK[1]) == -2))
                         || (((lokalS[0] - lokalK[0]) == -1) && ((lokalS[1] - lokalK[1]) == -2)));
-                if (wynik == true) {
+                if (wynik) {
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
-                    krolZ = !mgla ?szach(ustawienie, czybiale):false;
-                    wynik = !mgla ? krolZ != true : true;
-                    if (wynik == false) {
+                    krolZ = !mgla && szach(ustawienie, czybiale);
+                    wynik = mgla || !krolZ;
+                    if (!wynik) {
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
                     }
                 }
-                if (wynik == true) {
+                if (wynik) {
                     break;
                 }
                 if (lokalS[0] == lokalK[0] || lokalS[1] == lokalK[1]) {
@@ -849,9 +847,9 @@ public class RuchZagrozenie_kontrola {
 
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
-                        krolZ =!mgla ? szach(ustawienie, czybiale):false;
-                        wynik = !mgla ? krolZ != true : true;
-                        if (wynik == false) {
+                        krolZ = !mgla && szach(ustawienie, czybiale);
+                        wynik = mgla || !krolZ;
+                        if (!wynik) {
                             ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                             ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
                         }
@@ -920,16 +918,16 @@ public class RuchZagrozenie_kontrola {
 
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
-                        krolZ =!mgla ? szach(ustawienie, czybiale):false;
-                        wynik = !mgla ? krolZ != true : true;
-                        if (wynik == false) {
+                        krolZ =!mgla && szach(ustawienie, czybiale);
+                        wynik = mgla || !krolZ;
+                        if (!wynik) {
                             ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                             ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
                         }
                     } else {
                         if ((lokalS[0] - lokalK[0]) == (lokalS[1] - lokalK[1])) {
                             if (lokalS[1] > lokalK[1]) {
-                                outerLoop:
+                                
                                 for (byte i = 0; i <= (lokalS[1] - lokalK[1] - 2); i++) {
                                     alfa = (byte) (lokalS[0] - i - 2);
                                     beta = (byte) (lokalS[1] - i - 2);
@@ -944,7 +942,7 @@ public class RuchZagrozenie_kontrola {
                                     }
                                 }
                             } else {
-                                outerLoop:
+                                
                                 for (byte i = 0; i <= (lokalK[1] - lokalS[1] - 2); i++) {
                                     alfa = (byte) (lokalS[0] + i);
                                     beta = (byte) (lokalS[1] + i);
@@ -961,7 +959,7 @@ public class RuchZagrozenie_kontrola {
                             }
                         } else {
                             if (lokalK[1] > lokalS[1]) {
-                                outerLoop:
+                                
                                 for (byte i = 0; i <= (lokalK[1] - lokalS[1] - 2); i++) {
                                     alfa = (byte) (lokalS[0] - i - 2);
                                     beta = (byte) (lokalS[1] + i);
@@ -976,7 +974,7 @@ public class RuchZagrozenie_kontrola {
                                     }
                                 }
                             } else {
-                                outerLoop:
+                                
                                 for (byte i = 0; i <= (lokalS[1] - lokalK[1] - 2); i++) {
                                     alfa = (byte) (lokalS[0] + i);
                                     beta = (byte) (lokalS[1] - i - 2);
@@ -1005,12 +1003,12 @@ public class RuchZagrozenie_kontrola {
                         || (((lokalS[0] - lokalK[0]) == -1) && ((lokalS[1] - lokalK[1]) == 2))
                         || (((lokalS[0] - lokalK[0]) == 1) && ((lokalS[1] - lokalK[1]) == -2))
                         || (((lokalS[0] - lokalK[0]) == -1) && ((lokalS[1] - lokalK[1]) == -2)));
-                if (wynik == true) {
+                if (wynik) {
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
-                    krolZ =!mgla ? szach(ustawienie, czybiale):false;
-                    wynik = !mgla ? krolZ != true : true;
-                    if (wynik == false) {
+                    krolZ =!mgla && szach(ustawienie, czybiale);
+                    wynik = mgla || !krolZ;
+                    if (!wynik) {
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
                     }
@@ -1023,15 +1021,15 @@ public class RuchZagrozenie_kontrola {
 
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
-                    krolZ =!mgla ? szach(ustawienie, czybiale):false;
-                    wynik = !mgla ? krolZ != true : true;
-                    if (wynik == false) {
+                    krolZ =!mgla && szach(ustawienie, czybiale);
+                    wynik = mgla || !krolZ;
+                    if (!wynik) {
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                     }
                 } else {
                     if ((lokalS[0] - lokalK[0]) == (lokalS[1] - lokalK[1])) {
                         if (lokalS[1] > lokalK[1]) {
-                            outerLoop:
+                            
                             for (byte i = 0; i <= (lokalS[1] - lokalK[1] - 2); i++) {
                                 alfa = (byte) (lokalS[0] - i - 2);
                                 beta = (byte) (lokalS[1] - i - 2);
@@ -1046,7 +1044,7 @@ public class RuchZagrozenie_kontrola {
                                 }
                             }
                         } else {
-                            outerLoop:
+                            
                             for (byte i = 0; i <= (lokalK[1] - lokalS[1] - 2); i++) {
                                 alfa = (byte) (lokalS[0] + i);
                                 beta = (byte) (lokalS[1] + i);
@@ -1065,7 +1063,7 @@ public class RuchZagrozenie_kontrola {
                         }
                     } else {
                         if (lokalK[1] > lokalS[1]) {
-                            outerLoop:
+                            
                             for (byte i = 0; i <= (lokalK[1] - lokalS[1] - 2); i++) {
                                 alfa = (byte) (lokalS[0] - i - 2);
                                 beta = (byte) (lokalS[1] + i);
@@ -1080,7 +1078,7 @@ public class RuchZagrozenie_kontrola {
                                 }
                             }
                         } else {
-                            outerLoop:
+                            
                             for (byte i = 0; i <= (lokalS[1] - lokalK[1] - 2); i++) {
                                 alfa = (byte) (lokalS[0] + i);
                                 beta = (byte) (lokalS[1] - i - 2);
@@ -1111,7 +1109,7 @@ public class RuchZagrozenie_kontrola {
                     if (dela - alfa == 1) {
                         if (beta - 1 >= 0 && gama - beta == -1) {
                             z1 = ustawienie[alfa + 1][beta - 1];
-                            if (przelotcan == true && alfa - dela == -1 && alfa == 4 && beta == kol) {
+                            if (przelotcan && alfa - dela == -1 && alfa == 4 && beta == kol) {
                                 wynik = ustawienie[alfa + 1][beta - 1] == ' ' && ustawienie[alfa][beta - 1] == 'p';
                             } else {
                                 wynik = (z1 == 'q' || z1 == 'r' || z1 == 'b' || z1 == 'n' || z1 == 'p');
@@ -1119,7 +1117,7 @@ public class RuchZagrozenie_kontrola {
                         } else {
                             if (beta + 1 <= 7 && gama - beta == 1) {
                                 z1 = ustawienie[alfa + 1][beta + 1];
-                                if (przelotcan == true && alfa - dela == -1 && alfa == 4 && beta + 2 == kol) {
+                                if (przelotcan && alfa - dela == -1 && alfa == 4 && beta + 2 == kol) {
                                     wynik = ustawienie[alfa + 1][beta + 1] == ' ' && ustawienie[alfa][beta + 1] == 'p';
                                 } else {
                                     wynik = (z1 == 'q' || z1 == 'r' || z1 == 'b' || z1 == 'n' || z1 == 'p');
@@ -1132,24 +1130,24 @@ public class RuchZagrozenie_kontrola {
                         wynik = false;
                     }
                 }
-                if (wynik == true && przelotcan == true && (symbol == 'P' && lokalS[1] == 5)) {
+                if (wynik && przelotcan && (symbol == 'P' && lokalS[1] == 5)) {
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
                     ustawienie[lokalS[1] - 1][lokalK[0] - 1] = ' ';
-                    krolZ =!mgla ? szach(ustawienie, czybiale):false;
-                    wynik = !mgla ? krolZ != true : true;
-                    if (wynik == false) {
+                    krolZ =!mgla && szach(ustawienie, czybiale);
+                    wynik = mgla || !krolZ;
+                    if (!wynik) {
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = 'p';
                     }
                 }
-                if (wynik == true && przelotcan == false) {
+                if (wynik && !przelotcan) {
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
-                    krolZ =!mgla ? szach(ustawienie, czybiale):false;
-                    wynik = !mgla ? krolZ != true : true;
-                    if (wynik == false) {
+                    krolZ =!mgla && szach(ustawienie, czybiale);
+                    wynik = mgla || !krolZ;
+                    if (!wynik) {
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
                     }
@@ -1174,7 +1172,7 @@ public class RuchZagrozenie_kontrola {
                     if (dela - alfa == -1) {
                         if (beta - 1 >= 0 && gama - beta == -1) {
                             z1 = ustawienie[alfa - 1][beta - 1];
-                            if (przelotcan == true && alfa - dela == 1 && alfa == 3 && beta == kol) {
+                            if (przelotcan && alfa - dela == 1 && alfa == 3 && beta == kol) {
                                 wynik = (z1 != 'K' && z1 != 'k' && z1 != 'Q' && z1 != 'q' && z1 != 'R' && z1 != 'r' && z1 != 'B' && z1 != 'b' && z1 != 'N' && z1 != 'n' && z1 != 'P' && z1 != 'p') && ustawienie[alfa][beta - 1] == 'P';
                             } else {
                                 wynik = (z1 == 'Q' || z1 == 'R' || z1 == 'B' || z1 == 'N' || z1 == 'P');
@@ -1182,7 +1180,7 @@ public class RuchZagrozenie_kontrola {
                         } else {
                             if (beta + 1 <= 7 && gama - beta == 1) {
                                 z1 = ustawienie[alfa - 1][beta + 1];
-                                if (przelotcan == true && alfa - dela == 1 && alfa == 3 && beta + 2 == kol) {
+                                if (przelotcan && alfa - dela == 1 && alfa == 3 && beta + 2 == kol) {
                                     wynik = (z1 != 'K' && z1 != 'k' && z1 != 'Q' && z1 != 'q' && z1 != 'R' && z1 != 'r' && z1 != 'B' && z1 != 'b' && z1 != 'N' && z1 != 'n' && z1 != 'P' && z1 != 'p') && ustawienie[alfa][beta + 1] == 'P';
                                 } else {
                                     wynik = (z1 == 'Q' || z1 == 'R' || z1 == 'B' || z1 == 'N' || z1 == 'P');
@@ -1195,24 +1193,24 @@ public class RuchZagrozenie_kontrola {
                         wynik = false;
                     }
                 }
-                if (wynik == true && przelotcan == true && (symbol == 'p' && lokalS[1] == 4)) {
+                if (wynik && przelotcan && (symbol == 'p' && lokalS[1] == 4)) {
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
                     ustawienie[lokalS[1] - 1][lokalK[0] - 1] = ' ';
-                    krolZ =!mgla ? szach(ustawienie, czybiale):false;
-                    wynik = !mgla ? krolZ != true : true;
-                    if (wynik == false) {
+                    krolZ =!mgla && szach(ustawienie, czybiale);
+                    wynik = mgla || !krolZ;
+                    if (!wynik) {
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = 'p';
                     }
                 }
-                if (wynik == true && przelotcan == false) {
+                if (wynik && !przelotcan) {
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
-                    krolZ =!mgla ? szach(ustawienie, czybiale):false;
-                    wynik = !mgla ? krolZ != true : true;
-                    if (wynik == false) {
+                    krolZ =!mgla && szach(ustawienie, czybiale);
+                    wynik = mgla || !krolZ;
+                    if (!wynik) {
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
                     }
@@ -1229,9 +1227,9 @@ public class RuchZagrozenie_kontrola {
 
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
-                    krolZ =!mgla ? szach(ustawienie, czybiale):false;
-                    wynik = !mgla ? krolZ != true : true;
-                    if (wynik == false) {
+                    krolZ =!mgla && szach(ustawienie, czybiale);
+                    wynik = mgla || !krolZ;
+                    if (!wynik) {
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
                     }
@@ -1307,9 +1305,9 @@ public class RuchZagrozenie_kontrola {
 
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
-                        krolZ =!mgla ? szach(ustawienie, czybiale):false;
-                        wynik = !mgla ? krolZ != true : true;
-                        if (wynik == false) {
+                        krolZ =!mgla && szach(ustawienie, czybiale);
+                        wynik = mgla || !krolZ;
+                        if (!wynik) {
                             ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                             ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
                         }
@@ -1378,16 +1376,16 @@ public class RuchZagrozenie_kontrola {
 
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
-                        krolZ =!mgla ? szach(ustawienie, czybiale):false;
-                        wynik = !mgla ? krolZ != true : true;
-                        if (wynik == false) {
+                        krolZ =!mgla && szach(ustawienie, czybiale);
+                        wynik = mgla || !krolZ;
+                        if (!wynik) {
                             ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                             ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
                         }
                     } else {
                         if ((lokalS[0] - lokalK[0]) == (lokalS[1] - lokalK[1])) {
                             if (lokalS[1] > lokalK[1]) {
-                                outerLoop:
+                                
                                 for (byte i = 0; i <= (lokalS[1] - lokalK[1] - 2); i++) {
                                     alfa = (byte) (lokalS[0] - i - 2);
                                     beta = (byte) (lokalS[1] - i - 2);
@@ -1402,7 +1400,7 @@ public class RuchZagrozenie_kontrola {
                                     }
                                 }
                             } else {
-                                outerLoop:
+                                
                                 for (byte i = 0; i <= (lokalK[1] - lokalS[1] - 2); i++) {
                                     alfa = (byte) (lokalS[0] + i);
                                     beta = (byte) (lokalS[1] + i);
@@ -1419,7 +1417,7 @@ public class RuchZagrozenie_kontrola {
                             }
                         } else {
                             if (lokalK[1] > lokalS[1]) {
-                                outerLoop:
+                                
                                 for (byte i = 0; i <= (lokalK[1] - lokalS[1] - 2); i++) {
                                     alfa = (byte) (lokalS[0] - i - 2);
                                     beta = (byte) (lokalS[1] + i);
@@ -1434,7 +1432,7 @@ public class RuchZagrozenie_kontrola {
                                     }
                                 }
                             } else {
-                                outerLoop:
+                                
                                 for (byte i = 0; i <= (lokalS[1] - lokalK[1] - 2); i++) {
                                     alfa = (byte) (lokalS[0] + i);
                                     beta = (byte) (lokalS[1] - i - 2);
@@ -1468,7 +1466,7 @@ public class RuchZagrozenie_kontrola {
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     bez =!mgla ? szach(ustawienie, czybiale):false;
                     wynik = bez != true;
-                    if (wynik == true) {
+                    if (wynik) {
                     } else {
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
                     }
@@ -1491,7 +1489,7 @@ public class RuchZagrozenie_kontrola {
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     bez = !mgla ? szach(ustawienie, czybiale):false;
                     wynik = bez != true;
-                    if (wynik == true) {
+                    if (wynik) {
                     } else {
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
                     }
@@ -1519,12 +1517,12 @@ public class RuchZagrozenie_kontrola {
                 pomocnicze[i + 4][j + 4] = pozycja[i][j];
                 if ((czybiale && pozycja[i][j] == 'K') || (!czybiale && pozycja[i][j] == 'k')) {
                     krolX = (byte) (i + 4);
-                    krolY = (byte) (j + 4);
+                    krolY = (byte) (j + 4); 
                 }
 
             }
         }
-        //  System.out.println(krolX+" "+krolY);
+       
         if ((czybiale && ((pomocnicze[krolX + 2][krolY - 1] == 'n')
                 || (pomocnicze[krolX + 2][krolY + 1] == 'n')
                 || (pomocnicze[krolX - 2][krolY - 1] == 'n')
@@ -1719,14 +1717,14 @@ public class RuchZagrozenie_kontrola {
         return zagrozenie;
     }
 
-    public static boolean szach(SI_MIN_MAX_Alfa_Beta.figury[][] pozycja, boolean czybiale) {
+    public static boolean szach(figury[][] pozycja, boolean czybiale) {
         byte krolX = 0, krolY = 0, alfa, beta;
         boolean zagrozenie = false;
-        SI_MIN_MAX_Alfa_Beta.figury[][] pomocnicze = new SI_MIN_MAX_Alfa_Beta.figury[16][16];
+        figury[][] pomocnicze = new figury[16][16];
         for (byte i = 0; i < 8; i++) {
             for (byte j = 0; j < 8; j++) {
                 pomocnicze[i + 4][j + 4] = pozycja[i][j];
-                if ((czybiale && pozycja[i][j] == SI_MIN_MAX_Alfa_Beta.figury.BKrol) || (!czybiale && pozycja[i][j] == SI_MIN_MAX_Alfa_Beta.figury.CKrol)) {
+                if ((czybiale && pozycja[i][j] == figury.BKrol) || (!czybiale && pozycja[i][j] == figury.CKrol)) {
                     krolX = (byte) (i + 4);
                     krolY = (byte) (j + 4);
                 }
@@ -1734,46 +1732,46 @@ public class RuchZagrozenie_kontrola {
             }
         }
         //  System.out.println(krolX+" "+krolY);
-        if ((czybiale && ((pomocnicze[krolX + 2][krolY - 1] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek)
-                || (pomocnicze[krolX + 2][krolY + 1] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek)
-                || (pomocnicze[krolX - 2][krolY - 1] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek)
-                || (pomocnicze[krolX - 2][krolY + 1] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek)
-                || (pomocnicze[krolX + 1][krolY + 2] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek)
-                || (pomocnicze[krolX + 1][krolY - 2] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek)
-                || (pomocnicze[krolX - 1][krolY + 2] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek)
-                || (pomocnicze[krolX - 1][krolY - 2] == SI_MIN_MAX_Alfa_Beta.figury.CSkoczek)))
-                || (!czybiale && ((pomocnicze[krolX + 2][krolY - 1] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek)
-                || (pomocnicze[krolX + 2][krolY + 1] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek)
-                || (pomocnicze[krolX - 2][krolY - 1] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek)
-                || (pomocnicze[krolX - 2][krolY + 1] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek)
-                || (pomocnicze[krolX + 1][krolY + 2] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek)
-                || (pomocnicze[krolX + 1][krolY - 2] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek)
-                || (pomocnicze[krolX - 1][krolY + 2] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek)
-                || (pomocnicze[krolX - 1][krolY - 2] == SI_MIN_MAX_Alfa_Beta.figury.BSkoczek)))) {
+        if ((czybiale && ((pomocnicze[krolX + 2][krolY - 1] == figury.CSkoczek)
+                || (pomocnicze[krolX + 2][krolY + 1] == figury.CSkoczek)
+                || (pomocnicze[krolX - 2][krolY - 1] == figury.CSkoczek)
+                || (pomocnicze[krolX - 2][krolY + 1] == figury.CSkoczek)
+                || (pomocnicze[krolX + 1][krolY + 2] == figury.CSkoczek)
+                || (pomocnicze[krolX + 1][krolY - 2] == figury.CSkoczek)
+                || (pomocnicze[krolX - 1][krolY + 2] == figury.CSkoczek)
+                || (pomocnicze[krolX - 1][krolY - 2] == figury.CSkoczek)))
+                || (!czybiale && ((pomocnicze[krolX + 2][krolY - 1] == figury.BSkoczek)
+                || (pomocnicze[krolX + 2][krolY + 1] == figury.BSkoczek)
+                || (pomocnicze[krolX - 2][krolY - 1] == figury.BSkoczek)
+                || (pomocnicze[krolX - 2][krolY + 1] == figury.BSkoczek)
+                || (pomocnicze[krolX + 1][krolY + 2] == figury.BSkoczek)
+                || (pomocnicze[krolX + 1][krolY - 2] == figury.BSkoczek)
+                || (pomocnicze[krolX - 1][krolY + 2] == figury.BSkoczek)
+                || (pomocnicze[krolX - 1][krolY - 2] == figury.BSkoczek)))) {
             zagrozenie = true;
             return zagrozenie;
         }
-        if ((czybiale && ((pomocnicze[krolX + 1][krolY + 1] == SI_MIN_MAX_Alfa_Beta.figury.CPion) || (pomocnicze[krolX + 1][krolY - 1] == SI_MIN_MAX_Alfa_Beta.figury.CPion)))
-                || (!czybiale && ((pomocnicze[krolX - 1][krolY + 1] == SI_MIN_MAX_Alfa_Beta.figury.BPion) || (pomocnicze[krolX - 1][krolY - 1] == SI_MIN_MAX_Alfa_Beta.figury.BPion)))) {
+        if ((czybiale && ((pomocnicze[krolX + 1][krolY + 1] == figury.CPion) || (pomocnicze[krolX + 1][krolY - 1] == figury.CPion)))
+                || (!czybiale && ((pomocnicze[krolX - 1][krolY + 1] == figury.BPion) || (pomocnicze[krolX - 1][krolY - 1] == figury.BPion)))) {
             zagrozenie = true;
             return zagrozenie;
         }
-        if ((czybiale && ((pomocnicze[krolX + 1][krolY + 1] == SI_MIN_MAX_Alfa_Beta.figury.CKrol)
-                || (pomocnicze[krolX + 1][krolY] == SI_MIN_MAX_Alfa_Beta.figury.CKrol)
-                || (pomocnicze[krolX + 1][krolY - 1] == SI_MIN_MAX_Alfa_Beta.figury.CKrol)
-                || (pomocnicze[krolX][krolY - 1] == SI_MIN_MAX_Alfa_Beta.figury.CKrol)
-                || (pomocnicze[krolX - 1][krolY - 1] == SI_MIN_MAX_Alfa_Beta.figury.CKrol)
-                || (pomocnicze[krolX - 1][krolY] == SI_MIN_MAX_Alfa_Beta.figury.CKrol)
-                || (pomocnicze[krolX - 1][krolY + 1] == SI_MIN_MAX_Alfa_Beta.figury.CKrol)
-                || (pomocnicze[krolX][krolY + 1] == SI_MIN_MAX_Alfa_Beta.figury.CKrol)))
-                || (!czybiale && ((pomocnicze[krolX + 1][krolY + 1] == SI_MIN_MAX_Alfa_Beta.figury.BKrol)
-                || (pomocnicze[krolX + 1][krolY] == SI_MIN_MAX_Alfa_Beta.figury.BKrol)
-                || (pomocnicze[krolX + 1][krolY - 1] == SI_MIN_MAX_Alfa_Beta.figury.BKrol)
-                || (pomocnicze[krolX][krolY - 1] == SI_MIN_MAX_Alfa_Beta.figury.BKrol)
-                || (pomocnicze[krolX - 1][krolY - 1] == SI_MIN_MAX_Alfa_Beta.figury.BKrol)
-                || (pomocnicze[krolX - 1][krolY] == SI_MIN_MAX_Alfa_Beta.figury.BKrol)
-                || (pomocnicze[krolX - 1][krolY + 1] == SI_MIN_MAX_Alfa_Beta.figury.BKrol)
-                || (pomocnicze[krolX][krolY + 1] == SI_MIN_MAX_Alfa_Beta.figury.BKrol)))) {
+        if ((czybiale && ((pomocnicze[krolX + 1][krolY + 1] == figury.CKrol)
+                || (pomocnicze[krolX + 1][krolY] == figury.CKrol)
+                || (pomocnicze[krolX + 1][krolY - 1] == figury.CKrol)
+                || (pomocnicze[krolX][krolY - 1] == figury.CKrol)
+                || (pomocnicze[krolX - 1][krolY - 1] == figury.CKrol)
+                || (pomocnicze[krolX - 1][krolY] == figury.CKrol)
+                || (pomocnicze[krolX - 1][krolY + 1] == figury.CKrol)
+                || (pomocnicze[krolX][krolY + 1] == figury.CKrol)))
+                || (!czybiale && ((pomocnicze[krolX + 1][krolY + 1] == figury.BKrol)
+                || (pomocnicze[krolX + 1][krolY] == figury.BKrol)
+                || (pomocnicze[krolX + 1][krolY - 1] == figury.BKrol)
+                || (pomocnicze[krolX][krolY - 1] == figury.BKrol)
+                || (pomocnicze[krolX - 1][krolY - 1] == figury.BKrol)
+                || (pomocnicze[krolX - 1][krolY] == figury.BKrol)
+                || (pomocnicze[krolX - 1][krolY + 1] == figury.BKrol)
+                || (pomocnicze[krolX][krolY + 1] == figury.BKrol)))) {
             zagrozenie = true;
             return zagrozenie;
         }
@@ -1785,10 +1783,10 @@ public class RuchZagrozenie_kontrola {
             if (beta + licz >= 12) {
                 break;
             } else {
-                if ((pomocnicze[i][beta + licz] == SI_MIN_MAX_Alfa_Beta.figury.pustka)) {
+                if ((pomocnicze[i][beta + licz] == figury.pustka)) {
                 } else {
-                    if ((czybiale && (pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.CHetman && pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.CGoniec))
-                            || (!czybiale && (pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.BHetman && pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.BGoniec))) {
+                    if ((czybiale && (pomocnicze[i][beta + licz] != figury.CHetman && pomocnicze[i][beta + licz] != figury.CGoniec))
+                            || (!czybiale && (pomocnicze[i][beta + licz] != figury.BHetman && pomocnicze[i][beta + licz] != figury.BGoniec))) {
                         zagrozenie = false;
                     } else {
                         zagrozenie = true;
@@ -1804,10 +1802,10 @@ public class RuchZagrozenie_kontrola {
             if (beta + licz >= 12) {
                 break;
             } else {
-                if ((pomocnicze[i][beta + licz] == SI_MIN_MAX_Alfa_Beta.figury.pustka)) {
+                if ((pomocnicze[i][beta + licz] == figury.pustka)) {
                 } else {
-                    if ((czybiale && (pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.CHetman && pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.CGoniec))
-                            || (!czybiale && (pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.BHetman && pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.BGoniec))) {
+                    if ((czybiale && (pomocnicze[i][beta + licz] != figury.CHetman && pomocnicze[i][beta + licz] != figury.CGoniec))
+                            || (!czybiale && (pomocnicze[i][beta + licz] != figury.BHetman && pomocnicze[i][beta + licz] != figury.BGoniec))) {
                         zagrozenie = false;
                     } else {
                         zagrozenie = true;
@@ -1823,10 +1821,10 @@ public class RuchZagrozenie_kontrola {
             if (beta + licz <= 3) {
                 break;
             } else {
-                if ((pomocnicze[i][beta + licz] == SI_MIN_MAX_Alfa_Beta.figury.pustka)) {
+                if ((pomocnicze[i][beta + licz] == figury.pustka)) {
                 } else {
-                    if ((czybiale && (pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.CHetman && pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.CGoniec))
-                            || (!czybiale && (pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.BHetman && pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.BGoniec))) {
+                    if ((czybiale && (pomocnicze[i][beta + licz] != figury.CHetman && pomocnicze[i][beta + licz] != figury.CGoniec))
+                            || (!czybiale && (pomocnicze[i][beta + licz] != figury.BHetman && pomocnicze[i][beta + licz] != figury.BGoniec))) {
                         zagrozenie = false;
                     } else {
                         zagrozenie = true;
@@ -1842,10 +1840,10 @@ public class RuchZagrozenie_kontrola {
             if (beta + licz <= 3) {
                 break;
             } else {
-                if ((pomocnicze[i][beta + licz] == SI_MIN_MAX_Alfa_Beta.figury.pustka)) {
+                if ((pomocnicze[i][beta + licz] == figury.pustka)) {
                 } else {
-                    if ((czybiale && (pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.CHetman && pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.CGoniec))
-                            || (!czybiale && (pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.BHetman && pomocnicze[i][beta + licz] != SI_MIN_MAX_Alfa_Beta.figury.BGoniec))) {
+                    if ((czybiale && (pomocnicze[i][beta + licz] != figury.CHetman && pomocnicze[i][beta + licz] != figury.CGoniec))
+                            || (!czybiale && (pomocnicze[i][beta + licz] != figury.BHetman && pomocnicze[i][beta + licz] != figury.BGoniec))) {
                         zagrozenie = false;
                     } else {
                         zagrozenie = true;
@@ -1858,10 +1856,10 @@ public class RuchZagrozenie_kontrola {
         alfa = krolX;
         beta = krolY;
         for (byte i = (byte) (alfa + 1); i <= 11; i++) {
-            if (pomocnicze[i][beta] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
+            if (pomocnicze[i][beta] == figury.pustka) {
             } else {
-                if ((czybiale && (pomocnicze[i][beta] != SI_MIN_MAX_Alfa_Beta.figury.CHetman && pomocnicze[i][beta] != SI_MIN_MAX_Alfa_Beta.figury.CWieza))
-                        || (!czybiale && (pomocnicze[i][beta] != SI_MIN_MAX_Alfa_Beta.figury.BHetman && pomocnicze[i][beta] != SI_MIN_MAX_Alfa_Beta.figury.BWieza))) {
+                if ((czybiale && (pomocnicze[i][beta] != figury.CHetman && pomocnicze[i][beta] != figury.CWieza))
+                        || (!czybiale && (pomocnicze[i][beta] != figury.BHetman && pomocnicze[i][beta] != figury.BWieza))) {
                     zagrozenie = false;
                 } else {
                     zagrozenie = true;
@@ -1871,10 +1869,10 @@ public class RuchZagrozenie_kontrola {
             }
         }
         for (byte i = (byte) (alfa - 1); i >= 4; i--) {
-            if (pomocnicze[i][beta] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
+            if (pomocnicze[i][beta] == figury.pustka) {
             } else {
-                if ((czybiale && (pomocnicze[i][beta] != SI_MIN_MAX_Alfa_Beta.figury.CHetman && pomocnicze[i][beta] != SI_MIN_MAX_Alfa_Beta.figury.CWieza))
-                        || (!czybiale && (pomocnicze[i][beta] != SI_MIN_MAX_Alfa_Beta.figury.BHetman && pomocnicze[i][beta] != SI_MIN_MAX_Alfa_Beta.figury.BWieza))) {
+                if ((czybiale && (pomocnicze[i][beta] != figury.CHetman && pomocnicze[i][beta] != figury.CWieza))
+                        || (!czybiale && (pomocnicze[i][beta] != figury.BHetman && pomocnicze[i][beta] != figury.BWieza))) {
                     zagrozenie = false;
                 } else {
                     zagrozenie = true;
@@ -1884,10 +1882,10 @@ public class RuchZagrozenie_kontrola {
             }
         }
         for (byte i = (byte) (beta + 1); i <= 11; i++) {
-            if (pomocnicze[alfa][i] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
+            if (pomocnicze[alfa][i] == figury.pustka) {
             } else {
-                if ((czybiale && (pomocnicze[alfa][i] != SI_MIN_MAX_Alfa_Beta.figury.CHetman && pomocnicze[alfa][i] != SI_MIN_MAX_Alfa_Beta.figury.CWieza))
-                        || (!czybiale && (pomocnicze[alfa][i] != SI_MIN_MAX_Alfa_Beta.figury.BHetman && pomocnicze[alfa][i] != SI_MIN_MAX_Alfa_Beta.figury.BWieza))) {
+                if ((czybiale && (pomocnicze[alfa][i] != figury.CHetman && pomocnicze[alfa][i] != figury.CWieza))
+                        || (!czybiale && (pomocnicze[alfa][i] != figury.BHetman && pomocnicze[alfa][i] != figury.BWieza))) {
                     zagrozenie = false;
                 } else {
                     zagrozenie = true;
@@ -1897,10 +1895,10 @@ public class RuchZagrozenie_kontrola {
             }
         }
         for (byte i = (byte) (beta - 1); i >= 4; i--) {
-            if (pomocnicze[alfa][i] == SI_MIN_MAX_Alfa_Beta.figury.pustka) {
+            if (pomocnicze[alfa][i] == figury.pustka) {
             } else {
-                if ((czybiale && (pomocnicze[alfa][i] != SI_MIN_MAX_Alfa_Beta.figury.CHetman && pomocnicze[alfa][i] != SI_MIN_MAX_Alfa_Beta.figury.CWieza))
-                        || (!czybiale && (pomocnicze[alfa][i] != SI_MIN_MAX_Alfa_Beta.figury.BHetman && pomocnicze[alfa][i] != SI_MIN_MAX_Alfa_Beta.figury.BWieza))) {
+                if ((czybiale && (pomocnicze[alfa][i] != figury.CHetman && pomocnicze[alfa][i] != figury.CWieza))
+                        || (!czybiale && (pomocnicze[alfa][i] != figury.BHetman && pomocnicze[alfa][i] != figury.BWieza))) {
                     zagrozenie = false;
                 } else {
                     zagrozenie = true;
@@ -1915,7 +1913,7 @@ public class RuchZagrozenie_kontrola {
             char[][] ustawienie, boolean czybiale, boolean przelotcan, int kol) {
         boolean krolZ;
         byte alfa, beta, gama, dela;
-        boolean bez, wynik = false;
+        boolean wynik = false;
         char z1, z2;
         switch (symbol) {
             case 'N':
@@ -1928,7 +1926,7 @@ public class RuchZagrozenie_kontrola {
                         || (((lokalS[0] - lokalK[0]) == -1) && ((lokalS[1] - lokalK[1]) == 2))
                         || (((lokalS[0] - lokalK[0]) == 1) && ((lokalS[1] - lokalK[1]) == -2))
                         || (((lokalS[0] - lokalK[0]) == -1) && ((lokalS[1] - lokalK[1]) == -2)));
-                if (wynik == true) {
+                if (wynik) {
                     return true;
                 }
                 break;
@@ -1940,7 +1938,7 @@ public class RuchZagrozenie_kontrola {
                 } else {
                     if ((lokalS[0] - lokalK[0]) == (lokalS[1] - lokalK[1])) {
                         if (lokalS[1] > lokalK[1]) {
-                            outerLoop:
+                            
                             for (byte i = 0; i <= (lokalS[1] - lokalK[1] - 2); i++) {
                                 alfa = (byte) (lokalS[0] - i - 2);
                                 beta = (byte) (lokalS[1] - i - 2);
@@ -1955,7 +1953,7 @@ public class RuchZagrozenie_kontrola {
                                 }
                             }
                         } else {
-                            outerLoop:
+                            
                             for (byte i = 0; i <= (lokalK[1] - lokalS[1] - 2); i++) {
                                 alfa = (byte) (lokalS[0] + i);
                                 beta = (byte) (lokalS[1] + i);
@@ -1974,7 +1972,7 @@ public class RuchZagrozenie_kontrola {
                         }
                     } else {
                         if (lokalK[1] > lokalS[1]) {
-                            outerLoop:
+                            
                             for (byte i = 0; i <= (lokalK[1] - lokalS[1] - 2); i++) {
                                 alfa = (byte) (lokalS[0] - i - 2);
                                 beta = (byte) (lokalS[1] + i);
@@ -1989,7 +1987,7 @@ public class RuchZagrozenie_kontrola {
                                 }
                             }
                         } else {
-                            outerLoop:
+                            
                             for (byte i = 0; i <= (lokalS[1] - lokalK[1] - 2); i++) {
                                 alfa = (byte) (lokalS[0] + i);
                                 beta = (byte) (lokalS[1] - i - 2);
@@ -2020,7 +2018,7 @@ public class RuchZagrozenie_kontrola {
                     if (dela - alfa == 1) {
                         if (beta - 1 >= 0 && gama - beta == -1) {
                             z1 = ustawienie[alfa + 1][beta - 1];
-                            if (przelotcan == true && alfa - dela == -1 && alfa == 4 && beta == kol) {
+                            if (przelotcan && alfa - dela == -1 && alfa == 4 && beta == kol) {
                                 wynik = ustawienie[alfa + 1][beta - 1] == ' ' && ustawienie[alfa][beta - 1] == 'p';
                             } else {
                                 wynik = (z1 == 'q' || z1 == 'r' || z1 == 'b' || z1 == 'n' || z1 == 'p' || z1 == 'k');
@@ -2028,7 +2026,7 @@ public class RuchZagrozenie_kontrola {
                         } else {
                             if (beta + 1 <= 7 && gama - beta == 1) {
                                 z1 = ustawienie[alfa + 1][beta + 1];
-                                if (przelotcan == true && alfa - dela == -1 && alfa == 4 && beta + 2 == kol) {
+                                if (przelotcan && alfa - dela == -1 && alfa == 4 && beta + 2 == kol) {
                                     wynik = ustawienie[alfa + 1][beta + 1] == ' ' && ustawienie[alfa][beta + 1] == 'p';
                                 } else {
                                     wynik = (z1 == 'q' || z1 == 'r' || z1 == 'b' || z1 == 'n' || z1 == 'p' || z1 == 'k');
@@ -2041,10 +2039,10 @@ public class RuchZagrozenie_kontrola {
                         wynik = false;
                     }
                 }
-                if (wynik == true && przelotcan == true && (symbol == 'P' && lokalS[1] == 5)) {
+                if (wynik && przelotcan && (symbol == 'P' && lokalS[1] == 5)) {
                     wynik=true;
                 }
-                if (wynik == true && przelotcan == false) {
+                if (wynik && !przelotcan) {
                     wynik=true;
                 }
                 break;
@@ -2067,7 +2065,7 @@ public class RuchZagrozenie_kontrola {
                     if (dela - alfa == -1) {
                         if (beta - 1 >= 0 && gama - beta == -1) {
                             z1 = ustawienie[alfa - 1][beta - 1];
-                            if (przelotcan == true && alfa - dela == 1 && alfa == 3 && beta == kol) {
+                            if (przelotcan && alfa - dela == 1 && alfa == 3 && beta == kol) {
                                 wynik = (z1 != 'K' && z1 != 'k' && z1 != 'Q' && z1 != 'q' && z1 != 'R' && z1 != 'r' && z1 != 'B' && z1 != 'b' && z1 != 'N' && z1 != 'n' && z1 != 'P' && z1 != 'p') && ustawienie[alfa][beta - 1] == 'P';
                             } else {
                                 wynik = (z1 == 'Q' || z1 == 'R' || z1 == 'B' || z1 == 'N' || z1 == 'P' || z1 == 'K');
@@ -2075,7 +2073,7 @@ public class RuchZagrozenie_kontrola {
                         } else {
                             if (beta + 1 <= 7 && gama - beta == 1) {
                                 z1 = ustawienie[alfa - 1][beta + 1];
-                                if (przelotcan == true && alfa - dela == 1 && alfa == 3 && beta + 2 == kol) {
+                                if (przelotcan && alfa - dela == 1 && alfa == 3 && beta + 2 == kol) {
                                     wynik = (z1 != 'K' && z1 != 'k' && z1 != 'Q' && z1 != 'q' && z1 != 'R' && z1 != 'r' && z1 != 'B' && z1 != 'b' && z1 != 'N' && z1 != 'n' && z1 != 'P' && z1 != 'p') && ustawienie[alfa][beta + 1] == 'P';
                                 } else {
                                     wynik = (z1 == 'Q' || z1 == 'R' || z1 == 'B' || z1 == 'N' || z1 == 'P' || z1 == 'K');
@@ -2088,10 +2086,10 @@ public class RuchZagrozenie_kontrola {
                         wynik = false;
                     }
                 }
-                if (wynik == true && przelotcan == true && (symbol == 'p' && lokalS[1] == 4)) {
+                if (wynik && przelotcan && (symbol == 'p' && lokalS[1] == 4)) {
                     wynik=true;
                 }
-                if (wynik == true && przelotcan == false) {
+                if (wynik && !przelotcan) {
                     wynik=true;
                 }
                 break;
@@ -2107,8 +2105,8 @@ public class RuchZagrozenie_kontrola {
                     ustawienie[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                     ustawienie[lokalK[1] - 1][lokalK[0] - 1] = symbol;
                     krolZ = szach(ustawienie, czybiale);
-                    wynik = krolZ != true;
-                    if (wynik == false) {
+                    wynik = !krolZ;
+                    if (!wynik) {
                         ustawienie[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                         ustawienie[lokalK[1] - 1][lokalK[0] - 1] = ' ';
                     }
@@ -2248,7 +2246,7 @@ public class RuchZagrozenie_kontrola {
                     } else {
                         if ((lokalS[0] - lokalK[0]) == (lokalS[1] - lokalK[1])) {
                             if (lokalS[1] > lokalK[1]) {
-                                outerLoop:
+                                
                                 for (byte i = 0; i <= (lokalS[1] - lokalK[1] - 2); i++) {
                                     alfa = (byte) (lokalS[0] - i - 2);
                                     beta = (byte) (lokalS[1] - i - 2);
@@ -2263,7 +2261,7 @@ public class RuchZagrozenie_kontrola {
                                     }
                                 }
                             } else {
-                                outerLoop:
+                                
                                 for (byte i = 0; i <= (lokalK[1] - lokalS[1] - 2); i++) {
                                     alfa = (byte) (lokalS[0] + i);
                                     beta = (byte) (lokalS[1] + i);
@@ -2280,7 +2278,7 @@ public class RuchZagrozenie_kontrola {
                             }
                         } else {
                             if (lokalK[1] > lokalS[1]) {
-                                outerLoop:
+                                
                                 for (byte i = 0; i <= (lokalK[1] - lokalS[1] - 2); i++) {
                                     alfa = (byte) (lokalS[0] - i - 2);
                                     beta = (byte) (lokalS[1] + i);
@@ -2295,7 +2293,7 @@ public class RuchZagrozenie_kontrola {
                                     }
                                 }
                             } else {
-                                outerLoop:
+                                
                                 for (byte i = 0; i <= (lokalS[1] - lokalK[1] - 2); i++) {
                                     alfa = (byte) (lokalS[0] + i);
                                     beta = (byte) (lokalS[1] - i - 2);
@@ -2315,35 +2313,26 @@ public class RuchZagrozenie_kontrola {
                 }
                 break;
             case 'k':
-                if ((((lokalS[0] - lokalK[0] == -1 && lokalS[1] - lokalK[1] == -1)
+                wynik = (lokalS[0] - lokalK[0] == -1 && lokalS[1] - lokalK[1] == -1)
                         || (lokalS[0] - lokalK[0] == -1 && lokalS[1] - lokalK[1] == 0)
                         || (lokalS[0] - lokalK[0] == -1 && lokalS[1] - lokalK[1] == 1)
                         || (lokalS[0] - lokalK[0] == 1 && lokalS[1] - lokalK[1] == -1)
                         || (lokalS[0] - lokalK[0] == 1 && lokalS[1] - lokalK[1] == 0)
                         || (lokalS[0] - lokalK[0] == 1 && lokalS[1] - lokalK[1] == 1)
                         || (lokalS[0] - lokalK[0] == 0 && lokalS[1] - lokalK[1] == 1)
-                        || (lokalS[0] - lokalK[0] == 0 && lokalS[1] - lokalK[1] == -1)))) {
-
-                    wynik = true;
-                } else {
-                    wynik = false;
-                }
+                        || (lokalS[0] - lokalK[0] == 0 && lokalS[1] - lokalK[1] == -1);
                 break;
             case 'K':
-                if ((((lokalS[0] - lokalK[0] == -1 && lokalS[1] - lokalK[1] == -1)
+                wynik = (((lokalS[0] - lokalK[0] == -1 && lokalS[1] - lokalK[1] == -1)
                         || (lokalS[0] - lokalK[0] == -1 && lokalS[1] - lokalK[1] == 0)
                         || (lokalS[0] - lokalK[0] == -1 && lokalS[1] - lokalK[1] == 1)
                         || (lokalS[0] - lokalK[0] == 1 && lokalS[1] - lokalK[1] == -1)
                         || (lokalS[0] - lokalK[0] == 1 && lokalS[1] - lokalK[1] == 0)
                         || (lokalS[0] - lokalK[0] == 1 && lokalS[1] - lokalK[1] == 1)
                         || (lokalS[0] - lokalK[0] == 0 && lokalS[1] - lokalK[1] == 1)
-                        || (lokalS[0] - lokalK[0] == 0 && lokalS[1] - lokalK[1] == -1)))) {
-
-                    wynik = true;
-                } else {
-                    wynik = false;
-                }
+                        || (lokalS[0] - lokalK[0] == 0 && lokalS[1] - lokalK[1] == -1)));
                 break;
+
         }
         return wynik;
     }

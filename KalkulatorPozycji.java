@@ -16,6 +16,18 @@ public class KalkulatorPozycji
 
 
     public final static KalkulatorPozycji INSTANCE = new KalkulatorPozycji();
+    private static char[][] ustawienie = new char[8][8];
+    private static boolean przelotcan;
+    private static boolean bleft;
+    private static boolean bright;
+    private static boolean wleft;
+    private static boolean wright;
+    private static int kol;
+    private static int glebia;
+    private static boolean wykonanaRochC;
+    private static boolean wykonanaRochB;
+    private static boolean roszadaC;
+    private static boolean roszadaB;
 
     public static KalkulatorPozycji get() {
         return INSTANCE;
@@ -148,11 +160,19 @@ public class KalkulatorPozycji
     };
 
     public KalkulatorPozycji() {
-        /*for (int x = 0; x < 8; x++) {
+        
+
+    }
+
+    @Override
+    public int zliczacz(char[][] ustawienie, boolean przelotcan,
+            boolean bleft, boolean bright, boolean wleft, boolean wright,
+            boolean roszadaB, boolean roszadaC, boolean wykonanaRochB, boolean wykonanaRochC,
+            int glebia, int kol) {
+      for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
         KalkulatorPozycji.ustawienie[x][y] = ustawienie[x][y];
             }}
-        KalkulatorPozycji.tura_rywala = tura_rywala;
         KalkulatorPozycji.przelotcan = przelotcan;
         KalkulatorPozycji.bleft = bleft;
         KalkulatorPozycji.bright = bright;
@@ -163,53 +183,21 @@ public class KalkulatorPozycji
         KalkulatorPozycji.wykonanaRochB = wykonanaRochB;
         KalkulatorPozycji.wykonanaRochC = wykonanaRochC;
         KalkulatorPozycji.glebia = glebia;
-        KalkulatorPozycji.kol = kol;*/
-
+        KalkulatorPozycji.kol = kol;
+        return punktacja(true)
+                - punktacja(false)
+                + wartosc_bierek();
     }
 
-    @Override
-    public int zliczacz(char[][] ustawienie, boolean tura_rywala, boolean przelotcan,
-            boolean bleft, boolean bright, boolean wleft, boolean wright,
-            boolean roszadaB, boolean roszadaC, boolean wykonanaRochB, boolean wykonanaRochC,
-            int glebia, int kol) {
-      /*  System.out.println("");
-        System.out.println(("White Mobility : " + mobilnosc(ustawienie, true, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol)
-                + "\n")
-                + "White kingThreats : " + szachmat(true, ustawienie, glebia, przelotcan, kol) + "\n"
-                + "White attacks : " + ruchy_zbijajace(ustawienie, true, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol) + "\n"
-                + "White castle : " + dokonano_roszady(true, wykonanaRochB, wykonanaRochC) + "\n"
-                + "White pawnStructure : " + pionkiS(true, ustawienie) + "\n"
-                + "---------------------\n"
-                + "Black Mobility : " + mobilnosc(ustawienie, false, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol) + "\n"
-                + "Black kingThreats : " + szachmat(false, ustawienie, glebia, przelotcan, kol) + "\n"
-                + "Black attacks : " + ruchy_zbijajace(ustawienie, false, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol) + "\n"
-                + "Black castle : " + dokonano_roszady(false, wykonanaRochB, wykonanaRochC) + "\n"
-                + "Black pawnStructure : " + pionkiS(false, ustawienie) + "\n"
-                + "PieceEval Total : " + wartosc_bierek(ustawienie) + "\n" + "\n"
-                + "kalkulator:" + (punktacja(ustawienie, true, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC,
-                        wykonanaRochB, wykonanaRochC, glebia, kol)
-                - punktacja(ustawienie, false, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC,
-                        wykonanaRochB, wykonanaRochC, glebia, kol)
-                + wartosc_bierek(ustawienie)));*/
-        return punktacja(ustawienie, true, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC,
-                wykonanaRochB, wykonanaRochC, glebia, kol)
-                - punktacja(ustawienie, false, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC,
-                        wykonanaRochB, wykonanaRochC, glebia, kol)
-                + wartosc_bierek(ustawienie);
+    private int punktacja(boolean strona) {
+        return szachmat(strona)
+                + dokonano_roszady(strona)
+                + mobilnosc(strona)
+                + pionkiS(strona)
+                + ruchy_zbijajace(strona);
     }
 
-    private int punktacja(char[][] ustawienie, boolean strona, boolean przelotcan,
-            boolean bleft, boolean bright, boolean wleft, boolean wright,
-            boolean roszadaB, boolean roszadaC, boolean wykonanaRochB, boolean wykonanaRochC,
-            int glebia, int kol) {
-        return szachmat(strona, ustawienie, glebia, przelotcan, kol)
-                + dokonano_roszady(strona, wykonanaRochB, wykonanaRochC)
-                + mobilnosc(ustawienie, strona, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol)
-                + pionkiS(strona, ustawienie)
-                + ruchy_zbijajace(ustawienie, strona, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol);
-    }
-
-    private int wartosc_bierek(char[][] ustawienie) {
+    private int wartosc_bierek() {
         int wartosc = 0;
         int gonceB = 0;
         int gonceC = 0;
@@ -277,19 +265,11 @@ public class KalkulatorPozycji
         return wartosc + (gonceB >= 2 ? 25 : 0) - (gonceC >= 2 ? 25 : 0);
     }
 
-    private int szachmat(boolean strona, char[][] ustawienie, int glebia, boolean przelotcan, int kol) {
+    private int szachmat(boolean strona) {
         int[] krol = new int[2];
         if (RuchZagrozenie_kontrola.szach((ustawienie), !strona)) {
-            char[][] backup = new char[8][8];
-            char[][] backup1 = new char[8][8];
-            char[][] backup2 = new char[8][8];
-            char[][] backup3 = new char[8][8];
             for (byte i = 0; i < 8; i++) {
                 for (byte j = 0; j < 8; j++) {
-                    backup[i][j] = (ustawienie)[i][j];
-                    backup1[i][j] = (ustawienie)[i][j];
-                    backup2[i][j] = (ustawienie)[i][j];
-                    backup3[i][j] = (ustawienie)[i][j];
                     if ((ustawienie[i][j] == 'k' && strona)
                             || (ustawienie[i][j] == 'K' && !strona)) {
                         krol[0] = i;
@@ -299,9 +279,9 @@ public class KalkulatorPozycji
             }
             int SZACH = 45;
             int MAT = 1000000;
-            return !SzachMatPatKontrola.uciekaj(backup1, !strona, krol)
-                    && !SzachMatPatKontrola.zastaw(backup2, !strona, Wspomagacz.znajdzklopot(backup, !strona), krol, przelotcan)
-                    && !SzachMatPatKontrola.znajdzodsiecz(backup3, !strona, Wspomagacz.znajdzklopot(backup, !strona), kol, przelotcan)
+            return !SzachMatPatKontrola.uciekaj(ustawienie, !strona, krol)
+                    && !SzachMatPatKontrola.zastaw(ustawienie, !strona, Wspomagacz.znajdzklopot(ustawienie, !strona), krol, przelotcan)
+                    && !SzachMatPatKontrola.znajdzodsiecz(ustawienie, !strona, Wspomagacz.znajdzklopot(ustawienie, !strona), kol, przelotcan)
                     ? glebia != 0 ? MAT * glebia : MAT : SZACH;
 
         }
@@ -309,7 +289,7 @@ public class KalkulatorPozycji
         return 0;
     }
 
-    private int dokonano_roszady(boolean strona, boolean wykonanaRochB, boolean wykonanaRochC) {
+    private int dokonano_roszady(boolean strona) {
         int ROSZADA = 25;
         if (strona) {
             if (wykonanaRochB) {
@@ -326,7 +306,7 @@ public class KalkulatorPozycji
         return 0;
     }
 
-    private int pionkiS(boolean strona, char[][] ustawienie) {
+    private int pionkiS(boolean strona) {
 ////System.out.printlnln("Wchodzi5");
         return pozycja_PION.punktacja(strona, (ustawienie));
     }
@@ -337,9 +317,7 @@ public class KalkulatorPozycji
         return w.punktacja(strona, (ustawienie)) - w.punktacja(!strona, (ustawienie));
     }*/
 
-    private int mobilnosc(char[][] ustawienie, boolean strona, boolean przelotcan,
-            boolean bleft, boolean bright, boolean wleft, boolean wright,
-            boolean roszadaB, boolean roszadaC, int kol) {
+    private int mobilnosc(boolean strona) {
         ////System.out.printlnln("Wchodzi4");
 
         ////System.out.printlnln(stosunek(strona)*RUCHY_BONUS);
@@ -349,8 +327,8 @@ public class KalkulatorPozycji
 
     private int stosunek(char[][] ustawienie, boolean b, boolean przelotcan,
             boolean bleft, boolean bright, boolean wleft, boolean wright, boolean roszadaB, boolean roszadaC, int kol) {
-        int swoje = (Generator.generuj_posuniecia(ustawienie, b, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol, true).size());
-        int wrogie = Generator.generuj_posuniecia(ustawienie, !b, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol, true).size();
+        int swoje = new Generator().generuj_posuniecia(ustawienie, b, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol, true).size();
+        int wrogie = new Generator().generuj_posuniecia(ustawienie, !b, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol, true).size();
         //System.out.println((int) ((swoje*10.0f) / wrogie*1.0f));
         if (RuchZagrozenie_kontrola.szach((ustawienie), !b)) {
             swoje++;
@@ -369,10 +347,9 @@ public class KalkulatorPozycji
         return save.getWartosc();
     }*/
 
-    private int ruchy_zbijajace(char[][] ustawienie, boolean strona, boolean przelotcan,
-            boolean bleft, boolean bright, boolean wleft, boolean wright, boolean roszadaB, boolean roszadaC, int kol) {
+    private int ruchy_zbijajace(boolean strona) {
         ////System.out.printlnln("Wchodzi7");
-        Collection<Ruch> lista = Generator.generuj_posuniecia((ustawienie), strona, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol, false);
+        Collection<Ruch> lista = new Generator().generuj_posuniecia((ustawienie), strona, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol, false);
         int licznik_ataku = 0;
 
         if (!lista.isEmpty()) {

@@ -13,14 +13,11 @@ import java.awt.Image;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
-import java.awt.print.Paper;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -28,10 +25,7 @@ import javax.swing.JOptionPane;
  */
 class Drukarka_P implements Printable {
 
-    char[][] pozycja = new char[8][8];
-    boolean czybialy;
     Image obraz;
-    ArrayList<String> odpis = new ArrayList<>();
 
     private Image konwert_na_grafike(char[][] ust, boolean ruchB) throws IOException {
         BufferedImage bufferedImage = new BufferedImage(590, 835, BufferedImage.TYPE_INT_RGB);
@@ -59,90 +53,51 @@ class Drukarka_P implements Printable {
                 System.out.println(ust[i][j]);
                 if (i % 2 == 1) {
                     obraz.setColor(j % 2 == 0 ? new Color(244, 164, 96) : new Color(115, 69, 19));
-                    obraz.fill(new Rectangle2D.Double(j * 56, (Math.abs(i - 7)) * 56, 56, 56));
-                    switch (ust[i][j]) {
-                        case 'K':
-                            obraz.drawImage(figury2[0], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'k':
-                            obraz.drawImage(figury2[6], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'Q':
-                            obraz.drawImage(figury2[1], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'q':
-                            obraz.drawImage(figury2[7], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'R':
-                            obraz.drawImage(figury2[2], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'r':
-                            obraz.drawImage(figury2[8], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'B':
-                            obraz.drawImage(figury2[3], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'b':
-                            obraz.drawImage(figury2[9], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'N':
-                            obraz.drawImage(figury2[4], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'n':
-                            obraz.drawImage(figury2[10], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'P':
-                            obraz.drawImage(figury2[5], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'p':
-                            obraz.drawImage(figury2[11], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                    }
                 } else {
                     obraz.setColor(j % 2 == 1 ? new Color(244, 164, 96) : new Color(115, 69, 19));
-                    obraz.fill(new Rectangle2D.Double(j * 56, (Math.abs(i - 7)) * 56, 56, 56));
-                    switch (ust[i][j]) {
-                        case 'K':
-                            obraz.drawImage(figury2[0], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'k':
-                            obraz.drawImage(figury2[6], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'Q':
-                            obraz.drawImage(figury2[1], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'q':
-                            obraz.drawImage(figury2[7], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'R':
-                            obraz.drawImage(figury2[2], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'r':
-                            obraz.drawImage(figury2[8], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'B':
-                            obraz.drawImage(figury2[3], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'b':
-                            obraz.drawImage(figury2[9], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'N':
-                            obraz.drawImage(figury2[4], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'n':
-                            obraz.drawImage(figury2[10], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'P':
-                            obraz.drawImage(figury2[5], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'p':
-                            obraz.drawImage(figury2[11], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                    }
+                }
+                obraz.fill(new Rectangle2D.Double(j * 56, (Math.abs(i - 7)) * 56, 56, 56));
+                switch (ust[i][j]) {
+                    case 'K':
+                        obraz.drawImage(figury2[0], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'k':
+                        obraz.drawImage(figury2[6], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'Q':
+                        obraz.drawImage(figury2[1], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'q':
+                        obraz.drawImage(figury2[7], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'R':
+                        obraz.drawImage(figury2[2], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'r':
+                        obraz.drawImage(figury2[8], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'B':
+                        obraz.drawImage(figury2[3], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'b':
+                        obraz.drawImage(figury2[9], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'N':
+                        obraz.drawImage(figury2[4], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'n':
+                        obraz.drawImage(figury2[10], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'P':
+                        obraz.drawImage(figury2[5], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'p':
+                        obraz.drawImage(figury2[11], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
                 }
             }
         }
-        obraz.setColor(ruchB == true ? Color.white : Color.black);
+        obraz.setColor(ruchB ? Color.white : Color.black);
         obraz.fillOval(460, 410, 30, 30);
         obraz.setColor(Color.black);
         obraz.setStroke(new BasicStroke(2));
@@ -164,19 +119,10 @@ class Drukarka_P implements Printable {
         obraz.drawString(ruchB?"G":"B", 336, 448);
         obraz.drawString(ruchB?"H":"A", 392, 448);
         obraz.dispose();
-        /*String nazwa_obrazu = JOptionPane.showInputDialog("podaj nazwę obrazu");
-        File file = new File(nazwa_obrazu+".png");
-        ImageIO.write(bufferedImage, "png", file);*/
         return bufferedImage;
     }
 
     private Image konwert_na_grafike(char[][] ust, boolean ruchB, ArrayList<String> text) throws IOException {
-        int y = 0;
-        boolean dluga;
-        int rozmiarX = (int) (text.size() / 100);
-        dluga = rozmiarX / 100 > 3;
-        rozmiarX = rozmiarX > 3 ? 3 : rozmiarX;
-        System.out.println(rozmiarX);
         BufferedImage bufferedImage = new BufferedImage(590, 835, BufferedImage.TYPE_INT_RGB);
         Graphics2D obraz = bufferedImage.createGraphics();
         BufferedImage[] figury = {(ImageIO.read(this.getClass().getResource("Wking005.png"))),
@@ -202,142 +148,55 @@ class Drukarka_P implements Printable {
                 System.out.println(ust[i][j]);
                 if (i % 2 == 1) {
                     obraz.setColor(j % 2 == 0 ? new Color(244, 164, 96) : new Color(115, 69, 19));
-                    obraz.fill(new Rectangle2D.Double(j * 56, (Math.abs(i - 7)) * 56, 56, 56));
-                    switch (ust[i][j]) {
-                        case 'K':
-                            obraz.drawImage(figury2[0], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'k':
-                            obraz.drawImage(figury2[6], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'Q':
-                            obraz.drawImage(figury2[1], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'q':
-                            obraz.drawImage(figury2[7], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'R':
-                            obraz.drawImage(figury2[2], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'r':
-                            obraz.drawImage(figury2[8], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'B':
-                            obraz.drawImage(figury2[3], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'b':
-                            obraz.drawImage(figury2[9], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'N':
-                            obraz.drawImage(figury2[4], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'n':
-                            obraz.drawImage(figury2[10], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'P':
-                            obraz.drawImage(figury2[5], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'p':
-                            obraz.drawImage(figury2[11], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                    }
                 } else {
                     obraz.setColor(j % 2 == 1 ? new Color(244, 164, 96) : new Color(115, 69, 19));
-                    obraz.fill(new Rectangle2D.Double(j * 56, (Math.abs(i - 7)) * 56, 56, 56));
-                    switch (ust[i][j]) {
-                        case 'K':
-                            obraz.drawImage(figury2[0], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'k':
-                            obraz.drawImage(figury2[6], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'Q':
-                            obraz.drawImage(figury2[1], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'q':
-                            obraz.drawImage(figury2[7], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'R':
-                            obraz.drawImage(figury2[2], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'r':
-                            obraz.drawImage(figury2[8], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'B':
-                            obraz.drawImage(figury2[3], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'b':
-                            obraz.drawImage(figury2[9], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'N':
-                            obraz.drawImage(figury2[4], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'n':
-                            obraz.drawImage(figury2[10], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'P':
-                            obraz.drawImage(figury2[5], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                        case 'p':
-                            obraz.drawImage(figury2[11], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
-                            break;
-                    }
+                }
+                obraz.fill(new Rectangle2D.Double(j * 56, (Math.abs(i - 7)) * 56, 56, 56));
+                switch (ust[i][j]) {
+                    case 'K':
+                        obraz.drawImage(figury2[0], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'k':
+                        obraz.drawImage(figury2[6], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'Q':
+                        obraz.drawImage(figury2[1], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'q':
+                        obraz.drawImage(figury2[7], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'R':
+                        obraz.drawImage(figury2[2], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'r':
+                        obraz.drawImage(figury2[8], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'B':
+                        obraz.drawImage(figury2[3], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'b':
+                        obraz.drawImage(figury2[9], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'N':
+                        obraz.drawImage(figury2[4], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'n':
+                        obraz.drawImage(figury2[10], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'P':
+                        obraz.drawImage(figury2[5], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'p':
+                        obraz.drawImage(figury2[11], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
                 }
             }
         }
-        obraz.setColor(ruchB == true ? Color.white : Color.black);
+        obraz.setColor(ruchB ? Color.white : Color.black);
         obraz.fillOval(460, 410, 30, 30);
         obraz.setColor(Color.black);
         obraz.setStroke(new BasicStroke(2));
         obraz.drawOval(460, 410, 30, 30);
-        int x = 0;
-        obraz.setFont(new Font("Liberation Mono", Font.PLAIN, 10));
-        int temp = 1;
-        for (int i = 0; i < text.size(); i++) {
-            if (i % 2 == 0) {
-                obraz.drawString((String.valueOf(temp) + "." + text.get(i)), 0 + x * 135, (i == 0) ? 460 : (i / 2) * 10 - (250 * x) + 460);
-            } else {
-                obraz.drawString(text.get(i), 80 + x * 135, (i != 1) ? ((i - 1) / 2) * 10 - (250 * x) + 460 : 460);
-                temp++;
-            }
-            if (((i + 1) % 50 == 0 && i > 0)) {
-                x = x + 1;
-            }
-            /* switch (i % 8) {
-                case 0:
-                    obraz.drawString((String.valueOf(temp) + "." + text.get(i)), 0 + 0 * 135, (i <8) ? 460 : (10 * x) + 460);
-                    break;
-                case 1:
-                    obraz.drawString(text.get(i), 80 + 0 * 135, (i>=8) ? (10 * x) + 460 : 460);
-                    temp++;
-                    break;
-                    case 2:
-                    obraz.drawString((String.valueOf(temp) + "." + text.get(i)), 0 + 1 * 135, (i <8) ? 460 : (10 * x) + 460);
-                    break;
-                case 3:
-                    obraz.drawString(text.get(i), 80 + 1 * 135, (i>=8) ? (10 * x) + 460 : 460);
-                    temp++;
-                    break;
-                    case 4:
-                    obraz.drawString((String.valueOf(temp) + "." + text.get(i)), 0 + 2 * 135, (i <8) ? 460 :  (10 * x) + 460);
-                    break;
-                case 5:
-                    obraz.drawString(text.get(i), 80 + 2 * 135, (i>=8) ? (10 * x) + 460 : 460);
-                    temp++;
-                    break;
-                    case 6:
-                    obraz.drawString((String.valueOf(temp) + "." + text.get(i)), 0 + 3 * 135, (i <8) ? 460 : (10 * x) + 460);
-                    break;
-                case 7:
-                    obraz.drawString(text.get(i), 80 + 3 * 135, (i>=8) ? (10 * x) + 460 : 460);
-                    temp++;
-                    break;
-            }
-            if (((i + 1) % 8 == 0 && i > 0)) {
-                x = x + 1;
-            }*/
-        }
-
         obraz.drawString(ruchB?"8":"1", 0, 46);
         obraz.drawString(ruchB?"7":"2", 0, 102);
         obraz.drawString(ruchB?"6":"3", 0, 158);
@@ -354,10 +213,21 @@ class Drukarka_P implements Printable {
         obraz.drawString(ruchB?"F":"C", 280, 448);
         obraz.drawString(ruchB?"G":"B", 336, 448);
         obraz.drawString(ruchB?"H":"A", 392, 448);
+        int x = 0;
+        obraz.setFont(new Font("Liberation Mono", Font.PLAIN, 10));
+        int temp = 1;
+        for (int i = 0; i < text.size(); i++) {
+            if (i % 2 == 0) {
+                obraz.drawString(((temp) + "." + text.get(i)),  x * 135, (i == 0) ? 460 : (i / 2) * 10 - (300 * x) + 460);
+            } else {
+                obraz.drawString(text.get(i), 80 + x * 135, (i != 1) ? ((i - 1) / 2) * 10 - (300 * x) + 460 : 460);
+                temp++;
+            }
+            if (((i + 1) % 60 == 0)) {
+                x = x + 1;
+            }
+        }
         obraz.dispose();
-        //String nazwa_obrazu = JOptionPane.showInputDialog("podaj nazwę obrazu");
-        //File file = new File(nazwa_obrazu+".png");
-        //ImageIO.write(bufferedImage, "png", file);
         return bufferedImage;
     }
 

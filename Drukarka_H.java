@@ -25,54 +25,22 @@ public class Drukarka_H implements Printable {
 
     private Image konwert_na_grafike(ArrayList<String> historia) {
         BufferedImage bufferedImage = new BufferedImage(580, 850, BufferedImage.TYPE_INT_RGB);
-        Graphics2D obraz = bufferedImage.createGraphics();
-        obraz.setColor(Color.white);
-        obraz.fillRect(0, 0, 580, 850);
-        obraz.setColor(Color.black);
+        Graphics2D obraz1 = bufferedImage.createGraphics();
+        obraz1.setColor(Color.white);
+        obraz1.fillRect(0, 0, 580, 850);
+        obraz1.setColor(Color.black);
         int x = 0;
-        obraz.setFont(new Font("Liberation Mono", Font.PLAIN, 10));
+        obraz1.setFont(new Font("Liberation Mono", Font.PLAIN, 10));
         int temp = 1;
         for (int i = 0; i < historia.size(); i++) {
-          /*  switch (i % 8) {
-                case 0:
-                    obraz.drawString((String.valueOf(temp+100) + "." + historia.get(i)), 0 + 0 * 140, (i <8) ? 10 : (10 * x) + 10);
-                    break;
-                case 1:
-                    obraz.drawString(historia.get(i), 80 + 0 * 140, (i>=8) ? (10 * x) + 10 : 10);
-                    temp++;
-                    break;
-                    case 2:
-                    obraz.drawString((String.valueOf(temp+100) + "." + historia.get(i)), 0 + 1 * 140, (i <8) ? 10 : (10 * x) + 10);
-                    break;
-                case 3:
-                    obraz.drawString(historia.get(i), 80 + 1 * 140, (i>=8) ? (10 * x) + 10 : 10);
-                    temp++;
-                    break;
-                    case 4:
-                    obraz.drawString((String.valueOf(temp+100) + "." + historia.get(i)), 0 + 2 * 140, (i <8) ? 10 :  (10 * x) + 10);
-                    break;
-                case 5:
-                    obraz.drawString(historia.get(i), 80 + 2 * 140, (i>=8) ? (10 * x) + 10 : 10);
-                    temp++;
-                    break;
-                    case 6:
-                    obraz.drawString((String.valueOf(temp+100) + "." + historia.get(i)), 0 + 3 * 140, (i <8) ? 10 : (10 * x) + 10);
-                    break;
-                case 7:
-                    obraz.drawString(historia.get(i), 80 + 3 * 140, (i>=8) ? (10 * x) + 10 : 10);
-                    temp++;
-                    break;
-            }
-            if (((i + 1) % 8 == 0 && i > 0)) {
-                x = x + 1;
-            }*/
+
              if (i % 2 == 0) {
-                obraz.drawString((String.valueOf(temp) + "." + historia.get(i)), x * 135, (i == 0) ? 10 : (i / 2) * 10 - (750 * x)+10);
+                obraz1.drawString(((temp) + "." + historia.get(i)), x * 135, (i == 0) ? 10 : (i / 2) * 10 - (750 * x)+10);
             } else {
-                obraz.drawString(historia.get(i), 80 + x * 135, (i != 1) ? ((i - 1) / 2) * 10 - (750 * x) +10: 10);
+                obraz1.drawString(historia.get(i), 80 + x * 135, (i != 1) ? ((i - 1) / 2) * 10 - (750 * x) +10: 10);
                 temp++;
             }
-            if (((i + 1) % 150 == 0 && i > 0)) {
+            if (((i + 1) % 150 == 0)) {
                 x = x + 1;
             }
         }
@@ -81,25 +49,25 @@ public class Drukarka_H implements Printable {
 
     private Image konwert_na_grafike(ArrayList<String> historia,int przedzial) {
         BufferedImage bufferedImage = new BufferedImage(580, 850, BufferedImage.TYPE_INT_RGB);
-        Graphics2D obraz = bufferedImage.createGraphics();
-        obraz.setColor(Color.white);
-        obraz.fillRect(0, 0, 580, 850);
-        obraz.setColor(Color.black);
+        Graphics2D obraz1 = bufferedImage.createGraphics();
+        obraz1.setColor(Color.white);
+        obraz1.fillRect(0, 0, 580, 850);
+        obraz1.setColor(Color.black);
         int x = 0;
-        obraz.setFont(new Font("Liberation Mono", Font.PLAIN, 10));
+        obraz1.setFont(new Font("Liberation Mono", Font.PLAIN, 10));
         int temp = 1;
         for (int i = 0; i < historia.size(); i++) {
              if (i % 2 == 0) {
-                obraz.drawString((String.valueOf(temp) + "." + historia.get(i)), x * 135, (i == 0) ? 10 : (i / 2) * 10 - (750 * x)+10);
+                obraz1.drawString(((temp) + "." + historia.get(i)), x * 135, (i == 0) ? 10 : (i / 2) * 10 - (750 * x)+10);
             } else {
-                obraz.drawString(historia.get(i), 80 + x * 135, (i != 1) ? ((i - 1) / 2) * 10 - (750 * x) +10: 10);
+                obraz1.drawString(historia.get(i), 80 + x * 135, (i != 1) ? ((i - 1) / 2) * 10 - (750 * x) +10: 10);
                 temp++;
             }
-            if (((i + 1) % 150 == 0 && i > 0)) {
+            if (((i + 1) % 150 == 0)) {
                 x = x + 1;
             }
         }
-        obraz.drawString(""+String.valueOf((przedzial-1)*300+1)+" - "+String.valueOf((przedzial)*300),300 ,790);
+        obraz1.drawString(((przedzial-1)*300+1)+" - "+((przedzial)*300),300 ,790);
         return bufferedImage;
     }
 

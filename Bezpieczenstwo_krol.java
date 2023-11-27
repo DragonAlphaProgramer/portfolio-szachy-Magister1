@@ -44,7 +44,7 @@ public class Bezpieczenstwo_krol {
                 }
             }
         }
-        Collection<Ruch> ruchy_rywala = Generator.generuj_posuniecia((ustawienie), !b, przelotcan, bl, br, wl, wr, RochB, RochC, kol,false,' ',new int[2],true,false);
+        Collection<Ruch> ruchy_rywala = new Generator().generuj_posuniecia((ustawienie), !b, przelotcan, bl, br, wl, wr, RochB, RochC, kol,false,' ',new int[2],true,false);
         char symbol = ' ';
         int dystans = Integer.MAX_VALUE;
         for (Ruch move : ruchy_rywala) {
@@ -138,29 +138,7 @@ public class Bezpieczenstwo_krol {
         return Math.max(roznicaY, roznicaX);
     }
 
-    private SI_MIN_MAX_Alfa_Beta.figury[][] konwert(char[][] ustawienie) {
-      SI_MIN_MAX_Alfa_Beta.figury[][] pozycja = new SI_MIN_MAX_Alfa_Beta.figury[8][8];
-             for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-            switch(ustawienie[i][j]){
-                case ' ':pozycja[i][j]=SI_MIN_MAX_Alfa_Beta.figury.pustka;break;
-                case 'P':pozycja[i][j]=SI_MIN_MAX_Alfa_Beta.figury.BPion;break;
-                case 'p':pozycja[i][j]=SI_MIN_MAX_Alfa_Beta.figury.CPion; break;
-                case 'N':pozycja[i][j]=SI_MIN_MAX_Alfa_Beta.figury.BSkoczek;break;
-                case 'n':pozycja[i][j]=SI_MIN_MAX_Alfa_Beta.figury.CSkoczek; break;
-                case 'B':pozycja[i][j]=SI_MIN_MAX_Alfa_Beta.figury.BGoniec;break;
-                case 'b':pozycja[i][j]=SI_MIN_MAX_Alfa_Beta.figury.CGoniec; break;
-                case 'R':pozycja[i][j]=SI_MIN_MAX_Alfa_Beta.figury.BWieza;break;
-                case 'r':pozycja[i][j]=SI_MIN_MAX_Alfa_Beta.figury.CWieza; break;
-                case 'Q':pozycja[i][j]=SI_MIN_MAX_Alfa_Beta.figury.BHetman;break;
-                case 'q':pozycja[i][j]=SI_MIN_MAX_Alfa_Beta.figury.CHetman; break;
-                case 'K':pozycja[i][j]=SI_MIN_MAX_Alfa_Beta.figury.BKrol;break;
-                case 'k':pozycja[i][j]=SI_MIN_MAX_Alfa_Beta.figury.CKrol; break;
-            }
-        }
-        }return  pozycja;    
-    }
-
+   
     public class analizator_odleglosci {
 
         char zagrozenie;

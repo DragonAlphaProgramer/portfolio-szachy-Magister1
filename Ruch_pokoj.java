@@ -13,9 +13,8 @@ class Ruch_pokoj {
 
     public static boolean ruch(int[] lokalS, int[] lokalK, char symbol,
             char[][][] ustawienie, boolean czybiale, boolean przelotcan, int kol, char tulasy) {
-        boolean krolZ;
         byte alfa, beta, gama, dela;
-        boolean bez, wynik = false;
+        boolean wynik = false;
         char z1, z2;
         switch (symbol) {
             case 'N':
@@ -29,11 +28,11 @@ class Ruch_pokoj {
                         || (((lokalS[0] - lokalK[0]) == 1) && ((lokalS[1] - lokalK[1]) == -2))
                         || (((lokalS[0] - lokalK[0]) == -1) && ((lokalS[1] - lokalK[1]) == -2)))
                         && ((tulasy == ' '
-                        && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                        || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                        || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] != ' ')))
-                        || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' '
-                        && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')) && tulasy != ' '));
+                        && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                        || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                        || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] != ' ')))
+                        || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' '
+                        && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')) && tulasy != ' '));
                 break;
             case 'B':
             case 'b':
@@ -41,16 +40,15 @@ class Ruch_pokoj {
                         || lokalK[1] - lokalS[1] == -1 && ((lokalK[0] - lokalS[0] == 1 || lokalK[0] - lokalS[0] == -1))) {
 
                     wynik = (tulasy == ' '
-                            && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] != ' ')))
-                            || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' '
-                            && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')) && tulasy != ' ');
+                            && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] != ' ')))
+                            || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' '
+                            && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')) && tulasy != ' ');
 
                 } else {
                     if ((lokalS[0] - lokalK[0]) == (lokalS[1] - lokalK[1])) {
                         if (lokalS[1] > lokalK[1]) {
-                            outerLoop:
                             for (byte i = 0; i <= (lokalS[1] - lokalK[1] - 2); i++) {
                                 alfa = (byte) (lokalS[0] - i - 2);
                                 beta = (byte) (lokalS[1] - i - 2);
@@ -58,13 +56,13 @@ class Ruch_pokoj {
                                         && (ustawienie[beta][alfa][0] == ' ' && ustawienie[beta][alfa][1] == ' ')) {
                                     wynik = ((i == lokalS[1] - lokalK[1] - 2)
                                             && ((tulasy == ' '
-                                            && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] != ' ')))
-                                            || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' '
-                                            && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')) && tulasy != ' ')))
+                                            && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] != ' ')))
+                                            || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' '
+                                            && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')) && tulasy != ' ')))
                                             || ((i < lokalS[1] - lokalK[1] - 2) && (ustawienie[beta][alfa][0] == ' ' && ustawienie[beta][alfa][1] == ' '));
-                                    if (wynik == false) {
+                                    if (!wynik) {
                                         break;
                                     }
                                 } else {
@@ -76,7 +74,6 @@ class Ruch_pokoj {
                                 }
                             }
                         } else {
-                            outerLoop:
                             for (byte i = 0; i <= (lokalK[1] - lokalS[1] - 2); i++) {
                                 alfa = (byte) (lokalS[0] + i);
                                 beta = (byte) (lokalS[1] + i);
@@ -85,13 +82,13 @@ class Ruch_pokoj {
                                         && (ustawienie[beta][alfa][0] == ' ' && ustawienie[beta][alfa][1] == ' ')) {
                                     wynik = ((i == lokalK[1] - lokalS[1] - 2)
                                             && ((tulasy == ' '
-                                            && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] != ' ')))
-                                            || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' '
-                                            && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')) && tulasy != ' ')))
+                                            && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] != ' ')))
+                                            || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' '
+                                            && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')) && tulasy != ' ')))
                                             || ((i < lokalK[1] - lokalS[1] - 2) && (ustawienie[beta][alfa][0] == ' ' && ustawienie[beta][alfa][1] == ' '));
-                                    if (wynik == false) {
+                                    if (!wynik) {
                                         break;
                                     }
                                 } else {
@@ -102,7 +99,6 @@ class Ruch_pokoj {
                         }
                     } else {
                         if (lokalK[1] > lokalS[1]) {
-                            outerLoop:
                             for (byte i = 0; i <= (lokalK[1] - lokalS[1] - 2); i++) {
                                 alfa = (byte) (lokalS[0] - i - 2);
                                 beta = (byte) (lokalS[1] + i);
@@ -110,13 +106,13 @@ class Ruch_pokoj {
                                         && (ustawienie[beta][alfa][0] == ' ' && ustawienie[beta][alfa][1] == ' ')) {
                                     wynik = ((i == lokalK[1] - lokalS[1] - 2)
                                             && ((tulasy == ' '
-                                            && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] != ' ')))
-                                            || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' '
-                                            && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')) && tulasy != ' ')))
+                                            && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] != ' ')))
+                                            || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' '
+                                            && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')) && tulasy != ' ')))
                                             || ((i < lokalK[1] - lokalS[1] - 2) && (ustawienie[beta][alfa][0] == ' ' && ustawienie[beta][alfa][1] == ' '));
-                                    if (wynik == false) {
+                                    if (!wynik) {
                                         break;
                                     }
                                 } else {
@@ -125,7 +121,6 @@ class Ruch_pokoj {
                                 }
                             }
                         } else {
-                            outerLoop:
                             for (byte i = 0; i <= (lokalS[1] - lokalK[1] - 2); i++) {
 
                                 alfa = (byte) (lokalS[0] + i);
@@ -134,13 +129,13 @@ class Ruch_pokoj {
                                         && (ustawienie[beta][alfa][0] == ' ' && ustawienie[beta][alfa][1] == ' ')) {
                                     wynik = ((i == lokalS[1] - lokalK[1] - 2)
                                             && ((tulasy == ' '
-                                            && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] != ' ')))
-                                            || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' '
-                                            && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')) && tulasy != ' ')))
+                                            && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] != ' ')))
+                                            || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' '
+                                            && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')) && tulasy != ' ')))
                                             || ((i < lokalS[1] - lokalK[1] - 2) && (ustawienie[beta][alfa][0] == ' ' && ustawienie[beta][alfa][1] == ' '));
-                                    if (wynik == false) {
+                                    if (!wynik) {
                                         break;
                                     }
                                 } else {
@@ -164,8 +159,8 @@ class Ruch_pokoj {
                 } else {
                     if (dela - alfa == 1) {
                         if (beta - 1 >= 0 && gama - beta == -1) {
-                            z1 = czybiale == true ? ustawienie[alfa + 1][beta - 1][1] : ustawienie[alfa + 1][beta - 1][0];
-                            if (przelotcan == true && alfa - dela == -1 && alfa == 4 && beta == kol) {
+                            z1 = czybiale ? ustawienie[alfa + 1][beta - 1][1] : ustawienie[alfa + 1][beta - 1][0];
+                            if (przelotcan && alfa - dela == -1 && alfa == 4 && beta == kol) {
                                 wynik = ustawienie[alfa + 1][beta - 1][0] == ' ' && ustawienie[alfa + 1][beta - 1][1] == ' ' && ustawienie[alfa][beta - 1][1] == 'p';
                             } else {
 
@@ -173,8 +168,8 @@ class Ruch_pokoj {
                             }
                         } else {
                             if (beta + 1 <= 7 && gama - beta == 1) {
-                                z1 = czybiale == true ? ustawienie[alfa + 1][beta + 1][1] : ustawienie[alfa + 1][beta + 1][0];
-                                if (przelotcan == true && alfa - dela == -1 && alfa == 4 && beta + 2 == kol) {
+                                z1 = czybiale ? ustawienie[alfa + 1][beta + 1][1] : ustawienie[alfa + 1][beta + 1][0];
+                                if (przelotcan && alfa - dela == -1 && alfa == 4 && beta + 2 == kol) {
                                     wynik = ustawienie[alfa + 1][beta + 1][1] == ' ' && ustawienie[alfa + 1][beta + 1][0] == ' ' && ustawienie[alfa][beta + 1][1] == 'p';
                                     System.out.println(wynik);
                                 } else {
@@ -191,12 +186,12 @@ class Ruch_pokoj {
                         System.out.println(wynik);
                     }
                 }
-                if (wynik == true && przelotcan == true && (symbol == 'P' && lokalS[1] == 5)) {
+                if (wynik && przelotcan && (symbol == 'P' && lokalS[1] == 5)) {
 
                     wynik = true;
 
                 }
-                if (wynik == true && przelotcan == false) {
+                if (wynik && !przelotcan) {
 
                     wynik = true;
 
@@ -207,9 +202,9 @@ class Ruch_pokoj {
                 beta = (byte) (lokalS[0] - 1);
                 gama = (byte) (lokalK[0] - 1);
                 dela = (byte) (lokalK[1] - 1);
-                z1 = czybiale == true ? ustawienie[alfa - 1][beta][1] : ustawienie[alfa - 1][beta][0];
+                z1 = czybiale ? ustawienie[alfa - 1][beta][1] : ustawienie[alfa - 1][beta][0];
                 if (alfa - 2 > -1) {
-                    z2 = czybiale == true ? ustawienie[alfa - 2][beta][1] : ustawienie[alfa - 2][beta][0];
+                    z2 = czybiale ? ustawienie[alfa - 2][beta][1] : ustawienie[alfa - 2][beta][0];
                 } else {
                     z2 = ' ';
                 }
@@ -220,16 +215,16 @@ class Ruch_pokoj {
                 } else {
                     if (dela - alfa == -1) {
                         if (beta - 1 >= 0 && gama - beta == -1) {
-                            z1 = czybiale == false ? ustawienie[alfa - 1][beta - 1][0] : ustawienie[alfa - 1][beta - 1][1];
-                            if (przelotcan == true && alfa - dela == 1 && alfa == 3 && beta == kol) {
+                            z1 = !czybiale ? ustawienie[alfa - 1][beta - 1][0] : ustawienie[alfa - 1][beta - 1][1];
+                            if (przelotcan && alfa - dela == 1 && alfa == 3 && beta == kol) {
                                 wynik = (z1 != 'K' && z1 != 'k' && z1 != 'Q' && z1 != 'q' && z1 != 'R' && z1 != 'r' && z1 != 'B' && z1 != 'b' && z1 != 'N' && z1 != 'n' && z1 != 'P' && z1 != 'p') && ustawienie[alfa][beta - 1][0] == 'P';
                             } else {
                                 wynik = (z1 == 'Q' || z1 == 'R' || z1 == 'B' || z1 == 'N' || z1 == 'P' || z1 == 'K') && tulasy == ' ';
                             }
                         } else {
                             if (beta + 1 <= 7 && gama - beta == 1) {
-                                z1 = czybiale == true ? ustawienie[alfa - 1][beta + 1][1] : ustawienie[alfa - 1][beta + 1][0];
-                                if (przelotcan == true && alfa - dela == 1 && alfa == 3 && beta + 2 == kol) {
+                                z1 = czybiale ? ustawienie[alfa - 1][beta + 1][1] : ustawienie[alfa - 1][beta + 1][0];
+                                if (przelotcan && alfa - dela == 1 && alfa == 3 && beta + 2 == kol) {
                                     wynik = (z1 != 'K' && z1 != 'k' && z1 != 'Q' && z1 != 'q' && z1 != 'R' && z1 != 'r' && z1 != 'B' && z1 != 'b' && z1 != 'N' && z1 != 'n' && z1 != 'P' && z1 != 'p') && ustawienie[alfa][beta + 1][0] == 'P';
                                     System.out.println(wynik);
                                 } else {
@@ -245,12 +240,12 @@ class Ruch_pokoj {
                         System.out.println(wynik);
                     }
                 }
-                if (wynik == true && przelotcan == true && (symbol == 'p' && lokalS[1] == 4)) {
+                if (wynik && przelotcan && (symbol == 'p' && lokalS[1] == 4)) {
 
                     wynik = true;
 
                 }
-                if (wynik == true && przelotcan == false) {
+                if (wynik && !przelotcan) {
                     wynik = true;
 
                 }
@@ -265,11 +260,11 @@ class Ruch_pokoj {
                         || (alfa - gama == 0) && (beta - dela == 1 || beta - dela == -1)) {
 
                     wynik = (tulasy == ' '
-                            && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] != ' ')))
-                            || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' '
-                            && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')) && tulasy != ' ');
+                            && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] != ' ')))
+                            || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' '
+                            && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')) && tulasy != ' ');
 
                 } else {
                     if (alfa == gama) {
@@ -278,11 +273,11 @@ class Ruch_pokoj {
                                 if ((ustawienie[beta - i][alfa][0] == ' ' && ustawienie[beta - i][alfa][0] == ' ')) {
                                     wynik = ((i == beta - dela - 1)
                                             && ((tulasy == ' '
-                                            && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] != ' ')))
-                                            || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' '
-                                            && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')) && tulasy != ' ')))
+                                            && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] != ' ')))
+                                            || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' '
+                                            && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')) && tulasy != ' ')))
                                             || ((i < beta - dela - 1) && (ustawienie[beta - i][alfa][0] == ' ' && ustawienie[beta - i][alfa][1] == ' '));
 
                                 } else {
@@ -296,11 +291,11 @@ class Ruch_pokoj {
                                 if ((ustawienie[beta + i][alfa][0] == ' ' && ustawienie[beta + i][alfa][0] == ' ')) {
                                     wynik = ((i == dela - beta - 1)
                                             && ((tulasy == ' '
-                                            && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] != ' ')))
-                                            || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' '
-                                            && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')) && tulasy != ' ')))
+                                            && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                            || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] != ' ')))
+                                            || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' '
+                                            && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')) && tulasy != ' ')))
                                             || ((i < dela - beta - 1) && (ustawienie[beta + i][alfa][0] == ' ' && ustawienie[beta + i][alfa][1] == ' '));
                                     System.out.println(wynik);
                                 } else {
@@ -317,11 +312,11 @@ class Ruch_pokoj {
                                     if (ustawienie[beta][alfa - i][0] == ' ' && ustawienie[beta][alfa - i][1] == ' ') {
                                         wynik = ((i == alfa - gama - 1)
                                                 && ((tulasy == ' '
-                                                && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] != ' ')))
-                                                || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' '
-                                                && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')) && tulasy != ' ')))
+                                                && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] != ' ')))
+                                                || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' '
+                                                && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')) && tulasy != ' ')))
                                                 || ((i < alfa - gama - 1) && (ustawienie[beta][alfa - i][0] == ' ' && ustawienie[beta][alfa - i][1] == ' '));
                                         System.out.println(wynik);
                                     } else {
@@ -335,11 +330,11 @@ class Ruch_pokoj {
                                     if (ustawienie[beta][alfa + i][0] == ' ' && ustawienie[beta][alfa + i][1] == ' ') {
                                         wynik = ((i == gama - alfa - 1)
                                                 && ((tulasy == ' '
-                                                && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] != ' ')))
-                                                || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' '
-                                                && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')) && tulasy != ' ')))
+                                                && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] != ' ')))
+                                                || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' '
+                                                && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')) && tulasy != ' ')))
                                                 || ((i < gama - alfa - 1) && (ustawienie[beta][alfa + i][0] == ' ' && ustawienie[beta][alfa + i][1] == ' '));
 
                                         System.out.println(wynik);
@@ -369,11 +364,11 @@ class Ruch_pokoj {
                             || (alfa - gama == 0) && (beta - dela == 1 || beta - dela == -1)) {
 
                         wynik = (tulasy == ' '
-                                && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] != ' ')))
-                                || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' '
-                                && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')) && tulasy != ' ');
+                                && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] != ' ')))
+                                || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' '
+                                && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')) && tulasy != ' ');
 
                     } else {
                         if (alfa == gama) {
@@ -382,11 +377,11 @@ class Ruch_pokoj {
                                     if ((ustawienie[beta - i][alfa][0] == ' ' && ustawienie[beta - i][alfa][0] == ' ')) {
                                         wynik = ((i == beta - dela - 1)
                                                 && ((tulasy == ' '
-                                                && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] != ' ')))
-                                                || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' '
-                                                && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')) && tulasy != ' ')))
+                                                && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] != ' ')))
+                                                || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' '
+                                                && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')) && tulasy != ' ')))
                                                 || ((i < beta - dela - 1) && (ustawienie[beta - i][alfa][0] == ' ' && ustawienie[beta - i][alfa][1] == ' '));
 
                                     } else {
@@ -400,11 +395,11 @@ class Ruch_pokoj {
                                     if ((ustawienie[beta + i][alfa][0] == ' ' && ustawienie[beta + i][alfa][0] == ' ')) {
                                         wynik = ((i == dela - beta - 1)
                                                 && ((tulasy == ' '
-                                                && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] != ' ')))
-                                                || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' '
-                                                && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')) && tulasy != ' ')))
+                                                && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] != ' ')))
+                                                || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' '
+                                                && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')) && tulasy != ' ')))
                                                 || ((i < dela - beta - 1) && (ustawienie[beta + i][alfa][0] == ' ' && ustawienie[beta + i][alfa][1] == ' '));
                                         System.out.println(wynik);
                                     } else {
@@ -421,11 +416,11 @@ class Ruch_pokoj {
                                         if (ustawienie[beta][alfa - i][0] == ' ' && ustawienie[beta][alfa - i][1] == ' ') {
                                             wynik = ((i == alfa - gama - 1)
                                                     && ((tulasy == ' '
-                                                    && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                                    || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                                    || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] != ' ')))
-                                                    || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' '
-                                                    && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')) && tulasy != ' ')))
+                                                    && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                                    || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                                    || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] != ' ')))
+                                                    || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' '
+                                                    && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')) && tulasy != ' ')))
                                                     || ((i < alfa - gama - 1) && (ustawienie[beta][alfa - i][0] == ' ' && ustawienie[beta][alfa - i][1] == ' '));
                                             System.out.println(wynik);
                                         } else {
@@ -439,11 +434,11 @@ class Ruch_pokoj {
                                         if (ustawienie[beta][alfa + i][0] == ' ' && ustawienie[beta][alfa + i][1] == ' ') {
                                             wynik = ((i == gama - alfa - 1)
                                                     && ((tulasy == ' '
-                                                    && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                                    || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                                    || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] != ' ')))
-                                                    || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' '
-                                                    && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')) && tulasy != ' ')))
+                                                    && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                                    || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                                    || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] != ' ')))
+                                                    || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' '
+                                                    && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')) && tulasy != ' ')))
                                                     || ((i < gama - alfa - 1) && (ustawienie[beta][alfa + i][0] == ' ' && ustawienie[beta][alfa + i][1] == ' '));
 
                                             System.out.println(wynik);
@@ -466,16 +461,16 @@ class Ruch_pokoj {
                             || lokalK[1] - lokalS[1] == -1 && ((lokalK[0] - lokalS[0] == 1 || lokalK[0] - lokalS[0] == -1))) {
 
                         wynik = (tulasy == ' '
-                                && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] != ' ')))
-                                || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' '
-                                && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')) && tulasy != ' ');
+                                && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] != ' ')))
+                                || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' '
+                                && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')) && tulasy != ' ');
 
                     } else {
                         if ((lokalS[0] - lokalK[0]) == (lokalS[1] - lokalK[1])) {
                             if (lokalS[1] > lokalK[1]) {
-                                outerLoop:
+                                
                                 for (byte i = 0; i <= (lokalS[1] - lokalK[1] - 2); i++) {
                                     alfa = (byte) (lokalS[0] - i - 2);
                                     beta = (byte) (lokalS[1] - i - 2);
@@ -483,13 +478,13 @@ class Ruch_pokoj {
                                             && (ustawienie[beta][alfa][0] == ' ' && ustawienie[beta][alfa][1] == ' ')) {
                                         wynik = ((i == lokalS[1] - lokalK[1] - 2)
                                                 && ((tulasy == ' '
-                                                && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] != ' ')))
-                                                || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' '
-                                                && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')) && tulasy != ' ')))
+                                                && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] != ' ')))
+                                                || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' '
+                                                && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')) && tulasy != ' ')))
                                                 || ((i < lokalS[1] - lokalK[1] - 2) && (ustawienie[beta][alfa][0] == ' ' && ustawienie[beta][alfa][1] == ' '));
-                                        if (wynik == false) {
+                                        if (!wynik) {
                                             break;
                                         }
                                     } else {
@@ -501,7 +496,6 @@ class Ruch_pokoj {
                                     }
                                 }
                             } else {
-                                outerLoop:
                                 for (byte i = 0; i <= (lokalK[1] - lokalS[1] - 2); i++) {
                                     alfa = (byte) (lokalS[0] + i);
                                     beta = (byte) (lokalS[1] + i);
@@ -510,13 +504,13 @@ class Ruch_pokoj {
                                             && (ustawienie[beta][alfa][0] == ' ' && ustawienie[beta][alfa][1] == ' ')) {
                                         wynik = ((i == lokalK[1] - lokalS[1] - 2)
                                                 && ((tulasy == ' '
-                                                && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] != ' ')))
-                                                || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' '
-                                                && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')) && tulasy != ' ')))
+                                                && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] != ' ')))
+                                                || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' '
+                                                && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')) && tulasy != ' ')))
                                                 || ((i < lokalK[1] - lokalS[1] - 2) && (ustawienie[beta][alfa][0] == ' ' && ustawienie[beta][alfa][1] == ' '));
-                                        if (wynik == false) {
+                                        if (!wynik) {
                                             break;
                                         }
                                     } else {
@@ -527,7 +521,6 @@ class Ruch_pokoj {
                             }
                         } else {
                             if (lokalK[1] > lokalS[1]) {
-                                outerLoop:
                                 for (byte i = 0; i <= (lokalK[1] - lokalS[1] - 2); i++) {
                                     alfa = (byte) (lokalS[0] - i - 2);
                                     beta = (byte) (lokalS[1] + i);
@@ -535,13 +528,13 @@ class Ruch_pokoj {
                                             && (ustawienie[beta][alfa][0] == ' ' && ustawienie[beta][alfa][1] == ' ')) {
                                         wynik = ((i == lokalK[1] - lokalS[1] - 2)
                                                 && ((tulasy == ' '
-                                                && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] != ' ')))
-                                                || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' '
-                                                && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')) && tulasy != ' ')))
+                                                && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] != ' ')))
+                                                || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' '
+                                                && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')) && tulasy != ' ')))
                                                 || ((i < lokalK[1] - lokalS[1] - 2) && (ustawienie[beta][alfa][0] == ' ' && ustawienie[beta][alfa][1] == ' '));
-                                        if (wynik == false) {
+                                        if (!wynik) {
                                             break;
                                         }
                                     } else {
@@ -550,7 +543,6 @@ class Ruch_pokoj {
                                     }
                                 }
                             } else {
-                                outerLoop:
                                 for (byte i = 0; i <= (lokalS[1] - lokalK[1] - 2); i++) {
 
                                     alfa = (byte) (lokalS[0] + i);
@@ -559,13 +551,13 @@ class Ruch_pokoj {
                                             && (ustawienie[beta][alfa][0] == ' ' && ustawienie[beta][alfa][1] == ' ')) {
                                         wynik = ((i == lokalS[1] - lokalK[1] - 2)
                                                 && ((tulasy == ' '
-                                                && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')
-                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] != ' ')))
-                                                || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 1 : 0] == ' '
-                                                && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale == true ? 0 : 1] == ' ')) && tulasy != ' ')))
+                                                && ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')
+                                                || (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] != ' ' && ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] != ' ')))
+                                                || ((ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 1 : 0] == ' '
+                                                && (ustawienie[lokalK[1] - 1][lokalK[0] - 1][czybiale ? 0 : 1] == ' ')) && tulasy != ' ')))
                                                 || ((i < lokalS[1] - lokalK[1] - 2) && (ustawienie[beta][alfa][0] == ' ' && ustawienie[beta][alfa][1] == ' '));
-                                        if (wynik == false) {
+                                        if (!wynik) {
                                             break;
                                         }
                                     } else {
@@ -672,11 +664,11 @@ class Ruch_pokoj {
                 break;
             } else {
                 if ((czybiale && pomocnicze[i][beta + licz][1] == ' ') || (!czybiale && pomocnicze[i][beta + licz][0] == ' ')) {
-                    zagrozenie = false;
+                    
                 } else {
                     if ((czybiale && (pomocnicze[i][beta + licz][1] != 'q' && pomocnicze[i][beta + licz][1] != 'b'))
                             || (!czybiale && (pomocnicze[i][beta + licz][0] != 'Q' && pomocnicze[i][beta + licz][0] != 'B'))) {
-                        zagrozenie = false;
+                        
                     } else {
                         zagrozenie = true;
                         return zagrozenie;
@@ -692,11 +684,11 @@ class Ruch_pokoj {
                 break;
             } else {
                 if ((!czybiale && pomocnicze[i][beta + licz][0] == ' ') || (czybiale && pomocnicze[i][beta + licz][1] == ' ')) {
-                    zagrozenie = false;
+                    
                 } else {
                     if ((czybiale && (pomocnicze[i][beta + licz][1] != 'q' && pomocnicze[i][beta + licz][1] != 'b'))
                             || (!czybiale && (pomocnicze[i][beta + licz][0] != 'Q' && pomocnicze[i][beta + licz][0] != 'B'))) {
-                        zagrozenie = false;
+                        
                     } else {
                         zagrozenie = true;
                         return zagrozenie;
@@ -712,11 +704,11 @@ class Ruch_pokoj {
                 break;
             } else {
                 if ((!czybiale && pomocnicze[i][beta + licz][0] == ' ') || (czybiale && pomocnicze[i][beta + licz][1] == ' ')) {
-                    zagrozenie = false;
+                    
                 } else {
                     if ((czybiale && (pomocnicze[i][beta + licz][1] != 'q' && pomocnicze[i][beta + licz][1] != 'b'))
                             || (!czybiale && (pomocnicze[i][beta + licz][0] != 'Q' && pomocnicze[i][beta + licz][0] != 'B'))) {
-                        zagrozenie = false;
+                        
                     } else {
                         zagrozenie = true;
                         return zagrozenie;
@@ -732,11 +724,11 @@ class Ruch_pokoj {
                 break;
             } else {
                 if ((!czybiale && pomocnicze[i][beta + licz][0] == ' ') || (czybiale && pomocnicze[i][beta + licz][1] == ' ')) {
-                    zagrozenie = false;
+                    
                 } else {
                     if ((czybiale && (pomocnicze[i][beta + licz][1] != 'q' && pomocnicze[i][beta + licz][1] != 'b'))
                             || (!czybiale && (pomocnicze[i][beta + licz][0] != 'Q' && pomocnicze[i][beta + licz][0] != 'B'))) {
-                        zagrozenie = false;
+                        
                     } else {
                         zagrozenie = true;
                         return zagrozenie;
@@ -745,15 +737,13 @@ class Ruch_pokoj {
                 }
             }
         }
-        alfa = krolX;
-        beta = krolY;
         for (byte i = (byte) (alfa + 1); i <= 11; i++) {
             if ((czybiale && pomocnicze[i][beta][1] == ' ') || (!czybiale && pomocnicze[i][beta][0] == ' ')) {
-                zagrozenie = false;
+                
             } else {
                 if ((czybiale && (pomocnicze[i][beta][1] != 'q' && pomocnicze[i][beta][1] != 'r'))
                         || (!czybiale && (pomocnicze[i][beta][0] != 'Q' && pomocnicze[i][beta][0] != 'R'))) {
-                    zagrozenie = false;
+                    
                 } else {
                     zagrozenie = true;
                     return zagrozenie;
@@ -763,11 +753,11 @@ class Ruch_pokoj {
         }
         for (byte i = (byte) (alfa - 1); i >= 4; i--) {
             if ((czybiale && pomocnicze[i][beta][1] == ' ') || (!czybiale && pomocnicze[i][beta][0] == ' ')) {
-                zagrozenie = false;
+                
             } else {
                 if ((czybiale && (pomocnicze[i][beta][1] != 'q' && pomocnicze[i][beta][1] != 'r'))
                         || (!czybiale && (pomocnicze[i][beta][0] != 'Q' && pomocnicze[i][beta][0] != 'R'))) {
-                    zagrozenie = false;
+                    
                 } else {
                     zagrozenie = true;
                     return zagrozenie;
@@ -777,11 +767,11 @@ class Ruch_pokoj {
         }
         for (byte i = (byte) (beta + 1); i <= 11; i++) {
             if ((!czybiale && pomocnicze[alfa][i][0] == ' ') || (czybiale && pomocnicze[alfa][i][1] == ' ')) {
-                zagrozenie = false;
+                
             } else {
                 if ((czybiale && (pomocnicze[alfa][i][1] != 'q' && pomocnicze[alfa][i][1] != 'r'))
                         || (!czybiale && (pomocnicze[alfa][i][0] != 'Q' && pomocnicze[alfa][i][0] != 'R'))) {
-                    zagrozenie = false;
+                    
                 } else {
                     zagrozenie = true;
                     return zagrozenie;
@@ -791,11 +781,11 @@ class Ruch_pokoj {
         }
         for (byte i = (byte) (beta - 1); i >= 4; i--) {
             if ((!czybiale && pomocnicze[alfa][i][0] == ' ') || (czybiale && pomocnicze[alfa][i][1] == ' ')) {
-                zagrozenie = false;
+                
             } else {
                 if ((czybiale && (pomocnicze[alfa][i][1] != 'q' && pomocnicze[alfa][i][1] != 'r'))
                         || (!czybiale && (pomocnicze[alfa][i][0] != 'Q' && pomocnicze[alfa][i][0] != 'R'))) {
-                    zagrozenie = false;
+                    
                 } else {
                     zagrozenie = true;
                     return zagrozenie;

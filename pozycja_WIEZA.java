@@ -14,11 +14,11 @@ import java.util.ArrayList;
 public class pozycja_WIEZA {
 
     public ArrayList<int[]> podaj_wieze(boolean gracz, char[][] poza) {
-        ArrayList<int[]> wynik = new ArrayList();
+        ArrayList<int[]> wynik = new ArrayList<>();
         int[] wieza = new int[2];
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                if((gracz==true&&poza[i][j]=='R')||(gracz==false&&poza[i][j]=='r')){
+                if((gracz&&poza[i][j]=='R')||(!gracz&&poza[i][j]=='r')){
                     wieza[0]=i;
                     wieza[1]=j;
                     wynik.add(wieza);
