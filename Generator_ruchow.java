@@ -12,6 +12,8 @@ import java.util.Collection;
  * @author PatrykK
  */
 public interface Generator_ruchow {
+
+  
     ArrayList<Ruch> generuj_posuniecia(char[][] ust, boolean tura_rywala, boolean przelotcan,
             boolean blackleft, boolean blackright, boolean whiteleft, boolean whiteright,
             boolean kingrochB, boolean kingrochC, int kolumna, boolean all);

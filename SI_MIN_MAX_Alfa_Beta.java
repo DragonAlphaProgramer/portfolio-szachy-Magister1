@@ -13,7 +13,7 @@ import static szachy.SzachowaArena.jProgressBar1;
  *
  * @author Patryk
  */
-public class SI_MIN_MAX_Alfa_Beta implements Strategia {
+public class SI_MIN_MAX_Alfa_Beta {
 
     int pozycje = 0;
     int all_position = 0;
@@ -62,7 +62,7 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
     public SI_MIN_MAX_Alfa_Beta(char[][] ustawienie, boolean tura_rywala, boolean przelotcan,
             boolean bleft, boolean bright, boolean wleft, boolean wright,
             boolean kingrochB, boolean kingrochC, boolean dokonano_RB, boolean dokonano_RC,
-            int kol, boolean odwrot, int licznik, int glebina) {
+            int kol, int licznik, int glebina) {
         this.licznik = licznik;
         this.tura_rywala = tura_rywala;
         this.wyjsciowa_tura = tura_rywala;
@@ -81,12 +81,11 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
     /**
      *
      * @param glebia
-     * @param move
+     * @param ruch
      * @param najwieksza
      * @param najmniejsza
      * @return
      */
-    @Override
     public Ruch_wartosc wykonaj(int glebia, ArrayList<Ruch> ruch, int najwieksza, int najmniejsza) {
         int biezaca_ogolna = 0;
         Ruch najlepszy = null;
@@ -95,6 +94,7 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
         for (final Ruch move : ruch) {
             elem++;
             jProgressBar1.setValue(elem);
+            System.out.println(move.toString());
             jProgressBar1.setString("Rozpatrywane:" + (move.toString()) + "| bieżacy wybór:" + (najlepszy != null ? najlepszy.toString() : ""));
             byte Nkolumna;
             if ((move.kolejnosc == 'P' || move.kolejnosc == 'p') && (Math.abs(pozyskajkordkolumna(move.koniec2) - pozyskajkordkolumna(move.start2)) == 2)) {
@@ -106,7 +106,56 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
             }
             try {
 
-                aktualizacja_parametrow(move);
+                if (move.roszada && !move.dlugaroszada) {
+                    if (this.tura_rywala) {
+                        wright = false;
+                    } else {
+                        bright = false;
+                    }
+                } else if (move.roszada) {
+                    wleft = false;
+                }
+                if (move.roszada) {
+                    if (this.tura_rywala) {
+                        this.didRochB = true;
+                    } else {
+                        this.didRochC = true;
+                    }
+                    kingrochB = false;
+                } else {
+                    switch (move.kolejnosc) {
+                        case 'r':
+                        case 'R':
+                            if (!tura_rywala) {
+                                if (move.start1 == Ruch.kolumna.k1 && move.start2 == Ruch.rzad.r8) {
+                                    bleft = false;
+                                } else if (move.start1 == Ruch.kolumna.k8 && move.start2 == Ruch.rzad.r8) {
+                                    bright = false;
+                                }
+                            } else {
+                                if (move.start1 == Ruch.kolumna.k1 && move.start2 == Ruch.rzad.r1) {
+                                    wleft = false;
+                                } else if (move.start1 == Ruch.kolumna.k8 && move.start2 == Ruch.rzad.r1) {
+                                    wright = false;
+                                }
+                            }
+                            break;
+                        case 'K':
+                        case 'k':
+                            if (tura_rywala) {
+                                if (move.start1 == Ruch.kolumna.k5 && move.start2 == Ruch.rzad.r1) {
+                                    kingrochB = false;
+                                }
+                            } else {
+                                if (move.start1 == Ruch.kolumna.k5 && move.start2 == Ruch.rzad.r8) {
+                                    kingrochC = false;
+                                }
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
                 this.tura_rywala = !this.tura_rywala;
                 biezaca_ogolna = (wyjsciowa_tura)
                         ? minimum((glebia - 1), Nkolumna, najwieksza, najmniejsza, move.chessboard_after)
@@ -118,7 +167,56 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
                     setPrzerwa(kontrola_mat((move.chessboard_after), true, Nkolumna, przelotcan));
                 }
 
-                przywroc_parametry(move);
+                if (move.roszada && !move.dlugaroszada) {
+                    if (this.tura_rywala) {
+                        wright = true;
+                    } else {
+                        bright = true;
+                    }
+                } else if (move.roszada) {
+                    wleft = true;
+                }
+                if (move.roszada) {
+                    if (this.tura_rywala) {
+                        this.didRochB = false;
+                    } else {
+                        this.didRochC = false;
+                    }
+                    kingrochB = true;
+                } else {
+                    switch (move.kolejnosc) {
+                        case 'r':
+                        case 'R':
+                            if (!tura_rywala) {
+                                if (move.start1 == Ruch.kolumna.k1 && move.start2 == Ruch.rzad.r8) {
+                                    bleft = true;
+                                } else if (move.start1 == Ruch.kolumna.k8 && move.start2 == Ruch.rzad.r8) {
+                                    bright = true;
+                                }
+                            } else {
+                                if (move.start1 == Ruch.kolumna.k1 && move.start2 == Ruch.rzad.r1) {
+                                    wleft = true;
+                                } else if (move.start1 == Ruch.kolumna.k8 && move.start2 == Ruch.rzad.r1) {
+                                    wright = true;
+                                }
+                            }
+                            break;
+                        case 'k':
+                        case 'K':
+                            if (tura_rywala) {
+                                if (move.start1 == Ruch.kolumna.k5 && move.start2 == Ruch.rzad.r1) {
+                                    kingrochB = true;
+                                }
+                            } else {
+                                if (move.start1 == Ruch.kolumna.k5 && move.start2 == Ruch.rzad.r8) {
+                                    kingrochC = true;
+                                }
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
                 setZakaz(false);
                 if (move.czybialy && biezaca_ogolna > najwieksza) {
                     najwieksza = biezaca_ogolna;
@@ -127,12 +225,12 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
                     najmniejsza = biezaca_ogolna;
                     najlepszy = move;
                 }
-                
+
                 jProgressBar1.setString("Rozpatrywane:" + move + "| bieżacy wybór:" + najlepszy.toString());
                 if (this.przerwa) {
-                            System.out.println("przerwa");
-                            break;
-                        }
+                    System.out.println("przerwa");
+                    break;
+                }
             } catch (Exception e) {
                 System.out.println("ERROR POSITION");
                 e.printStackTrace();
@@ -158,10 +256,11 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
             }
             System.out.println("");*/
 
-            return this.wynikowa.zliczacz(chessboard, przelotcan,
-                    bleft, bright, wleft, wright, kingrochB, kingrochC, didRochB, didRochC, glebia, kolumna);
+            return this.wynikowa.zliczacz(
+                    new Pozycja(bleft, bright, wleft, wright, kingrochB, kingrochC,
+                            this.tura_rywala, przelotcan, kolumna, chessboard, this.didRochB, this.didRochC), glebia);
         }
-        Collection<Ruch> lista = new Generator().generuj_posuniecia(chessboard, this.tura_rywala, this.przelotcan,
+        final Collection<Ruch> lista = Generator.generuj_posuniecia(chessboard, this.tura_rywala, this.przelotcan,
                 this.bleft, this.bright, this.wleft, this.wright, this.kingrochB, this.kingrochC, kolumna, false);
 
         int tempB = biggest;
@@ -176,12 +275,111 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
                 Nkolumna = 0;
                 this.przelotcan = false;
             }
-            aktualizacja_parametrow(move);
+            if (move.roszada && !move.dlugaroszada) {
+                if (this.tura_rywala) {
+                    wright = false;
+                } else {
+                    bright = false;
+                }
+            } else if (move.roszada) {
+                wleft = false;
+            }
+            if (move.roszada) {
+                if (this.tura_rywala) {
+                    this.didRochB = true;
+                } else {
+                    this.didRochC = true;
+                }
+                kingrochB = false;
+            } else {
+                switch (move.kolejnosc) {
+                    case 'r':
+                    case 'R':
+                        if (!tura_rywala) {
+                            if (move.start1 == Ruch.kolumna.k1 && move.start2 == Ruch.rzad.r8) {
+                                bleft = false;
+                            } else if (move.start1 == Ruch.kolumna.k8 && move.start2 == Ruch.rzad.r8) {
+                                bright = false;
+                            }
+                        } else {
+                            if (move.start1 == Ruch.kolumna.k1 && move.start2 == Ruch.rzad.r1) {
+                                wleft = false;
+                            } else if (move.start1 == Ruch.kolumna.k8 && move.start2 == Ruch.rzad.r1) {
+                                wright = false;
+                            }
+                        }
+                        break;
+                    case 'K':
+                    case 'k':
+                        if (tura_rywala) {
+                            if (move.start1 == Ruch.kolumna.k5 && move.start2 == Ruch.rzad.r1) {
+                                kingrochB = false;
+                            }
+                        } else {
+                            if (move.start1 == Ruch.kolumna.k5 && move.start2 == Ruch.rzad.r8) {
+                                kingrochC = false;
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
             this.tura_rywala = !this.tura_rywala;
             tempB = Math.max(tempB, minimum(((glebia - 1)), Nkolumna,
                     tempB, samllest, move.chessboard_after));
-            przywroc_parametry(move);
+            if (move.roszada && !move.dlugaroszada) {
+                if (this.tura_rywala) {
+                    wright = true;
+                } else {
+                    bright = true;
+                }
+            } else if (move.roszada) {
+                wleft = true;
+            }
+            if (move.roszada) {
+                if (this.tura_rywala) {
+                    this.didRochB = false;
+                } else {
+                    this.didRochC = false;
+                }
+                kingrochB = true;
+            } else {
+                switch (move.kolejnosc) {
+                    case 'r':
+                    case 'R':
+                        if (!tura_rywala) {
+                            if (move.start1 == Ruch.kolumna.k1 && move.start2 == Ruch.rzad.r8) {
+                                bleft = true;
+                            } else if (move.start1 == Ruch.kolumna.k8 && move.start2 == Ruch.rzad.r8) {
+                                bright = true;
+                            }
+                        } else {
+                            if (move.start1 == Ruch.kolumna.k1 && move.start2 == Ruch.rzad.r1) {
+                                wleft = true;
+                            } else if (move.start1 == Ruch.kolumna.k8 && move.start2 == Ruch.rzad.r1) {
+                                wright = true;
+                            }
+                        }
+                        break;
+                    case 'k':
+                    case 'K':
+                        if (tura_rywala) {
+                            if (move.start1 == Ruch.kolumna.k5 && move.start2 == Ruch.rzad.r1) {
+                                kingrochB = true;
+                            }
+                        } else {
+                            if (move.start1 == Ruch.kolumna.k5 && move.start2 == Ruch.rzad.r8) {
+                                kingrochC = true;
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
             this.tura_rywala = !this.tura_rywala;
+            this.przelotcan = (kolumna != 0);
             if (samllest <= tempB) {
                 break;
             }
@@ -198,10 +396,11 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
             }
             System.out.println("");*/
 
-            return this.wynikowa.zliczacz(chessboard, przelotcan,
-                    bleft, bright, wleft, wright, kingrochB, kingrochC, didRochB, didRochC, glebia, kolumna);
+            return this.wynikowa.zliczacz(
+                    new Pozycja(bleft, bright, wleft, wright, kingrochB, kingrochC,
+                            this.tura_rywala, przelotcan, kolumna, chessboard, this.didRochB, this.didRochC), glebia);
         }
-        Collection<Ruch> lista = new Generator().generuj_posuniecia(chessboard, this.tura_rywala, this.przelotcan,
+        final Collection<Ruch> lista = Generator.generuj_posuniecia(chessboard, this.tura_rywala, this.przelotcan,
                 this.bleft, this.bright, this.wleft, this.wright, this.kingrochB, this.kingrochC, kolumna, false);
 
         int tempM = smallest;
@@ -217,12 +416,111 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
                 Nkolumna = 0;
                 this.przelotcan = false;
             }
-            aktualizacja_parametrow(move);
+            if (move.roszada && !move.dlugaroszada) {
+                if (this.tura_rywala) {
+                    wright = false;
+                } else {
+                    bright = false;
+                }
+            } else if (move.roszada) {
+                wleft = false;
+            }
+            if (move.roszada) {
+                if (this.tura_rywala) {
+                    this.didRochB = true;
+                } else {
+                    this.didRochC = true;
+                }
+                kingrochB = false;
+            } else {
+                switch (move.kolejnosc) {
+                    case 'r':
+                    case 'R':
+                        if (!tura_rywala) {
+                            if (move.start1 == Ruch.kolumna.k1 && move.start2 == Ruch.rzad.r8) {
+                                bleft = false;
+                            } else if (move.start1 == Ruch.kolumna.k8 && move.start2 == Ruch.rzad.r8) {
+                                bright = false;
+                            }
+                        } else {
+                            if (move.start1 == Ruch.kolumna.k1 && move.start2 == Ruch.rzad.r1) {
+                                wleft = false;
+                            } else if (move.start1 == Ruch.kolumna.k8 && move.start2 == Ruch.rzad.r1) {
+                                wright = false;
+                            }
+                        }
+                        break;
+                    case 'K':
+                    case 'k':
+                        if (tura_rywala) {
+                            if (move.start1 == Ruch.kolumna.k5 && move.start2 == Ruch.rzad.r1) {
+                                kingrochB = false;
+                            }
+                        } else {
+                            if (move.start1 == Ruch.kolumna.k5 && move.start2 == Ruch.rzad.r8) {
+                                kingrochC = false;
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
             this.tura_rywala = !this.tura_rywala;
             tempM = Math.min(tempM, maximum(((glebia - 1)),
                     Nkolumna, biggest, tempM, move.chessboard_after));
-            przywroc_parametry(move);
+            if (move.roszada && !move.dlugaroszada) {
+                if (this.tura_rywala) {
+                    wright = true;
+                } else {
+                    bright = true;
+                }
+            } else if (move.roszada) {
+                wleft = true;
+            }
+            if (move.roszada) {
+                if (this.tura_rywala) {
+                    this.didRochB = false;
+                } else {
+                    this.didRochC = false;
+                }
+                kingrochB = true;
+            } else {
+                switch (move.kolejnosc) {
+                    case 'r':
+                    case 'R':
+                        if (!tura_rywala) {
+                            if (move.start1 == Ruch.kolumna.k1 && move.start2 == Ruch.rzad.r8) {
+                                bleft = true;
+                            } else if (move.start1 == Ruch.kolumna.k8 && move.start2 == Ruch.rzad.r8) {
+                                bright = true;
+                            }
+                        } else {
+                            if (move.start1 == Ruch.kolumna.k1 && move.start2 == Ruch.rzad.r1) {
+                                wleft = true;
+                            } else if (move.start1 == Ruch.kolumna.k8 && move.start2 == Ruch.rzad.r1) {
+                                wright = true;
+                            }
+                        }
+                        break;
+                    case 'k':
+                    case 'K':
+                        if (tura_rywala) {
+                            if (move.start1 == Ruch.kolumna.k5 && move.start2 == Ruch.rzad.r1) {
+                                kingrochB = true;
+                            }
+                        } else {
+                            if (move.start1 == Ruch.kolumna.k5 && move.start2 == Ruch.rzad.r8) {
+                                kingrochC = true;
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
             this.tura_rywala = !this.tura_rywala;
+            this.przelotcan = (kolumna != 0);
             if (tempM <= biggest) {
                 break;
             }
@@ -318,112 +616,6 @@ public class SI_MIN_MAX_Alfa_Beta implements Strategia {
             return false;
         }
 
-    }
-
-    private void aktualizacja_parametrow(final Ruch move) {
-        if (move.roszada && !move.dlugaroszada) {
-            if (this.tura_rywala) {
-                wright = false;
-            } else {
-                bright = false;
-            }
-        } else if (move.roszada) {
-            wleft = false;
-        }
-        if (move.roszada) {
-            if (this.tura_rywala) {
-                this.didRochB = true;
-            } else {
-                this.didRochC = true;
-            }
-            kingrochB = false;
-        } else {
-            switch (move.kolejnosc) {
-                case 'r':
-                case 'R':
-                    if (!tura_rywala) {
-                        if (move.start1 == Ruch.kolumna.k1 && move.start2 == Ruch.rzad.r8) {
-                            bleft = false;
-                        } else if (move.start1 == Ruch.kolumna.k8 && move.start2 == Ruch.rzad.r8) {
-                            bright = false;
-                        }
-                    } else {
-                        if (move.start1 == Ruch.kolumna.k1 && move.start2 == Ruch.rzad.r1) {
-                            wleft = false;
-                        } else if (move.start1 == Ruch.kolumna.k8 && move.start2 == Ruch.rzad.r1) {
-                            wright = false;
-                        }
-                    }
-                    break;
-                case 'K':
-                case 'k':
-                    if (tura_rywala) {
-                        if (move.start1 == Ruch.kolumna.k5 && move.start2 == Ruch.rzad.r1) {
-                            kingrochB = false;
-                        }
-                    } else {
-                        if (move.start1 == Ruch.kolumna.k5 && move.start2 == Ruch.rzad.r8) {
-                            kingrochC = false;
-                        }
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
-    private void przywroc_parametry(final Ruch move) {
-        if (move.roszada && !move.dlugaroszada) {
-            if (this.tura_rywala) {
-                wright = true;
-            } else {
-                bright = true;
-            }
-        } else if (move.roszada) {
-            wleft = true;
-        }
-        if (move.roszada) {
-            if (this.tura_rywala) {
-                this.didRochB = false;
-            } else {
-                this.didRochC = false;
-            }
-            kingrochB = true;
-        } else {
-            switch (move.kolejnosc) {
-                case 'r':
-                case 'R':
-                    if (!tura_rywala) {
-                        if (move.start1 == Ruch.kolumna.k1 && move.start2 == Ruch.rzad.r8) {
-                            bleft = true;
-                        } else if (move.start1 == Ruch.kolumna.k8 && move.start2 == Ruch.rzad.r8) {
-                            bright = true;
-                        }
-                    } else {
-                        if (move.start1 == Ruch.kolumna.k1 && move.start2 == Ruch.rzad.r1) {
-                            wleft = true;
-                        } else if (move.start1 == Ruch.kolumna.k8 && move.start2 == Ruch.rzad.r1) {
-                            wright = true;
-                        }
-                    }
-                    break;
-                case 'k':
-                case 'K':
-                    if (tura_rywala) {
-                        if (move.start1 == Ruch.kolumna.k5 && move.start2 == Ruch.rzad.r1) {
-                            kingrochB = true;
-                        }
-                    } else {
-                        if (move.start1 == Ruch.kolumna.k5 && move.start2 == Ruch.rzad.r8) {
-                            kingrochC = true;
-                        }
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
     }
 
     private int pozyskajkordkolumna(Ruch.rzad kord) {

@@ -1726,7 +1726,7 @@ public class SzachMatPatKontrola {
     public static boolean zastaw(char[][] ustawienie, char[][] nakladka, boolean ruchB, int[] atak, int[] poza_krolewska,
             boolean przelotcan) {
         {
-            boolean wynik = false;
+            
             //System.out.println("X:" + atak[0] + "Y:" + atak[1]);
             //System.out.println(" krolX:" + poza_krolewska[0] + "Y:" + poza_krolewska[1]);
             //System.out.println(ustawienie[atak[0]][atak[1]]);
@@ -2834,7 +2834,6 @@ public class SzachMatPatKontrola {
             }
         }
         byte[] pole_czas = new byte[2];
-        byte[] baza_konca = new byte[2];
         pole_czas[1] = (byte) (pole_baza[0] + 4);
         pole_czas[0] = (byte) (pole_baza[1] + 4);
         pomocnicze = pomocna;

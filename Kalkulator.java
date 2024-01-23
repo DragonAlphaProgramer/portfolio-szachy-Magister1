@@ -11,10 +11,7 @@ package szachy;
  */
 interface Kalkulator {
     
-    int zliczacz(char[][] ustawienie, boolean przelotcan,
-            boolean bleft, boolean bright, boolean wleft, boolean wright,
-            boolean roszadaB, boolean roszadaC, boolean wykonanaRochB, boolean wykonanaRochC,
-            int glebia, int kol);
+    int zliczacz(Pozycja pozycja,int glebia);
     
     
 }

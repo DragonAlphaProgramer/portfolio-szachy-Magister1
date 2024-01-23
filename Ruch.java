@@ -302,7 +302,7 @@ public class Ruch implements Comparable<Ruch> {
         switch (f) {
             case 'b':
             case 'B':
-                return 350;
+                return 330;
             case 'q':
             case 'Q':
                 return 900;

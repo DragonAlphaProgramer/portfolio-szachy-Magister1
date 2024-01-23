@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author Patryk Klasa odpowiedzialna za generowanie listy posunięć
  */
-class Generator implements Generator_ruchow{
+class Generator{
 
     /**
      * sprawdza, czy po ruchu są obecni królowie po obu stronach
@@ -22,7 +22,7 @@ class Generator implements Generator_ruchow{
      * @param backup sprawdzana pozycja
      * @return jeśli królowie są obecni, zwróci true
      */
-    public boolean obecnosc(final char[][] backup) {
+    public static boolean obecnosc(final char[][] backup) {
         boolean KB = false, KC = false;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -53,8 +53,7 @@ class Generator implements Generator_ruchow{
      * @param kolumna kolumna z dostępnym biciem w przelocie
      * @return bieżąca lista posunięć w danej pozycji
      */
-    @Override
-    public ArrayList<Ruch> generuj_posuniecia(char[][] ust, boolean tura_rywala, boolean przelotcan,
+    public static ArrayList<Ruch> generuj_posuniecia(char[][] ust, boolean tura_rywala, boolean przelotcan,
             boolean blackleft, boolean blackright, boolean whiteleft, boolean whiteright,
             boolean kingrochB, boolean kingrochC, int kolumna, boolean all) {
 
@@ -82,7 +81,7 @@ class Generator implements Generator_ruchow{
                 switch (znak) {
                     case 'P':
                         if (tura_rywala) {
-                            if (x == 4 && przelotcan && kolumna != 0 && (kolumna - 1 == y - 1 || kolumna - 1 == y + 1)) {
+                            if (x == 4 && przelotcan && kolumna != 0 && (kolumna - 1 == y - 1 || kolumna - 1 == y + 1)&&backup[x][kolumna - 1] == 'p') {
 
                                 backup[x + 1][kolumna - 1] = 'P';
                                 backup[x][kolumna - 1] = ' ';
@@ -691,6 +690,7 @@ class Generator implements Generator_ruchow{
 
                                         if (w1 && backup[x + param_ruch][y] == ' ') {
                                             backup[x + param_ruch][y] = znak;
+                                            backup[x][y] = ' ';
                                             wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
                                             szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
                                             backup[x + param_ruch][y] = ' ';
@@ -795,7 +795,6 @@ class Generator implements Generator_ruchow{
                                             backup[x][y] = ' ';
                                             wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
                                             szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
-
                                             backup[x][y + param_ruch] = ' ';
                                             backup[x][y] = znak;
                                             if (wynik || all) {
@@ -848,6 +847,7 @@ class Generator implements Generator_ruchow{
                                             backup[x][y] = ' ';
                                             wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
                                             szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
+
                                             backup[x][y - param_ruch] = ' ';
                                             backup[x][y] = znak;
                                             if (wynik || all) {
@@ -872,7 +872,6 @@ class Generator implements Generator_ruchow{
                                                 backup[x][y] = ' ';
                                                 wynik = (all || RuchZagrozenie_kontrola.szach((backup), tura_rywala) == false);
                                                 szach = RuchZagrozenie_kontrola.szach((backup), !tura_rywala);
-
                                                 backup[x][y - param_ruch] = przechowalnia;
                                                 backup[x][y] = znak;
                                                 if (wynik || all) {
@@ -1125,7 +1124,7 @@ class Generator implements Generator_ruchow{
                         break;
                     case 'p':
                         if (tura_rywala == false) {
-                            if (x == 3 && przelotcan && kolumna != 0 && (kolumna - 1 == y - 1 || kolumna - 1 == y + 1)) {
+                            if (x == 3 && przelotcan && kolumna != 0 && (kolumna - 1 == y - 1 || kolumna - 1 == y + 1)&&backup[x][kolumna - 1] == 'P') {
 
                                 backup[x - 1][kolumna - 1] = 'p';
                                 backup[x][kolumna - 1] = ' ';
@@ -1584,8 +1583,8 @@ class Generator implements Generator_ruchow{
 
     }
 
-    @Override
-    public Collection<Ruch> generuj_posuniecia(char[][] ust, boolean tura_rywala, boolean przelotcan,
+    
+    public static Collection<Ruch> generuj_posuniecia(char[][] ust, boolean tura_rywala, boolean przelotcan,
             boolean blackleft, boolean blackright, boolean whiteleft, boolean whiteright,
             boolean kingrochB, boolean kingrochC, int kolumna, boolean konkret, char znak_start, int[] start, boolean all,
             boolean mgla) {
@@ -3460,7 +3459,7 @@ class Generator implements Generator_ruchow{
         return Collections.unmodifiableCollection(lista_dopuszcalnych_Ruchow);
     }
 
-    public char[][] konwert(figury[][] backup) {
+    public static char[][] konwert(figury[][] backup) {
         char[][] pozycja = new char[8][8];
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -3510,8 +3509,8 @@ class Generator implements Generator_ruchow{
         return pozycja;
     }
 
-    @Override
-    public Collection<RuchA> generuj_posunieciaA(figuryA[][] ust, boolean tura_rywala, boolean przelotcan,
+   
+    public static Collection<RuchA> generuj_posunieciaA(figuryA[][] ust, boolean tura_rywala, boolean przelotcan,
             boolean blackleft, boolean blackright, boolean whiteleft, boolean whiteright,
             boolean kingrochB, boolean kingrochC, int kolumna, boolean konkret, char znak_start, int[] start, boolean all) {
         List<RuchA> lista_dopuszcalnych_Ruchow = new ArrayList<>();
@@ -5954,7 +5953,7 @@ class Generator implements Generator_ruchow{
         return Collections.unmodifiableCollection(lista_dopuszcalnych_Ruchow);
     }
 
-    public boolean obecnosc(final figuryA[][] backup) {
+    public static boolean obecnosc(final figuryA[][] backup) {
         boolean KB = false, KC = false;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -5969,8 +5968,7 @@ class Generator implements Generator_ruchow{
         return KC && KB;
     }
 
-    @Override
-    public Collection<Ruch> generuj_posuniecia_antyszach(char[][] ust, boolean tura_rywala, boolean przelotcan, int kolumna) {
+    public static Collection<Ruch> generuj_posuniecia_antyszach(char[][] ust, boolean tura_rywala, boolean przelotcan, int kolumna) {
         List<Ruch> lista_dopuszcalnych_Ruchow = new ArrayList<>();
         char[][] backup = new char[8][8];
         for (int x = 0; x < 8; x++) {
@@ -6046,8 +6044,6 @@ class Generator implements Generator_ruchow{
                                         && backup[x + 1][y] != 'b' && backup[x + 1][y] != 'R' && backup[x + 1][y] != 'r'
                                         && backup[x + 1][y] != 'Q' && backup[x + 1][y] != 'q' && backup[x + 1][y] != 'K'
                                         && backup[x + 1][y] != 'k')) {
-                                    char przechowalnie;
-                                    przechowalnie = backup[x + 1][y];
                                     if (x != 6) {
 
                                         char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + 1));
@@ -6077,7 +6073,6 @@ class Generator implements Generator_ruchow{
                                         && backup[x + 1][y] != 'b' && backup[x + 1][y] != 'R' && backup[x + 1][y] != 'r'
                                         && backup[x + 1][y] != 'Q' && backup[x + 1][y] != 'q' && backup[x + 1][y] != 'K'
                                         && backup[x + 1][y] != 'k')) && x == 1) {
-                                    char przechowalnie = backup[x + 2][y];
 
                                     char x1 = (char) ('A' + (y)), x2 = (char) ('1' + (x)), y1 = (char) ('A' + (y)), y2 = (char) ('1' + (x + 2));
 
@@ -6996,8 +6991,7 @@ class Generator implements Generator_ruchow{
         return lista_dopuszcalnych_Ruchow;
     }
 
-    @Override
-    public ArrayList<Ruch> generuj_posuniecia(figury[][] ust, boolean tura_rywala, boolean przelotcan,
+    public static ArrayList<Ruch> generuj_posuniecia(figury[][] ust, boolean tura_rywala, boolean przelotcan,
             boolean blackleft, boolean blackright, boolean whiteleft, boolean whiteright,
             boolean kingrochB, boolean kingrochC, int kolumna, boolean all, boolean mgla) {
 
@@ -8669,7 +8663,7 @@ class Generator implements Generator_ruchow{
 
     }
 
-    public char[][] konwert(figuryA[][] decha) {
+    public static char[][] konwert(figuryA[][] decha) {
         char[][] wynik = new char[8][8];
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
@@ -8722,7 +8716,7 @@ class Generator implements Generator_ruchow{
         return wynik;
     }
     
-    public char pozyskaj_symbol(figury przechowalnie) {
+    public static char pozyskaj_symbol(figury przechowalnie) {
         switch (przechowalnie) {
                     case BKrol:
                         return 'K';

@@ -33,6 +33,24 @@ public class Pozycja {
             System.arraycopy(poz[x], 0, this.pozycja[x], 0, 8);
         }
     }
+    public Pozycja(boolean Dbleft, boolean Dbright, boolean Dwleft, boolean Dwright,
+            boolean DKingrochB, boolean DKingrochC, boolean DWhiteMove,
+            boolean przelot_can, int przelot, char[][] poz, boolean didrochB,boolean didrochC) {
+        this.Dbleft = Dbleft;
+        this.Dbright = Dbright;
+        this.Dwleft = Dwleft;
+        this.Dwright = Dwright;
+        this.DKingrochB = DKingrochB;
+        this.DKingrochC = DKingrochC;
+        this.DWhiteMove = DWhiteMove;
+        this.przelot_can = przelot_can;
+        this.przelot = przelot;
+        this.DKingrochB=didrochB;
+        this.didrochC=didrochC;
+        for (int x = 0; x < 8; x++) {
+            System.arraycopy(poz[x], 0, this.pozycja[x], 0, 8);
+        }
+    }
 
     Pozycja(Pozycja pozycja1) {
         this.Dbleft = pozycja1.Dbleft;
@@ -47,6 +65,8 @@ public class Pozycja {
         for (int x = 0; x < 8; x++) {
             System.arraycopy(pozycja1.pozycja[x], 0, this.pozycja[x], 0, 8);
         }
+        this.DKingrochB=pozycja1.didrochB;
+        this.didrochC=pozycja1.didrochC;
     }
 
     

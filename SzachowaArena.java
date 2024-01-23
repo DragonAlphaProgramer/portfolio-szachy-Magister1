@@ -4127,7 +4127,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     } else {
                                                         jTextArea3.append(!jCheckBox1.isSelected() ? (movenr + ". P" + start + "x" + stop + "=" + promo) : (movenr + ".  \u2659" + start + "x" + stop + "=" + promoSymbol));
                                                         ruch = "P" + start + "x" + stop + "=" + promo;
-                                                        ruchS = "\u269F" + start + "x" + stop + "=" + promoSymbol;
+                                                        ruchS = "\u2659" + start + "x" + stop + "=" + promoSymbol;
                                                     }
                                                 } else {
                                                     if (bicie == false) {
@@ -6452,7 +6452,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                     } else {
                                         jTextArea3.append(!jCheckBox1.isSelected() ? (movenr + ". P" + start + "x" + stop + "=" + promo) : (movenr + ".  \u2659" + start + "x" + stop + "=" + promoSymbol));
                                         ruch = "P" + start + "x" + stop + "=" + promo;
-                                        ruchS = "\u269F" + start + "x" + stop + "=" + promoSymbol;
+                                        ruchS = "\u2659" + start + "x" + stop + "=" + promoSymbol;
                                     }
                                 } else {
                                     if (bicie == false) {
@@ -12430,7 +12430,7 @@ public class SzachowaArena extends javax.swing.JFrame {
      * Odpowiada za działanie w tle programu SI
      *
      */
-   public class Progres_postep extends SwingWorker<Object, Object> {
+    public class Progres_postep extends SwingWorker<Object, Object> {
 
         @Override
         protected Object doInBackground() {
@@ -12539,9 +12539,8 @@ public class SzachowaArena extends javax.swing.JFrame {
                         bleft, bright, wleft, wright, kingrochB, kingrochC, kol, false).size() > 1) {
                     setProgress((int) (elem * 1f / dlugosc * 100.0f));
                     SI_MIN_MAX_Alfa_Beta ai = new SI_MIN_MAX_Alfa_Beta(backup.clone(), ruchB, przelotcan,
-                            bleft, bright, wleft, wright, kingrochB, kingrochC, dokonano_RB, dokonano_RC, kol, odwrot, licznik, glebiaSI);
-                    System.out.println("        " + (move) + " mysle");
-                    Ruch_wartosc wynik = ai.wykonaj(glebiaSI, new Generator().generuj_posuniecia(ust, ruchB, przelotcan,
+                            bleft, bright, wleft, wright, kingrochB, kingrochC, dokonano_RB, dokonano_RC, kol, licznik, glebiaSI);
+                    Ruch_wartosc wynik = ai.wykonaj(glebiaSI, new Generator().generuj_posuniecia(backup.clone(), ruchB, przelotcan,
                             bleft, bright, wleft, wright, kingrochB, kingrochC, kol, false), najwieksza, najmniejsza);
                     pula_pozycji = pula_pozycji + ai.all_position;
                     pula_sprawdzona = pula_sprawdzona + ai.pozycje;
@@ -12549,7 +12548,6 @@ public class SzachowaArena extends javax.swing.JFrame {
                     licznik = ai.licznik;
                     //System.out.println("wynik "+wynik);
                     oponet = wynik.ruch.toString();
-                    // System.out.println((move.toString()) + " wynik(" + najlepszy + ")");
                     najlepszy = wynik.wartosc;
                 } else {
                     pula_pozycji = 1;
@@ -15607,15 +15605,15 @@ public class SzachowaArena extends javax.swing.JFrame {
                                         //System.out.println(wright + " " + wleft);
                                         // System.out.println(bright + " " + bleft);
                                         atak = krolS;
-                                        if ((symbol == 'K' || symbol == 'k') && atak == false && ((ruchB && kingrochB &&
-                                                (((lokalS[0] - lokalK[0]) == -2 && ust[0][5] == ' ' && ust[0][6] == ' ' && wright)
+                                        if ((symbol == 'K' || symbol == 'k') && atak == false && ((ruchB && kingrochB
+                                                && (((lokalS[0] - lokalK[0]) == -2 && ust[0][5] == ' ' && ust[0][6] == ' ' && wright)
                                                 || (lokalS[0] - lokalK[0] == 2 && ust[0][3] == ' ' && ust[0][2] == ' ' && ust[0][1] == ' ' && wleft)))
                                                 || (!ruchB && kingrochC && (((lokalS[0] - lokalK[0]) == -2 && ust[7][5] == ' ' && ust[7][6] == ' ' && bright) || (lokalS[0] - lokalK[0] == 2 && ust[7][3] == ' ' && ust[7][2] == ' ' && ust[7][1] == ' ' && bleft))))) {
-                                           for(int i =0;i<8;i++){
-                                               for(int j =0;j<8;j++){
-                                               kontrolka[i][j]=ust[i][j];
-                                           } 
-                                           }
+                                            for (int i = 0; i < 8; i++) {
+                                                for (int j = 0; j < 8; j++) {
+                                                    kontrolka[i][j] = ust[i][j];
+                                                }
+                                            }
                                             if (ruchB) {
                                                 symbol = 'K';
                                                 if ((lokalS[0] - lokalK[0]) == -2) {
@@ -16050,7 +16048,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                         }
                                                     }
                                                 } else {
-                                                    kon = RuchZagrozenie_kontrola.ruch(lokalS, lokalK, symbol, ust.clone(), ruchB, przelotcan, kol, false);
+                                                    kon = RuchZagrozenie_kontrola.ruch(lokalS, lokalK, symbol, ust, ruchB, przelotcan, kol, false);
 
                                                     if (kon) {
                                                         kontrolka = ust.clone();
@@ -16069,7 +16067,6 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                         } else {
                                                             if (przelotcan && (symbol == 'p' || symbol == 'P') && Math.abs(lokalS[1] - lokalK[1]) == 1
                                                                     && ((ruchB && lokalS[1] == 5) || (ruchB == false && lokalS[1] == 4))) {
-
                                                             } else {
                                                                 kol = 0;
                                                             }
@@ -16078,11 +16075,11 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                             if ((przelotcan && ((lokalK[0] == kol && symbol == 'P' && lokalS[1] - lokalK[1] == -1 && lokalS[0] != lokalK[0] && lokalS[1] == 5)
                                                                     || (lokalK[0] == kol && symbol == 'p' && lokalS[1] - lokalK[1] == 1 && lokalS[0] != lokalK[0] && lokalS[1] == 4)))) {
                                                                 kontrolka = ust;
-                                                                kontrolka[lokalS[1] - 1][kol - 1] = ' ';
-                                                                kontrolka[lokalK[1] - 1][kol - 1] = symbol;
+                                                                kontrolka[lokalS[1] - 1][lokalK[0] - 1] = ' ';
+                                                                kontrolka[lokalK[1] - 1][lokalK[0] - 1] = symbol;
                                                                 kontrolka[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                                                                 pakc = RuchZagrozenie_kontrola.szach(kontrolka, ruchB);
-                                                                kon = RuchZagrozenie_kontrola.ruch(lokalS, lokalK, symbol, ust, ruchB, przelotcan, kol, false);
+                                                                kon = RuchZagrozenie_kontrola.ruch(lokalS, lokalK, symbol, kontrolka, ruchB, przelotcan, kol, false);
                                                                 if (pakc != true) {
                                                                     kon = true;
                                                                     przelot = false;
@@ -16237,7 +16234,6 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                         } else {
                                                             przelotcan = false;
                                                         }
-                                                        ust = kontrolka;
                                                         pakc = RuchZagrozenie_kontrola.szach(ust, ruchB);
                                                         if (pakc != true) {
                                                             polestart = false;
@@ -16508,6 +16504,11 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                         }
                                                         czysc_rame();
                                                         ustawrame();
+                                                        for (int i = 7; i >-1; i--) {
+                                                                    for (int j = 0; j < 8; j++) {
+                                                                        System.out.print("["+ust[i][j]+"]");
+                                                                    }System.out.println();
+                                                        }System.out.println("xxxxxxxx");
                                                         if (krolS) {
                                                             if (siec == false && symulacja == false) {
                                                                 JOptionPane.showMessageDialog(rootPane, "SZACH! KROL JEST ATAKOWANY", "Ostrzeżenie",
@@ -16560,10 +16561,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                                             if ((ruchB && ust[i][j] == 'K') || (ruchB == false && ust[i][j] == 'k')) {
                                                                                 pole_baza[0] = i;
                                                                                 pole_baza[1] = j;
-                                                                                hodu = SzachMatPatKontrola.uciekaj(ust, ruchB, pole_baza);
+                                                                                hodu = SzachMatPatKontrola.uciekaj(USTAWIENIE1, ruchB, pole_baza);
                                                                             }
                                                                         } else {
-                                                                            move = SzachMatPatKontrola.znajdz_ruch(ust, ruchB, ust[i][j], pole_baza, przelotcan);
+                                                                            move = SzachMatPatKontrola.znajdz_ruch(USTAWIENIE1, ruchB, USTAWIENIE1[i][j], pole_baza, przelotcan);
                                                                             if (move) {
                                                                                 break;
                                                                             }
@@ -16726,15 +16727,15 @@ public class SzachowaArena extends javax.swing.JFrame {
                                             czysc_rame();
                                             ustawrame();
                                         } else {
-                                            kon = RuchZagrozenie_kontrola.ruch(lokalS, lokalK, symbol, ust, ruchB, przelotcan, kol, false);
                                             char[][] tymczas = new char[8][8];
                                             for (int i = 0; i < 8; i++) {
                                                 System.arraycopy(ust[i], 0, tymczas[i], 0, 8);
                                             }
+                                            kon = RuchZagrozenie_kontrola.ruch(lokalS, lokalK, symbol, tymczas, ruchB, przelotcan, kol, false);
                                             tymczas[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                                             tymczas[lokalK[1] - 1][lokalK[0] - 1] = symbol;
                                             pakc = RuchZagrozenie_kontrola.szach(tymczas, ruchB);
-                                            if (kon && pakc == false) {
+                                            if (kon && !pakc) {
                                                 krolS = false;
                                                 bicie = true;
                                                 switch (schodzi) {
@@ -16761,9 +16762,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                         ciezkieC = (byte) (ciezkieC - 1);
                                                         break;
                                                 }
-
                                                 zmien = true;
-
                                                 if ((symbol == 'P' && lokalK[1] == 8) || (symbol == 'p' && lokalK[1] == 1)) {
                                                     promocja = true;
                                                     Object[] opcjeB = {b1, b2, b3, b4};
@@ -17463,7 +17462,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                         } else {
                                                             jTextArea3.append(!jCheckBox1.isSelected() ? (movenr + ". P" + start + "x" + stop + "=" + promo) : (movenr + ".  \u2659" + start + "x" + stop + "=" + promoSymbol));
                                                             ruch = "P" + start + "x" + stop + "=" + promo;
-                                                            ruchS = "\u269F" + start + "x" + stop + "=" + promoSymbol;
+                                                            ruchS = "\u2659" + start + "x" + stop + "=" + promoSymbol;
                                                         }
                                                     } else {
                                                         if (bicie == false) {
@@ -18313,6 +18312,7 @@ public class SzachowaArena extends javax.swing.JFrame {
         Wlasne_kolor_ciemne = new javax.swing.JMenuItem();
         Ramowka = new javax.swing.JMenuItem();
         buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         buttonGroup5 = new javax.swing.ButtonGroup();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -19794,6 +19794,7 @@ public class SzachowaArena extends javax.swing.JFrame {
 
         jTextArea2.setEditable(false);
         jTextArea2.setColumns(20);
+        jTextArea2.setFont(new java.awt.Font("FreeSerif", 0, 14)); // NOI18N
         jTextArea2.setRows(5);
         jTextArea2.setAutoscrolls(false);
         jScrollPane2.setViewportView(jTextArea2);
@@ -19869,6 +19870,7 @@ public class SzachowaArena extends javax.swing.JFrame {
 
         jTextArea3.setEditable(false);
         jTextArea3.setColumns(20);
+        jTextArea3.setFont(new java.awt.Font("FreeSerif", 0, 14)); // NOI18N
         jTextArea3.setRows(5);
         jScrollPane3.setViewportView(jTextArea3);
 
@@ -22329,7 +22331,13 @@ public class SzachowaArena extends javax.swing.JFrame {
             }
         }
         mazyna_losujaca.setEnabled(tryb == 0 && !SI_ON);
-        styl(kolor_zestaw, kroj_zestaw, kolor_plansza);
+        if(tryb!=3){
+            kolor_zestaw=2;
+            kroj_zestaw=3;
+            styl(kolor_zestaw, kroj_zestaw, kolor_plansza);
+        }else{
+            styl_tulenie(1, 1, kolor_plansza);
+        }
         poddanie.setEnabled(true);
         remis_prop.setEnabled(true);
         gra_ustawka.setVisible(false);
@@ -23432,6 +23440,7 @@ public class SzachowaArena extends javax.swing.JFrame {
         odwrot = false;
         SIOnOff.setEnabled(true);
         jMenu2.setEnabled(true);
+        
         nowa_gra.setVisible(true);
         online_kreator.setVisible(true);
         online_dolacz.setVisible(true);
@@ -23442,6 +23451,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                 odwrotna[i][j - 'A'] = ' ';
             }
         }
+        pomoc_ruch = Color.BLUE;
         przelotowe.setVisible(false);
         jLabel20.setVisible(false);
         mazyna_losujaca.setEnabled(true);
@@ -23627,7 +23637,6 @@ public class SzachowaArena extends javax.swing.JFrame {
         liczba_usciskow = 0;
         ostatni_start = "";
         ostatni_stop = "";
-        opcje_pomoc = 0;
         symulacja = false;
         jMenu2.setEnabled(false);
         jRadioButton11.setVisible(false);
@@ -23905,14 +23914,14 @@ public class SzachowaArena extends javax.swing.JFrame {
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         if (tryb < 3) {
-            boolean zmiana = (ustawka)?pierwsza_kolej:true;
+            boolean zmiana = (ustawka) ? pierwsza_kolej : true;
             jTextArea3.setText("");
             int ilosc_ruchow = 1;
-            
-                if(!pierwsza_kolej && ustawka){
-                    jTextArea3.append("1.    ...   ");
-                }
-            
+
+            if (!pierwsza_kolej && ustawka) {
+                jTextArea3.append("1.    ...   ");
+            }
+
             if (!jCheckBox1.isSelected()) {
                 for (String s : ruchy_literowe) {
                     jTextArea3.append((zmiana ? (ilosc_ruchow + ".   " + s) : ("    " + s + "\n")));
@@ -24247,6 +24256,7 @@ public class SzachowaArena extends javax.swing.JFrame {
     private javax.swing.JRadioButtonMenuItem brownboard;
     private javax.swing.JRadioButtonMenuItem brownboard1;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.ButtonGroup buttonGroup4;
     private javax.swing.ButtonGroup buttonGroup5;

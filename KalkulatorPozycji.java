@@ -16,147 +16,142 @@ public class KalkulatorPozycji
 
 
     public final static KalkulatorPozycji INSTANCE = new KalkulatorPozycji();
-    private static char[][] ustawienie = new char[8][8];
-    private static boolean przelotcan;
-    private static boolean bleft;
-    private static boolean bright;
-    private static boolean wleft;
-    private static boolean wright;
-    private static int kol;
-    private static int glebia;
-    private static boolean wykonanaRochC;
-    private static boolean wykonanaRochB;
-    private static boolean roszadaC;
-    private static boolean roszadaB;
+    
 
     public static KalkulatorPozycji get() {
         return INSTANCE;
     }
 
-    private final int[] BONUS_CZARNY_PION = {
-        0, 0, 0, 0, 0, 0, 0, 0,
-        5, 10, 10, -20, -20, 10, 10, 5,
-        5, -5, -10, 0, 0, -10, -5, 5,
-        0, 0, 0, 20, 20, 0, 0, 0,
-        5, 5, 10, 55, 55, 10, 5, 5,
-        25, 25, 29, 29, 29, 29, 25, 25,
-        75, 75, 75, 75, 75, 75, 75, 75,
-        0, 0, 0, 0, 0, 0, 0, 0
+ private final static int[] BONUS_CZARNY_PION = {
+            0,  0,  0,  0,  0,  0,  0,  0,
+            75, 75, 75, 75, 75, 75, 75, 75,
+            25, 25, 29, 29, 29, 29, 25, 25,
+            5,  5, 10, 55, 55, 10,  5,  5,
+            0,  0,  0, 20, 20,  0,  0,  0,
+            5, -5,-10,  0,  0,-10, -5,  5,
+            5, 10, 10,-20,-20, 10, 10,  5,
+            0,  0,  0,  0,  0,  0,  0,  0
     };
 
-    private final int[] BONUS_BIALY_PION = {
-        0, 0, 0, 0, 0, 0, 0, 0,
-        75, 75, 75, 75, 75, 75, 75, 75,
-        25, 25, 29, 29, 29, 29, 25, 25,
-        5, 5, 10, 55, 55, 10, 5, 5,
-        0, 0, 0, 20, 20, 0, 0, 0,
-        5, -5, -10, 0, 0, -10, -5, 5,
-        5, 10, 10, -20, -20, 10, 10, 5,
-        0, 0, 0, 0, 0, 0, 0, 0
+    private final static int[] BONUS_BIALY_PION = {
+            0,  0,  0,  0,  0,  0,  0,  0,
+            5, 10, 10,-20,-20, 10, 10,  5,
+            5, -5,-10,  0,  0,-10, -5,  5,
+            0,  0,  0, 20, 20,  0,  0,  0,
+            5,  5, 10, 55, 55, 10,  5,  5,
+            25, 25, 29, 29, 29, 29, 25, 25,
+            75, 75, 75, 75, 75, 75, 75, 75,
+            0,  0,  0,  0,  0,  0,  0,  0
     };
 
-    private final int[] BONUS_CZARNY_SKOCZEK = {
-        -50, -40, -30, -30, -30, -30, -40, -50,
-        -40, -20, 0, 5, 5, 0, -20, -40,
-        -30, 5, 10, 15, 15, 10, 5, -30,
-        -30, 0, 15, 20, 20, 15, 0, -30,
-        -30, 5, 15, 20, 20, 15, 5, -30,
-        -30, 0, 10, 15, 15, 10, 0, -30,
-        -40, -20, 0, 0, 0, 0, -20, -40,
-        -50, -40, -30, -30, -30, -30, -40, -50,};
-
-    private final int[] BONUS_BIALY_SKOCZEK = {
-        -50, -40, -30, -30, -30, -30, -40, -50,
-        -40, -20, 0, 0, 0, 0, -20, -40,
-        -30, 0, 10, 15, 15, 10, 0, -30,
-        -30, 5, 15, 20, 20, 15, 5, -30,
-        -30, 0, 15, 20, 20, 15, 0, -30,
-        -30, 5, 10, 15, 15, 10, 5, -30,
-        -40, -20, 0, 5, 5, 0, -20, -40,
-        -50, -40, -30, -30, -30, -30, -40, -50};
-
-    private final int[] BONUS_CZARNY_GONIEC = {
-        -20, -10, -10, -10, -10, -10, -10, -20,
-        -10, 5, 0, 0, 0, 0, 5, -10,
-        -10, 10, 10, 10, 10, 10, 10, -10,
-        -10, 0, 10, 10, 10, 10, 0, -10,
-        -10, 5, 5, 10, 10, 5, 5, -10,
-        -10, 0, 5, 10, 10, 5, 0, -10,
-        -10, 0, 0, 0, 0, 0, 0, -10,
-        -20, -10, -10, -10, -10, -10, -10, -20,};
-
-    private final int[] BONUS_BIALY_GONIEC = {
-        -20, -10, -10, -10, -10, -10, -10, -20,
-        -10, 0, 0, 0, 0, 0, 0, -10,
-        -10, 0, 5, 10, 10, 5, 0, -10,
-        -10, 5, 5, 10, 10, 5, 5, -10,
-        -10, 0, 10, 10, 10, 10, 0, -10,
-        -10, 10, 10, 10, 10, 10, 10, -10,
-        -10, 5, 0, 0, 0, 0, 5, -10,
-        -20, -10, -10, -10, -10, -10, -10, -20};
-
-    private final int[] BONUS_CZARNA_WIEZA = {
-        0, 0, 0, 5, 5, 0, 0, 0,
-        -5, 0, 0, 0, 0, 0, 0, -5,
-        -5, 0, 0, 0, 0, 0, 0, -5,
-        -5, 0, 0, 0, 0, 0, 0, -5,
-        -5, 0, 0, 0, 0, 0, 0, -5,
-        -5, 0, 0, 0, 0, 0, 0, -5,
-        5, 20, 20, 20, 20, 20, 20, 5,
-        0, 0, 0, 0, 0, 0, 0, 0,};
-
-    private final int[] BONUS_BIALA_WIEZA = {
-        0, 0, 0, 0, 0, 0, 0, 0,
-        5, 20, 20, 20, 20, 20, 20, 5,
-        -5, 0, 0, 0, 0, 0, 0, -5,
-        -5, 0, 0, 0, 0, 0, 0, -5,
-        -5, 0, 0, 0, 0, 0, 0, -5,
-        -5, 0, 0, 0, 0, 0, 0, -5,
-        -5, 0, 0, 0, 0, 0, 0, -5,
-        0, 0, 0, 5, 5, 0, 0, 0};
-
-    private final int[] BONUS_CZARNY_HETMAN = {
-        -20, -10, -10, -5, -5, -10, -10, -20,
-        -10, 0, 5, 0, 0, 0, 0, -10,
-        -10, 5, 5, 5, 5, 5, 0, -10,
-        0, 0, 5, 5, 5, 5, 0, -5,
-        0, 0, 5, 5, 5, 5, 0, -5,
-        -10, 0, 5, 5, 5, 5, 0, -10,
-        -10, 0, 0, 0, 0, 0, 0, -10,
-        -20, -10, -10, -5, -5, -10, -10, -20
+    private final static int[] BONUS_CZARNY_SKOCZEK = {
+            -50,-40,-30,-30,-30,-30,-40,-50,
+            -40,-20,  0,  0,  0,  0,-20,-40,
+            -30,  0, 10, 15, 15, 10,  0,-30,
+            -30,  5, 15, 20, 20, 15,  5,-30,
+            -30,  0, 15, 20, 20, 15,  0,-30,
+            -30,  5, 10, 15, 15, 10,  5,-30,
+            -40,-20,  0,  5,  5,  0,-20,-40,
+            -50,-40,-30,-30,-30,-30,-40,-50
     };
 
-    private final int[] BONUS_BIALY_HETMAN = {
-        -20, -10, -10, -5, -5, -10, -10, -20,
-        -10, 0, 0, 0, 0, 0, 0, -10,
-        -10, 0, 5, 5, 5, 5, 0, -10,
-        -5, 0, 5, 5, 5, 5, 0, -5,
-        0, 0, 5, 5, 5, 5, 0, -5,
-        -10, 5, 5, 5, 5, 5, 0, -10,
-        -10, 0, 5, 0, 0, 0, 0, -10,
-        -20, -10, -10, -5, -5, -10, -10, -20
+    private final static int[] BONUS_BIALY_SKOCZEK = {
+            -50,-40,-30,-30,-30,-30,-40,-50,
+            -40,-20,  0,  5,  5,  0,-20,-40,
+            -30,  5, 10, 15, 15, 10,  5,-30,
+            -30,  0, 15, 20, 20, 15,  0,-30,
+            -30,  5, 15, 20, 20, 15,  5,-30,
+            -30,  0, 10, 15, 15, 10,  0,-30,
+            -40,-20,  0,  0,  0,  0,-20,-40,
+            -50,-40,-30,-30,-30,-30,-40,-50,
     };
 
-    private final int[] BONUS_CZARNY_KROL = {
-        20, 30, 10, 0, 0, 10, 30, 20,
-        20, 20, 0, 0, 0, 0, 20, 20,
-        -10, -20, -20, -20, -20, -20, -20, -10,
-        -20, -30, -30, -40, -40, -30, -30, -20,
-        -30, -40, -40, -50, -50, -40, -40, -30,
-        -30, -40, -40, -50, -50, -40, -40, -30,
-        -30, -40, -40, -50, -50, -40, -40, -30,
-        -30, -40, -40, -50, -50, -40, -40, -30
+    private final static int[] BONUS_CZARNY_GONIEC = {
+            -20,-10,-10,-10,-10,-10,-10,-20,
+            -10,  0,  0,  0,  0,  0,  0,-10,
+            -10,  0,  5, 10, 10,  5,  0,-10,
+            -10,  5,  5, 10, 10,  5,  5,-10,
+            -10,  0, 10, 10, 10, 10,  0,-10,
+            -10, 10, 10, 10, 10, 10, 10,-10,
+            -10,  5,  0,  0,  0,  0,  5,-10,
+            -20,-10,-10,-10,-10,-10,-10,-20
     };
 
-    private final int[] BONUS_BIALY_KROL = {
-        -30, -40, -40, -50, -50, -40, -40, -30,
-        -30, -40, -40, -50, -50, -40, -40, -30,
-        -30, -40, -40, -50, -50, -40, -40, -30,
-        -30, -40, -40, -50, -50, -40, -40, -30,
-        -20, -30, -30, -40, -40, -30, -30, -20,
-        -10, -20, -20, -20, -20, -20, -20, -10,
-        20, 20, 0, 0, 0, 0, 20, 20,
-        20, 30, 10, 0, 0, 10, 30, 20
+    private final static int[] BONUS_BIALY_GONIEC = {
+            -20,-10,-10,-10,-10,-10,-10,-20,
+            -10,  5,  0,  0,  0,  0,  5,-10,
+            -10, 10, 10, 10, 10, 10, 10,-10,
+            -10,  0, 10, 10, 10, 10,  0,-10,
+            -10,  5,  5, 10, 10,  5,  5,-10,
+            -10,  0,  5, 10, 10,  5,  0,-10,
+            -10,  0,  0,  0,  0,  0,  0,-10,
+            -20,-10,-10,-10,-10,-10,-10,-20,
+    };
+
+    private final static int[] BONUS_CZARNA_WIEZA = {
+            0,  0,  0,  0,  0,  0,  0,  0,
+            5, 20, 20, 20, 20, 20, 20,  5,
+            -5,  0,  0,  0,  0,  0,  0, -5,
+            -5,  0,  0,  0,  0,  0,  0, -5,
+            -5,  0,  0,  0,  0,  0,  0, -5,
+            -5,  0,  0,  0,  0,  0,  0, -5,
+            -5,  0,  0,  0,  0,  0,  0, -5,
+            0,  0,  0,  5,  5,  0,  0,  0
+    };
+
+    private final static int[] BONUS_BIALA_WIEZA = {
+            0,  0,  0,  5,  5,  0,  0,  0,
+            -5,  0,  0,  0,  0,  0,  0, -5,
+            -5,  0,  0,  0,  0,  0,  0, -5,
+            -5,  0,  0,  0,  0,  0,  0, -5,
+            -5,  0,  0,  0,  0,  0,  0, -5,
+            -5,  0,  0,  0,  0,  0,  0, -5,
+            5, 20, 20, 20, 20, 20, 20,  5,
+            0,  0,  0,  0,  0,  0,  0,  0,
+    };
+
+    private final static int[] BONUS_CZARNY_HETMAN = {
+            -20,-10,-10, -5, -5,-10,-10,-20,
+            -10,  0,  0,  0,  0,  0,  0,-10,
+            -10,  0,  5,  5,  5,  5,  0,-10,
+             -5,  0,  5,  5,  5,  5,  0, -5,
+              0,  0,  5,  5,  5,  5,  0, -5,
+            -10,  5,  5,  5,  5,  5,  0,-10,
+            -10,  0,  5,  0,  0,  0,  0,-10,
+            -20,-10,-10, -5, -5,-10,-10,-20
+    };
+
+    private final static int[] BONUS_BIALY_HETMAN = {
+            -20,-10,-10, -5, -5,-10,-10,-20,
+            -10,  0,  5,  0,  0,  0,  0,-10,
+            -10,  5,  5,  5,  5,  5,  0,-10,
+              0,  0,  5,  5,  5,  5,  0, -5,
+              0,  0,  5,  5,  5,  5,  0, -5,
+            -10,  0,  5,  5,  5,  5,  0,-10,
+            -10,  0,  0,  0,  0,  0,  0,-10,
+            -20,-10,-10, -5, -5,-10,-10,-20
+    };
+
+    private final static int[] BONUS_CZARNY_KROL = {
+            -30,-40,-40,-50,-50,-40,-40,-30,
+            -30,-40,-40,-50,-50,-40,-40,-30,
+            -30,-40,-40,-50,-50,-40,-40,-30,
+            -30,-40,-40,-50,-50,-40,-40,-30,
+            -20,-30,-30,-40,-40,-30,-30,-20,
+            -10,-20,-20,-20,-20,-20,-20,-10,
+             20, 20,  0,  0,  0,  0, 20, 20,
+             20, 30, 10,  0,  0, 10, 30, 20
+    };
+
+    private final static int[] BONUS_BIALY_KROL = {
+             20, 30, 10,  0,  0, 10, 30, 20,
+             20, 20,  0,  0,  0,  0, 20, 20,
+            -10,-20,-20,-20,-20,-20,-20,-10,
+            -20,-30,-30,-40,-40,-30,-30,-20,
+            -30,-40,-40,-50,-50,-40,-40,-30,
+            -30,-40,-40,-50,-50,-40,-40,-30,
+            -30,-40,-40,-50,-50,-40,-40,-30,
+            -30,-40,-40,-50,-50,-40,-40,-30
     };
 
     public KalkulatorPozycji() {
@@ -165,95 +160,77 @@ public class KalkulatorPozycji
     }
 
     @Override
-    public int zliczacz(char[][] ustawienie, boolean przelotcan,
-            boolean bleft, boolean bright, boolean wleft, boolean wright,
-            boolean roszadaB, boolean roszadaC, boolean wykonanaRochB, boolean wykonanaRochC,
-            int glebia, int kol) {
-      for (int x = 0; x < 8; x++) {
-            for (int y = 0; y < 8; y++) {
-        KalkulatorPozycji.ustawienie[x][y] = ustawienie[x][y];
-            }}
-        KalkulatorPozycji.przelotcan = przelotcan;
-        KalkulatorPozycji.bleft = bleft;
-        KalkulatorPozycji.bright = bright;
-        KalkulatorPozycji.wleft = wleft;
-        KalkulatorPozycji.wright = wright;
-        KalkulatorPozycji.roszadaB = roszadaB;
-        KalkulatorPozycji.roszadaC = roszadaC;
-        KalkulatorPozycji.wykonanaRochB = wykonanaRochB;
-        KalkulatorPozycji.wykonanaRochC = wykonanaRochC;
-        KalkulatorPozycji.glebia = glebia;
-        KalkulatorPozycji.kol = kol;
-        return punktacja(true)
-                - punktacja(false)
-                + wartosc_bierek();
+    public int zliczacz(Pozycja p,int glebia) {
+        return punktacja(true,p,glebia)
+                - punktacja(false,p,glebia)
+                + wartosc_bierek(p.pozycja);
     }
 
-    private int punktacja(boolean strona) {
-        return szachmat(strona)
-                + dokonano_roszady(strona)
-                + mobilnosc(strona)
-                + pionkiS(strona)
-                + ruchy_zbijajace(strona);
+    private int punktacja(boolean strona,Pozycja p,int glebia) {
+        return szachmat(strona,p,glebia)
+                + dokonano_roszady(strona,p)
+                + mobilnosc(strona,p)
+                + pionkiS(strona,p)
+                + ruchy_zbijajace(strona,p);
     }
 
-    private int wartosc_bierek() {
+    private int wartosc_bierek(char[][] ustawienie) {
         int wartosc = 0;
         int gonceB = 0;
         int gonceC = 0;
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
-               // System.out.println(y+(8*(7-x))+"|"+ustawienie[x][y]);
+               // System.out.println(x*8+y+"|"+ustawienie[x][y]);
                 switch (ustawienie[x][y]) {
                     case 'p':
-                        wartosc = wartosc - (100 + BONUS_CZARNY_PION[y+(8*(7-x))]);
+                        wartosc = wartosc - (100 + BONUS_CZARNY_PION[x*8+y]);
                         //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + (ustawienie)[x+(7*(7-y))] + BONUS_CZARNY_PION[x+(7*(7-y))] + "]");
                         break;
                     case 'n':
                         //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + (ustawienie)[x+(7*(7-y))] + BONUS_CZARNY_SKOCZEK[x+(7*(7-y))] + "]");
-                        wartosc = wartosc - (300 + BONUS_CZARNY_SKOCZEK[y+(8*(7-x))]);
+                        wartosc = wartosc - (300 + BONUS_CZARNY_SKOCZEK[x*8+y]);
                         break;
                     case 'b':
                         //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + (ustawienie)[x+(7*(7-y))] + BONUS_CZARNY_GONIEC[x+(7*(7-y))] + "]");
-                        wartosc = wartosc - (330 + BONUS_CZARNY_GONIEC[y+(8*(7-x))]);
+                        wartosc = wartosc - (330 + BONUS_CZARNY_GONIEC[x*8+y]);
                         gonceC = gonceC + 1;
                         break;
                     case 'r':
                         //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + (ustawienie)[x+(7*(7-y))] + BONUS_CZARNA_WIEZA[x+(7*(7-y))] + "]");
-                        wartosc = wartosc - (500 + BONUS_CZARNA_WIEZA[y+(8*(7-x))]);
+                        wartosc = wartosc - (500 + BONUS_CZARNA_WIEZA[x*8+y]);
                         break;
                     case 'q':
                         //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + (ustawienie)[x+(7*(7-y))] + BONUS_CZARNY_HETMAN[x+(7*(7-y))] + "]");
-                        wartosc = wartosc - (900 + BONUS_CZARNY_HETMAN[y+(8*(7-x))]);
+                        wartosc = wartosc - (900 + BONUS_CZARNY_HETMAN[x*8+y]);
                         break;
                     case 'k':
                         //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + (ustawienie)[x+(7*(7-y))] + BONUS_CZARNY_KROL[x+(7*(7-y))] + "]");
-                        wartosc = wartosc - (10000 + BONUS_CZARNY_KROL[y+(8*(7-x))]);
+                        wartosc = wartosc - (10000 + BONUS_CZARNY_KROL[x*8+y]);
                         break;
                     case 'P':
                         //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + (ustawienie)[x+(7*(7-y))] + BONUS_BIALY_PION[x+(7*(7-y))] + "]");
-                        wartosc = wartosc + (100 + BONUS_BIALY_PION[y+(8*(7-x))]);
+                        wartosc = wartosc + (100 + BONUS_BIALY_PION[x*8+y]);
                         break;
                     case 'N':
                         //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + (ustawienie)[x+(7*(7-y))] + BONUS_BIALY_SKOCZEK[x+(7*(7-y))] + "]");
-                        wartosc = wartosc + (300 + BONUS_BIALY_SKOCZEK[y+(8*(7-x))]);
+                        wartosc = wartosc + (300 + BONUS_BIALY_SKOCZEK[x*8+y]);
                         break;
                     case 'B':
                         //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + (ustawienie)[x+(7*(7-y))] + BONUS_BIALY_GONIEC[x+(7*(7-y))] + "]");
-                        wartosc = wartosc + (330 + BONUS_BIALY_GONIEC[y+(8*(7-x))]);
+                        wartosc = wartosc + (330 + BONUS_BIALY_GONIEC[x*8+y]);
                         gonceB = gonceB + 1;
                         break;
                     case 'R':
                         //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + (ustawienie)[x+(7*(7-y))] + BONUS_BIALA_WIEZA[x+(7*(7-y))] + "]");
-                        wartosc = wartosc + (500 + BONUS_BIALA_WIEZA[y+(8*(7-x))]);
+                        wartosc = wartosc + (500 + BONUS_BIALA_WIEZA[x*8+y]);
                         break;
                     case 'Q':
                         //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + (ustawienie)[x+(7*(7-y))] + BONUS_BIALY_HETMAN[x+(7*(7-y))] + "]");
-                        wartosc = wartosc + (900 + BONUS_BIALY_HETMAN[y+(8*(7-x))]);
+                        wartosc = wartosc + (900 + BONUS_BIALY_HETMAN[x*8+y]);
                         break;
                     case 'K':
                         //System.out.print("[" + (x + 1) + "|" + (char) ('A' + y) + " " + (ustawienie)[x+(7*(7-y))] + BONUS_BIALY_KROL[x+(7*(7-y))] + "]");
-                        wartosc = wartosc + (10000 + BONUS_BIALY_KROL[y+(8*(7-x))]);
+                        wartosc = wartosc + (10000 + BONUS_BIALY_KROL[x*8+y]);
                         break;
                     default:
                         //////System.out.println("[" + 0 + "]");
@@ -265,13 +242,13 @@ public class KalkulatorPozycji
         return wartosc + (gonceB >= 2 ? 25 : 0) - (gonceC >= 2 ? 25 : 0);
     }
 
-    private int szachmat(boolean strona) {
+    private int szachmat(boolean strona,Pozycja p,int glebia) {
         int[] krol = new int[2];
-        if (RuchZagrozenie_kontrola.szach((ustawienie), !strona)) {
+        if (RuchZagrozenie_kontrola.szach((p.pozycja), !strona)) {
             for (byte i = 0; i < 8; i++) {
                 for (byte j = 0; j < 8; j++) {
-                    if ((ustawienie[i][j] == 'k' && strona)
-                            || (ustawienie[i][j] == 'K' && !strona)) {
+                    if ((p.pozycja[i][j] == 'k' && strona)
+                            || (p.pozycja[i][j] == 'K' && !strona)) {
                         krol[0] = i;
                         krol[1] = j;
                     }
@@ -279,9 +256,9 @@ public class KalkulatorPozycji
             }
             int SZACH = 45;
             int MAT = 1000000;
-            return !SzachMatPatKontrola.uciekaj(ustawienie, !strona, krol)
-                    && !SzachMatPatKontrola.zastaw(ustawienie, !strona, Wspomagacz.znajdzklopot(ustawienie, !strona), krol, przelotcan)
-                    && !SzachMatPatKontrola.znajdzodsiecz(ustawienie, !strona, Wspomagacz.znajdzklopot(ustawienie, !strona), kol, przelotcan)
+            return !SzachMatPatKontrola.uciekaj(p.pozycja, !strona, krol)
+                    && !SzachMatPatKontrola.zastaw(p.pozycja, !strona, Wspomagacz.znajdzklopot(p.pozycja, !strona), krol, p.przelot_can)
+                    && !SzachMatPatKontrola.znajdzodsiecz(p.pozycja, !strona, Wspomagacz.znajdzklopot(p.pozycja, !strona), p.przelot, p.przelot_can)
                     ? glebia != 0 ? MAT * glebia : MAT : SZACH;
 
         }
@@ -289,15 +266,15 @@ public class KalkulatorPozycji
         return 0;
     }
 
-    private int dokonano_roszady(boolean strona) {
+    private int dokonano_roszady(boolean strona,Pozycja p) {
         int ROSZADA = 25;
         if (strona) {
-            if (wykonanaRochB) {
+            if (p.didrochB) {
                 //////System.out.println(ROSZADA+"+");
                 return ROSZADA;
             }
         } else {
-            if (wykonanaRochC) {
+            if (p.didrochC) {
                 //////System.out.println(ROSZADA+"+");
                 return ROSZADA;
             }
@@ -306,9 +283,9 @@ public class KalkulatorPozycji
         return 0;
     }
 
-    private int pionkiS(boolean strona) {
+    private int pionkiS(boolean strona,Pozycja p) {
 ////System.out.printlnln("Wchodzi5");
-        return pozycja_PION.punktacja(strona, (ustawienie));
+        return pozycja_PION.punktacja(strona, (p.pozycja));
     }
 
    /* private int wiezeS(boolean strona, char[][] ustawienie) {
@@ -317,25 +294,19 @@ public class KalkulatorPozycji
         return w.punktacja(strona, (ustawienie)) - w.punktacja(!strona, (ustawienie));
     }*/
 
-    private int mobilnosc(boolean strona) {
+    private int mobilnosc(boolean strona,Pozycja p) {
         ////System.out.printlnln("Wchodzi4");
 
         ////System.out.printlnln(stosunek(strona)*RUCHY_BONUS);
         int RUCHY_BONUS = 5;
-        return RUCHY_BONUS * stosunek(ustawienie, strona, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol);
+        return RUCHY_BONUS * stosunek(strona,p);
     }
 
-    private int stosunek(char[][] ustawienie, boolean b, boolean przelotcan,
-            boolean bleft, boolean bright, boolean wleft, boolean wright, boolean roszadaB, boolean roszadaC, int kol) {
-        int swoje = new Generator().generuj_posuniecia(ustawienie, b, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol, true).size();
-        int wrogie = new Generator().generuj_posuniecia(ustawienie, !b, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol, true).size();
+    private int stosunek(boolean b,Pozycja p) {
+        int swoje = Generator.generuj_posuniecia(p.pozycja, b, p.przelot_can, p.Dbleft, p.Dbright, p.Dwleft, p.Dwright, p.DKingrochB, p.DKingrochC, p.przelot, true).size();
+        int wrogie = Generator.generuj_posuniecia(p.pozycja, !b, p.przelot_can, p.Dbleft, p.Dbright, p.Dwleft, p.Dwright, p.DKingrochB, p.DKingrochC, p.przelot, true).size();
         //System.out.println((int) ((swoje*10.0f) / wrogie*1.0f));
-        if (RuchZagrozenie_kontrola.szach((ustawienie), !b)) {
-            swoje++;
-        }
-        if (RuchZagrozenie_kontrola.szach((ustawienie), b)) {
-            wrogie++;
-        }
+        
         return (int) ((swoje * 10.0f) / wrogie);
 
     }
@@ -347,9 +318,9 @@ public class KalkulatorPozycji
         return save.getWartosc();
     }*/
 
-    private int ruchy_zbijajace(boolean strona) {
+    private int ruchy_zbijajace(boolean strona, Pozycja p) {
         ////System.out.printlnln("Wchodzi7");
-        Collection<Ruch> lista = new Generator().generuj_posuniecia((ustawienie), strona, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol, false);
+        Collection<Ruch> lista = Generator.generuj_posuniecia(p.pozycja, strona, p.przelot_can, p.Dbleft, p.Dbright, p.Dwleft, p.Dwright, p.DKingrochB, p.DKingrochC, p.przelot,false);
         int licznik_ataku = 0;
 
         if (!lista.isEmpty()) {
@@ -362,7 +333,7 @@ public class KalkulatorPozycji
                     }
                 }
             }
-            if (RuchZagrozenie_kontrola.szach((ustawienie), !strona)) {
+            if (RuchZagrozenie_kontrola.szach((p.pozycja), !strona)) {
                 licznik_ataku++;
             }
         }
