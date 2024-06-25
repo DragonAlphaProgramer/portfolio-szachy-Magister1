@@ -13,10 +13,10 @@ package szachy;
  */
 public class Ruch implements Comparable<Ruch> {
 
-    Ruch(boolean anty, String lista, char bity, char[][] ust2) {
-        korzystnosc_bicia = bity;
+
+    Ruch(String lista, char bity, char[][] ust2) {
         kolejnosc = lista.charAt(0);
-        atak = (bity != ' ')&&!anty;
+        atak = (bity != ' ');
         roszada = lista.startsWith("O-O",1);
         dlugaroszada = lista.startsWith("O-O-O",1);
         przelot = lista.charAt(6) == ('E');
@@ -24,26 +24,6 @@ public class Ruch implements Comparable<Ruch> {
                 && (lista.charAt(0) == 'p' || lista.charAt(0) == 'P');
         if (lista.charAt(6) == '=') {
             promowana = lista.charAt(7);
-            switch (lista.charAt(7)) {
-                case 'n':
-                case 'N':
-                    wartosc_promocji = 1;
-                    break;
-                case 'b':
-                case 'B':
-                    wartosc_promocji = 2;
-                    break;
-                case 'r':
-                case 'R':
-                    wartosc_promocji = 3;
-                    break;
-                case 'q':
-                case 'Q':
-                    wartosc_promocji = 4;
-                    break;
-                default:
-                    break;
-            }
         }
         if (lista.startsWith("O-O",1)) {
             start1 = kolumna.KR;
@@ -203,15 +183,367 @@ public class Ruch implements Comparable<Ruch> {
             czybialy = lista.charAt(0) == 'K';
             kolejnosc = czybialy ? 'K' : 'k';
         }
+        korzystnosc_bicia = wartosc(bity);
         wspolczynnik_ruchu = wartosc(kolejnosc);
-        wspolczynnik_bitki = wartosc(bity);
-        for(int i = 0;i<8;i++){
-            for(int j = 0;j<8;j++){
-                chessboard_before[i][j]=ust2[i][j];
-                
+        chessboard_after = zmiana(lista,ust2);
+        czy_szach = lista.charAt(8)=='+';
+       
+    }
+
+    public void ustaw_parametry(String lista, char bity, char[][] ust2) {
+        kolejnosc = lista.charAt(0);
+        atak = (bity != ' ');
+        roszada = lista.startsWith("O-O",1);
+        dlugaroszada = lista.startsWith("O-O-O",1);
+        przelot = lista.charAt(6) == ('E');
+        promocja = lista.charAt(6) == '='
+                && (lista.charAt(0) == 'p' || lista.charAt(0) == 'P');
+        if (lista.charAt(6) == '=') {
+            promowana = lista.charAt(7);
         }
+        if (lista.startsWith("O-O",1)) {
+            start1 = kolumna.KR;
+            start2 = rzad.RR;
+            koniec1 = kolumna.KR;
+            koniec2 = rzad.RR;
+        } else {
+            switch (lista.charAt(1)) {
+                case 'A':
+                    start1 = kolumna.k1;
+                    break;
+                case 'B':
+                    start1 = kolumna.k2;
+                    break;
+                case 'C':
+                    start1 = kolumna.k3;
+                    break;
+                case 'D':
+                    start1 = kolumna.k4;
+                    break;
+                case 'E':
+                    start1 = kolumna.k5;
+                    break;
+                case 'F':
+                    start1 = kolumna.k6;
+                    break;
+                case 'G':
+                    start1 = kolumna.k7;
+                    break;
+                case 'H':
+                    start1 = kolumna.k8;
+                    break;
+            }
+            switch (lista.charAt(4)) {
+                case 'A':
+                    koniec1 = kolumna.k1;
+                    break;
+                case 'B':
+                    koniec1 = kolumna.k2;
+                    break;
+                case 'C':
+                    koniec1 = kolumna.k3;
+                    break;
+                case 'D':
+                    koniec1 = kolumna.k4;
+                    break;
+                case 'E':
+                    koniec1 = kolumna.k5;
+                    break;
+                case 'F':
+                    koniec1 = kolumna.k6;
+                    break;
+                case 'G':
+                    koniec1 = kolumna.k7;
+                    break;
+                case 'H':
+                    koniec1 = kolumna.k8;
+                    break;
+            }
+            switch (lista.charAt(2)) {
+                case '1':
+                    start2 = rzad.r1;
+                    break;
+                case '2':
+                    start2 = rzad.r2;
+                    break;
+                case '3':
+                    start2 = rzad.r3;
+                    break;
+                case '4':
+                    start2 = rzad.r4;
+                    break;
+                case '5':
+                    start2 = rzad.r5;
+                    break;
+                case '6':
+                    start2 = rzad.r6;
+                    break;
+                case '7':
+                    start2 = rzad.r7;
+                    break;
+                case '8':
+                    start2 = rzad.r8;
+                    break;
+            }
+            switch (lista.charAt(5)) {
+                case '1':
+                    koniec2 = rzad.r1;
+                    break;
+                case '2':
+                    koniec2 = rzad.r2;
+                    break;
+                case '3':
+                    koniec2 = rzad.r3;
+                    break;
+                case '4':
+                    koniec2 = rzad.r4;
+                    break;
+                case '5':
+                    koniec2 = rzad.r5;
+                    break;
+                case '6':
+                    koniec2 = rzad.r6;
+                    break;
+                case '7':
+                    koniec2 = rzad.r7;
+                    break;
+                case '8':
+                    koniec2 = rzad.r8;
+                    break;
+            }
         }
-        chessboard_after = zmiana(lista);
+        if (!lista.startsWith("O-O",1)) {
+            switch (lista.charAt(0)) {
+                case 'p':
+                    czybialy = false;
+                    break;
+                case 'P':
+                    czybialy = true;
+                    break;
+                case 'n':
+                    czybialy = false;
+                    break;
+                case 'N':
+                    czybialy = true;
+                    break;
+                case 'b':
+                    czybialy = false;
+                    break;
+                case 'B':
+                    czybialy = true;
+                    break;
+                case 'r':
+                    czybialy = false;
+                    break;
+                case 'R':
+                    czybialy = true;
+                    break;
+                case 'q':
+                    czybialy = false;
+                    break;
+                case 'Q':
+                    czybialy = true;
+                    break;
+                case 'k':
+                    czybialy = false;
+                    break;
+                case 'K':
+                    czybialy = true;
+                    break;
+
+            }
+            czybialy=(kolejnosc=='Q'||kolejnosc=='K'
+                    ||kolejnosc=='R'||kolejnosc=='P'
+                    ||kolejnosc=='N'||kolejnosc=='B');
+        } else {
+            czybialy = lista.charAt(0) == 'K';
+            kolejnosc = czybialy ? 'K' : 'k';
+        }
+        korzystnosc_bicia = wartosc(bity);
+        wspolczynnik_ruchu = wartosc(kolejnosc);
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
+                chessboard_after[x][y] = ust2[x][y];
+            }
+        }
+        chessboard_after = zmiana(lista,ust2);
+        
+        czy_szach = lista.charAt(8)=='+';
+        
+    }
+    
+    Ruch(boolean anty, String lista, char bity, char[][] ust2) {
+        kolejnosc = lista.charAt(0);
+        atak = (bity != ' ')&&!anty;
+        roszada = lista.startsWith("O-O",1);
+        dlugaroszada = lista.startsWith("O-O-O",1);
+        przelot = lista.charAt(6) == ('E');
+        promocja = lista.charAt(6) == '='
+                && (lista.charAt(0) == 'p' || lista.charAt(0) == 'P');
+        if (lista.charAt(6) == '=') {
+            promowana = lista.charAt(7);
+        }
+        if (lista.startsWith("O-O",1)) {
+            start1 = kolumna.KR;
+            start2 = rzad.RR;
+            koniec1 = kolumna.KR;
+            koniec2 = rzad.RR;
+        } else {
+            switch (lista.charAt(1)) {
+                case 'A':
+                    start1 = kolumna.k1;
+                    break;
+                case 'B':
+                    start1 = kolumna.k2;
+                    break;
+                case 'C':
+                    start1 = kolumna.k3;
+                    break;
+                case 'D':
+                    start1 = kolumna.k4;
+                    break;
+                case 'E':
+                    start1 = kolumna.k5;
+                    break;
+                case 'F':
+                    start1 = kolumna.k6;
+                    break;
+                case 'G':
+                    start1 = kolumna.k7;
+                    break;
+                case 'H':
+                    start1 = kolumna.k8;
+                    break;
+            }
+            switch (lista.charAt(4)) {
+                case 'A':
+                    koniec1 = kolumna.k1;
+                    break;
+                case 'B':
+                    koniec1 = kolumna.k2;
+                    break;
+                case 'C':
+                    koniec1 = kolumna.k3;
+                    break;
+                case 'D':
+                    koniec1 = kolumna.k4;
+                    break;
+                case 'E':
+                    koniec1 = kolumna.k5;
+                    break;
+                case 'F':
+                    koniec1 = kolumna.k6;
+                    break;
+                case 'G':
+                    koniec1 = kolumna.k7;
+                    break;
+                case 'H':
+                    koniec1 = kolumna.k8;
+                    break;
+            }
+            switch (lista.charAt(2)) {
+                case '1':
+                    start2 = rzad.r1;
+                    break;
+                case '2':
+                    start2 = rzad.r2;
+                    break;
+                case '3':
+                    start2 = rzad.r3;
+                    break;
+                case '4':
+                    start2 = rzad.r4;
+                    break;
+                case '5':
+                    start2 = rzad.r5;
+                    break;
+                case '6':
+                    start2 = rzad.r6;
+                    break;
+                case '7':
+                    start2 = rzad.r7;
+                    break;
+                case '8':
+                    start2 = rzad.r8;
+                    break;
+            }
+            switch (lista.charAt(5)) {
+                case '1':
+                    koniec2 = rzad.r1;
+                    break;
+                case '2':
+                    koniec2 = rzad.r2;
+                    break;
+                case '3':
+                    koniec2 = rzad.r3;
+                    break;
+                case '4':
+                    koniec2 = rzad.r4;
+                    break;
+                case '5':
+                    koniec2 = rzad.r5;
+                    break;
+                case '6':
+                    koniec2 = rzad.r6;
+                    break;
+                case '7':
+                    koniec2 = rzad.r7;
+                    break;
+                case '8':
+                    koniec2 = rzad.r8;
+                    break;
+            }
+        }
+        if (!lista.startsWith("O-O",1)) {
+            switch (lista.charAt(0)) {
+                case 'p':
+                    czybialy = false;
+                    break;
+                case 'P':
+                    czybialy = true;
+                    break;
+                case 'n':
+                    czybialy = false;
+                    break;
+                case 'N':
+                    czybialy = true;
+                    break;
+                case 'b':
+                    czybialy = false;
+                    break;
+                case 'B':
+                    czybialy = true;
+                    break;
+                case 'r':
+                    czybialy = false;
+                    break;
+                case 'R':
+                    czybialy = true;
+                    break;
+                case 'q':
+                    czybialy = false;
+                    break;
+                case 'Q':
+                    czybialy = true;
+                    break;
+                case 'k':
+                    czybialy = false;
+                    break;
+                case 'K':
+                    czybialy = true;
+                    break;
+
+            }
+            czybialy=(kolejnosc=='Q'||kolejnosc=='K'
+                    ||kolejnosc=='R'||kolejnosc=='P'
+                    ||kolejnosc=='N'||kolejnosc=='B');
+        } else {
+            czybialy = lista.charAt(0) == 'K';
+            kolejnosc = czybialy ? 'K' : 'k';
+        }
+        korzystnosc_bicia = wartosc(bity);
+        wspolczynnik_ruchu = wartosc(kolejnosc);
+        chessboard_after = zmiana(lista,ust2);
         if(!anty){
         czy_szach = lista.charAt(8)=='+';
         }else{
@@ -221,10 +553,11 @@ public class Ruch implements Comparable<Ruch> {
 
    
    
-    private char[][] zmiana(String lista) {
+   
+    private char[][] zmiana(String lista,char[][] chessboard_before) {
         char[][] wynik = new char[8][8];
         for (int i = 0; i < 8; i++) {
-            System.arraycopy(this.chessboard_before[i], 0, wynik[i], 0, 8);
+            System.arraycopy(chessboard_before[i], 0, wynik[i], 0, 8);
         }
         if (this.roszada) {
 
@@ -272,6 +605,8 @@ public class Ruch implements Comparable<Ruch> {
         return wynik;
     }
 
+   
+
   
 
     enum figura {
@@ -287,22 +622,20 @@ public class Ruch implements Comparable<Ruch> {
     }
 
 
-    char[][] chessboard_before = new char[8][8];
     char[][] chessboard_after = new char[8][8];
     Boolean czy_szach, roszada, czybialy, przelot, dlugaroszada, promocja, atak;
     kolumna start1, koniec1;
     rzad start2, koniec2;
     char kolejnosc;
     char promowana = ' ';
-    Integer wspolczynnik_ruchu, wspolczynnik_bitki;
-    int wartosc_promocji = 0;
-    char korzystnosc_bicia;
+    Integer wspolczynnik_ruchu;
+    int korzystnosc_bicia = 0;
 
     private int wartosc(char f) {
         switch (f) {
             case 'b':
             case 'B':
-                return 330;
+                return 350;
             case 'q':
             case 'Q':
                 return 900;
@@ -328,7 +661,7 @@ public class Ruch implements Comparable<Ruch> {
    
     @Override
     public int compareTo(Ruch obiekt) {
-        //if (Boolean.compare(this.czy_szach, obiekt.czy_szach) == 0) {
+        if (Boolean.compare(this.czy_szach, obiekt.czy_szach) == 0) {
         if (Boolean.compare(this.atak, obiekt.atak) == 0) {
             if (Boolean.compare(this.roszada, obiekt.roszada) == 0) {
                 return Integer.compare(obiekt.wspolczynnik_ruchu, this.wspolczynnik_ruchu);
@@ -338,9 +671,9 @@ public class Ruch implements Comparable<Ruch> {
         } else {
             return Boolean.compare(this.atak, obiekt.atak) * -1;
         }
-        /* } else {
+         } else {
             return Boolean.compare(this.czy_szach, obiekt.czy_szach) * -1;
-        }*/
+        }
     }
 
     @Override
@@ -403,7 +736,7 @@ public class Ruch implements Comparable<Ruch> {
                     wynik = wynik.concat("8");
                     break;
             }
-            wynik = wynik.concat(korzystnosc_bicia == ' ' ? "-" : "x");
+            wynik = wynik.concat(atak ? "x" : "-");
             switch (koniec1) {
                 case k1:
                     wynik = wynik.concat("A");

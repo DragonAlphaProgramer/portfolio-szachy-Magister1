@@ -5,7 +5,6 @@
  */
 package szachy;
 
-import javax.imageio.ImageIO;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.MediaPrintableArea;
@@ -13,8 +12,6 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.awt.print.Book;
 import java.awt.print.PageFormat;
 import java.awt.print.Paper;
@@ -23,7 +20,8 @@ import java.awt.print.PrinterJob;
 import java.beans.PropertyChangeEvent;
 import java.io.*;
 import java.net.*;
-import java.nio.file.Path;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.sql.*;
 import java.util.Timer;
 import java.util.*;
@@ -729,7 +727,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     }
                                                 } else {
                                                     move = SzachMatPatKontrola.znajdz_ruch(ust, ruchB, ust[i][j], pole_baza, przelotcan);
-                                                    SzachMatPatKontrola.znajdz_ruch(ust, nakladki, ruchB, nakladki[i][j], pole_baza, przelotcan);
+                                                    move = SzachMatPatKontrola.znajdz_ruch(ust, nakladki, ruchB, nakladki[i][j], pole_baza, przelotcan);
                                                     if (move) {
                                                         break;
                                                     }
@@ -936,7 +934,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                                 }
                                                             } else {
                                                                 move = SzachMatPatKontrola.znajdz_ruch(USTAWIENIE1, ruchB, ust[i][j], pole_baza, przelotcan);
-                                                                SzachMatPatKontrola.znajdz_ruch(USTAWIENIE1, USTAWIENIE2, ruchB, nakladki[i][j], pole_baza, przelotcan);
+                                                                move = SzachMatPatKontrola.znajdz_ruch(USTAWIENIE1, USTAWIENIE2, ruchB, nakladki[i][j], pole_baza, przelotcan);
                                                                 if (move) {
                                                                     break;
                                                                 }
@@ -1444,7 +1442,6 @@ public class SzachowaArena extends javax.swing.JFrame {
                                         }
 
                                         if (krolS) {
-                                            char[][] backup = ust;
                                             if (siec == false && symulacja == false) {
                                                 JOptionPane.showMessageDialog(rootPane, "SZACH! KROL JEST ATAKOWANY", "Ostrzeżenie",
                                                         JOptionPane.WARNING_MESSAGE);
@@ -1467,12 +1464,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                                             hodu = SzachMatPatKontrola.uciekaj(kontrolamat, ruchB, poza_krolewska)
                                                     && SzachMatPatKontrola.uciekaj(kontrolamat, nakladki, ruchB, poza_krolewska);
                                             if (hodu == false) {
-                                                backup = ust;
                                                 char[][] backupzapas = ust;
                                                 hitme = (SzachMatPatKontrola.znajdzodsiecz(backupzapas.clone(), ruchB, klopoty, kol, przelotcan)
                                                         || SzachMatPatKontrola.znajdzodsiecz(backupzapas.clone(), nakladki, ruchB, klopoty, kol, przelotcan));
                                                 if (hitme == false) {
-                                                    backup = ust;
                                                     protectme = SzachMatPatKontrola.zastaw(backupzapas.clone(), ruchB, klopoty, poza_krolewska, przelotcan)
                                                             || SzachMatPatKontrola.zastaw(backupzapas.clone(), nakladki, ruchB, klopoty, poza_krolewska, przelotcan);
                                                 }
@@ -1499,7 +1494,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                             }
                                                         } else {
                                                             move = SzachMatPatKontrola.znajdz_ruch(USTAWIENIE1, ruchB, ust[i][j], pole_baza, przelotcan);
-                                                            SzachMatPatKontrola.znajdz_ruch(USTAWIENIE1, USTAWIENIE2, ruchB, USTAWIENIE2[i][j], pole_baza, przelotcan);
+                                                            move = SzachMatPatKontrola.znajdz_ruch(USTAWIENIE1, USTAWIENIE2, ruchB, USTAWIENIE2[i][j], pole_baza, przelotcan);
                                                             if (move) {
                                                                 break;
                                                             }
@@ -2072,7 +2067,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                         }
                                                     } else {
                                                         move = SzachMatPatKontrola.znajdz_ruch(USTAWIENIE1, ruchB, ust[i][j], pole_baza, przelotcan);
-                                                        SzachMatPatKontrola.znajdz_ruch(USTAWIENIE1, USTAWIENIE2, ruchB, nakladki[i][j], pole_baza, przelotcan);
+                                                        move = SzachMatPatKontrola.znajdz_ruch(USTAWIENIE1, USTAWIENIE2, ruchB, nakladki[i][j], pole_baza, przelotcan);
                                                         if (move) {
                                                             break;
                                                         }
@@ -2904,7 +2899,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                     zwyczajneR.removeAll(zwyczajneR);
                                     for (Ruch move : new Generator().generuj_posuniecia_antyszach((ust), ruchB, przelotcan, kolumna)) {
                                         System.out.println(move.toString());
-                                        if (move.korzystnosc_bicia != ' ') {
+                                        if (move.atak) {
                                             mordobicia.add(move);
                                         } else {
                                             zwyczajneR.add(move);
@@ -3837,7 +3832,6 @@ public class SzachowaArena extends javax.swing.JFrame {
 
                                                     krolS = false;
                                                     move = false;
-                                                    char[][] temp = new char[8][8];
                                                     // System.out.println("wy");
 
                                                     for (int i = 0; i < 8; i++) {
@@ -4258,7 +4252,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                 }
                 System.out.println();
             }
-            if ((new Generator().generuj_posuniecia_antyszach((kontrolamat), ruchB, przelotcan, kolumna).size() == 0)
+            if ((new Generator().generuj_posuniecia_antyszach((kontrolamat), ruchB, przelotcan, kolumna).isEmpty())
                     || ((ruchB && krole_biale == 0 && ciezkieB == 0 && lekkieB == 0 && pionB == 0)
                     || (!ruchB && krole_czarne == 0 && ciezkieC == 0 && lekkieC == 0 && pionC == 0))) {
                 if (czasgry != -1) {
@@ -5224,7 +5218,6 @@ public class SzachowaArena extends javax.swing.JFrame {
                             ruchB = ruchB != true;
                             kontrolamat = ust;
                         }
-                        char[][] USTAWIENIE1 = ust;
                         for (int i = 0; i < 8; i++) {
                             System.arraycopy(ust[i], 0, kontrolka[i], 0, 8);
                         }
@@ -5820,12 +5813,26 @@ public class SzachowaArena extends javax.swing.JFrame {
                 lokalK[0] = pomocx;
                 lokalK[1] = pomocy;
                 schodzi = ust[lokalK[1] - 1][lokalK[0] - 1];
-                if (schodzi == 'K' || schodzi == 'Q' || schodzi == 'R' || schodzi == 'B' || schodzi == 'N' || schodzi == 'P') {
-                    pomoci2 = 'W';
-                } else if (schodzi == 'K' || schodzi == 'Q' || schodzi == 'R' || schodzi == 'B' || schodzi == 'N' || schodzi == 'P') {
-                    pomoci2 = 'B';
-                } else {
-                    pomoci2 = ' ';
+                switch (schodzi) {
+                    case 'K':
+                    case 'Q':
+                    case 'R':
+                    case 'B':
+                    case 'N':
+                    case 'P':
+                        pomoci2 = 'W';
+                        break;
+                    case 'k':
+                    case 'q':
+                    case 'r':
+                    case 'b':
+                    case 'n':
+                    case 'p':
+                        pomoci2 = 'B';
+                        break;
+                    default:
+                        pomoci2 = ' ';
+                        break;
                 }
                 if (pomoci1 != pomoci2) {
                     if (lokalK[0] == lokalS[0] && lokalS[1] == lokalK[1]) {
@@ -6718,7 +6725,11 @@ public class SzachowaArena extends javax.swing.JFrame {
 
     }
 
+    boolean dostawka,druk_wzgledny=false;
+    int rezerwyBP, rezerwyCP, rezerwyBS, rezerwyCS, rezerwyBG, rezerwyCG, rezerwyBW, rezerwyCW, rezerwyBH, rezerwyCH;
+    ArrayList<String> promowane_piony = new ArrayList<String>();
     Pozycja pozstart, pozstop;
+    char schodzi;
     ArrayList<Ruch> mordobicia = new ArrayList<>();
     ArrayList<Ruch> zwyczajneR = new ArrayList<>();
     boolean wlasnykolor = false;
@@ -6805,11 +6816,15 @@ public class SzachowaArena extends javax.swing.JFrame {
      * Creates new form NewJFrame
      */
     public SzachowaArena() {
+        
         bleft = true;
         bright = true;
         wleft = true;
         wright = true;
         initComponents();
+        obrotowy.setEnabled(false);
+        SIOnOff.setEnabled(false);
+        partia_odlozona.setVisible(false);
         kombinacja.setVisible(false);
         zegarek = new Timer();
         int szer = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -6821,6 +6836,18 @@ public class SzachowaArena extends javax.swing.JFrame {
         czasgry = -1;
         ImageIcon ikona = new ImageIcon(this.getClass().getResource("icona.png"));
         this.setIconImage(ikona.getImage());
+        pionRB.setVisible(false);
+        pionRW.setVisible(false);
+        skoczekRB.setVisible(false);
+        skoczekRW.setVisible(false);
+        goniecRB.setVisible(false);
+        goniecRW.setVisible(false);
+        wiezaRB.setVisible(false);
+        wiezaRW.setVisible(false);
+        hetmanRB.setVisible(false);
+        hetmanRW.setVisible(false);
+        pionRB.setVisible(false);
+        pionRW.setVisible(false);
         Blackkingside.setVisible(false);
         Whitekingside.setVisible(false);
         Blackqueenside.setVisible(false);
@@ -12426,6 +12453,430 @@ public class SzachowaArena extends javax.swing.JFrame {
         }
     }
 
+    private void dostawianka(Object source) {
+        JButton BUTTON = (JButton) source;
+        if (dostawka) {
+            pomoce = BUTTON.getName();
+            char pomoc3 = pomoce.charAt(1);
+            char pomoc2 = pomoce.charAt(0);
+            stop = pomoce;
+            int pomocx = 0;
+            int pomocy = 0;
+            if (odwrot == false) {
+                switch (pomoc2) {
+                    case 'A':
+                        pomocx = 1;
+                        break;
+                    case 'B':
+                        pomocx = 2;
+                        break;
+                    case 'C':
+                        pomocx = 3;
+                        break;
+                    case 'D':
+                        pomocx = 4;
+                        break;
+                    case 'E':
+                        pomocx = 5;
+                        break;
+                    case 'F':
+                        pomocx = 6;
+                        break;
+                    case 'G':
+                        pomocx = 7;
+                        break;
+                    case 'H':
+                        pomocx = 8;
+                        break;
+                }
+                switch (pomoc3) {
+                    case '1':
+                        pomocy = 1;
+                        break;
+                    case '2':
+                        pomocy = 2;
+                        break;
+                    case '3':
+                        pomocy = 3;
+                        break;
+                    case '4':
+                        pomocy = 4;
+                        break;
+                    case '5':
+                        pomocy = 5;
+                        break;
+                    case '6':
+                        pomocy = 6;
+                        break;
+                    case '7':
+                        pomocy = 7;
+                        break;
+                    case '8':
+                        pomocy = 8;
+                        break;
+                }
+            } else {
+                switch (pomoc2) {
+                    case 'A':
+                        pomocx = 8;
+                        break;
+                    case 'B':
+                        pomocx = 7;
+                        break;
+                    case 'C':
+                        pomocx = 6;
+                        break;
+                    case 'D':
+                        pomocx = 5;
+                        break;
+                    case 'E':
+                        pomocx = 4;
+                        break;
+                    case 'F':
+                        pomocx = 3;
+                        break;
+                    case 'G':
+                        pomocx = 2;
+                        break;
+                    case 'H':
+                        pomocx = 1;
+                        break;
+                }
+                switch (pomoc3) {
+                    case '1':
+                        pomocy = 8;
+                        break;
+                    case '2':
+                        pomocy = 7;
+                        break;
+                    case '3':
+                        pomocy = 6;
+                        break;
+                    case '4':
+                        pomocy = 5;
+                        break;
+                    case '5':
+                        pomocy = 4;
+                        break;
+                    case '6':
+                        pomocy = 3;
+                        break;
+                    case '7':
+                        pomocy = 2;
+                        break;
+                    case '8':
+                        pomocy = 1;
+                        break;
+                }
+            }
+            lokalK[0] = pomocx - 1;
+            lokalK[1] = pomocy - 1;
+            if (ust[lokalK[1]][lokalK[0]] == ' ' && ((symbol != 'p' && symbol != 'P') || (symbol == 'p' || symbol == 'P') && lokalK[1] != 0 && lokalK[1] != 7)) {
+                ust[lokalK[1]][lokalK[0]] = symbol;
+                odwrotna[7 - (lokalK[1])][7 - (lokalK[0])] = symbol;
+                if (!RuchZagrozenie_kontrola.szach(ust, ruchB)) {
+                    char figurka = ' ';
+                    switch (symbol) {
+                        case 'K':
+                            figurka = "\u2654".charAt(0);
+                            break;
+                        case 'Q':
+                            figurka = "\u2655".charAt(0);
+                            break;
+                        case 'R':
+                            figurka = "\u2656".charAt(0);
+                            break;
+                        case 'B':
+                            figurka = "\u2657".charAt(0);
+                            break;
+                        case 'N':
+                            figurka = "\u2658".charAt(0);
+                            break;
+                        case 'P':
+                            figurka = "\u2659".charAt(0);
+                            break;
+                        case 'k':
+                            figurka = "\u265A".charAt(0);
+                            break;
+                        case 'q':
+                            figurka = "\u265B".charAt(0);
+                            break;
+                        case 'r':
+                            figurka = "\u265C".charAt(0);
+                            break;
+                        case 'b':
+                            figurka = "\u265D".charAt(0);
+                            break;
+                        case 'n':
+                            figurka = "\u265E".charAt(0);
+                            break;
+                        case 'p':
+                            figurka = "\u265F".charAt(0);
+                            break;
+                    }
+                    ruchB = ruchB != true;
+                    krolS = RuchZagrozenie_kontrola.szach(ust, ruchB);
+                    char[][] USTAWIENIE1 = ust;
+                    if (krolS) {
+                        if (siec == false && symulacja == false) {
+                            JOptionPane.showMessageDialog(rootPane, "SZACH! KROL JEST ATAKOWANY", "Ostrzeżenie",
+                                    JOptionPane.WARNING_MESSAGE);
+                        }
+                        Toolkit.getDefaultToolkit().beep();
+                        kontrolamat = ust;
+                        for (int i = 0; i < 8; i++) {
+                            for (int j = 0; j < 8; j++) {
+                                USTAWIENIE1[i][j] = ust[i][j];
+                                if ((ruchB && kontrolamat[i][j] == 'K') || (ruchB == false && kontrolamat[i][j] == 'k')) {
+                                    poza_krolewska[0] = i;
+                                    poza_krolewska[1] = j;
+                                }
+                            }
+                        }
+                        klopoty = Wspomagacz.znajdzklopot(USTAWIENIE1, ruchB);
+                        System.out.println("klopoty X:" + klopoty[0] + "Y:" + klopoty[1]);
+                        System.out.println(ust[klopoty[0]][klopoty[1]]);
+                        hodu = SzachMatPatKontrola.uciekaj(USTAWIENIE1, ruchB, poza_krolewska);
+                        if (hodu == false) {
+                            char[][] backupzapas = ust;
+                            hitme = SzachMatPatKontrola.znajdzodsiecz(backupzapas.clone(), ruchB, Wspomagacz.znajdzklopot(USTAWIENIE1, ruchB), kol, przelotcan);
+                            if (hitme == false) {
+                                protectme = SzachMatPatKontrola.zastaw(backupzapas.clone(), ruchB, Wspomagacz.znajdzklopot(USTAWIENIE1, ruchB), poza_krolewska, przelotcan);
+                                protectme = (ruchB ? (rezerwyBG + rezerwyBH + ((Wspomagacz.znajdzklopot(USTAWIENIE1, ruchB)[1] == poza_krolewska[1] && (poza_krolewska[1] == 7 || poza_krolewska[1] == 0)) ? rezerwyBP : 0) + rezerwyBS + rezerwyBW > 0)
+                                        : (rezerwyCG + rezerwyCH + ((Wspomagacz.znajdzklopot(USTAWIENIE1, ruchB)[1] == poza_krolewska[1] && (poza_krolewska[1] == 7 || poza_krolewska[1] == 0)) ? rezerwyBP : 0) + rezerwyCS + rezerwyCW > 0))
+                                        && ((Math.abs(poza_krolewska[0] - (Wspomagacz.znajdzklopot(USTAWIENIE1, ruchB)[0])) > 1 || Math.abs(poza_krolewska[1] - (Wspomagacz.znajdzklopot(USTAWIENIE1, ruchB)[1])) > 1) && ust[klopoty[0]][klopoty[1]] != 'n' && ust[klopoty[0]][klopoty[1]] != 'N');
+
+                            }
+                        }
+                        if (hodu == false && hitme == false && protectme == false) {
+                            if (czasgry != -1) {
+                                whitetime.interrupt();
+                                blacktime.interrupt();
+                            }
+                            JOptionPane.showMessageDialog(rootPane, "SZACH MAT!", "Ostrzeżenie",
+                                    JOptionPane.WARNING_MESSAGE);
+                            SI_ON = false;
+                            symulacja = false;
+                            losowanko.setEnabled(false);
+                            kapitulacja();
+                            gra = false;
+                            ustawka = false;
+                            partia_odlozona.setEnabled(false);
+                            kapitulacja();
+                        }
+                    } else {
+                        krolS = false;
+                        move = false;
+                        USTAWIENIE1 = ust;
+                        for (int i = 0; i < 8; i++) {
+                            for (int j = 0; j < 8; j++) {
+                                if (ust[i][j] != ' ') {
+                                    pole_baza[0] = j;
+                                    pole_baza[1] = i;
+                                    if (ust[i][j] == 'K' || ust[i][j] == 'k') {
+                                        if ((ruchB && ust[i][j] == 'K') || (ruchB == false && ust[i][j] == 'k')) {
+                                            pole_baza[0] = i;
+                                            pole_baza[1] = j;
+                                            hodu = SzachMatPatKontrola.uciekaj(ust, ruchB, pole_baza);
+                                        }
+                                    } else {
+                                        move = SzachMatPatKontrola.znajdz_ruch(ust, ruchB, ust[i][j], pole_baza, przelotcan);
+                                        if (move) {
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                            if (move) {
+                                break;
+                            }
+                        }
+                        move = ((ruchB && rezerwyBG + rezerwyBH + rezerwyBP + rezerwyBS + rezerwyBW == 0) || (!ruchB && rezerwyCG + rezerwyCH + rezerwyCP + rezerwyCS + rezerwyCW == 0));
+                    }
+                    for (int i = 0; i < 8; i++) {
+                        System.arraycopy(USTAWIENIE1[i], 0, ust[i], 0, 8);
+                    }
+                    odwrot = !odwrot;
+                    if (!odwrot && obrotowy.getText().equals("Obrót WŁ")) {
+                        System.out.println("zamiana");
+                        switch (stop.charAt(0)) {
+                            case 'A':
+                                stop = stop.replace('A', 'H');
+                                break;
+                            case 'B':
+                                stop = stop.replace('B', 'G');
+                                break;
+                            case 'C':
+                                stop = stop.replace('C', 'F');
+                                break;
+                            case 'D':
+                                stop = stop.replace('D', 'E');
+                                break;
+                            case 'E':
+                                stop = stop.replace('E', 'D');
+                                break;
+                            case 'F':
+                                stop = stop.replace('F', 'C');
+                                break;
+                            case 'G':
+                                stop = stop.replace('G', 'B');
+                                break;
+                            case 'H':
+                                stop = stop.replace('H', 'A');
+                                break;
+                        }
+                        switch (stop.charAt(1)) {
+                            case '1':
+                                stop = stop.replace('1', '8');
+                                break;
+                            case '2':
+                                stop = stop.replace('2', '7');
+                                break;
+                            case '3':
+                                stop = stop.replace('3', '6');
+                                break;
+                            case '4':
+                                stop = stop.replace('4', '5');
+                                break;
+                            case '5':
+                                stop = stop.replace('5', '4');
+                                break;
+                            case '6':
+                                stop = stop.replace('6', '3');
+                                break;
+                            case '7':
+                                stop = stop.replace('7', '2');
+                                break;
+                            case '8':
+                                stop = stop.replace('8', '1');
+                                break;
+                        }
+                    }
+                    String ruchS;
+                    ostatni_start = "";
+                    ostatni_stop = stop;
+                    czysc_rame();
+                    ustawrame();
+                    if (ruchB == false) {
+                        jTextArea3.append(!jCheckBox1.isSelected() ? (movenr + ". " + symbol + "@" + stop) : (movenr + ".  " + figurka + "@" + stop));
+                        ruch = symbol + "@" + stop;
+                        ruchS = figurka + "@" + stop;
+                        if (krolS) {
+                            if (hodu == false && hitme == false && protectme == false) {
+                                jTextArea3.append("#");
+                                ruch += ("#");
+                                ruchS += ("#");
+                            } else {
+                                jTextArea3.append("+");
+                                ruch += ("+");
+                                ruchS += ("+");
+                            }
+                        }
+                    } else {
+                        jTextArea3.append(!jCheckBox1.isSelected() ? ("     " + symbol + "@" + stop) : ("      " + figurka + "@" + stop));
+                        ruch = symbol + "@" + stop;
+                        ruchS = figurka + "@" + stop;
+                        if (krolS) {
+                            if (hodu == false && hitme == false && protectme == false) {
+                                jTextArea3.append("#");
+                                ruch += ("#");
+                                ruchS += ("#");
+                            } else {
+                                jTextArea3.append("+");
+                                ruch += ("+");
+                                ruchS += ("+");
+                            }
+                        }
+                        jTextArea3.append("\n");
+                        movenr = movenr + 1;
+                    }
+                    switch (symbol) {
+                        case 'P':
+                            rezerwyBP--;
+                            break;
+                        case 'p':
+                            rezerwyCP--;
+                            break;
+                        case 'N':
+                            rezerwyBS--;
+                            break;
+                        case 'n':
+                            rezerwyCS--;
+                            break;
+                        case 'B':
+                            rezerwyBG--;
+                            break;
+                        case 'b':
+                            rezerwyCG--;
+                            break;
+                        case 'R':
+                            rezerwyBW--;
+                            break;
+                        case 'r':
+                            rezerwyCW--;
+                            break;
+                        case 'Q':
+                            rezerwyBH--;
+                            break;
+                        case 'q':
+                            rezerwyCH--;
+                            break;
+                    }
+                    hetmanRW.setText(String.valueOf(rezerwyBH));
+                    hetmanRB.setText(String.valueOf(rezerwyCH));
+                    wiezaRW.setText(String.valueOf(rezerwyBW));
+                    wiezaRB.setText(String.valueOf(rezerwyCW));
+                    goniecRW.setText(String.valueOf(rezerwyBG));
+                    goniecRB.setText(String.valueOf(rezerwyCG));
+                    skoczekRW.setText(String.valueOf(rezerwyBS));
+                    skoczekRB.setText(String.valueOf(rezerwyCS));
+                    pionRW.setText(String.valueOf(rezerwyBP));
+                    pionRB.setText(String.valueOf(rezerwyCP));
+                    hetmanRW.setEnabled((rezerwyBH > 0));
+                    hetmanRB.setEnabled((rezerwyCH > 0));
+                    wiezaRW.setEnabled((rezerwyBW > 0));
+                    wiezaRB.setEnabled((rezerwyCW > 0));
+                    goniecRW.setEnabled((rezerwyBG > 0));
+                    goniecRB.setEnabled((rezerwyCG > 0));
+                    skoczekRW.setEnabled((rezerwyBS > 0));
+                    skoczekRB.setEnabled((rezerwyCS > 0));
+                    pionRW.setEnabled((rezerwyBP > 0));
+                    pionRB.setEnabled((rezerwyCP > 0));
+                    pionRW.setText(String.valueOf(rezerwyBP));
+                    pionRB.setText(String.valueOf(rezerwyCP));
+                    hetmanRW.setBorder(null);
+                    hetmanRB.setBorder(null);
+                    wiezaRW.setBorder(null);
+                    wiezaRB.setBorder(null);
+                    goniecRW.setBorder(null);
+                    goniecRB.setBorder(null);
+                    skoczekRW.setBorder(null);
+                    skoczekRB.setBorder(null);
+                    pionRW.setBorder(null);
+                    pionRB.setBorder(null);
+                    dostawka = false;
+                    symbol = ' ';
+                    dobierz_kursor(symbol);
+                    styl(kolor_zestaw, kroj_zestaw, kolor_plansza);
+                    ruchy_literowe.add(ruch);
+                    ruchy_syboliczne.add(ruchS);
+                    pomoc_ruch = ruchB ? Color.BLUE : Color.RED;
+                } else {
+                    ust[lokalK[1] - 1][lokalK[0] - 1] = ' ';
+                    Toolkit.getDefaultToolkit().beep();
+                }
+            } else {
+                Toolkit.getDefaultToolkit().beep();
+            }
+        } else {
+            Button_Clicked(source);
+            if (!polestart) {
+                symbol = ' ';
+                schodzi = ' ';
+            }
+        }
+    }
+
     /**
      * Odpowiada za działanie w tle programu SI
      *
@@ -12766,19 +13217,32 @@ public class SzachowaArena extends javax.swing.JFrame {
         czysc_rame();
         styl(kolor_zestaw, kroj_zestaw, kolor_plansza);
         boolean zawrot = odwrot;
-        if (!"".equals(ostatni_start) && !"".equals(ostatni_stop)) {
+        if (tryb != 8) {
+            if (!"".equals(ostatni_start) && !"".equals(ostatni_stop)) {
+                JButton poczatek;
+                JButton koniec;
+                if (!symulacja) {
+                    poczatek = dobierzprzycisk(ostatni_start, ((!SI_ON && !siec && zawrot) || ((tura_rywala && SI_ON) || (odwrot))));
+                    koniec = dobierzprzycisk(ostatni_stop, ((!SI_ON && !siec && zawrot) || ((tura_rywala && SI_ON) || (odwrot))));
+                } else {
+                    poczatek = dobierzprzycisk(ostatni_start, false);
+                    koniec = dobierzprzycisk(ostatni_stop, false);
+
+                }
+                poczatek.setBorder(new LineBorder(rama, 4));
+                koniec.setBorder(new LineBorder(rama, 4));
+            }
+        } else {
             JButton poczatek;
             JButton koniec;
-            if (!symulacja) {
-                poczatek = dobierzprzycisk(ostatni_start, ((!SI_ON && !siec && zawrot) || ((tura_rywala && SI_ON) || (odwrot))));
-                koniec = dobierzprzycisk(ostatni_stop, ((!SI_ON && !siec && zawrot) || ((tura_rywala && SI_ON) || (odwrot))));
-            } else {
-                poczatek = dobierzprzycisk(ostatni_start, false);
-                koniec = dobierzprzycisk(ostatni_stop, false);
-
+            if (!dostawka && !"".equals(ostatni_start)) {
+                poczatek = dobierzprzycisk(ostatni_start, odwrot);
+                poczatek.setBorder(new LineBorder(rama, 4));
             }
-            poczatek.setBorder(new LineBorder(rama, 4));
-            koniec.setBorder(new LineBorder(rama, 4));
+            if (!"".equals(ostatni_stop)) {
+                koniec = dobierzprzycisk(ostatni_stop, odwrot);
+                koniec.setBorder(new LineBorder(rama, 4));
+            }
         }
     }
 
@@ -14589,7 +15053,6 @@ public class SzachowaArena extends javax.swing.JFrame {
                             || (lokalS[0] - lokalK[0] == 2 && szachownica_pokoj[0][3][0] == ' ' && szachownica_pokoj[0][2][0] == ' ' && szachownica_pokoj[0][1][0] == ' ' && szachownica_pokoj[0][3][1] == ' ' && szachownica_pokoj[0][2][1] == ' ' && szachownica_pokoj[0][1][1] == ' ' && wleft == true && szachownica_pokoj[0][0][1] == ' ')))
                             || (ruchB == false && kingrochC == true && (((lokalS[0] - lokalK[0]) == -2 && szachownica_pokoj[7][5][1] == ' ' && szachownica_pokoj[7][6][1] == ' ' && szachownica_pokoj[7][5][0] == ' ' && szachownica_pokoj[7][6][0] == ' ' && bright == true && szachownica_pokoj[7][7][0] == ' ')
                             || (lokalS[0] - lokalK[0] == 2 && szachownica_pokoj[7][3][0] == ' ' && szachownica_pokoj[7][2][0] == ' ' && szachownica_pokoj[7][1][0] == ' ' && szachownica_pokoj[7][3][1] == ' ' && szachownica_pokoj[7][2][1] == ' ' && szachownica_pokoj[7][1][1] == ' ' && bleft == true && szachownica_pokoj[7][0][0] == ' '))))) {
-                        char[][][] kontrolna = szachownica_pokoj;
                         if (ruchB) {
                             if (lokalS[0] - lokalK[0] > 0) {
 
@@ -15799,6 +16262,11 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                         hitme = SzachMatPatKontrola.znajdzodsiecz(backupzapas.clone(), ruchB, Wspomagacz.znajdzklopot(kontrolamat, ruchB), kol, przelotcan);
                                                         if (hitme == false) {
                                                             protectme = SzachMatPatKontrola.zastaw(backupzapas.clone(), ruchB, Wspomagacz.znajdzklopot(kontrolamat, ruchB), poza_krolewska, przelotcan);
+                                                            if (tryb == 8) {
+                                                                protectme = (ruchB ? (rezerwyBG + rezerwyBH + ((Wspomagacz.znajdzklopot(kontrolamat, ruchB)[1] == poza_krolewska[1] && (poza_krolewska[1] == 7 || poza_krolewska[1] == 0)) ? rezerwyBP : 0) + rezerwyBS + rezerwyBW > 0)
+                                                                        : (rezerwyCG + rezerwyCH + ((Wspomagacz.znajdzklopot(kontrolamat, ruchB)[1] == poza_krolewska[1] && (poza_krolewska[1] == 7 || poza_krolewska[1] == 0)) ? rezerwyBP : 0) + rezerwyCS + rezerwyCW > 0))
+                                                                        && (Math.abs(poza_krolewska[0] - (Wspomagacz.znajdzklopot(kontrolamat, ruchB)[0])) > 1 || Math.abs(poza_krolewska[1] - (Wspomagacz.znajdzklopot(kontrolamat, ruchB)[1])) > 1) && ust[klopoty[0]][klopoty[1]] != 'n' && ust[klopoty[0]][klopoty[1]] != 'N';
+                                                            }
                                                         }
                                                     }
                                                     // System.out.println("ust");
@@ -15839,7 +16307,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                             break;
                                                         }
                                                     }
-
+                                                    if (tryb == 8) {
+                                                        move = ((ruchB && rezerwyBG + rezerwyBH + rezerwyBP + rezerwyBS + rezerwyBW == 0) || (!ruchB && rezerwyCG + rezerwyCH + rezerwyCP + rezerwyCS + rezerwyCW == 0));
+                                                    }
                                                 }
                                                 roch = true;
                                             } else {
@@ -15998,6 +16468,11 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                                     hitme = SzachMatPatKontrola.znajdzodsiecz(backupzapas.clone(), ruchB, Wspomagacz.znajdzklopot(kontrolamat, ruchB), kol, przelotcan);
                                                                     if (hitme == false) {
                                                                         protectme = SzachMatPatKontrola.zastaw(backupzapas.clone(), ruchB, Wspomagacz.znajdzklopot(kontrolamat, ruchB), poza_krolewska, przelotcan);
+                                                                        if (tryb == 8) {
+                                                                            protectme = (ruchB ? (rezerwyBG + rezerwyBH + ((Wspomagacz.znajdzklopot(kontrolamat, ruchB)[1] == poza_krolewska[1] && (poza_krolewska[1] == 7 || poza_krolewska[1] == 0)) ? rezerwyBP : 0) + rezerwyBS + rezerwyBW > 0)
+                                                                                    : (rezerwyCG + rezerwyCH + ((Wspomagacz.znajdzklopot(kontrolamat, ruchB)[1] == poza_krolewska[1] && (poza_krolewska[1] == 7 || poza_krolewska[1] == 0)) ? rezerwyBP : 0) + rezerwyCS + rezerwyCW > 0))
+                                                                                    && (Math.abs(poza_krolewska[0] - (Wspomagacz.znajdzklopot(kontrolamat, ruchB)[0])) > 1 || Math.abs(poza_krolewska[1] - (Wspomagacz.znajdzklopot(kontrolamat, ruchB)[1])) > 1) && ust[klopoty[0]][klopoty[1]] != 'n' && ust[klopoty[0]][klopoty[1]] != 'N';
+                                                                        }
                                                                     }
                                                                 }
                                                                 System.out.println("ust");
@@ -16033,7 +16508,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                                         break;
                                                                     }
                                                                 }
-
+                                                                if (tryb == 8) {
+                                                                    move = ((ruchB && rezerwyBG + rezerwyBH + rezerwyBP + rezerwyBS + rezerwyBW == 0) || (!ruchB && rezerwyCG + rezerwyCH + rezerwyCP + rezerwyCS + rezerwyCW == 0));
+                                                                }
                                                             }
                                                             for (int i = 0; i < 8; i++) {
                                                                 System.arraycopy(USTAWIENIE1[i], 0, ust[i], 0, 8);
@@ -16168,6 +16645,13 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                                     wyk = true;
                                                                     prze = true;
                                                                     bicie = true;
+                                                                    if (tryb == 8) {
+                                                                        if (ruchB) {
+                                                                            rezerwyCP++;
+                                                                        } else {
+                                                                            rezerwyBP++;
+                                                                        }
+                                                                    }
                                                                 } else {
                                                                     if (symbol == 'P') {
                                                                         kontrolka[lokalS[1] - 1][kol - 1] = 'p';
@@ -16366,6 +16850,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                             promocja = true;
                                                             Object[] opcjeB = {b1, b2, b3, b4};
                                                             Object[] opcjeC = {c1, c2, c3, c4};
+                                                            promowane_piony.add((ruchB ? "P" : "p") + stop);
                                                             if (ruchB) {
                                                                 pionB = (byte) (pionB - 1);
                                                                 if (znak_promocji == ' ') {
@@ -16542,6 +17027,11 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                                         System.arraycopy(USTAWIENIE1[i], 0, backupzapas[i], 0, 8);
                                                                     }
                                                                     protectme = SzachMatPatKontrola.zastaw(backupzapas.clone(), ruchB, Wspomagacz.znajdzklopot(kontrolamat, ruchB), poza_krolewska, przelotcan);
+                                                                    if (tryb == 8) {
+                                                                        protectme = (ruchB ? (rezerwyBG + rezerwyBH + ((Wspomagacz.znajdzklopot(kontrolamat, ruchB)[1] == poza_krolewska[1] && (poza_krolewska[1] == 7 || poza_krolewska[1] == 0)) ? rezerwyBP : 0) + rezerwyBS + rezerwyBW > 0)
+                                                                                : (rezerwyCG + rezerwyCH + ((Wspomagacz.znajdzklopot(kontrolamat, ruchB)[1] == poza_krolewska[1] && (poza_krolewska[1] == 7 || poza_krolewska[1] == 0)) ? rezerwyBP : 0) + rezerwyCS + rezerwyCW > 0))
+                                                                                && (Math.abs(poza_krolewska[0] - (Wspomagacz.znajdzklopot(kontrolamat, ruchB)[0])) > 1 || Math.abs(poza_krolewska[1] - (Wspomagacz.znajdzklopot(kontrolamat, ruchB)[1])) > 1) && ust[klopoty[0]][klopoty[1]] != 'n' && ust[klopoty[0]][klopoty[1]] != 'N';
+                                                                    }
                                                                 }
                                                             }
                                                             // System.out.println("ust2");
@@ -16577,7 +17067,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                                     break;
                                                                 }
                                                             }
-
+                                                            if (tryb == 8) {
+                                                                move = ((ruchB && rezerwyBG + rezerwyBH + rezerwyBP + rezerwyBS + rezerwyBW == 0) || (!ruchB && rezerwyCG + rezerwyCH + rezerwyCP + rezerwyCS + rezerwyCW == 0));
+                                                            }
                                                         }
                                                         bicie = prze;
                                                         prze = false;
@@ -16597,7 +17089,6 @@ public class SzachowaArena extends javax.swing.JFrame {
                                         ust[lokalK[1] - 1][lokalK[0] - 1] = symbol;
                                     }
                                 } else {
-                                    char schodzi;
                                     pomoce = BUTTON.getName();
                                     pomoc2 = pomoce.charAt(0);
                                     pomoc3 = pomoce.charAt(1);
@@ -17003,6 +17494,11 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                             if (hitme == false) {
                                                                 backup = ust;
                                                                 protectme = SzachMatPatKontrola.zastaw(backup.clone(), ruchB, Wspomagacz.znajdzklopot(kontrolamat, ruchB), poza_krolewska, przelotcan);
+                                                                if (tryb == 8) {
+                                                                    protectme = (ruchB ? (rezerwyBG + rezerwyBH + ((Wspomagacz.znajdzklopot(kontrolamat, ruchB)[1] == poza_krolewska[1] && (poza_krolewska[1] == 7 || poza_krolewska[1] == 0)) ? rezerwyBP : 0) + rezerwyBS + rezerwyBW > 0)
+                                                                            : (rezerwyCG + rezerwyCH + ((Wspomagacz.znajdzklopot(kontrolamat, ruchB)[1] == poza_krolewska[1] && (poza_krolewska[1] == 7 || poza_krolewska[1] == 0)) ? rezerwyBP : 0) + rezerwyCS + rezerwyCW > 0))
+                                                                            && (Math.abs(poza_krolewska[0] - (Wspomagacz.znajdzklopot(kontrolamat, ruchB)[0])) > 1 || Math.abs(poza_krolewska[1] - (Wspomagacz.znajdzklopot(kontrolamat, ruchB)[1])) > 1) && ust[klopoty[0]][klopoty[1]] != 'n' && ust[klopoty[0]][klopoty[1]] != 'N';
+                                                                }
                                                             }
                                                         }
                                                         // System.out.println("ust3");
@@ -17042,6 +17538,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                             if (move) {
                                                                 break;
                                                             }
+                                                        }
+                                                        if (tryb == 8) {
+                                                            move = ((ruchB && rezerwyBG + rezerwyBH + rezerwyBP + rezerwyBS + rezerwyBW == 0) || (!ruchB && rezerwyCG + rezerwyCH + rezerwyCP + rezerwyCS + rezerwyCW == 0));
                                                         }
                                                     }
                                                 } else {
@@ -17300,9 +17799,78 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     break;
                                             }
                                         }
+                                        if (tryb == 8) {
+                                            boolean kontrola = false;
+                                            for (String s : promowane_piony) {
+                                                if (s.substring(1).equals(stop)) {
+                                                    if (ruchB) {
+                                                        rezerwyCP++;
+                                                    } else {
+                                                        rezerwyBP++;
+                                                    }
+                                                    kontrola = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (!kontrola) {
+                                                switch (schodzi) {
+                                                    case 'P':
+                                                        rezerwyCP++;
+                                                        break;
+                                                    case 'p':
+                                                        rezerwyBP++;
+                                                        break;
+                                                    case 'N':
+                                                        rezerwyCS++;
+                                                        break;
+                                                    case 'n':
+                                                        rezerwyBS++;
+                                                        break;
+                                                    case 'B':
+                                                        rezerwyCG++;
+                                                        break;
+                                                    case 'b':
+                                                        rezerwyBG++;
+                                                        break;
+                                                    case 'R':
+                                                        rezerwyCW++;
+                                                        break;
+                                                    case 'r':
+                                                        rezerwyBW++;
+                                                        break;
+                                                    case 'Q':
+                                                        rezerwyCH++;
+                                                        break;
+                                                    case 'q':
+                                                        rezerwyBH++;
+                                                        break;
+                                                }
+                                            }
+                                            hetmanRW.setText(String.valueOf(rezerwyBH));
+                                            hetmanRB.setText(String.valueOf(rezerwyCH));
+                                            wiezaRW.setText(String.valueOf(rezerwyBW));
+                                            wiezaRB.setText(String.valueOf(rezerwyCW));
+                                            goniecRW.setText(String.valueOf(rezerwyBG));
+                                            goniecRB.setText(String.valueOf(rezerwyCG));
+                                            skoczekRW.setText(String.valueOf(rezerwyBS));
+                                            skoczekRB.setText(String.valueOf(rezerwyCS));
+                                            pionRW.setText(String.valueOf(rezerwyBP));
+                                            pionRB.setText(String.valueOf(rezerwyCP));
+                                            hetmanRW.setEnabled((rezerwyBH > 0));
+                                            hetmanRB.setEnabled((rezerwyCH > 0));
+                                            wiezaRW.setEnabled((rezerwyBW > 0));
+                                            wiezaRB.setEnabled((rezerwyCW > 0));
+                                            goniecRW.setEnabled((rezerwyBG > 0));
+                                            goniecRB.setEnabled((rezerwyCG > 0));
+                                            skoczekRW.setEnabled((rezerwyBS > 0));
+                                            skoczekRB.setEnabled((rezerwyCS > 0));
+                                            pionRW.setEnabled((rezerwyBP > 0));
+                                            pionRB.setEnabled((rezerwyCP > 0));
+                                        }
                                         ostatni_start = start;
                                         ostatni_stop = stop;
                                         String ruchS = "";
+                                        ust[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                                         if (((symbol == 'K' || (symbol == 'k')) && (lokalS[0] - lokalK[0] == -2 || lokalS[0] - lokalK[0] == 2))) {
                                             if (ruchB == false) {
                                                 if (lokalS[0] - lokalK[0] == -2) {
@@ -17618,6 +18186,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                         }
                                         ruchy_literowe.add(ruch);
                                         ruchy_syboliczne.add(ruchS);
+                                        System.out.println(ruchS);
                                         jTextArea3.setCaretPosition(jTextArea3.getDocument().getLength());
                                         if (siec) {
                                             try {
@@ -17669,7 +18238,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                             losowanko.setEnabled(false);
                                                             remis();
                                                             gra = false;
-                                                            ustawka = false;
+                                   
                                                             partia_odlozona.setEnabled(false);
                                                         }
                                                     } else {
@@ -17721,7 +18290,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     symulacja = false;
                                                     remis();
                                                     gra = false;
-                                                    ustawka = false;
+                           
                                                     partia_odlozona.setEnabled(false);
                                                 }
                                             }
@@ -17754,7 +18323,6 @@ public class SzachowaArena extends javax.swing.JFrame {
                         losowanko.setEnabled(false);
                         kapitulacja();
                         gra = false;
-                        ustawka = false;
                         partia_odlozona.setEnabled(false);
                     }
                     if ((pionB < 1 && pionC < 1 && lekkieB < 2 && lekkieC < 2 && ciezkieB < 1 && ciezkieC < 1)) {
@@ -17768,7 +18336,6 @@ public class SzachowaArena extends javax.swing.JFrame {
                         losowanko.setEnabled(false);
                         remis();
                         gra = false;
-                        ustawka = false;
                         partia_odlozona.setEnabled(false);
                     }
                     if (zasada50 == 50 && krolS == false && (hodu || protectme || hitme)) {
@@ -17783,7 +18350,6 @@ public class SzachowaArena extends javax.swing.JFrame {
                         losowanko.setEnabled(false);
                         remis();
                         gra = false;
-                        ustawka = false;
                         partia_odlozona.setEnabled(false);
                     }
                     for (int i = 0; i < 8; i++) {
@@ -17888,6 +18454,7 @@ public class SzachowaArena extends javax.swing.JFrame {
             if (ust[pomocy][pomocx] == 'k') {
                 krole_czarne--;
             }
+            ust[pomocy][pomocx]=' ';
             ust[pomocy][pomocx] = symbol;
             // System.out.println("["+ust[pomocy][pomocx]+"]");
             //System.out.println(pomocy+"|"+pomocx);
@@ -18447,6 +19014,16 @@ public class SzachowaArena extends javax.swing.JFrame {
         Whitequeenside = new javax.swing.JCheckBox();
         jLabel20 = new javax.swing.JLabel();
         przelotowe = new javax.swing.JComboBox<>();
+        pionRB = new javax.swing.JButton();
+        skoczekRB = new javax.swing.JButton();
+        goniecRB = new javax.swing.JButton();
+        wiezaRB = new javax.swing.JButton();
+        hetmanRB = new javax.swing.JButton();
+        pionRW = new javax.swing.JButton();
+        skoczekRW = new javax.swing.JButton();
+        goniecRW = new javax.swing.JButton();
+        hetmanRW = new javax.swing.JButton();
+        wiezaRW = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         plansza1 = new javax.swing.JMenu();
@@ -18466,6 +19043,7 @@ public class SzachowaArena extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         druk_odpis = new javax.swing.JMenuItem();
         druk_pozycja = new javax.swing.JMenuItem();
+        druk_obrocony = new javax.swing.JCheckBoxMenuItem();
         mazyna_losujaca = new javax.swing.JMenu();
         losowanko = new javax.swing.JMenuItem();
         kombinacja = new javax.swing.JMenu();
@@ -19932,6 +20510,7 @@ public class SzachowaArena extends javax.swing.JFrame {
             }
         });
 
+        partia_odlozona.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         partia_odlozona.setText("Odłóż partię");
         partia_odlozona.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -19989,6 +20568,101 @@ public class SzachowaArena extends javax.swing.JFrame {
         jLabel20.setText("Bicie w przelocie");
 
         przelotowe.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Niedostępne" }));
+        przelotowe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                przelotoweActionPerformed(evt);
+            }
+        });
+
+        pionRB.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        pionRB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/szachy/Bpawn005.png"))); // NOI18N
+        pionRB.setText("0");
+        pionRB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pionRBActionPerformed(evt);
+            }
+        });
+
+        skoczekRB.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        skoczekRB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/szachy/Bknight5.png"))); // NOI18N
+        skoczekRB.setText("0");
+        skoczekRB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                skoczekRBActionPerformed(evt);
+            }
+        });
+
+        goniecRB.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        goniecRB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/szachy/Bbishop5.png"))); // NOI18N
+        goniecRB.setText("0");
+        goniecRB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                goniecRBActionPerformed(evt);
+            }
+        });
+
+        wiezaRB.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        wiezaRB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/szachy/Brook005.png"))); // NOI18N
+        wiezaRB.setText("0");
+        wiezaRB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                wiezaRBActionPerformed(evt);
+            }
+        });
+
+        hetmanRB.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        hetmanRB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/szachy/Bqueen05.png"))); // NOI18N
+        hetmanRB.setText("0");
+        hetmanRB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hetmanRBActionPerformed(evt);
+            }
+        });
+
+        pionRW.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        pionRW.setIcon(new javax.swing.ImageIcon(getClass().getResource("/szachy/Wpawn005.png"))); // NOI18N
+        pionRW.setText("0");
+        pionRW.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pionRWActionPerformed(evt);
+            }
+        });
+
+        skoczekRW.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        skoczekRW.setIcon(new javax.swing.ImageIcon(getClass().getResource("/szachy/Wknight5.png"))); // NOI18N
+        skoczekRW.setText("0");
+        skoczekRW.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                skoczekRWActionPerformed(evt);
+            }
+        });
+
+        goniecRW.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        goniecRW.setIcon(new javax.swing.ImageIcon(getClass().getResource("/szachy/Wbishop5.png"))); // NOI18N
+        goniecRW.setText("0");
+        goniecRW.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                goniecRWActionPerformed(evt);
+            }
+        });
+
+        hetmanRW.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        hetmanRW.setIcon(new javax.swing.ImageIcon(getClass().getResource("/szachy/Wqueen05.png"))); // NOI18N
+        hetmanRW.setText("0");
+        hetmanRW.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hetmanRWActionPerformed(evt);
+            }
+        });
+
+        wiezaRW.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        wiezaRW.setIcon(new javax.swing.ImageIcon(getClass().getResource("/szachy/Wrook005.png"))); // NOI18N
+        wiezaRW.setText("0");
+        wiezaRW.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                wiezaRWActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("zmień styl");
 
@@ -20123,6 +20797,15 @@ public class SzachowaArena extends javax.swing.JFrame {
         });
         jMenu2.add(druk_pozycja);
 
+        druk_obrocony.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        druk_obrocony.setText("Drukuj zależnie od strony na ruchu");
+        druk_obrocony.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                druk_obroconyActionPerformed(evt);
+            }
+        });
+        jMenu2.add(druk_obrocony);
+
         jMenuBar1.add(jMenu2);
 
         mazyna_losujaca.setText("Losuj Pozycje");
@@ -20192,108 +20875,143 @@ public class SzachowaArena extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(A8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(B8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(C8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(D8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(E8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(F8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(G8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(H8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(A7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(B7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(C7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(D7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(E7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(F7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(G7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(H7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(A5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(A8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(B5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(B8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(C5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(C8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(D5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(D8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(E5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(E8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(F8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(G8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(H8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(A6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(A7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(B6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(B7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(C6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(C7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(D6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(D7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(E6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(E7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(F7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(G7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(H7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(F5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(A5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(B5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(C5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(D5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(E5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(A6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(B6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(C6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(D6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(E6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(G5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(H5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(F5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(G5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(H5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(F6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(G6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(H6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(F6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(A3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(B3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(C3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(D3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(E3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(A4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(B4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(C4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(D4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(E4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(G6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(H6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(F4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(G4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(H4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(F3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(G3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(H3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(A1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(pionRB, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(B1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(skoczekRB, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(C1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(goniecRB, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(D1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(wiezaRB, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(E1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(hetmanRB, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(A2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(B2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(C2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(D2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(E2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(33, 33, 33)
-                                .addComponent(jLabel1)
-                                .addGap(69, 69, 69)
-                                .addComponent(jLabel2)
-                                .addGap(71, 71, 71)
-                                .addComponent(jLabel3)
-                                .addGap(72, 72, 72)
-                                .addComponent(jLabel4)
-                                .addGap(67, 67, 67)
-                                .addComponent(jLabel5)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(A1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(B1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(C1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(D1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(E1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(A2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(B2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(C2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(D2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(E2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
@@ -20307,88 +21025,36 @@ public class SzachowaArena extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(G2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(H2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(39, 39, 39)
-                                .addComponent(jLabel6)
-                                .addGap(72, 72, 72)
-                                .addComponent(jLabel7)
-                                .addGap(67, 67, 67)
-                                .addComponent(jLabel8))))
-                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(H2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(A3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(B3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(C3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(D3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(E3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(A4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(B4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(C4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(D4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(E4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(F4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(G4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(H4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(F3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(G3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(H3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButton11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(ustawWK, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(ustawWQ, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(ustawWR, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(ustawWN, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(ustawWP, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(ustawWB, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(6, 6, 6)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(ustawBQ, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(ustawBR, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(ustawBB, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(ustawBN, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                                        .addComponent(ustawBP, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(ustawBK, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jRadioButton11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(ustawWK, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(ustawWQ, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(ustawWR, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(ustawWN, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(ustawWP, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(ustawWB, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(18, 18, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(ustawBQ, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(ustawBR, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(ustawBB, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(ustawBN, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                                                .addComponent(ustawBP, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(ustawBK, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(zegarczarne)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(zegarbiale)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(online_kreator, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(online_dolacz, javax.swing.GroupLayout.Alignment.LEADING))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(layout.createSequentialGroup()
@@ -20403,39 +21069,70 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(Blackkingside))
                                             .addComponent(czarneRuch)))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                            .addComponent(jLabel20)
-                                            .addGap(43, 43, 43)
-                                            .addComponent(przelotowe, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addComponent(jButton72, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel20)
+                                        .addGap(43, 43, 43)
+                                        .addComponent(przelotowe, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jButton72, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(zegarbiale))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(pionRW, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(skoczekRW, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(goniecRW, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(wiezaRW, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6)
+                                .addComponent(hetmanRW, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(33, 33, 33)
+                                .addComponent(jLabel1)
+                                .addGap(69, 69, 69)
+                                .addComponent(jLabel2)
+                                .addGap(71, 71, 71)
+                                .addComponent(jLabel3)
+                                .addGap(72, 72, 72)
+                                .addComponent(jLabel4)
+                                .addGap(67, 67, 67)
+                                .addComponent(jLabel5)
+                                .addGap(71, 71, 71)
+                                .addComponent(jLabel6)
+                                .addGap(72, 72, 72)
+                                .addComponent(jLabel7)
+                                .addGap(67, 67, 67)
+                                .addComponent(jLabel8)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(89, 89, 89))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addComponent(jLabel13)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(obrotowy, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(jCheckBox1))
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(resetgame, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(nowa_gra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(remis_odrzut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(poddanie, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
-                                            .addComponent(partia_odlozona, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(remis_prop)
-                                            .addComponent(remis_zgoda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(partia_wznowiona, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(gra_ustawka, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(poddanie, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(remis_odrzut, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(remis_zgoda, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(remis_prop)))
+                                        .addComponent(resetgame, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(16, 16, 16)))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jProgressBar1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createSequentialGroup()
@@ -20447,191 +21144,111 @@ public class SzachowaArena extends javax.swing.JFrame {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(SIOnOff, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(jScrollPane2)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(12, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(89, 89, 89))))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(nowa_gra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(partia_odlozona, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(partia_wznowiona, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
+                                    .addComponent(gra_ustawka, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(online_kreator)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(online_dolacz)))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(201, 201, 201)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton81, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(SIOnOff)
+                    .addComponent(Przycisk_help))
+                .addGap(1, 1, 1)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(obrotowy)
+                    .addComponent(jCheckBox1))
+                .addGap(5, 5, 5)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(resetgame)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(H8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(G8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(F8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(E8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(D8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(C8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(B8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(A8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(H7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(G7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(F7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(E7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(D7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(C7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(B7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(A7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(34, 34, 34)
-                                .addComponent(jLabel15)))
+                        .addComponent(remis_odrzut)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(H6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(G6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(F6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(H5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(G5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(F5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(E6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(D6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(C6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(B6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(A6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(29, 29, 29)
-                                        .addComponent(jLabel16)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(E5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(D5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(C5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(B5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(A5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(32, 32, 32)
-                                        .addComponent(jLabel17)))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(E4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(D4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(C4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(B4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(A4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(29, 29, 29)
-                                        .addComponent(jLabel18)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(E3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(D3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(C3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(B3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(A3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(33, 33, 33)
-                                        .addComponent(jLabel19))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(H4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(G4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(F4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(H3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(G3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(F3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(E2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(D2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(C2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(B2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(A2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(H2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(G2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(F2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addGap(31, 31, 31)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(A1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(27, 27, 27)
-                                .addComponent(jLabel10))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(E1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(D1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(C1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(B1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(H1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(G1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(F1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel4)
-                                        .addComponent(jLabel5))
-                                    .addComponent(jLabel6)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel7)
-                                        .addComponent(jLabel8))))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(jLabel14)))
-                .addGap(0, 54, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(poddanie, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(zegarczarne)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(ustawWP, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(ustawBP, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, 0)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(ustawWN, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(ustawBN, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(ustawWB, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(ustawBB, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(ustawWR, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(ustawBR, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(ustawWQ, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(ustawBQ, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(ustawWK, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(ustawBK, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(remis_zgoda, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(remis_prop)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(nowa_gra)
+                            .addComponent(gra_ustawka, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(1, 1, 1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(partia_wznowiona)
+                            .addComponent(partia_odlozona)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(80, 80, 80)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(online_kreator)
+                            .addComponent(online_dolacz, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(zegarczarne)
+                        .addComponent(pionRB, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(skoczekRB, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(goniecRB, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(wiezaRB, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(hetmanRB, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(ustawWP, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ustawBP, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, 0)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(ustawWN, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ustawBN, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(ustawWB, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ustawBB, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(ustawWR, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ustawBR, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(ustawWQ, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ustawBQ, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(ustawWK, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ustawBK, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(jRadioButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -20649,58 +21266,158 @@ public class SzachowaArena extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel20)
                             .addComponent(przelotowe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton72)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(online_kreator)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(online_dolacz, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(1, 1, 1)
-                        .addComponent(zegarbiale))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 180, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(201, 201, 201)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jButton81, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(SIOnOff)
-                            .addComponent(Przycisk_help))
-                        .addGap(1, 1, 1)
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel13)
-                            .addComponent(obrotowy)
-                            .addComponent(jCheckBox1))
-                        .addGap(5, 5, 5)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(resetgame)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(nowa_gra)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(H8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(G8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(F8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(E8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(D8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(C8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(B8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(A8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(H7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(G7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(F7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(E7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(D7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(C7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(B7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(A7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(34, 34, 34)
+                                        .addComponent(jLabel15)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(H6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(G6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(F6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(H5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(G5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(F5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(E6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(D6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(C6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(B6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(A6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(29, 29, 29)
+                                                .addComponent(jLabel16)))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(E5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(D5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(C5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(B5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(A5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(32, 32, 32)
+                                                .addComponent(jLabel17)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(E4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(D4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(C4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(B4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(A4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(29, 29, 29)
+                                                .addComponent(jLabel18)))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(E3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(D3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(C3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(B3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(A3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(33, 33, 33)
+                                                .addComponent(jLabel19))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(H4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(G4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(F4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(H3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(G3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(F3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(34, 34, 34)
+                                        .addComponent(jLabel11)
+                                        .addGap(58, 58, 58)
+                                        .addComponent(jLabel10))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(E2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(D2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(C2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(B2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(A2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(H2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(G2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(F2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(A1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(E1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(D1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(C1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(B1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(H1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(G1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(F1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(44, 44, 44)
+                                                .addComponent(zegarbiale)))
+                                        .addGap(3, 3, 3)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jLabel1)
+                                                .addComponent(jLabel2))
+                                            .addComponent(jLabel3)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jLabel4)
+                                                .addComponent(jLabel5))
+                                            .addComponent(jLabel6)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jLabel7)
+                                                .addComponent(jLabel8)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(pionRW, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(skoczekRW, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(goniecRW, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(wiezaRW, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(hetmanRW, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(gra_ustawka, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(1, 1, 1)))
-                        .addGap(3, 3, 3)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(partia_wznowiona)
-                            .addComponent(partia_odlozona))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(remis_odrzut)
-                            .addComponent(remis_zgoda, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(poddanie, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(remis_prop))))
-                .addContainerGap())
+                                .addGap(30, 30, 30)
+                                .addComponent(jLabel14)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         czarneRuch.getAccessibleContext().setAccessibleName("RadioButton9");
@@ -20735,6 +21452,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -20754,6 +21474,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -20775,6 +21498,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -20794,6 +21520,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -20815,6 +21544,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -20834,6 +21566,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -20855,6 +21590,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -20874,6 +21612,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -20895,6 +21636,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -20914,6 +21658,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -20935,6 +21682,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -20954,6 +21704,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -20975,6 +21728,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -20994,6 +21750,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -21015,6 +21774,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -21034,6 +21796,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -21055,6 +21820,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -21074,6 +21842,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -21095,6 +21866,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -21114,6 +21888,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -21135,6 +21912,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -21154,6 +21934,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -21175,6 +21958,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -21194,6 +21980,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -21215,6 +22004,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -21234,6 +22026,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -21255,6 +22050,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -21274,6 +22072,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -21295,6 +22096,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -21314,6 +22118,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -21335,6 +22142,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -21354,6 +22164,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -21375,6 +22188,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -21394,6 +22210,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -21415,6 +22234,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -21434,6 +22256,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -21455,6 +22280,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -21474,6 +22302,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -21495,6 +22326,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -21514,6 +22348,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -21535,6 +22372,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -21554,6 +22394,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -21575,6 +22418,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -21594,6 +22440,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -21615,6 +22464,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -21634,6 +22486,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -21655,6 +22510,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -21674,6 +22532,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -21695,6 +22556,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -21714,6 +22578,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -21735,6 +22602,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -21754,6 +22624,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -21775,6 +22648,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -21794,6 +22670,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -21815,6 +22694,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -21834,6 +22716,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -21855,6 +22740,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -21874,6 +22762,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -21895,6 +22786,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -21914,6 +22808,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -21935,6 +22832,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -21954,6 +22854,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 break;
             case 7:
                 mgla(evt.getSource());
+                break;
+            case 8:
+                dostawianka(evt.getSource());
                 break;
             default:
                 Button_Clicked(evt.getSource());
@@ -21975,6 +22878,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -21995,6 +22901,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             case 7:
                 mgla(evt.getSource());
                 break;
+            case 8:
+                dostawianka(evt.getSource());
+                break;
             default:
                 Button_Clicked(evt.getSource());
                 break;
@@ -22006,14 +22915,14 @@ public class SzachowaArena extends javax.swing.JFrame {
         String[] wybor_trybu_klasyka = {"1.klasyczny bez limitu", "2.klasyczny na czas", "3.SzachMaty"};
         String[] opcje_czasu = {"01. 60", "02. 30", "03. 15+10", "04. 10", "05. 5+5",
             "06. 5", "07. 3+2", "08. 3", "09. 2+1", "10. 1", "11. inny system"};
-        String[] opcje_trybu_odmiany = {"1.Paco Sako", "2.Amazonka", "3.Grabież", "4.Antyszachy", "5.Mgliste szachy"};
+        String[] opcje_trybu_odmiany = {"1.Paco Sako", "2.Amazonka", "3.Grabież", "4.Antyszachy", "5.Mgliste szachy", "6. Dom szaleństwa"};
         Object[] opcje_rywala = {"Graj z innym graczem", "Graj z SI jako białe", "Graj z SI jako czarne"};
         sztuczny_rywal = (byte) JOptionPane.showOptionDialog(rootPane, "Gra z SI?", "opcje SI", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opcje_rywala, null);
         JSlider suwak_trudnosci = new JSlider(1, 14, 1);
-        Hashtable<Integer, JLabel> Opisy = new Hashtable<Integer, JLabel>();
+        Hashtable<Integer, JLabel> Opisy = new Hashtable<>();
         suwak_trudnosci.setOrientation(JSlider.VERTICAL);
         suwak_trudnosci.setMinorTickSpacing(1);
-
+        partia_wznowiona.setVisible(false);
         Opisy.put(1, new JLabel("Nowicjusz"));
         Opisy.put(2, new JLabel("Przeciętny"));
         Opisy.put(4, new JLabel("Doświadczony"));
@@ -22169,6 +23078,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                 ust[0][3] = 'A';
                 ust[7][3] = 'a';
                 SIOnOff.setEnabled(false);
+                jTextArea3.setEnabled(true);
                 styl(kolor_zestaw, kroj_zestaw, kolor_plansza);
                 JOptionPane.showMessageDialog(rootPane, "W tym trybie nie masz hetmana.\n Zamiast tego masz amazonkę.\n"
                         + "Amazonka posiada właściwości hetmana i skoczka.\n"
@@ -22180,6 +23090,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                         nakladki[i][j] = ' ';
                     }
                 }
+                jTextArea3.setEnabled(true);
                 kolor_zestaw = 1;
                 kroj_zestaw = 1;
                 oldschool.setEnabled(false);
@@ -22197,6 +23108,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                         + "Wszystko staje się bierką zbijalną, włącznie z królem\n"
                         + "Wygrywa ten, kto wytraci wszystkie bierki", "Właściwości anty-szachów", JOptionPane.INFORMATION_MESSAGE);
                 krole_biale = 1;
+                jTextArea3.setEnabled(true);
                 krole_czarne = 1;
                 break;
             case 7:
@@ -22207,8 +23119,15 @@ public class SzachowaArena extends javax.swing.JFrame {
                         + "Zwycięża ten, co zbije króla przeciwnika.", "Właściwości mgły", JOptionPane.INFORMATION_MESSAGE);
                 jTextArea3.setVisible(false);
                 break;
+            case 8:
+                krole_biale = 1;
+                krole_czarne = 1;
+                JOptionPane.showMessageDialog(rootPane, "W tym trybie co zbijesz, to zbity dołącza do twojej rezerwy.\n"
+                        + "Zamiast wykonać ruch możesz dostawić z rezerwy na dowolne puste pole.", "Właściwości domu szaleństwa", JOptionPane.INFORMATION_MESSAGE);
+                jTextArea3.setVisible(true);
+                break;
         }
-
+        SIOnOff.setVisible(tryb == 0);
         jMenu2.setEnabled(tryb < 3);
         blokada = new ReentrantLock();
         warunek = blokada.newCondition();
@@ -22325,7 +23244,6 @@ public class SzachowaArena extends javax.swing.JFrame {
             whitetime.start();
             blacktime.start();
         }
-
         nowa_gra.setVisible(false);
         online_kreator.setVisible(false);
         online_dolacz.setVisible(false);
@@ -22335,6 +23253,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                 dobierzprzycisk(String.valueOf(j + "" + i), false).setEnabled(true);
             }
         }
+        losowanko.setEnabled(tryb == 0 && !SI_ON);
         mazyna_losujaca.setEnabled(tryb == 0 && !SI_ON);
         if (tryb != 3 && tryb != 5) {
             kolor_zestaw = 2;
@@ -22355,8 +23274,33 @@ public class SzachowaArena extends javax.swing.JFrame {
         ciezkieC = 3;
         pionB = 8;
         pionC = 8;
-        partia_odlozona.setEnabled(tryb == 0);
+        pionRB.setVisible(tryb == 8);
+        pionRW.setVisible(tryb == 8);
+        skoczekRB.setVisible(tryb == 8);
+        skoczekRW.setVisible(tryb == 8);
+        goniecRB.setVisible(tryb == 8);
+        goniecRW.setVisible(tryb == 8);
+        wiezaRB.setVisible(tryb == 8);
+        wiezaRW.setVisible(tryb == 8);
+        hetmanRB.setVisible(tryb == 8);
+        hetmanRW.setVisible(tryb == 8);
+        pionRB.setVisible(tryb == 8);
+        pionRW.setVisible(tryb == 8);
+        hetmanRW.setText("0");
+        hetmanRB.setText("0");
+        wiezaRW.setText("0");
+        wiezaRB.setText("0");
+        goniecRW.setText("0");
+        goniecRB.setText("0");
+        skoczekRW.setText("0");
+        skoczekRB.setText("0");
+        pionRW.setText("0");
+        pionRB.setText("0");
+        partia_wznowiona.setVisible(false);
+        partia_odlozona.setVisible(tryb == 0);
         partia_wznowiona.setEnabled(tryb == 0);
+        obrotowy.setEnabled(true);
+        SIOnOff.setEnabled(true);
         if (SI_ON && tura_rywala) {
             char[][] backup1 = new char[8][8];
             for (int i = 0; i < 8; i++) {
@@ -22839,6 +23783,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                                     SI_ON = false;
                                     break;
                             }
+                            if(!pierwsza_kolej){
+                                
+                                historia.add("...");
+                            }
                             mazyna_losujaca.setEnabled(!SI_ON);
                             SIOnOff.setEnabled(true);
                             obrotowy.setVisible(!(SI_ON || siec));
@@ -22949,32 +23897,33 @@ public class SzachowaArena extends javax.swing.JFrame {
         model.addElement("Niedostępne");
         int index = 1;
         for (int i = 0; i < 8; i++) {
+            System.out.println('A' + i);
             if (i - 1 >= 0 && i + 1 < 8) {
                 if (ust[4][i] == 'P' && (ust[4][i - 1] == 'p')) {
-                    if (model.getIndexOf(("Na kolumnie " + (char) ('A' + i - 1))) == -1) {
-                        model.addElement(("Na kolumnie " + (char) ('A' + i - 1)));
+                    if (model.getIndexOf(("Na kolumnie " + ((char) ('A' + i-1)))) == -1) {
+                        model.addElement(("Na kolumnie " + ((char) ('A' + i-1))));
                         index++;
                     }
                 }
                 if (ust[4][i] == 'P' && (ust[4][i + 1] == 'p')) {
-                    if (model.getIndexOf(("Na kolumnie " + (char) ('A' + i + 1))) == -1) {
-                        model.addElement(("Na kolumnie " + (char) ('A' + i + 1)));
+                    if (model.getIndexOf(("Na kolumnie " + ((char) ('A' + i+1)))) == -1) {
+                        model.addElement(("Na kolumnie " + ((char) ('A' + i+1))));
                         index++;
                     }
                 }
             }
             if (i - 1 == -1) {
                 if (ust[4][i] == 'P' && (ust[4][i + 1] == 'p')) {
-                    if (model.getIndexOf(("Na kolumnie " + (char) ('A' + i - 1))) == -1) {
-                        model.addElement(("Na kolumnie " + (char) ('A' + i - 1)));
+                    if (model.getIndexOf(("Na kolumnie " + ((char) ('A' + i+1)))) == -1) {
+                        model.addElement(("Na kolumnie " + ((char) ('A' + i+1))));
                         index++;
                     }
                 }
             }
             if (i + 1 == 8) {
                 if (ust[4][i] == 'P' && (ust[4][i - 1] == 'p')) {
-                    if (model.getIndexOf(("Na kolumnie " + (char) ('A' + i - 1))) == -1) {
-                        model.addElement(("Na kolumnie " + (char) ('A' + i - 1)));
+                    if (model.getIndexOf(("Na kolumnie " + ((char) ('A' + i-1)))) == -1) {
+                        model.addElement(("Na kolumnie " + ((char) ('A' + i-1))));
                         index++;
                     }
                 }
@@ -22990,32 +23939,33 @@ public class SzachowaArena extends javax.swing.JFrame {
         model.addElement("Niedostępne");
         int index = 1;
         for (int i = 0; i < 8; i++) {
+            System.out.println('A' + i);
             if (i - 1 >= 0 && i + 1 < 8) {
-                if (ust[3][i] == 'p' && (ust[3][i - 1] == 'P')) {
-                    if (model.getIndexOf(("Na kolumnie " + (char) ('A' + i - 1))) == -1) {
-                        model.addElement(("Na kolumnie " + (char) ('A' + i - 1)));
+                if (ust[3][i] == 'P' && (ust[3][i - 1] == 'p')) {
+                    if (model.getIndexOf(("Na kolumnie " + ((char) ('A' + i-1)))) == -1) {
+                        model.addElement(("Na kolumnie " + ((char) ('A' + i-1))));
                         index++;
                     }
                 }
-                if (ust[3][i] == 'p' && (ust[3][i + 1] == 'P')) {
-                    if (model.getIndexOf(("Na kolumnie " + (char) ('A' + i + 1))) == -1) {
-                        model.addElement(("Na kolumnie " + (char) ('A' + i + 1)));
+                if (ust[3][i] == 'P' && (ust[3][i + 1] == 'p')) {
+                    if (model.getIndexOf(("Na kolumnie " + ((char) ('A' + i+1)))) == -1) {
+                        model.addElement(("Na kolumnie " + ((char) ('A' + i+1))));
                         index++;
                     }
                 }
             }
             if (i - 1 == -1) {
-                if (ust[3][i] == 'p' && (ust[3][i + 1] == 'P')) {
-                    if (model.getIndexOf(("Na kolumnie " + (char) ('A' + i - 1))) == -1) {
-                        model.addElement(("Na kolumnie " + (char) ('A' + i - 1)));
+                if (ust[3][i] == 'P' && (ust[3][i + 1] == 'p')) {
+                    if (model.getIndexOf(("Na kolumnie " + ((char) ('A' + i+1)))) == -1) {
+                        model.addElement(("Na kolumnie " + ((char) ('A' + i+1))));
                         index++;
                     }
                 }
             }
             if (i + 1 == 8) {
-                if (ust[3][i] == 'p' && (ust[3][i - 1] == 'P')) {
-                    if (model.getIndexOf(("Na kolumnie " + (char) ('A' + i - 1))) == -1) {
-                        model.addElement(("Na kolumnie " + (char) ('A' + i - 1)));
+                if (ust[3][i] == 'P' && (ust[3][i - 1] == 'p')) {
+                    if (model.getIndexOf(("Na kolumnie " + ((char) ('A' + i-1)))) == -1) {
+                        model.addElement(("Na kolumnie " + ((char) ('A' + i-1))));
                         index++;
                     }
                 }
@@ -23030,6 +23980,8 @@ public class SzachowaArena extends javax.swing.JFrame {
         odwrot = false;
         SIOnOff.setEnabled(false);
         jMenu2.setEnabled(true);
+        partia_odlozona.setVisible(false);
+        partia_wznowiona.setVisible(false);
         nowa_gra.setVisible(false);
         online_kreator.setVisible(false);
         online_dolacz.setVisible(false);
@@ -23442,12 +24394,15 @@ public class SzachowaArena extends javax.swing.JFrame {
 
     private void resetgameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetgameActionPerformed
         kombinacja.setVisible(true);
+        partia_wznowiona.setVisible(true);
+        partia_odlozona.setVisible(false);
         odwrot = false;
-        SIOnOff.setEnabled(true);
         jMenu2.setEnabled(true);
         nowa_gra.setVisible(true);
         online_kreator.setVisible(true);
         online_dolacz.setVisible(true);
+        poddanie.setEnabled(false);
+        remis_prop.setEnabled(false);
         for (int i = 0; i < 8; i++) {
             for (char j = 'A'; j < 'I'; j++) {
                 dobierzprzycisk(String.valueOf(j + "" + (i + 1)), false).setEnabled(true);
@@ -23455,12 +24410,25 @@ public class SzachowaArena extends javax.swing.JFrame {
                 odwrotna[i][j - 'A'] = ' ';
             }
         }
+        ustawka=false;
         pomoc_ruch = Color.BLUE;
         przelotowe.setVisible(false);
         jLabel20.setVisible(false);
         mazyna_losujaca.setEnabled(true);
         krole_biale = 0;
         krole_czarne = 0;
+        pionRB.setVisible(false);
+        pionRW.setVisible(false);
+        skoczekRB.setVisible(false);
+        skoczekRW.setVisible(false);
+        goniecRB.setVisible(false);
+        goniecRW.setVisible(false);
+        wiezaRB.setVisible(false);
+        wiezaRW.setVisible(false);
+        hetmanRB.setVisible(false);
+        hetmanRW.setVisible(false);
+        pionRB.setVisible(false);
+        pionRW.setVisible(false);
         ustawka = false;
         Blackkingside.setVisible(false);
         Whitekingside.setVisible(false);
@@ -23492,8 +24460,6 @@ public class SzachowaArena extends javax.swing.JFrame {
         bright = true;
         gra_ustawka.setVisible(true);
         gra_ustawka.setEnabled(true);
-        poddanie.setEnabled(false);
-        remis_prop.setEnabled(false);
         online_dolacz.setVisible(true);
         online_kreator.setVisible(true);
         for (int i = 1; i <= 8; i++) {
@@ -23501,8 +24467,8 @@ public class SzachowaArena extends javax.swing.JFrame {
                 dobierzprzycisk(String.valueOf(j + "" + i), false).setEnabled(false);
             }
         }
-        SIOnOff.setEnabled(true);
-        obrotowy.setVisible(true);
+        SIOnOff.setEnabled(false);
+        obrotowy.setEnabled(false);
         bleft = true;
         bright = true;
         wleft = true;
@@ -23582,6 +24548,38 @@ public class SzachowaArena extends javax.swing.JFrame {
                 }
             }
         }
+        rezerwyBG = 0;
+        rezerwyBH = 0;
+        rezerwyBP = 0;
+        rezerwyBS = 0;
+        rezerwyBW = 0;
+        rezerwyCG = 0;
+        rezerwyCH = 0;
+        rezerwyCP = 0;
+        rezerwyCS = 0;
+        rezerwyCW = 0;
+        pionRB.setVisible(false);
+        pionRW.setVisible(false);
+        skoczekRB.setVisible(false);
+        skoczekRW.setVisible(false);
+        goniecRB.setVisible(false);
+        goniecRW.setVisible(false);
+        wiezaRB.setVisible(false);
+        wiezaRW.setVisible(false);
+        hetmanRB.setVisible(false);
+        hetmanRW.setVisible(false);
+        pionRB.setVisible(false);
+        pionRW.setVisible(false);
+        hetmanRW.setText("0");
+        hetmanRB.setText("0");
+        wiezaRW.setText("0");
+        wiezaRB.setText("0");
+        goniecRW.setText("0");
+        goniecRB.setText("0");
+        skoczekRW.setText("0");
+        skoczekRB.setText("0");
+        pionRW.setText("0");
+        pionRB.setText("0");
         kingrochB = true;
         kingrochC = true;
         styl(kolor_zestaw, kroj_zestaw, kolor_plansza);
@@ -23664,10 +24662,8 @@ public class SzachowaArena extends javax.swing.JFrame {
         Whitekingside.setVisible(false);
         Blackqueenside.setVisible(false);
         Whitequeenside.setVisible(false);
-        poddanie.setEnabled(true);
         przelotowe.setVisible(false);
         jLabel20.setVisible(false);
-        remis_prop.setEnabled(true);
         mazyna_losujaca.setEnabled(false);
         obrotowy.setVisible(true);
         SIOnOff.setVisible(true);
@@ -23757,7 +24753,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                 file = new File(file + ".txt");
             }
 
-            try (PrintWriter fileWriter = new PrintWriter(file.getPath())) {
+            try (BufferedWriter fileWriter = Files.newBufferedWriter(file.toPath(), StandardCharsets.UTF_8)) {
                 fileWriter.flush();
                 for (int i = 0; i < 8; i++) {
                     for (int j = 0; j < 8; j++) {
@@ -23765,19 +24761,21 @@ public class SzachowaArena extends javax.swing.JFrame {
                     }
                     fileWriter.write("\n");
                 }
-                fileWriter.print(ruchB + "|" + przelotcan + "|" + kingrochB + "|" + kingrochC + "|" + dokonano_RB + "|" + dokonano_RC
+                fileWriter.append(ruchB + "|" + przelotcan + "|" + kingrochB + "|" + kingrochC + "|" + dokonano_RB + "|" + dokonano_RC
                         + "|" + dolicz + "|" + wright + "|" + wleft + "|" + bright + "|" + bleft + "|");
-                fileWriter.println();
-                fileWriter.print(zasada50 + "+" + kol + "+" + movenr);
-                fileWriter.println();
-                historia.forEach(fileWriter::println);
-                fileWriter.println("----");
-                for (String s : ruchy_literowe) {
-                    fileWriter.print(((s + "\n")));
+                fileWriter.newLine();
+                fileWriter.append(zasada50 + "+" + kol + "+" + movenr);
+                fileWriter.newLine();
+                for (String s : historia) {
+                    fileWriter.append(((s + "\n")));
                 }
-                fileWriter.println("----");
+                fileWriter.append("----\n");
+                for (String s : ruchy_literowe) {
+                    fileWriter.append(((s + "\n")));
+                }
+                fileWriter.append("----\n");
                 for (String s : ruchy_syboliczne) {
-                    fileWriter.print(((s + "\n")));
+                    fileWriter.append(((s + "\n")));
                 }
 
             } catch (IOException e) {
@@ -23790,6 +24788,7 @@ public class SzachowaArena extends javax.swing.JFrame {
     private void partia_wznowionaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_partia_wznowionaActionPerformed
         JFileChooser wyborP = new JFileChooser();
         wyborP.setFileFilter(new FileNameExtensionFilter("txt file", "txt"));
+        partia_wznowiona.setVisible(false);
         wyborP.setAcceptAllFileFilterUsed(false);
         if (wyborP.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             pionB = 0;
@@ -23806,7 +24805,8 @@ public class SzachowaArena extends javax.swing.JFrame {
                 File plik = new File(katalog);
 
                 BufferedReader inP;
-                inP = new BufferedReader(new FileReader(plik));
+                inP = new BufferedReader(new InputStreamReader(
+    new FileInputStream(plik), "UTF-8"));
                 for (int i = 0; i < 8; i++) {
                     String zdanie = inP.readLine();
                     for (int j = 0; j < 8; j++) {
@@ -23869,15 +24869,80 @@ public class SzachowaArena extends javax.swing.JFrame {
                     }
                     System.out.println(zdanie);
                     ruchy_literowe.add(zdanie);
-                }
-                while ((zdanie = inP.readLine()) != null) {
-                    if (zdanie.equals("----")) {
-                        System.out.println(zdanie);
-                        break;
+                    String promotemp = "";
+                    if (zdanie.length() >= 8) {
+                        if (zdanie.charAt(6) == '=') {
+                            switch (zdanie.charAt(7)) {
+                                case 'Q':
+                                    promotemp = zdanie.length() == 8 ? "=\u2655" : ("=\u2655" + zdanie.substring(8));
+                                    break;
+                                case 'R':
+                                    promotemp = zdanie.length() == 8 ? "=\u2656" : ("=\u2656" + zdanie.substring(8));
+                                    break;
+                                case 'B':
+                                    promotemp = zdanie.length() == 8 ? "=\u2657" : "=\u2657" + zdanie.substring(8);
+                                    break;
+                                case 'N':
+                                    promotemp = zdanie.length() == 8 ? "=\u2658" : "=\u2658" + zdanie.substring(8);
+                                    break;
+                                case 'q':
+                                    promotemp = zdanie.length() == 8 ? "=\u265B" : "=\u265B" + zdanie.substring(8);
+                                    break;
+                                case 'r':
+                                    promotemp = zdanie.length() == 8 ? "=\u265C" : "=\u265C" + zdanie.substring(8);
+                                    break;
+                                case 'b':
+                                    promotemp = zdanie.length() == 8 ? "=\u265D" : "=\u265D" + zdanie.substring(8);
+                                    break;
+                                case 'n':
+                                    promotemp = zdanie.length() == 8 ? "=\u265E" : "=\u265E" + zdanie.substring(8);
+                                    break;
+                            }
+                        }
                     }
-                    System.out.println(zdanie);
-                    ruchy_syboliczne.add(zdanie);
+                    switch (zdanie.charAt(0)) {
+                        case 'K':
+                            ruchy_syboliczne.add("\u2654" + zdanie.substring(1, 6)+promotemp);
+                            break;
+                        case 'Q':
+                            ruchy_syboliczne.add("\u2655" + zdanie.substring(1, 6)+promotemp);
+                            break;
+                        case 'R':
+                            ruchy_syboliczne.add("\u2656" + zdanie.substring(1, 6)+promotemp);
+                            break;
+                        case 'B':
+                            ruchy_syboliczne.add("\u2657" + zdanie.substring(1, 6)+promotemp);
+                            break;
+                        case 'N':
+                            ruchy_syboliczne.add("\u2658" + zdanie.substring(1, 6)+promotemp);
+                            break;
+                        case 'P':
+                            ruchy_syboliczne.add("\u2659" + zdanie.substring(1, 6)+promotemp);
+                            break;
+                        case 'k':
+                            ruchy_syboliczne.add("\u265A" + zdanie.substring(1, 6)+promotemp);
+                            break;
+                        case 'q':
+                            ruchy_syboliczne.add("\u265B" + zdanie.substring(1, 6)+promotemp);
+                            break;
+                        case 'r':
+                            ruchy_syboliczne.add("\u265C" + zdanie.substring(1, 6)+promotemp);
+                            break;
+                        case 'b':
+                            ruchy_syboliczne.add("\u265D" + zdanie.substring(1, 6)+promotemp);
+                            break;
+                        case 'n':
+                            ruchy_syboliczne.add("\u265E" + zdanie.substring(1, 6)+promotemp);
+                            break;
+                        case 'p':
+                            ruchy_syboliczne.add("\u265F" + zdanie.substring(1, 6)+promotemp);
+                            break;
+                        default:
+                            ruchy_syboliczne.add(zdanie);
+                            break;
+                    }
                 }
+
                 jCheckBox1ActionPerformed(null);
                 pomoc_ruch = ruchB ? Color.BLUE : Color.RED;
                 JOptionPane.showMessageDialog(rootPane, "Ruch mają " + (ruchB ? "białe" : "czarne") + ".");
@@ -23897,9 +24962,11 @@ public class SzachowaArena extends javax.swing.JFrame {
                 gra_ustawka.setVisible(false);
                 tryb = 0;
                 gra = true;
+                partia_odlozona.setVisible(true);
                 jMenu2.setEnabled(true);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(partia_odlozona, "Wystąpił nieoczekiwany błąd");
+                ex.printStackTrace();
                 resetgameActionPerformed(evt);
             }
         }
@@ -23907,7 +24974,7 @@ public class SzachowaArena extends javax.swing.JFrame {
     }//GEN-LAST:event_partia_wznowionaActionPerformed
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-        if (tryb < 3) {
+        if (tryb != 3 && tryb != 4) {
             boolean zmiana = (ustawka) ? pierwsza_kolej : true;
             jTextArea3.setText("");
             int ilosc_ruchow = 1;
@@ -23974,7 +25041,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                 aset.add(new MediaPrintableArea(7.5f, 7.5f, 195f, 282f, MediaPrintableArea.MM));
                 PageFormat pf = job.getPageFormat(aset);
                 pf.setOrientation(PageFormat.PORTRAIT);
-                job.setPrintable(new Drukarka_P(ruchB ? ust : odwrotna, ruchB, ruchy_literowe), pf);
+                job.setPrintable(new Drukarka_P(ust, ruchB, ruchy_literowe,druk_wzgledny), pf);
                 boolean ok = job.printDialog(aset);
                 if (ok) {
                     try {
@@ -23991,10 +25058,10 @@ public class SzachowaArena extends javax.swing.JFrame {
                 PageFormat pf = printJob.defaultPage();
                 Paper papier = pf.getPaper();
                 papier.setImageableArea(25, 25, papier.getWidth(), papier.getHeight() - 2);
-                System.out.println(papier.getWidth()+" "+ papier.getHeight());
+                System.out.println(papier.getWidth() + " " + papier.getHeight());
                 pf.setPaper(papier);
                 pf.setOrientation(PageFormat.PORTRAIT);
-                book.append(new Drukarka_P(ruchB ? ust : odwrotna, ruchB), pf);
+                book.append(new Drukarka_P(ruchB ? ust : odwrotna, ruchB,druk_wzgledny), pf);
                 if (ruchy_literowe.size() <= 600) {
                     book.append(new Drukarka_H(ruchy_literowe), pf);
                 } else {
@@ -24038,7 +25105,7 @@ public class SzachowaArena extends javax.swing.JFrame {
             PageFormat pf = job.getPageFormat(aset);
             pf.setOrientation(PageFormat.PORTRAIT);
 
-            job.setPrintable(new Drukarka_P(ruchB ? ust : odwrotna, ruchB), pf);
+            job.setPrintable(new Drukarka_P(druk_wzgledny ? (ruchB ? ust : odwrotna): ust, ruchB, druk_wzgledny), pf);
             boolean ok = job.printDialog(aset);
             if (ok) {
                 try {
@@ -24141,6 +25208,275 @@ public class SzachowaArena extends javax.swing.JFrame {
         pozstart = new Pozycja(bleft, bright, wleft, wright, kingrochB, kingrochC, ruchB, przelotcan, kol, ust);
         JOptionPane.showMessageDialog(rootPane, "Zapisano pozycję wejsciową");
     }//GEN-LAST:event_kombweActionPerformed
+
+    private void pionRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pionRBActionPerformed
+        hetmanRW.setBorder(null);
+        hetmanRB.setBorder(null);
+        wiezaRW.setBorder(null);
+        wiezaRB.setBorder(null);
+        goniecRW.setBorder(null);
+        goniecRB.setBorder(null);
+        skoczekRW.setBorder(null);
+        skoczekRB.setBorder(null);
+        pionRW.setBorder(null);
+        pionRB.setBorder(null);
+        if (symbol == ' ' && !ruchB) {
+            if (!dostawka) {
+                dostawka = true;
+                symbol = 'p';
+                pionRB.setBorder(new LineBorder(pomoc_ruch, 4));
+                dobierz_kursor(symbol);
+            } else {
+                dostawka = false;
+                symbol = ' ';
+                pionRB.setBorder(null);
+                setCursor(Cursor.getDefaultCursor());
+            }
+        }
+    }//GEN-LAST:event_pionRBActionPerformed
+
+    private void skoczekRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_skoczekRBActionPerformed
+        hetmanRW.setBorder(null);
+        hetmanRB.setBorder(null);
+        wiezaRW.setBorder(null);
+        wiezaRB.setBorder(null);
+        goniecRW.setBorder(null);
+        goniecRB.setBorder(null);
+        skoczekRW.setBorder(null);
+        skoczekRB.setBorder(null);
+        pionRW.setBorder(null);
+        pionRB.setBorder(null);
+        if (symbol == ' ' && !ruchB) {
+            if (!dostawka) {
+                dostawka = true;
+                symbol = 'n';
+                skoczekRB.setBorder(new LineBorder(pomoc_ruch, 4));
+                dobierz_kursor(symbol);
+            } else {
+                dostawka = false;
+                symbol = ' ';
+                skoczekRB.setBorder(null);
+                setCursor(Cursor.getDefaultCursor());
+            }
+        }
+    }//GEN-LAST:event_skoczekRBActionPerformed
+
+    private void goniecRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goniecRBActionPerformed
+        hetmanRW.setBorder(null);
+        hetmanRB.setBorder(null);
+        wiezaRW.setBorder(null);
+        wiezaRB.setBorder(null);
+        goniecRW.setBorder(null);
+        goniecRB.setBorder(null);
+        skoczekRW.setBorder(null);
+        skoczekRB.setBorder(null);
+        pionRW.setBorder(null);
+        pionRB.setBorder(null);
+        if (symbol == ' ' && !ruchB) {
+            if (!dostawka) {
+                dostawka = true;
+                symbol = 'b';
+                goniecRB.setBorder(new LineBorder(pomoc_ruch, 4));
+                dobierz_kursor(symbol);
+            } else {
+                dostawka = false;
+                symbol = ' ';
+                goniecRB.setBorder(null);
+                setCursor(Cursor.getDefaultCursor());
+            }
+        }
+    }//GEN-LAST:event_goniecRBActionPerformed
+
+    private void wiezaRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wiezaRBActionPerformed
+        hetmanRW.setBorder(null);
+        hetmanRB.setBorder(null);
+        wiezaRW.setBorder(null);
+        wiezaRB.setBorder(null);
+        goniecRW.setBorder(null);
+        goniecRB.setBorder(null);
+        skoczekRW.setBorder(null);
+        skoczekRB.setBorder(null);
+        pionRW.setBorder(null);
+        pionRB.setBorder(null);
+        if (symbol == ' ' && !ruchB) {
+            if (!dostawka) {
+                dostawka = true;
+                symbol = 'r';
+                wiezaRB.setBorder(new LineBorder(pomoc_ruch, 4));
+                dobierz_kursor(symbol);
+            } else {
+                dostawka = false;
+                symbol = ' ';
+                wiezaRB.setBorder(null);
+                setCursor(Cursor.getDefaultCursor());
+            }
+        }
+    }//GEN-LAST:event_wiezaRBActionPerformed
+
+    private void hetmanRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hetmanRBActionPerformed
+        hetmanRW.setBorder(null);
+        hetmanRB.setBorder(null);
+        wiezaRW.setBorder(null);
+        wiezaRB.setBorder(null);
+        goniecRW.setBorder(null);
+        goniecRB.setBorder(null);
+        skoczekRW.setBorder(null);
+        skoczekRB.setBorder(null);
+        pionRW.setBorder(null);
+        pionRB.setBorder(null);
+        if (symbol == ' ' && !ruchB) {
+            if (!dostawka) {
+                dostawka = true;
+                symbol = 'q';
+                hetmanRB.setBorder(new LineBorder(pomoc_ruch, 4));
+                dobierz_kursor(symbol);
+            } else {
+                dostawka = false;
+                symbol = ' ';
+                hetmanRB.setBorder(null);
+                setCursor(Cursor.getDefaultCursor());
+            }
+        }
+    }//GEN-LAST:event_hetmanRBActionPerformed
+
+    private void hetmanRWActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hetmanRWActionPerformed
+        hetmanRW.setBorder(null);
+        hetmanRB.setBorder(null);
+        wiezaRW.setBorder(null);
+        wiezaRB.setBorder(null);
+        goniecRW.setBorder(null);
+        goniecRB.setBorder(null);
+        skoczekRW.setBorder(null);
+        skoczekRB.setBorder(null);
+        pionRW.setBorder(null);
+        pionRB.setBorder(null);
+        if (symbol == ' ' && ruchB) {
+            if (!dostawka) {
+                dostawka = true;
+                symbol = 'Q';
+                hetmanRW.setBorder(new LineBorder(pomoc_ruch, 4));
+                dobierz_kursor(symbol);
+            } else {
+                dostawka = false;
+                symbol = ' ';
+                hetmanRW.setBorder(null);
+                setCursor(Cursor.getDefaultCursor());
+            }
+        }
+    }//GEN-LAST:event_hetmanRWActionPerformed
+
+    private void wiezaRWActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wiezaRWActionPerformed
+        hetmanRW.setBorder(null);
+        hetmanRB.setBorder(null);
+        wiezaRW.setBorder(null);
+        wiezaRB.setBorder(null);
+        goniecRW.setBorder(null);
+        goniecRB.setBorder(null);
+        skoczekRW.setBorder(null);
+        skoczekRB.setBorder(null);
+        pionRW.setBorder(null);
+        pionRB.setBorder(null);
+        if (symbol == ' ' && ruchB) {
+            if (!dostawka) {
+                dostawka = true;
+                symbol = 'R';
+                wiezaRW.setBorder(new LineBorder(pomoc_ruch, 4));
+                dobierz_kursor(symbol);
+            } else {
+                dostawka = false;
+                symbol = ' ';
+                wiezaRW.setBorder(null);
+                setCursor(Cursor.getDefaultCursor());
+            }
+        }
+    }//GEN-LAST:event_wiezaRWActionPerformed
+
+    private void goniecRWActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goniecRWActionPerformed
+        hetmanRW.setBorder(null);
+        hetmanRB.setBorder(null);
+        wiezaRW.setBorder(null);
+        wiezaRB.setBorder(null);
+        goniecRW.setBorder(null);
+        goniecRB.setBorder(null);
+        skoczekRW.setBorder(null);
+        skoczekRB.setBorder(null);
+        pionRW.setBorder(null);
+        pionRB.setBorder(null);
+        if (symbol == ' ' && ruchB) {
+            if (!dostawka) {
+                dostawka = true;
+                symbol = 'B';
+                goniecRW.setBorder(new LineBorder(pomoc_ruch, 4));
+                dobierz_kursor(symbol);
+            } else {
+                dostawka = false;
+                symbol = ' ';
+                goniecRW.setBorder(null);
+              setCursor(Cursor.getDefaultCursor());  
+            }
+        }
+    }//GEN-LAST:event_goniecRWActionPerformed
+
+    private void skoczekRWActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_skoczekRWActionPerformed
+        hetmanRW.setBorder(null);
+        hetmanRB.setBorder(null);
+        wiezaRW.setBorder(null);
+        wiezaRB.setBorder(null);
+        goniecRW.setBorder(null);
+        goniecRB.setBorder(null);
+        skoczekRW.setBorder(null);
+        skoczekRB.setBorder(null);
+        pionRW.setBorder(null);
+        pionRB.setBorder(null);
+        if (symbol == ' ' && ruchB) {
+            if (!dostawka) {
+                dostawka = true;
+                symbol = 'N';
+                skoczekRW.setBorder(new LineBorder(pomoc_ruch, 4));
+                dobierz_kursor(symbol);
+            } else {
+                dostawka = false;
+                symbol = ' ';
+                skoczekRW.setBorder(null);
+                setCursor(Cursor.getDefaultCursor());
+            }
+        }
+    }//GEN-LAST:event_skoczekRWActionPerformed
+
+    private void pionRWActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pionRWActionPerformed
+        hetmanRW.setBorder(null);
+        hetmanRB.setBorder(null);
+        wiezaRW.setBorder(null);
+        wiezaRB.setBorder(null);
+        goniecRW.setBorder(null);
+        goniecRB.setBorder(null);
+        skoczekRW.setBorder(null);
+        skoczekRB.setBorder(null);
+        pionRW.setBorder(null);
+        pionRB.setBorder(null);
+        if (symbol == ' ' && ruchB) {
+            if (!dostawka) {
+                dostawka = true;
+                symbol = 'P';
+                pionRW.setBorder(new LineBorder(pomoc_ruch, 4));
+                dobierz_kursor(symbol);
+                
+            } else {
+                dostawka = false;
+                symbol = ' ';
+                pionRW.setBorder(null);
+                setCursor(Cursor.getDefaultCursor());
+            }
+        }
+    }//GEN-LAST:event_pionRWActionPerformed
+
+    private void przelotoweActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_przelotoweActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_przelotoweActionPerformed
+
+    private void druk_obroconyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_druk_obroconyActionPerformed
+       druk_wzgledny=druk_obrocony.isSelected();
+    }//GEN-LAST:event_druk_obroconyActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -24259,9 +25595,14 @@ public class SzachowaArena extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup4;
     private javax.swing.ButtonGroup buttonGroup5;
     private javax.swing.JRadioButton czarneRuch;
+    private javax.swing.JCheckBoxMenuItem druk_obrocony;
     private javax.swing.JMenuItem druk_odpis;
     private javax.swing.JMenuItem druk_pozycja;
+    private javax.swing.JButton goniecRB;
+    private javax.swing.JButton goniecRW;
     private javax.swing.JButton gra_ustawka;
+    private javax.swing.JButton hetmanRB;
+    private javax.swing.JButton hetmanRW;
     private javax.swing.JButton jButton72;
     private javax.swing.JButton jButton81;
     private javax.swing.JCheckBox jCheckBox1;
@@ -24318,6 +25659,8 @@ public class SzachowaArena extends javax.swing.JFrame {
     private javax.swing.JButton online_kreator;
     private javax.swing.JButton partia_odlozona;
     private javax.swing.JButton partia_wznowiona;
+    private javax.swing.JButton pionRB;
+    private javax.swing.JButton pionRW;
     private javax.swing.JMenu plansza;
     private javax.swing.JMenu plansza1;
     private javax.swing.JButton poddanie;
@@ -24326,6 +25669,8 @@ public class SzachowaArena extends javax.swing.JFrame {
     private javax.swing.JButton remis_prop;
     private javax.swing.JButton remis_zgoda;
     private javax.swing.JButton resetgame;
+    private javax.swing.JButton skoczekRB;
+    private javax.swing.JButton skoczekRW;
     private javax.swing.JRadioButton ustawBB;
     private javax.swing.JRadioButton ustawBK;
     private javax.swing.JRadioButton ustawBN;
@@ -24342,6 +25687,8 @@ public class SzachowaArena extends javax.swing.JFrame {
     private javax.swing.JRadioButtonMenuItem whiteandblackboard1;
     private javax.swing.JRadioButtonMenuItem whiteandblackfigury;
     private javax.swing.JRadioButtonMenuItem whiteandblackfigury1;
+    private javax.swing.JButton wiezaRB;
+    private javax.swing.JButton wiezaRW;
     private javax.swing.JLabel zegarbiale;
     private javax.swing.JLabel zegarczarne;
     // End of variables declaration//GEN-END:variables

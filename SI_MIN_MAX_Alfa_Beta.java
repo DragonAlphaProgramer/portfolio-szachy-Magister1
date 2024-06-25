@@ -86,7 +86,7 @@ public class SI_MIN_MAX_Alfa_Beta {
      * @param najmniejsza
      * @return
      */
-    public Ruch_wartosc wykonaj(int glebia, ArrayList<Ruch> ruch, int najwieksza, int najmniejsza) {
+    public Ruch_wartosc wykonaj(int glebia, Collection<Ruch> ruch, int najwieksza, int najmniejsza) {
         int biezaca_ogolna = 0;
         Ruch najlepszy = null;
         all_position = all_position + ruch.size();
@@ -117,11 +117,11 @@ public class SI_MIN_MAX_Alfa_Beta {
                 }
                 if (move.roszada) {
                     if (this.tura_rywala) {
-                        this.didRochB = true;
-                    } else {
-                        this.didRochC = true;
-                    }
-                    kingrochB = false;
+                    this.didRochB = true;
+                } else {
+                    this.didRochC = true;
+                    kingrochC = false;
+                }
                 } else {
                     switch (move.kolejnosc) {
                         case 'r':
@@ -218,10 +218,10 @@ public class SI_MIN_MAX_Alfa_Beta {
                     }
                 }
                 setZakaz(false);
-                if (move.czybialy && biezaca_ogolna > najwieksza) {
+                if (wyjsciowa_tura && biezaca_ogolna > najwieksza) {
                     najwieksza = biezaca_ogolna;
                     najlepszy = move;
-                } else if (!move.czybialy && biezaca_ogolna < najmniejsza) {
+                } else if (!wyjsciowa_tura && biezaca_ogolna < najmniejsza) {
                     najmniejsza = biezaca_ogolna;
                     najlepszy = move;
                 }
@@ -257,8 +257,8 @@ public class SI_MIN_MAX_Alfa_Beta {
             System.out.println("");*/
 
             return this.wynikowa.zliczacz(
-                    new Pozycja(bleft, bright, wleft, wright, kingrochB, kingrochC,
-                            this.tura_rywala, przelotcan, kolumna, chessboard, this.didRochB, this.didRochC), glebia);
+                    chessboard,bleft, bright, wleft, wright, kingrochB, kingrochC,
+                    przelotcan, this.didRochB, this.didRochC,kolumna, glebia);
         }
         final Collection<Ruch> lista = Generator.generuj_posuniecia(chessboard, this.tura_rywala, this.przelotcan,
                 this.bleft, this.bright, this.wleft, this.wright, this.kingrochB, this.kingrochC, kolumna, false);
@@ -289,8 +289,8 @@ public class SI_MIN_MAX_Alfa_Beta {
                     this.didRochB = true;
                 } else {
                     this.didRochC = true;
+                    kingrochC = false;
                 }
-                kingrochB = false;
             } else {
                 switch (move.kolejnosc) {
                     case 'r':
@@ -397,8 +397,8 @@ public class SI_MIN_MAX_Alfa_Beta {
             System.out.println("");*/
 
             return this.wynikowa.zliczacz(
-                    new Pozycja(bleft, bright, wleft, wright, kingrochB, kingrochC,
-                            this.tura_rywala, przelotcan, kolumna, chessboard, this.didRochB, this.didRochC), glebia);
+                    chessboard,przelotcan,bleft, bright, wleft, wright, kingrochB, kingrochC,
+                             this.didRochB, this.didRochC, kolumna, glebia);
         }
         final Collection<Ruch> lista = Generator.generuj_posuniecia(chessboard, this.tura_rywala, this.przelotcan,
                 this.bleft, this.bright, this.wleft, this.wright, this.kingrochB, this.kingrochC, kolumna, false);
@@ -430,8 +430,9 @@ public class SI_MIN_MAX_Alfa_Beta {
                     this.didRochB = true;
                 } else {
                     this.didRochC = true;
+                    kingrochC = false;
                 }
-                kingrochB = false;
+                
             } else {
                 switch (move.kolejnosc) {
                     case 'r':
@@ -528,20 +529,7 @@ public class SI_MIN_MAX_Alfa_Beta {
         return tempM;
     }
 
-    private boolean obecnosc(char[][] ustawienie13) {
-        byte KB = 0, KC = 0;
-        for (int x = 0; x < 8; x++) {
-            for (int y = 0; y < 8; y++) {
-                if (ustawienie13[x][y] == 'K') {
-                    KB++;
-                }
-                if (ustawienie13[x][y] == 'k') {
-                    KC++;
-                }
-            }
-        }
-        return KB == 1 && KC == 1;
-    }
+ 
 
     private boolean koniec(char[][] ustawienie, boolean strona, boolean przelotcan, int kol) {
         int pionB = 0, pionC = 0, lekkieB = 0, lekkieC = 0, ciezkieB = 0, ciezkieC = 0;

@@ -160,19 +160,25 @@ public class KalkulatorPozycji
     }
 
     @Override
-    public int zliczacz(Pozycja p,int glebia) {
-        return punktacja(true,p,glebia)
-                - punktacja(false,p,glebia)
-                + wartosc_bierek(p.pozycja);
+    public int zliczacz(char[][] ustawienie, boolean przelotcan,
+            boolean bleft, boolean bright, boolean wleft, boolean wright,
+            boolean roszadaB, boolean roszadaC, boolean wykonanaRochB, boolean wykonanaRochC,
+            int kol, int glebia){
+        Collection<Ruch> biale_ruchy = Generator.generuj_posuniecia(ustawienie, true, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol, true);
+        Collection<Ruch> czarne_ruchy = Generator.generuj_posuniecia(ustawienie, false, przelotcan, bleft, bright, wleft, wright, roszadaB, roszadaC, kol, true);
+        return  szachmat(true,ustawienie,przelotcan,kol,glebia)
+                + dokonano_roszady(true,wykonanaRochB, wykonanaRochC)
+                + pionkiS(true,ustawienie)
+                + ruchy_zbijajace(biale_ruchy)
+                - szachmat(false,ustawienie,przelotcan,kol,glebia)
+                - dokonano_roszady(false,wykonanaRochB, wykonanaRochC)
+                - pionkiS(false,ustawienie)
+                - ruchy_zbijajace(czarne_ruchy)
+                + wartosc_bierek(ustawienie)
+                + mobilnosc(biale_ruchy,czarne_ruchy);
     }
 
-    private int punktacja(boolean strona,Pozycja p,int glebia) {
-        return szachmat(strona,p,glebia)
-                + dokonano_roszady(strona,p)
-                + mobilnosc(strona,p)
-                + pionkiS(strona,p)
-                + ruchy_zbijajace(strona,p);
-    }
+  
 
     private int wartosc_bierek(char[][] ustawienie) {
         int wartosc = 0;
@@ -242,13 +248,13 @@ public class KalkulatorPozycji
         return wartosc + (gonceB >= 2 ? 25 : 0) - (gonceC >= 2 ? 25 : 0);
     }
 
-    private int szachmat(boolean strona,Pozycja p,int glebia) {
+    private int szachmat(boolean strona,char[][] pozycja, boolean  przelot_can,int przelot, int glebia) {
         int[] krol = new int[2];
-        if (RuchZagrozenie_kontrola.szach((p.pozycja), !strona)) {
+        if (RuchZagrozenie_kontrola.szach((pozycja), !strona)) {
             for (byte i = 0; i < 8; i++) {
                 for (byte j = 0; j < 8; j++) {
-                    if ((p.pozycja[i][j] == 'k' && strona)
-                            || (p.pozycja[i][j] == 'K' && !strona)) {
+                    if ((pozycja[i][j] == 'k' && strona)
+                            || (pozycja[i][j] == 'K' && !strona)) {
                         krol[0] = i;
                         krol[1] = j;
                     }
@@ -256,9 +262,9 @@ public class KalkulatorPozycji
             }
             int SZACH = 45;
             int MAT = 1000000;
-            return !SzachMatPatKontrola.uciekaj(p.pozycja, !strona, krol)
-                    && !SzachMatPatKontrola.zastaw(p.pozycja, !strona, Wspomagacz.znajdzklopot(p.pozycja, !strona), krol, p.przelot_can)
-                    && !SzachMatPatKontrola.znajdzodsiecz(p.pozycja, !strona, Wspomagacz.znajdzklopot(p.pozycja, !strona), p.przelot, p.przelot_can)
+            return !SzachMatPatKontrola.uciekaj(pozycja, !strona, krol)
+                    && !SzachMatPatKontrola.zastaw(pozycja, !strona, Wspomagacz.znajdzklopot(pozycja, !strona), krol, przelot_can)
+                    && !SzachMatPatKontrola.znajdzodsiecz(pozycja, !strona, Wspomagacz.znajdzklopot(pozycja, !strona), przelot, przelot_can)
                     ? glebia != 0 ? MAT * glebia : MAT : SZACH;
 
         }
@@ -266,15 +272,15 @@ public class KalkulatorPozycji
         return 0;
     }
 
-    private int dokonano_roszady(boolean strona,Pozycja p) {
+    private int dokonano_roszady(boolean strona,boolean wykonanaB,boolean wykonanaC) {
         int ROSZADA = 25;
         if (strona) {
-            if (p.didrochB) {
+            if (wykonanaB) {
                 //////System.out.println(ROSZADA+"+");
                 return ROSZADA;
             }
         } else {
-            if (p.didrochC) {
+            if (wykonanaC) {
                 //////System.out.println(ROSZADA+"+");
                 return ROSZADA;
             }
@@ -283,9 +289,9 @@ public class KalkulatorPozycji
         return 0;
     }
 
-    private int pionkiS(boolean strona,Pozycja p) {
+    private int pionkiS(boolean strona,char[][] pozycja) {
 ////System.out.printlnln("Wchodzi5");
-        return pozycja_PION.punktacja(strona, (p.pozycja));
+        return pozycja_PION.punktacja(strona, (pozycja));
     }
 
    /* private int wiezeS(boolean strona, char[][] ustawienie) {
@@ -294,22 +300,12 @@ public class KalkulatorPozycji
         return w.punktacja(strona, (ustawienie)) - w.punktacja(!strona, (ustawienie));
     }*/
 
-    private int mobilnosc(boolean strona,Pozycja p) {
-        ////System.out.printlnln("Wchodzi4");
-
-        ////System.out.printlnln(stosunek(strona)*RUCHY_BONUS);
-        int RUCHY_BONUS = 5;
-        return RUCHY_BONUS * stosunek(strona,p);
+    private int mobilnosc(Collection<Ruch> swoje, Collection<Ruch> wrogie) {
+        return  ((5 *(int)((swoje.size() * 10.0f) / wrogie.size()))-
+                (5 *(int)((wrogie.size() * 10.0f) / swoje.size())));
     }
 
-    private int stosunek(boolean b,Pozycja p) {
-        int swoje = Generator.generuj_posuniecia(p.pozycja, b, p.przelot_can, p.Dbleft, p.Dbright, p.Dwleft, p.Dwright, p.DKingrochB, p.DKingrochC, p.przelot, true).size();
-        int wrogie = Generator.generuj_posuniecia(p.pozycja, !b, p.przelot_can, p.Dbleft, p.Dbright, p.Dwleft, p.Dwright, p.DKingrochB, p.DKingrochC, p.przelot, true).size();
-        //System.out.println((int) ((swoje*10.0f) / wrogie*1.0f));
-        
-        return (int) ((swoje * 10.0f) / wrogie);
-
-    }
+   
 
    /* private int save_king(char[][] ustawienie, boolean strona, boolean przelotcan,
             boolean RochB, boolean RochC, boolean wl, boolean wr, boolean bl, boolean br, byte kol) {
@@ -318,23 +314,21 @@ public class KalkulatorPozycji
         return save.getWartosc();
     }*/
 
-    private int ruchy_zbijajace(boolean strona, Pozycja p) {
+    private int ruchy_zbijajace(Collection<Ruch> lista) {
         ////System.out.printlnln("Wchodzi7");
-        Collection<Ruch> lista = Generator.generuj_posuniecia(p.pozycja, strona, p.przelot_can, p.Dbleft, p.Dbright, p.Dwleft, p.Dwright, p.DKingrochB, p.DKingrochC, p.przelot,false);
         int licznik_ataku = 0;
 
         if (!lista.isEmpty()) {
             for (Ruch ruch : lista) {
-                if (ruch.korzystnosc_bicia != ' ') {
+                if(!RuchZagrozenie_kontrola.szach(ruch.chessboard_after, ruch.czybialy)){
+                if (ruch.atak) {
                     int wartosc_atakujacego = wartosc(ruch.kolejnosc);
-                    int wartosc_atakowanego = wartosc(ruch.korzystnosc_bicia);
+                    int wartosc_atakowanego = ruch.korzystnosc_bicia;
                     if (wartosc_atakujacego <= wartosc_atakowanego) {
                         licznik_ataku++;
                     }
                 }
-            }
-            if (RuchZagrozenie_kontrola.szach((p.pozycja), !strona)) {
-                licznik_ataku++;
+                }
             }
         }
 

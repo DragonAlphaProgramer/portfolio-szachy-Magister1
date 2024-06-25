@@ -27,7 +27,11 @@ class Drukarka_P implements Printable {
 
     Image obraz;
 
-    private Image konwert_na_grafike(char[][] ust, boolean ruchB) throws IOException {
+    Drukarka_P(char[][] ust, boolean ruchB, ArrayList<String> ruchy_literowe, boolean druk_wzgledny) throws IOException {
+        obraz = konwert_na_grafike(ust, ruchB,ruchy_literowe,druk_wzgledny);
+    }
+
+    private Image konwert_na_grafike(char[][] ust, boolean ruchB, boolean druk) throws IOException {
         BufferedImage bufferedImage = new BufferedImage(590, 835, BufferedImage.TYPE_INT_RGB);
         Graphics2D obraz = bufferedImage.createGraphics();
         BufferedImage[] figury = {(ImageIO.read(this.getClass().getResource("Wking005.png"))),
@@ -102,22 +106,22 @@ class Drukarka_P implements Printable {
         obraz.setColor(Color.black);
         obraz.setStroke(new BasicStroke(2));
         obraz.drawOval(460, 410, 30, 30);
-        obraz.drawString(ruchB?"8":"1", 0, 46);
-        obraz.drawString(ruchB?"7":"2", 0, 102);
-        obraz.drawString(ruchB?"6":"3", 0, 158);
-        obraz.drawString(ruchB?"5":"4", 0, 214);
-        obraz.drawString(ruchB?"4":"5", 0, 270);
-        obraz.drawString(ruchB?"3":"6", 0, 326);
-        obraz.drawString(ruchB?"2":"7", 0, 382);
-        obraz.drawString(ruchB?"1":"8", 0, 438);
-        obraz.drawString(ruchB?"A":"H", 0, 448);
-        obraz.drawString(ruchB?"B":"G", 56, 448);
-        obraz.drawString(ruchB?"C":"F", 112, 448);
-        obraz.drawString(ruchB?"D":"E", 168, 448);
-        obraz.drawString(ruchB?"E":"D", 224, 448);
-        obraz.drawString(ruchB?"F":"C", 280, 448);
-        obraz.drawString(ruchB?"G":"B", 336, 448);
-        obraz.drawString(ruchB?"H":"A", 392, 448);
+        obraz.drawString(druk ? (ruchB?"8":"1") : "8", 0, 46);
+        obraz.drawString(druk ? (ruchB?"7":"2") : "7", 0, 102);
+        obraz.drawString(druk ? (ruchB?"6":"3") : "6", 0, 158);
+        obraz.drawString(druk ? (ruchB?"5":"4") : "5", 0, 214);
+        obraz.drawString(druk ? (ruchB?"4":"5") : "4", 0, 270);
+        obraz.drawString(druk ? (ruchB?"3":"6") : "3", 0, 326);
+        obraz.drawString(druk ? (ruchB?"2":"7") : "2", 0, 382);
+        obraz.drawString(druk ? (ruchB?"1":"8") : "1", 0, 438);
+        obraz.drawString(druk ? (ruchB?"A":"H") : "A", 0, 448);
+        obraz.drawString(druk ? (ruchB?"B":"G") : "B", 56, 448);
+        obraz.drawString(druk ? (ruchB?"C":"F") : "C", 112, 448);
+        obraz.drawString(druk ? (ruchB?"D":"E") : "D", 168, 448);
+        obraz.drawString(druk ? (ruchB?"E":"D") : "E", 224, 448);
+        obraz.drawString(druk ? (ruchB?"F":"C") : "F", 280, 448);
+        obraz.drawString(druk ? (ruchB?"G":"B") : "G", 336, 448);
+        obraz.drawString(druk ? (ruchB?"H":"A") : "H", 392, 448);
         obraz.dispose();
         return bufferedImage;
     }
@@ -234,6 +238,114 @@ class Drukarka_P implements Printable {
     public Image getObraz() {
         return obraz;
     }
+  private Image konwert_na_grafike(char[][] ust, boolean ruchB, ArrayList<String> text,boolean druk) throws IOException {
+        BufferedImage bufferedImage = new BufferedImage(590, 835, BufferedImage.TYPE_INT_RGB);
+        Graphics2D obraz = bufferedImage.createGraphics();
+        BufferedImage[] figury = {(ImageIO.read(this.getClass().getResource("Wking005.png"))),
+            (ImageIO.read(this.getClass().getResource("Wqueen05.png"))),
+            (ImageIO.read(this.getClass().getResource("Wrook005.png"))),
+            (ImageIO.read(this.getClass().getResource("Wbishop5.png"))),
+            (ImageIO.read(this.getClass().getResource("Wknight5.png"))),
+            (ImageIO.read(this.getClass().getResource("Wpawn005.png"))),
+            (ImageIO.read(this.getClass().getResource("Bking005.png"))),
+            (ImageIO.read(this.getClass().getResource("Bqueen05.png"))),
+            (ImageIO.read(this.getClass().getResource("Brook005.png"))),
+            (ImageIO.read(this.getClass().getResource("Bbishop5.png"))),
+            (ImageIO.read(this.getClass().getResource("Bknight5.png"))),
+            (ImageIO.read(this.getClass().getResource("Bpawn005.png")))};
+        Image[] figury2 = new Image[12];
+        for (int i = 0; i < 12; i++) {
+            figury2[i] = figury[i].getScaledInstance(42, 42, Image.SCALE_DEFAULT);
+        }
+        obraz.setColor(Color.white);
+        obraz.fillRect(0, 0, 590, 835);
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                System.out.println(ust[i][j]);
+                if (i % 2 == 1) {
+                    obraz.setColor(j % 2 == 0 ? new Color(244, 164, 96) : new Color(115, 69, 19));
+                } else {
+                    obraz.setColor(j % 2 == 1 ? new Color(244, 164, 96) : new Color(115, 69, 19));
+                }
+                obraz.fill(new Rectangle2D.Double(j * 56, (Math.abs(i - 7)) * 56, 56, 56));
+                switch (ust[i][j]) {
+                    case 'K':
+                        obraz.drawImage(figury2[0], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'k':
+                        obraz.drawImage(figury2[6], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'Q':
+                        obraz.drawImage(figury2[1], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'q':
+                        obraz.drawImage(figury2[7], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'R':
+                        obraz.drawImage(figury2[2], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'r':
+                        obraz.drawImage(figury2[8], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'B':
+                        obraz.drawImage(figury2[3], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'b':
+                        obraz.drawImage(figury2[9], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'N':
+                        obraz.drawImage(figury2[4], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'n':
+                        obraz.drawImage(figury2[10], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'P':
+                        obraz.drawImage(figury2[5], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                    case 'p':
+                        obraz.drawImage(figury2[11], (j) * 56 + 7, ((Math.abs(i - 7)) * 56 + 7), null);
+                        break;
+                }
+            }
+        }
+        obraz.setColor(ruchB ? Color.white : Color.black);
+        obraz.fillOval(460, 410, 30, 30);
+        obraz.setColor(Color.black);
+        obraz.setStroke(new BasicStroke(2));
+        obraz.drawOval(460, 410, 30, 30);
+        obraz.drawString(ruchB||!druk?"8":"1", 0, 46);
+        obraz.drawString(ruchB||!druk?"7":"2", 0, 102);
+        obraz.drawString(ruchB||!druk?"6":"3", 0, 158);
+        obraz.drawString(ruchB||!druk?"5":"4", 0, 214);
+        obraz.drawString(ruchB||!druk?"4":"5", 0, 270);
+        obraz.drawString(ruchB||!druk?"3":"6", 0, 326);
+        obraz.drawString(ruchB||!druk?"2":"7", 0, 382);
+        obraz.drawString(ruchB||!druk?"1":"8", 0, 438);
+        obraz.drawString(ruchB||!druk?"A":"H", 0, 448);
+        obraz.drawString(ruchB||!druk?"B":"G", 56, 448);
+        obraz.drawString(ruchB||!druk?"C":"F", 112, 448);
+        obraz.drawString(ruchB||!druk?"D":"E", 168, 448);
+        obraz.drawString(ruchB||!druk?"E":"D", 224, 448);
+        obraz.drawString(ruchB||!druk?"F":"C", 280, 448);
+        obraz.drawString(ruchB||!druk?"G":"B", 336, 448);
+        obraz.drawString(ruchB||!druk?"H":"A", 392, 448);
+        int x = 0;
+        obraz.setFont(new Font("Liberation Mono", Font.PLAIN, 10));
+        int temp = 1;
+        for (int i = 0; i < text.size(); i++) {
+            if (i % 2 == 0) {
+                obraz.drawString(((temp) + "." + text.get(i)),  x * 135, (i == 0) ? 460 : (i / 2) * 10 - (300 * x) + 460);
+            } else {
+                obraz.drawString(text.get(i), 80 + x * 135, (i != 1) ? ((i - 1) / 2) * 10 - (300 * x) + 460 : 460);
+                temp++;
+            }
+            if (((i + 1) % 60 == 0)) {
+                x = x + 1;
+            }
+        }
+        obraz.dispose();
+        return bufferedImage;
+    }
 
     
 
@@ -241,8 +353,8 @@ class Drukarka_P implements Printable {
         obraz = konwert_na_grafike(ust, ruchB, ruchy_literowe);
     }
 
-    Drukarka_P(char[][] ust, boolean ruchB) throws IOException {
-        obraz = konwert_na_grafike(ust, ruchB);
+    Drukarka_P(char[][] ust, boolean ruchB, boolean druk) throws IOException {
+        obraz = konwert_na_grafike(ust, ruchB,druk);
     }
 
     @Override
