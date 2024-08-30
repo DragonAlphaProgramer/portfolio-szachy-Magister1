@@ -310,7 +310,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                     char tempN = nakladki[temp2[1]][temp2[0]];
                     if (opcje_pomoc == 1 || opcje_pomoc == 2) {
                         if (tryb != 4) {
-                            for (Ruch move : new Generator().generuj_posuniecia((temp1), ruchB, przelotcan,
+                            for (Ruch move : Generator.generuj_posuniecia((temp1), ruchB, przelotcan,
                                     bleft, bright, wleft, wright, kingrochB, kingrochC, kol, true, symbol, temp2, false, false)) {
                                 if (!move.toString().startsWith("O-O")) {
                                     JButton cel = dobierzprzycisk(move.toString().substring(4, 6), odwrot);
@@ -332,7 +332,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                 }
                             }
                             temp1[lokalS[1] - 1][lokalS[0] - 1] = tempN;
-                            for (Ruch move : new Generator().generuj_posuniecia((temp1), ruchB, przelotcan,
+                            for (Ruch move : Generator.generuj_posuniecia((temp1), ruchB, przelotcan,
                                     bleft, bright, wleft, wright, kingrochB, kingrochC, kol, true, nakladki[temp2[1]][temp2[0]], temp2, false, false)) {
 
                                 JButton cel = dobierzprzycisk(move.toString().substring(4, 6), odwrot);
@@ -341,7 +341,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                             }
                             temp1[lokalS[1] - 1][lokalS[0] - 1] = symbol;
                         } else {
-                            for (RuchA moveA : new Generator().generuj_posunieciaA(konwertA(temp1), ruchB, przelotcan,
+                            for (RuchA moveA : Generator.generuj_posunieciaA(konwertA(temp1), ruchB, przelotcan,
                                     bleft, bright, wleft, wright, kingrochB, kingrochC, kol, true, symbol, temp2, false)) {
                                 if (!moveA.toString().startsWith("O-O")) {
                                     JButton cel = dobierzprzycisk(moveA.toString().substring(4, 6), odwrot);
@@ -1671,8 +1671,6 @@ public class SzachowaArena extends javax.swing.JFrame {
                             }
                             tymczas[lokalS[1] - 1][lokalS[0] - 1] = ' ';
                             tymczas2[lokalS[1] - 1][lokalS[0] - 1] = ' ';
-                            char przech = tymczas[lokalK[1] - 1][lokalK[0] - 1];
-                            char przech2 = tymczas2[lokalK[1] - 1][lokalK[0] - 1];
                             tymczas[lokalK[1] - 1][lokalK[0] - 1] = symbol;
                             tymczas2[lokalK[1] - 1][lokalK[0] - 1] = ' ';
                             pakc = RuchZagrozenie_kontrola.szach(tymczas, ruchB)
@@ -1992,7 +1990,6 @@ public class SzachowaArena extends javax.swing.JFrame {
                                     }
                                     styl(kolor_zestaw, kroj_zestaw, kolor_plansza);
                                     if (krolS) {
-                                        char[][] backup;
                                         if (siec == false && symulacja == false) {
                                             JOptionPane.showMessageDialog(rootPane, "SZACH! KROL JEST ATAKOWANY", "Ostrzeżenie",
                                                     JOptionPane.WARNING_MESSAGE);
@@ -2008,7 +2005,6 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 }
                                             }
                                         }
-                                        char[][] backupzapas = ust;
                                         klopoty = Wspomagacz.znajdzklopot(kontrolamat, ruchB);
                                         if (klopoty[0] == -1) {
                                             klopoty = Wspomagacz.znajdzklopot(kontrolamat.clone(), nakladki, ruchB);
@@ -2020,7 +2016,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                         hodu = SzachMatPatKontrola.uciekaj(kontrolamat, ruchB, poza_krolewska)
                                                 && SzachMatPatKontrola.uciekaj(kontrolamat, nakladki, ruchB, poza_krolewska);
                                         if (hodu == false) {
-                                            backup = ust;
+
                                             klopoty = Wspomagacz.znajdzklopot(kontrolamat, ruchB);
                                             if (klopoty[0] == -1) {
                                                 klopoty = Wspomagacz.znajdzklopot(kontrolamat.clone(), nakladki, ruchB);
@@ -2028,7 +2024,6 @@ public class SzachowaArena extends javax.swing.JFrame {
                                             hitme = ((SzachMatPatKontrola.znajdzodsiecz(kontrolamat.clone(), ruchB, klopoty, kol, przelotcan)
                                                     || SzachMatPatKontrola.znajdzodsiecz(kontrolamat.clone(), nakladki, ruchB, klopoty, kol, przelotcan)));
                                             if (hitme == false) {
-                                                backup = ust;
                                                 klopoty = Wspomagacz.znajdzklopot(kontrolamat, ruchB);
 
                                                 if (klopoty[0] == -1) {
@@ -2897,7 +2892,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                     }
                                     mordobicia.removeAll(mordobicia);
                                     zwyczajneR.removeAll(zwyczajneR);
-                                    for (Ruch move : new Generator().generuj_posuniecia_antyszach((ust), ruchB, przelotcan, kolumna)) {
+                                    for (Ruch move : Generator.generuj_posuniecia_antyszach(ust, ruchB, przelotcan, kolumna)) {
                                         System.out.println(move.toString());
                                         if (move.atak) {
                                             mordobicia.add(move);
@@ -4252,7 +4247,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                 }
                 System.out.println();
             }
-            if ((new Generator().generuj_posuniecia_antyszach((kontrolamat), ruchB, przelotcan, kolumna).isEmpty())
+            if ((Generator.generuj_posuniecia_antyszach(kontrolamat, ruchB, przelotcan, kolumna).isEmpty())
                     || ((ruchB && krole_biale == 0 && ciezkieB == 0 && lekkieB == 0 && pionB == 0)
                     || (!ruchB && krole_czarne == 0 && ciezkieC == 0 && lekkieC == 0 && pionC == 0))) {
                 if (czasgry != -1) {
@@ -4810,7 +4805,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                 temp2[1] = lokalS[0] - 1;
                 if (opcje_pomoc == 1 || opcje_pomoc == 2) {
                     System.out.println("opcja" + tryb);
-                    for (Ruch move : new Generator().generuj_posuniecia((temp1), ruchB, przelotcan,
+                    for (Ruch move : Generator.generuj_posuniecia((temp1), ruchB, przelotcan,
                             bleft, bright, wleft, wright, kingrochB, kingrochC, kol, true, symbol, temp2, false, true)) {
                         if (!move.toString().startsWith("O-O")) {
                             JButton cel = dobierzprzycisk(move.toString().substring(4, 6), odwrot);
@@ -6725,20 +6720,16 @@ public class SzachowaArena extends javax.swing.JFrame {
 
     }
 
-    boolean dostawka,druk_wzgledny=false;
+    boolean dostawka, druk_wzgledny = false;
     int rezerwyBP, rezerwyCP, rezerwyBS, rezerwyCS, rezerwyBG, rezerwyCG, rezerwyBW, rezerwyCW, rezerwyBH, rezerwyCH;
-    ArrayList<String> promowane_piony = new ArrayList<String>();
+    ArrayList<String> promowane_piony = new ArrayList<>();
     Pozycja pozstart, pozstop;
     char schodzi;
     ArrayList<Ruch> mordobicia = new ArrayList<>();
     ArrayList<Ruch> zwyczajneR = new ArrayList<>();
     boolean wlasnykolor = false;
     Thread scanip = null;
-    InetAddress[] wybory1;
     String[] choices;
-    String[] choices2;
-    int druzynaB = 16, druzynaC = 16;
-    boolean searching = false;
     Color rama = Color.GREEN, pomoc_ruch = Color.BLUE;
     ArrayList<String> hug_list = new ArrayList<>();
     public char[][][] szachownica_pokoj = new char[8][8][2];
@@ -6752,7 +6743,6 @@ public class SzachowaArena extends javax.swing.JFrame {
     public boolean odwrot = false; // gra z SI i online
     zegar czasB; // gra na czas
     zegar czasC; // gra na czas
-    int proby_laczenia = 0;
     public int plustime = 0, sekbaza; // gra na czas
     public boolean tura_rywala, SI_ON /*do SI*/, dokonano_RB = false, dokonano_RC = false;//baza
     boolean organizator, siec, oczekiwanie = false;// gra online
@@ -6801,13 +6791,10 @@ public class SzachowaArena extends javax.swing.JFrame {
     lacze polaczenie_net;//gra online
     public String ruszaj, zatrzymaj;//gra online
     byte glebiaSI/* do SI */;
-    Timer zegarek;
     public boolean mysle;
     char[] symbole = new char[2];
     int liczba_usciskow = 0, tryb;//do gra na czas
     Icon[] przytul_figure = new Icon[35];
-    animacja2 anim;
-    InetAddress[] wybory;
     String ostatni_start = "", ostatni_stop = "";
     int opcje_pomoc = 0;
     private boolean symulacja;
@@ -6816,7 +6803,7 @@ public class SzachowaArena extends javax.swing.JFrame {
      * Creates new form NewJFrame
      */
     public SzachowaArena() {
-        
+
         bleft = true;
         bright = true;
         wleft = true;
@@ -6824,13 +6811,11 @@ public class SzachowaArena extends javax.swing.JFrame {
         initComponents();
         obrotowy.setEnabled(false);
         SIOnOff.setEnabled(false);
+        ruch = "";
         partia_odlozona.setVisible(false);
         kombinacja.setVisible(false);
-        zegarek = new Timer();
         int szer = Toolkit.getDefaultToolkit().getScreenSize().width;
-        int wys = Toolkit.getDefaultToolkit().getScreenSize().height;
         int szerRamki = this.getSize().width;
-        int wysRamki = this.getSize().height;
         this.setLocation((szer - szerRamki) / 2, 0);
         kolor_zestaw = 2;
         czasgry = -1;
@@ -7336,7 +7321,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking001.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking001.png")));
                                                             break;
@@ -7374,7 +7359,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen01.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen01.png")));
                                                             break;
@@ -7400,7 +7385,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook001.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook001.png")));
                                                             break;
@@ -7432,7 +7417,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop1.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop1.png")));
                                                             break;
@@ -7464,7 +7449,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight1.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight1.png")));
                                                             break;
@@ -7497,7 +7482,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn001.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn001.png")));
                                                             break;
@@ -7530,7 +7515,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking001.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking001.png")));
                                                             break;
@@ -7568,7 +7553,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen01.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen01.png")));
                                                             break;
@@ -7594,7 +7579,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook001.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook001.png")));
                                                             break;
@@ -7626,7 +7611,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop1.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop1.png")));
                                                             break;
@@ -7658,7 +7643,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight1.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight1.png")));
                                                             break;
@@ -7691,7 +7676,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn001.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn001.png")));
                                                             break;
@@ -7724,7 +7709,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(null);
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName())) {
                                                             przycisk.setIcon(null);
                                                             break;
@@ -7741,7 +7726,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking002.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking002.png")));
                                                             break;
@@ -7779,7 +7764,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen02.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen02.png")));
                                                             break;
@@ -7805,7 +7790,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook002.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook002.png")));
                                                             break;
@@ -7837,7 +7822,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop2.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop2.png")));
                                                             break;
@@ -7869,7 +7854,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight2.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight2.png")));
                                                             break;
@@ -7902,7 +7887,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn002.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn002.png")));
                                                             break;
@@ -7935,7 +7920,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking002.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking002.png")));
                                                             break;
@@ -7973,7 +7958,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen02.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen02.png")));
                                                             break;
@@ -7999,7 +7984,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook002.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook002.png")));
                                                             break;
@@ -8031,7 +8016,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop2.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop2.png")));
                                                             break;
@@ -8063,7 +8048,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight2.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight2.png")));
                                                             break;
@@ -8096,7 +8081,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn002.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn002.png")));
                                                             break;
@@ -8129,7 +8114,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(null);
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName())) {
                                                             przycisk.setIcon(null);
                                                             break;
@@ -8150,7 +8135,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking004.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking004.png")));
                                                             break;
@@ -8164,7 +8149,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wamazon4.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wamazon4.png")));
                                                             break;
@@ -8178,7 +8163,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen04.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen04.png")));
                                                             break;
@@ -8192,7 +8177,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook004.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook004.png")));
                                                             break;
@@ -8205,7 +8190,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop4.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop4.png")));
                                                             break;
@@ -8218,7 +8203,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight4.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight4.png")));
                                                             break;
@@ -8231,7 +8216,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn004.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn004.png")));
                                                             break;
@@ -8244,7 +8229,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking004.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking004.png")));
                                                             break;
@@ -8257,7 +8242,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bamazon4.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bamazon4.png")));
                                                             break;
@@ -8270,7 +8255,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen04.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen04.png")));
                                                             break;
@@ -8284,7 +8269,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook004.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook004.png")));
                                                             break;
@@ -8298,7 +8283,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop4.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop4.png")));
                                                             break;
@@ -8311,7 +8296,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight4.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight4.png")));
                                                             break;
@@ -8325,7 +8310,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn004.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn004.png")));
                                                             break;
@@ -8339,7 +8324,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(null);
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName())) {
                                                             przycisk.setIcon(null);
                                                             break;
@@ -8356,7 +8341,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking003.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking003.png")));
                                                             break;
@@ -8370,7 +8355,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wamazon3.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wamazon3.png")));
                                                             break;
@@ -8384,7 +8369,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen03.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen03.png")));
                                                             break;
@@ -8398,7 +8383,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook003.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook003.png")));
                                                             break;
@@ -8411,7 +8396,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop3.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop3.png")));
                                                             break;
@@ -8424,7 +8409,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight3.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight3.png")));
                                                             break;
@@ -8437,7 +8422,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn003.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn003.png")));
                                                             break;
@@ -8450,7 +8435,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking003.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking003.png")));
                                                             break;
@@ -8463,7 +8448,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bamazon3.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bamazon3.png")));
                                                             break;
@@ -8476,7 +8461,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen03.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen03.png")));
                                                             break;
@@ -8490,7 +8475,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook003.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook003.png")));
                                                             break;
@@ -8504,7 +8489,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop3.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop3.png")));
                                                             break;
@@ -8517,7 +8502,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight3.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight3.png")));
                                                             break;
@@ -8531,7 +8516,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn003.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn003.png")));
                                                             break;
@@ -8545,7 +8530,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(null);
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName())) {
                                                             przycisk.setIcon(null);
                                                             break;
@@ -8566,7 +8551,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking006.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking006.png")));
                                                             break;
@@ -8580,7 +8565,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wamazon6.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wamazon6.png")));
                                                             break;
@@ -8594,7 +8579,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen06.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen06.png")));
                                                             break;
@@ -8608,7 +8593,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook006.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook006.png")));
                                                             break;
@@ -8621,7 +8606,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop6.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop6.png")));
                                                             break;
@@ -8634,7 +8619,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight6.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight6.png")));
                                                             break;
@@ -8647,7 +8632,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn006.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn006.png")));
                                                             break;
@@ -8660,7 +8645,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking006.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking006.png")));
                                                             break;
@@ -8673,7 +8658,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bamazon6.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bamazon6.png")));
                                                             break;
@@ -8686,7 +8671,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen06.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen06.png")));
                                                             break;
@@ -8700,7 +8685,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook006.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook006.png")));
                                                             break;
@@ -8714,7 +8699,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop6.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop6.png")));
                                                             break;
@@ -8727,7 +8712,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight6.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight6.png")));
                                                             break;
@@ -8741,7 +8726,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn006.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn006.png")));
                                                             break;
@@ -8755,7 +8740,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(null);
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName())) {
                                                             przycisk.setIcon(null);
                                                             break;
@@ -8772,7 +8757,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking005.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking005.png")));
                                                             break;
@@ -8786,7 +8771,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wamazon5.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wamazon5.png")));
                                                             break;
@@ -8800,7 +8785,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen05.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen05.png")));
                                                             break;
@@ -8814,7 +8799,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook005.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook005.png")));
                                                             break;
@@ -8827,7 +8812,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop5.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop5.png")));
                                                             break;
@@ -8840,7 +8825,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight5.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight5.png")));
                                                             break;
@@ -8853,7 +8838,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn005.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn005.png")));
                                                             break;
@@ -8866,7 +8851,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking005.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking005.png")));
                                                             break;
@@ -8879,7 +8864,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bamazon5.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bamazon5.png")));
                                                             break;
@@ -8892,7 +8877,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen05.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen05.png")));
                                                             break;
@@ -8906,7 +8891,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook005.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook005.png")));
                                                             break;
@@ -8920,7 +8905,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop5.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop5.png")));
                                                             break;
@@ -8933,7 +8918,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight5.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight5.png")));
                                                             break;
@@ -8947,7 +8932,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn005.png")));
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn005.png")));
                                                             break;
@@ -8961,7 +8946,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(null);
                                                 } else {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName())) {
                                                             przycisk.setIcon(null);
                                                             break;
@@ -8985,7 +8970,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking001.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wking001.png")));
                                                             break;
@@ -9023,7 +9008,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen01.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wqueen01.png")));
                                                             break;
@@ -9049,7 +9034,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook001.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wrook001.png")));
                                                             break;
@@ -9081,7 +9066,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop1.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wbishop1.png")));
                                                             break;
@@ -9113,7 +9098,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight1.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wknight1.png")));
                                                             break;
@@ -9146,7 +9131,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn001.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wpawn001.png")));
                                                             break;
@@ -9179,7 +9164,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking001.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bking001.png")));
                                                             break;
@@ -9217,7 +9202,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen01.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bqueen01.png")));
                                                             break;
@@ -9243,7 +9228,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook001.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Brook001.png")));
                                                             break;
@@ -9275,7 +9260,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop1.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bbishop1.png")));
                                                             break;
@@ -9307,7 +9292,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight1.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bknight1.png")));
                                                             break;
@@ -9340,7 +9325,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn001.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bpawn001.png")));
                                                             break;
@@ -9373,7 +9358,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(null);
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName())) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(null);
                                                             break;
@@ -9390,7 +9375,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking002.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wking002.png")));
                                                             break;
@@ -9428,7 +9413,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen02.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wqueen02.png")));
                                                             break;
@@ -9454,7 +9439,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook002.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wrook002.png")));
                                                             break;
@@ -9486,7 +9471,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop2.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wbishop2.png")));
                                                             break;
@@ -9518,7 +9503,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight2.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wknight2.png")));
                                                             break;
@@ -9551,7 +9536,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn002.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wpawn002.png")));
                                                             break;
@@ -9584,7 +9569,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking002.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bking002.png")));
                                                             break;
@@ -9622,7 +9607,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen02.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bqueen02.png")));
                                                             break;
@@ -9648,7 +9633,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook002.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Brook002.png")));
                                                             break;
@@ -9680,7 +9665,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop2.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bbishop2.png")));
                                                             break;
@@ -9712,7 +9697,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight2.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bknight2.png")));
                                                             break;
@@ -9745,7 +9730,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn002.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bpawn002.png")));
                                                             break;
@@ -9778,7 +9763,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(null);
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName())) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(null);
                                                             break;
@@ -9799,7 +9784,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking004.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wking004.png")));
                                                             break;
@@ -9837,7 +9822,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen04.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wqueen04.png")));
                                                             break;
@@ -9863,7 +9848,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook004.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wrook004.png")));
                                                             break;
@@ -9895,7 +9880,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop4.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wbishop4.png")));
                                                             break;
@@ -9927,7 +9912,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight4.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wknight4.png")));
                                                             break;
@@ -9960,7 +9945,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn004.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wpawn004.png")));
                                                             break;
@@ -9993,7 +9978,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking004.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bking004.png")));
                                                             break;
@@ -10031,7 +10016,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen04.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bqueen04.png")));
                                                             break;
@@ -10057,7 +10042,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook004.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Brook004.png")));
                                                             break;
@@ -10089,7 +10074,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop4.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bbishop4.png")));
                                                             break;
@@ -10121,7 +10106,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight4.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bknight4.png")));
                                                             break;
@@ -10154,7 +10139,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn004.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bpawn004.png")));
                                                             break;
@@ -10187,7 +10172,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(null);
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName())) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(null);
                                                             break;
@@ -10204,7 +10189,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking003.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wking003.png")));
                                                             break;
@@ -10242,7 +10227,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen03.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wqueen03.png")));
                                                             break;
@@ -10268,7 +10253,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook003.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wrook003.png")));
                                                             break;
@@ -10300,7 +10285,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop3.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wbishop3.png")));
                                                             break;
@@ -10332,7 +10317,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight3.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wknight3.png")));
                                                             break;
@@ -10365,7 +10350,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn003.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wpawn003.png")));
                                                             break;
@@ -10398,7 +10383,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking003.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bking003.png")));
                                                             break;
@@ -10436,7 +10421,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen03.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bqueen03.png")));
                                                             break;
@@ -10462,7 +10447,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook003.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Brook003.png")));
                                                             break;
@@ -10494,7 +10479,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop3.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bbishop3.png")));
                                                             break;
@@ -10526,7 +10511,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight3.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bknight3.png")));
                                                             break;
@@ -10559,7 +10544,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn003.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bpawn003.png")));
                                                             break;
@@ -10592,7 +10577,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(null);
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName())) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(null);
                                                             break;
@@ -10613,7 +10598,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking006.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wking006.png")));
                                                             break;
@@ -10651,7 +10636,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen06.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wqueen06.png")));
                                                             break;
@@ -10677,7 +10662,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook006.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wrook006.png")));
                                                             break;
@@ -10709,7 +10694,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop6.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wbishop6.png")));
                                                             break;
@@ -10741,7 +10726,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight6.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wknight6.png")));
                                                             break;
@@ -10774,7 +10759,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn006.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wpawn006.png")));
                                                             break;
@@ -10807,7 +10792,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking006.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bking006.png")));
                                                             break;
@@ -10845,7 +10830,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen06.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bqueen06.png")));
                                                             break;
@@ -10871,7 +10856,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook006.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Brook006.png")));
                                                             break;
@@ -10903,7 +10888,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop6.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bbishop6.png")));
                                                             break;
@@ -10935,7 +10920,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight6.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bknight6.png")));
                                                             break;
@@ -10968,7 +10953,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn006.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bpawn006.png")));
                                                             break;
@@ -11001,7 +10986,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(null);
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName())) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(null);
                                                             break;
@@ -11018,7 +11003,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wking005.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wking005.png")));
                                                             break;
@@ -11056,7 +11041,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wqueen05.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wqueen05.png")));
                                                             break;
@@ -11082,7 +11067,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wrook005.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wrook005.png")));
                                                             break;
@@ -11114,7 +11099,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wbishop5.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wbishop5.png")));
                                                             break;
@@ -11146,7 +11131,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wknight5.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wknight5.png")));
                                                             break;
@@ -11179,7 +11164,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Wpawn005.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == true) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Wpawn005.png")));
                                                             break;
@@ -11212,7 +11197,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bking005.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bking005.png")));
                                                             break;
@@ -11250,7 +11235,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bqueen05.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bqueen05.png")));
                                                             break;
@@ -11276,7 +11261,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Brook005.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Brook005.png")));
                                                             break;
@@ -11308,7 +11293,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bbishop5.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bbishop5.png")));
                                                             break;
@@ -11340,7 +11325,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bknight5.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bknight5.png")));
                                                             break;
@@ -11373,7 +11358,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(new ImageIcon(this.getClass().getResource("Bpawn005.png")));
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName()) || ruchB == false) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Bpawn005.png")));
                                                             break;
@@ -11406,7 +11391,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     przycisk.setIcon(null);
                                                 } else {
                                                     dobierzprzycisk(przycisk.getName(), true).setIcon(new ImageIcon(this.getClass().getResource("Mgła.png")));
-                                                    for (Ruch r : new Generator().generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
+                                                    for (Ruch r : Generator.generuj_posuniecia(konwert(ust), ruchB, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, false, true)) {
                                                         if (r.toString().contains(przycisk.getName())) {
                                                             dobierzprzycisk(przycisk.getName(), true).setIcon(null);
                                                             break;
@@ -12208,9 +12193,9 @@ public class SzachowaArena extends javax.swing.JFrame {
             return pozstop.equals(pozstart) ? temp : null;
         } else {
             int indeks = 0;
-            int maks = new Generator().generuj_posuniecia(pozstart.pozycja, pozstart.DWhiteMove, pozstart.przelot_can,
+            int maks = Generator.generuj_posuniecia(pozstart.pozycja, pozstart.DWhiteMove, pozstart.przelot_can,
                     pozstart.Dbleft, pozstart.Dbright, pozstart.Dwleft, pozstart.Dwright, pozstart.DKingrochB, pozstart.DKingrochC, pozstart.przelot, false).size();
-            for (Ruch r : new Generator().generuj_posuniecia(pozstart.pozycja, pozstart.DWhiteMove, pozstart.przelot_can,
+            for (Ruch r : Generator.generuj_posuniecia(pozstart.pozycja, pozstart.DWhiteMove, pozstart.przelot_can,
                     pozstart.Dbleft, pozstart.Dbright, pozstart.Dwleft, pozstart.Dwright, pozstart.DKingrochB, pozstart.DKingrochC, pozstart.przelot, false)) {
                 Pattern pattern = Pattern.compile(param.get(suma - limit).replace('?', '.'));
                 Matcher matcher = pattern.matcher(r.toString());
@@ -12886,30 +12871,68 @@ public class SzachowaArena extends javax.swing.JFrame {
         @Override
         protected Object doInBackground() {
             do {
-                if (symulacja) {
-                    odwrot = false;
+
+                String ksiazka = "";
+                String temp = "";
+                if (!ustawka) {
+                    if (ruchy_literowe.size() < 8) {
+                        if (ruchy_literowe.isEmpty()) {
+                            temp = "START";
+                        } else {
+                            for (String s : ruchy_literowe) {
+                                temp = temp.concat(s + ",");
+                            }
+                            temp = temp.substring(0, temp.length() - 1);
+                        }
+                    }
                 }
-                String oponet = "";
-                char[][] backup = new char[8][8];
-                jProgressBar1.setMinimum(0);
-                SI_wyk = false;
-                for (int x = 0; x < 8; x++) {
-                    System.arraycopy(ust[x], 0, backup[x], 0, 8);
-                }
-                int elem = 0, dlugosc = new Generator().generuj_posuniecia((backup.clone()), ruchB, przelotcan,
-                        bleft, bright, wleft, wright, kingrochB, kingrochC, kol, false, ' ', new int[2], false, false).size();
-                // System.out.println(dlugosc + "elem");
-                jProgressBar1.setMaximum(dlugosc);
-                jProgressBar1.setValue(0);
-                int najlepszy = tura_rywala ? Integer.MIN_VALUE : Integer.MAX_VALUE;
-                int najwieksza = Integer.MIN_VALUE;
-                int najmniejsza = Integer.MAX_VALUE;
-                int pula_pozycji = 0;
-                int pula_sprawdzona = 0;
-                String ostatni = "";
-                long czas_start = System.currentTimeMillis();
-                int licznik = 0;
-                /*FiguraK[][] deska = new FiguraK[8][8];
+                ksiazka = lacze_z_baza.uzyskaj_ruch(temp);
+                if (!ksiazka.equals("")) {
+                    SI_wyk = true;
+                    if (!ksiazka.equals("O-O") && !ksiazka.equals("O-O-O")) {
+                        aktywuj(odwrot, ksiazka.substring(1, 3));
+                        aktywuj(odwrot, ksiazka.substring(4, 6));
+                    } else {
+                        if (ruchB) {
+                            aktywuj(odwrot, "E1");
+                            aktywuj(odwrot, ksiazka.equals("O-O-O") ? "C1" : "G1");
+                        } else {
+                            aktywuj(odwrot, "E8");
+                            aktywuj(odwrot, ksiazka.equals("O-O-O") ? "C8" : "G8");
+                        }
+                    }
+                    for (int i = 1; i <= 8; i++) {
+                        for (char j = 'A'; j <= 'H'; j++) {
+                            dobierzprzycisk(String.valueOf(j + "" + i), false).setEnabled(true);
+                        }
+                    }
+                    SI_wyk = false;
+
+                } else {
+                    if (symulacja) {
+                        odwrot = false;
+                    }
+                    String oponet = "";
+                    char[][] backup = new char[8][8];
+                    jProgressBar1.setMinimum(0);
+                    SI_wyk = false;
+                    for (int x = 0; x < 8; x++) {
+                        System.arraycopy(ust[x], 0, backup[x], 0, 8);
+                    }
+                    int elem = 0, dlugosc = Generator.generuj_posuniecia((backup.clone()), ruchB, przelotcan,
+                            bleft, bright, wleft, wright, kingrochB, kingrochC, kol, false, ' ', new int[2], false, false).size();
+                    // System.out.println(dlugosc + "elem");
+                    jProgressBar1.setMaximum(dlugosc);
+                    jProgressBar1.setValue(0);
+                    int najlepszy = tura_rywala ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+                    int najwieksza = Integer.MIN_VALUE;
+                    int najmniejsza = Integer.MAX_VALUE;
+                    int pula_pozycji = 0;
+                    int pula_sprawdzona = 0;
+                    String ostatni = "";
+                    long czas_start = System.currentTimeMillis();
+                    int licznik = 0;
+                    /*FiguraK[][] deska = new FiguraK[8][8];
                 for (int i = 0; i < 8; i++) {
                     for (int j = 0; j < 8; j++) {
                         switch (ust[i][j]) {
@@ -12986,93 +13009,94 @@ public class SzachowaArena extends javax.swing.JFrame {
                     }
                 }*/
 
-                if (new Generator().generuj_posuniecia((ust), ruchB, przelotcan,
-                        bleft, bright, wleft, wright, kingrochB, kingrochC, kol, false).size() > 1) {
-                    setProgress((int) (elem * 1f / dlugosc * 100.0f));
-                    SI_MIN_MAX_Alfa_Beta ai = new SI_MIN_MAX_Alfa_Beta(backup.clone(), ruchB, przelotcan,
-                            bleft, bright, wleft, wright, kingrochB, kingrochC, dokonano_RB, dokonano_RC, kol, licznik, glebiaSI);
-                    Ruch_wartosc wynik = ai.wykonaj(glebiaSI, new Generator().generuj_posuniecia(backup.clone(), ruchB, przelotcan,
-                            bleft, bright, wleft, wright, kingrochB, kingrochC, kol, false), najwieksza, najmniejsza);
-                    pula_pozycji = pula_pozycji + ai.all_position;
-                    pula_sprawdzona = pula_sprawdzona + ai.pozycje;
-                    // System.out.println(ai.licznik);
-                    licznik = ai.licznik;
-                    //System.out.println("wynik "+wynik);
-                    oponet = wynik.ruch.toString();
-                    najlepszy = wynik.wartosc;
-                } else {
-                    pula_pozycji = 1;
-                    pula_sprawdzona = 1;
-                    oponet = new Generator().generuj_posuniecia(ust, ruchB, przelotcan,
-                            bleft, bright, wleft, wright, kingrochB, kingrochC, kol, false).get(0).toString();
-                    najlepszy = tura_rywala ? Integer.MAX_VALUE : Integer.MIN_VALUE;
-                }
-                long czas_stop = System.currentTimeMillis();
-                long czas = (czas_stop - czas_start) / 1000;
-                System.out.println("wszystkich kombinacji: " + pula_pozycji);
-                System.out.println("zaanalizowano kombinacji: " + pula_sprawdzona);
-                System.out.printf("procent analizowanych kombinacji: %.2f %n", (float) (pula_sprawdzona) / (float) (pula_pozycji) * 100f);
-                if ("".equals(oponet)) {
-                    oponet = ostatni;
-                }
-                System.out.println("Ruch SI:" + oponet + "(" + najlepszy + ")");
-                System.out.println("Czas SI:" + czas + "s");
-                float procent = (Math.round(pula_sprawdzona * 10000.0f / pula_pozycji)) / 100.0f;
-                System.out.println("Czas w min: " + czas / 60 + " min, " + czas % 60 + " s");
-                jTextArea2.setVisible(true);
-                laczny_czas = laczny_czas + czas;
-                jTextArea2.append("Ruch SI:" + oponet + "(" + najlepszy + ") \n");
-                jTextArea2.append("Czas SI:" + czas + "s" + " \n");
-                jTextArea2.append("Czas w min: " + czas / 60 + " min, " + czas % 60 + " s" + " \n");
-                jTextArea2.append("Czas łączny: " + laczny_czas + " (" + laczny_czas / 60 + " min " + laczny_czas % 60 + " s)\n");
-                jTextArea2.append("wszystkich kombinacji: " + pula_pozycji + " \n");
-                jTextArea2.append("zaanalizowano kombinacji: " + pula_sprawdzona + " \n");
-                jTextArea2.append("procent analizowanych kombinacji:" + procent + " \n \n");
-                jTextArea2.setCaretPosition(jTextArea2.getDocument().getLength());
-                for (int i = 1; i <= 8; i++) {
-                    for (char j = 'A'; j <= 'H'; j++) {
-                        dobierzprzycisk(String.valueOf(j + "" + i), false).setEnabled(true);
-                    }
-                }
-                SI_wyk = true;
-                System.out.println(oponet.substring(0, 3).equals("O-O"));
-                if ("O-O".equals(oponet.substring(0, 3))) {
-                    if ("O-O".equals(oponet.substring(0, 3)) && oponet.length() <= 4) {
-                        if (ruchB) {
-                            aktywuj(odwrot, "E1");
-                            aktywuj(odwrot, "G1");
-                        } else {
-                            aktywuj(odwrot, "E8");
-                            aktywuj(odwrot, "G8");
-                        }
-                    } else if ("O-O-O".equals(oponet.substring(0, 5)) && oponet.length() > 4) {
-                        if (ruchB) {
-                            aktywuj(odwrot, "E1");
-                            aktywuj(odwrot, "C1");
-                        } else {
-                            aktywuj(odwrot, "E8");
-                            aktywuj(odwrot, "C8");
-                        }
-                    }
+                    if (Generator.generuj_posuniecia((ust), ruchB, przelotcan,
+                            bleft, bright, wleft, wright, kingrochB, kingrochC, kol, false).size() > 1) {
+                        setProgress((int) (elem * 1f / dlugosc * 100.0f));
+                        SI_MIN_MAX_Alfa_Beta ai = new SI_MIN_MAX_Alfa_Beta(backup.clone(), ruchB, przelotcan,
+                                bleft, bright, wleft, wright, kingrochB, kingrochC, dokonano_RB, dokonano_RC, kol, licznik, glebiaSI);
+                        Ruch_wartosc wynik = ai.wykonaj(glebiaSI, Generator.generuj_posuniecia(backup.clone(), ruchB, przelotcan,
+                                bleft, bright, wleft, wright, kingrochB, kingrochC, kol, false), najwieksza, najmniejsza);
+                        pula_pozycji = pula_pozycji + ai.all_position;
+                        pula_sprawdzona = pula_sprawdzona + ai.pozycje;
+                        // System.out.println(ai.licznik);
+                        oponet = wynik.ruch.toString();
 
-                } else {
-                    start = oponet.substring(1, 3);
-                    stop = oponet.substring(4, 6);
-                    if (oponet.charAt(6) == '=') {
-                        znak_promocji = oponet.charAt(7);
+                        najlepszy = wynik.wartosc;
+                    } else {
+                        pula_pozycji = 1;
+                        pula_sprawdzona = 1;
+                        oponet = Generator.generuj_posuniecia(ust, ruchB, przelotcan,
+                                bleft, bright, wleft, wright, kingrochB, kingrochC, kol, false).get(0).toString();
+                        najlepszy = tura_rywala ? Integer.MAX_VALUE : Integer.MIN_VALUE;
                     }
-                    aktywuj(odwrot, start);
-                    aktywuj(odwrot, stop);
-                }
-                SI_wyk = false;
-                if (symulacja) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(SzachowaArena.class.getName()).log(Level.SEVERE, null, ex);
+                    long czas_stop = System.currentTimeMillis();
+                    long czas = (czas_stop - czas_start) / 1000;
+                    System.out.println("wszystkich kombinacji: " + pula_pozycji);
+                    System.out.println("zaanalizowano kombinacji: " + pula_sprawdzona);
+                    System.out.printf("procent analizowanych kombinacji: %.2f %n", (float) (pula_sprawdzona) / (float) (pula_pozycji) * 100f);
+                    if ("".equals(oponet)) {
+                        oponet = ostatni;
+                    }
+                    System.out.println("Ruch SI:" + oponet + "(" + najlepszy + ")");
+                    System.out.println("Czas SI:" + czas + "s");
+                    float procent = (Math.round(pula_sprawdzona * 10000.0f / pula_pozycji)) / 100.0f;
+                    System.out.println("Czas w min: " + czas / 60 + " min, " + czas % 60 + " s");
+                    jTextArea2.setVisible(true);
+                    laczny_czas = laczny_czas + czas;
+                    jTextArea2.append("Ruch SI:" + oponet + "(" + najlepszy + ") \n");
+                    jTextArea2.append("Czas SI:" + czas + "s" + " \n");
+                    jTextArea2.append("Czas w min: " + czas / 60 + " min, " + czas % 60 + " s" + " \n");
+                    jTextArea2.append("Czas łączny: " + laczny_czas + " (" + laczny_czas / 60 + " min " + laczny_czas % 60 + " s)\n");
+                    jTextArea2.append("wszystkich kombinacji: " + pula_pozycji + " \n");
+                    jTextArea2.append("zaanalizowano kombinacji: " + pula_sprawdzona + " \n");
+                    jTextArea2.append("procent analizowanych kombinacji:" + procent + " \n \n");
+                    jTextArea2.setCaretPosition(jTextArea2.getDocument().getLength());
+                    for (int i = 1; i <= 8; i++) {
+                        for (char j = 'A'; j <= 'H'; j++) {
+                            dobierzprzycisk(String.valueOf(j + "" + i), false).setEnabled(true);
+                        }
+                    }
+                    SI_wyk = true;
+                    if ("O-O".equals(oponet.substring(0, 3))) {
+                        if ("O-O".equals(oponet.substring(0, 3)) && oponet.length() <= 4) {
+                            if (ruchB) {
+                                aktywuj(odwrot, "E1");
+                                aktywuj(odwrot, "G1");
+                            } else {
+                                aktywuj(odwrot, "E8");
+                                aktywuj(odwrot, "G8");
+                            }
+                        } else if ("O-O-O".equals(oponet.substring(0, 5)) && oponet.length() > 4) {
+                            if (ruchB) {
+                                aktywuj(odwrot, "E1");
+                                aktywuj(odwrot, "C1");
+                            } else {
+                                aktywuj(odwrot, "E8");
+                                aktywuj(odwrot, "C8");
+                            }
+                        }
+                    } else {
+                        System.out.println("Corr");
+                        start = oponet.substring(1, 3);
+                        stop = oponet.substring(4, 6);
+                        if (oponet.charAt(6) == '=') {
+                            znak_promocji = oponet.charAt(7);
+                        }
+                        System.out.println(oponet);
+                        aktywuj(odwrot, oponet.substring(1, 3));
+                        aktywuj(odwrot, oponet.substring(4, 6));
+                    }
+                    SI_wyk = false;
+                    if (symulacja) {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(SzachowaArena.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 }
             } while (symulacja);
+
             return null;
         }
     }
@@ -13187,7 +13211,7 @@ public class SzachowaArena extends javax.swing.JFrame {
     /**
      * Uruchamia działanie SI
      */
-    private void SI_ma_ruch() {
+    private void SI_ma_ruch(String ruch) {
 
         for (int i = 1; i <= 8; i++) {
             for (char j = 'A'; j <= 'H'; j++) {
@@ -15576,6 +15600,7 @@ public class SzachowaArena extends javax.swing.JFrame {
     void Button_Clicked(Object pole) {
         JButton BUTTON = (JButton) pole;
         styl(kolor_zestaw, kroj_zestaw, kolor_plansza);
+        System.out.println(BUTTON.getName());
         byte pomocx = 0, pomocy = 0;
         char pomoc2, pomoc3;
         if (gra) {
@@ -15847,7 +15872,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                     if (opcje_pomoc == 1 || opcje_pomoc == 2) {
                                         System.out.println("opcja" + tryb);
                                         if (tryb != 4) {
-                                            for (Ruch move : new Generator().generuj_posuniecia((temp1), ruchB, przelotcan,
+                                            for (Ruch move : Generator.generuj_posuniecia((temp1), ruchB, przelotcan,
                                                     bleft, bright, wleft, wright, kingrochB, kingrochC, kol, true, symbol, temp2, false, false)) {
                                                 if (!move.toString().startsWith("O-O")) {
                                                     JButton cel = dobierzprzycisk(move.toString().substring(4, 6), odwrot);
@@ -15869,7 +15894,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                 }
                                             }
                                         } else {
-                                            for (RuchA moveA : new Generator().generuj_posunieciaA(konwertA(temp1), ruchB, przelotcan,
+                                            for (RuchA moveA : Generator.generuj_posunieciaA(konwertA(temp1), ruchB, przelotcan,
                                                     bleft, bright, wleft, wright, kingrochB, kingrochC, kol, true, symbol, temp2, false)) {
                                                 if (!moveA.toString().startsWith("O-O")) {
                                                     JButton cel = dobierzprzycisk(moveA.toString().substring(4, 6), odwrot);
@@ -18238,7 +18263,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                             losowanko.setEnabled(false);
                                                             remis();
                                                             gra = false;
-                                   
+
                                                             partia_odlozona.setEnabled(false);
                                                         }
                                                     } else {
@@ -18290,7 +18315,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                                     symulacja = false;
                                                     remis();
                                                     gra = false;
-                           
+
                                                     partia_odlozona.setEnabled(false);
                                                 }
                                             }
@@ -18362,7 +18387,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                         for (int i = 0; i < 8; i++) {
                             System.arraycopy(ust[i], 0, backup1[i], 0, 8);
                         }
-                        SI_ma_ruch();
+                        SI_ma_ruch(ruch);
                     }
                 }
             }
@@ -18454,7 +18479,7 @@ public class SzachowaArena extends javax.swing.JFrame {
             if (ust[pomocy][pomocx] == 'k') {
                 krole_czarne--;
             }
-            ust[pomocy][pomocx]=' ';
+            ust[pomocy][pomocx] = ' ';
             ust[pomocy][pomocx] = symbol;
             // System.out.println("["+ust[pomocy][pomocx]+"]");
             //System.out.println(pomocy+"|"+pomocx);
@@ -18564,7 +18589,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                         }
                         lista.removeAll(lista);
                         for (int l = 0; l < los; l++) {
-                            ArrayList<Ruch> temp = (ArrayList<Ruch>) new Generator().generuj_posuniecia(losowa, ruch, enpasant,
+                            ArrayList<Ruch> temp = (ArrayList<Ruch>) Generator.generuj_posuniecia(losowa, ruch, enpasant,
                                     rochleftC, rochrightC, rochleftB, rochrightB, rochB, rochC, kolumna, false);
                             if (temp.size() > 0) {
                                 index++;
@@ -18711,11 +18736,13 @@ public class SzachowaArena extends javax.swing.JFrame {
                                             losowa[0][7] = ' ';
                                             losowa[0][6] = 'K';
                                             losowa[0][4] = ' ';
+                                            rochB = false;
                                         } else {
                                             losowa[7][5] = 'r';
                                             losowa[7][7] = ' ';
                                             losowa[7][6] = 'k';
                                             losowa[7][4] = ' ';
+                                            rochC = false;
                                         }
                                     }
                                     if (lista.get(l).equals("O-O-O") || lista.get(l).equals("O-O-O+")) {
@@ -18724,11 +18751,13 @@ public class SzachowaArena extends javax.swing.JFrame {
                                             losowa[0][0] = ' ';
                                             losowa[0][2] = 'K';
                                             losowa[0][4] = ' ';
+                                            rochB = false;
                                         } else {
                                             losowa[7][3] = 'r';
                                             losowa[7][0] = ' ';
                                             losowa[7][2] = 'k';
                                             losowa[7][4] = ' ';
+                                            rochC = false;
                                         }
                                     }
                                 }
@@ -21074,7 +21103,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                         .addGap(43, 43, 43)
                                         .addComponent(przelotowe, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jButton72, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(zegarbiale))
+                                    .addComponent(zegarbiale, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -21144,7 +21173,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(SIOnOff, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(jScrollPane2)))
-                        .addContainerGap(12, Short.MAX_VALUE))
+                        .addContainerGap(10, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -21268,7 +21297,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                             .addComponent(przelotowe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton72)
-                        .addGap(0, 180, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -21381,18 +21410,20 @@ public class SzachowaArena extends javax.swing.JFrame {
                                             .addComponent(H2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(G2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(F2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(A1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(E1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(D1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(C1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(B1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(H1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(G1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(F1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(layout.createSequentialGroup()
-                                                .addGap(44, 44, 44)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(A1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(E1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(D1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(C1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(B1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(H1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(G1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(F1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(50, 50, 50)
                                                 .addComponent(zegarbiale)))
                                         .addGap(3, 3, 3)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -23298,6 +23329,7 @@ public class SzachowaArena extends javax.swing.JFrame {
         pionRB.setText("0");
         partia_wznowiona.setVisible(false);
         partia_odlozona.setVisible(tryb == 0);
+        partia_odlozona.setEnabled(tryb == 0);
         partia_wznowiona.setEnabled(tryb == 0);
         obrotowy.setEnabled(true);
         SIOnOff.setEnabled(true);
@@ -23312,7 +23344,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                 }
                 System.out.println();
             }*/
-            SI_ma_ruch();
+            SI_ma_ruch(ruch);
         }
         obrotowy.setVisible(!(SI_ON || siec));
     }//GEN-LAST:event_nowa_graActionPerformed
@@ -23743,7 +23775,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                             Object[] opcje_rywala = {"Graj z innym graczem", "Graj z SI jako białe", "Graj z SI jako czarne"};
                             sztuczny_rywal = (byte) JOptionPane.showOptionDialog(rootPane, "Gra z SI?", "opcje SI", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opcje_rywala, null);
                             JSlider suwak_trudnosci = new JSlider(1, 14, 1);
-                            Hashtable<Integer, JLabel> Opisy = new Hashtable<Integer, JLabel>();
+                            Hashtable<Integer, JLabel> Opisy = new Hashtable<>();
                             suwak_trudnosci.setOrientation(JSlider.VERTICAL);
                             suwak_trudnosci.setMinorTickSpacing(1);
                             Opisy.put(1, new JLabel("Nowicjusz"));
@@ -23783,8 +23815,8 @@ public class SzachowaArena extends javax.swing.JFrame {
                                     SI_ON = false;
                                     break;
                             }
-                            if(!pierwsza_kolej){
-                                
+                            if (!pierwsza_kolej) {
+
                                 historia.add("...");
                             }
                             mazyna_losujaca.setEnabled(!SI_ON);
@@ -23806,7 +23838,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                                     System.out.println();
                                 }
                                 styl(kolor_zestaw, kroj_zestaw, kolor_plansza);
-                                SI_ma_ruch();
+                                SI_ma_ruch(ruch);
                             }
                         }
                     }
@@ -23900,30 +23932,30 @@ public class SzachowaArena extends javax.swing.JFrame {
             System.out.println('A' + i);
             if (i - 1 >= 0 && i + 1 < 8) {
                 if (ust[4][i] == 'P' && (ust[4][i - 1] == 'p')) {
-                    if (model.getIndexOf(("Na kolumnie " + ((char) ('A' + i-1)))) == -1) {
-                        model.addElement(("Na kolumnie " + ((char) ('A' + i-1))));
+                    if (model.getIndexOf(("Na kolumnie " + ((char) ('A' + i - 1)))) == -1) {
+                        model.addElement(("Na kolumnie " + ((char) ('A' + i - 1))));
                         index++;
                     }
                 }
                 if (ust[4][i] == 'P' && (ust[4][i + 1] == 'p')) {
-                    if (model.getIndexOf(("Na kolumnie " + ((char) ('A' + i+1)))) == -1) {
-                        model.addElement(("Na kolumnie " + ((char) ('A' + i+1))));
+                    if (model.getIndexOf(("Na kolumnie " + ((char) ('A' + i + 1)))) == -1) {
+                        model.addElement(("Na kolumnie " + ((char) ('A' + i + 1))));
                         index++;
                     }
                 }
             }
             if (i - 1 == -1) {
                 if (ust[4][i] == 'P' && (ust[4][i + 1] == 'p')) {
-                    if (model.getIndexOf(("Na kolumnie " + ((char) ('A' + i+1)))) == -1) {
-                        model.addElement(("Na kolumnie " + ((char) ('A' + i+1))));
+                    if (model.getIndexOf(("Na kolumnie " + ((char) ('A' + i + 1)))) == -1) {
+                        model.addElement(("Na kolumnie " + ((char) ('A' + i + 1))));
                         index++;
                     }
                 }
             }
             if (i + 1 == 8) {
                 if (ust[4][i] == 'P' && (ust[4][i - 1] == 'p')) {
-                    if (model.getIndexOf(("Na kolumnie " + ((char) ('A' + i-1)))) == -1) {
-                        model.addElement(("Na kolumnie " + ((char) ('A' + i-1))));
+                    if (model.getIndexOf(("Na kolumnie " + ((char) ('A' + i - 1)))) == -1) {
+                        model.addElement(("Na kolumnie " + ((char) ('A' + i - 1))));
                         index++;
                     }
                 }
@@ -23942,30 +23974,30 @@ public class SzachowaArena extends javax.swing.JFrame {
             System.out.println('A' + i);
             if (i - 1 >= 0 && i + 1 < 8) {
                 if (ust[3][i] == 'P' && (ust[3][i - 1] == 'p')) {
-                    if (model.getIndexOf(("Na kolumnie " + ((char) ('A' + i-1)))) == -1) {
-                        model.addElement(("Na kolumnie " + ((char) ('A' + i-1))));
+                    if (model.getIndexOf(("Na kolumnie " + ((char) ('A' + i - 1)))) == -1) {
+                        model.addElement(("Na kolumnie " + ((char) ('A' + i - 1))));
                         index++;
                     }
                 }
                 if (ust[3][i] == 'P' && (ust[3][i + 1] == 'p')) {
-                    if (model.getIndexOf(("Na kolumnie " + ((char) ('A' + i+1)))) == -1) {
-                        model.addElement(("Na kolumnie " + ((char) ('A' + i+1))));
+                    if (model.getIndexOf(("Na kolumnie " + ((char) ('A' + i + 1)))) == -1) {
+                        model.addElement(("Na kolumnie " + ((char) ('A' + i + 1))));
                         index++;
                     }
                 }
             }
             if (i - 1 == -1) {
                 if (ust[3][i] == 'P' && (ust[3][i + 1] == 'p')) {
-                    if (model.getIndexOf(("Na kolumnie " + ((char) ('A' + i+1)))) == -1) {
-                        model.addElement(("Na kolumnie " + ((char) ('A' + i+1))));
+                    if (model.getIndexOf(("Na kolumnie " + ((char) ('A' + i + 1)))) == -1) {
+                        model.addElement(("Na kolumnie " + ((char) ('A' + i + 1))));
                         index++;
                     }
                 }
             }
             if (i + 1 == 8) {
                 if (ust[3][i] == 'P' && (ust[3][i - 1] == 'p')) {
-                    if (model.getIndexOf(("Na kolumnie " + ((char) ('A' + i-1)))) == -1) {
-                        model.addElement(("Na kolumnie " + ((char) ('A' + i-1))));
+                    if (model.getIndexOf(("Na kolumnie " + ((char) ('A' + i - 1)))) == -1) {
+                        model.addElement(("Na kolumnie " + ((char) ('A' + i - 1))));
                         index++;
                     }
                 }
@@ -24383,7 +24415,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                     }
                     System.out.println();
                 }
-                SI_ma_ruch();
+                SI_ma_ruch(ruch);
             }
             obrotowy.setVisible(!(SI_ON || siec));
         } else {
@@ -24399,6 +24431,7 @@ public class SzachowaArena extends javax.swing.JFrame {
         odwrot = false;
         jMenu2.setEnabled(true);
         nowa_gra.setVisible(true);
+        ruch = "";
         online_kreator.setVisible(true);
         online_dolacz.setVisible(true);
         poddanie.setEnabled(false);
@@ -24410,7 +24443,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                 odwrotna[i][j - 'A'] = ' ';
             }
         }
-        ustawka=false;
+        ustawka = false;
         pomoc_ruch = Color.BLUE;
         przelotowe.setVisible(false);
         jLabel20.setVisible(false);
@@ -24589,13 +24622,9 @@ public class SzachowaArena extends javax.swing.JFrame {
         czysc_rame();
         mordobicia.clear();
         zwyczajneR.clear();
-        druzynaB = 16;
-        druzynaC = 16;
-        searching = false;
         hug_list.clear();
         SI_wyk = false;
         odwrot = false;
-        proby_laczenia = 0;
         plustime = 0;
         dokonano_RB = false;
         dokonano_RC = false;
@@ -24669,6 +24698,7 @@ public class SzachowaArena extends javax.swing.JFrame {
         SIOnOff.setVisible(true);
         kombinacja.setVisible(false);
         kombinacja.setEnabled(false);
+        tryb = 0;
     }//GEN-LAST:event_resetgameActionPerformed
 
     private void Wlasne_kolor_jasneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Wlasne_kolor_jasneActionPerformed
@@ -24806,7 +24836,7 @@ public class SzachowaArena extends javax.swing.JFrame {
 
                 BufferedReader inP;
                 inP = new BufferedReader(new InputStreamReader(
-    new FileInputStream(plik), "UTF-8"));
+                        new FileInputStream(plik), "UTF-8"));
                 for (int i = 0; i < 8; i++) {
                     String zdanie = inP.readLine();
                     for (int j = 0; j < 8; j++) {
@@ -24902,40 +24932,40 @@ public class SzachowaArena extends javax.swing.JFrame {
                     }
                     switch (zdanie.charAt(0)) {
                         case 'K':
-                            ruchy_syboliczne.add("\u2654" + zdanie.substring(1, 6)+promotemp);
+                            ruchy_syboliczne.add("\u2654" + zdanie.substring(1, 6) + promotemp);
                             break;
                         case 'Q':
-                            ruchy_syboliczne.add("\u2655" + zdanie.substring(1, 6)+promotemp);
+                            ruchy_syboliczne.add("\u2655" + zdanie.substring(1, 6) + promotemp);
                             break;
                         case 'R':
-                            ruchy_syboliczne.add("\u2656" + zdanie.substring(1, 6)+promotemp);
+                            ruchy_syboliczne.add("\u2656" + zdanie.substring(1, 6) + promotemp);
                             break;
                         case 'B':
-                            ruchy_syboliczne.add("\u2657" + zdanie.substring(1, 6)+promotemp);
+                            ruchy_syboliczne.add("\u2657" + zdanie.substring(1, 6) + promotemp);
                             break;
                         case 'N':
-                            ruchy_syboliczne.add("\u2658" + zdanie.substring(1, 6)+promotemp);
+                            ruchy_syboliczne.add("\u2658" + zdanie.substring(1, 6) + promotemp);
                             break;
                         case 'P':
-                            ruchy_syboliczne.add("\u2659" + zdanie.substring(1, 6)+promotemp);
+                            ruchy_syboliczne.add("\u2659" + zdanie.substring(1, 6) + promotemp);
                             break;
                         case 'k':
-                            ruchy_syboliczne.add("\u265A" + zdanie.substring(1, 6)+promotemp);
+                            ruchy_syboliczne.add("\u265A" + zdanie.substring(1, 6) + promotemp);
                             break;
                         case 'q':
-                            ruchy_syboliczne.add("\u265B" + zdanie.substring(1, 6)+promotemp);
+                            ruchy_syboliczne.add("\u265B" + zdanie.substring(1, 6) + promotemp);
                             break;
                         case 'r':
-                            ruchy_syboliczne.add("\u265C" + zdanie.substring(1, 6)+promotemp);
+                            ruchy_syboliczne.add("\u265C" + zdanie.substring(1, 6) + promotemp);
                             break;
                         case 'b':
-                            ruchy_syboliczne.add("\u265D" + zdanie.substring(1, 6)+promotemp);
+                            ruchy_syboliczne.add("\u265D" + zdanie.substring(1, 6) + promotemp);
                             break;
                         case 'n':
-                            ruchy_syboliczne.add("\u265E" + zdanie.substring(1, 6)+promotemp);
+                            ruchy_syboliczne.add("\u265E" + zdanie.substring(1, 6) + promotemp);
                             break;
                         case 'p':
-                            ruchy_syboliczne.add("\u265F" + zdanie.substring(1, 6)+promotemp);
+                            ruchy_syboliczne.add("\u265F" + zdanie.substring(1, 6) + promotemp);
                             break;
                         default:
                             ruchy_syboliczne.add(zdanie);
@@ -24964,7 +24994,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                 gra = true;
                 partia_odlozona.setVisible(true);
                 jMenu2.setEnabled(true);
-            } catch (Exception ex) {
+            } catch (HeadlessException | IOException | NumberFormatException ex) {
                 JOptionPane.showMessageDialog(partia_odlozona, "Wystąpił nieoczekiwany błąd");
                 ex.printStackTrace();
                 resetgameActionPerformed(evt);
@@ -25029,19 +25059,14 @@ public class SzachowaArena extends javax.swing.JFrame {
 
     private void druk_odpisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_druk_odpisActionPerformed
         try {
-            /* try {
-            //   Drukarka_P druk = new Drukarka_P();
-            //  druk.print(konwert_na_grafike(ust,ruchB), new PageFormat(), 1);
-            } catch (PrinterException ex) {
-            Logger.getLogger(SzachowaArena.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
             if (ruchy_literowe.size() <= 240) {
                 PrinterJob job = PrinterJob.getPrinterJob();
                 PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
-                aset.add(new MediaPrintableArea(7.5f, 7.5f, 195f, 282f, MediaPrintableArea.MM));
                 PageFormat pf = job.getPageFormat(aset);
+                Paper papier = pf.getPaper();
+                papier.setImageableArea(10, 10, papier.getWidth() - 10, papier.getHeight() - 10);
                 pf.setOrientation(PageFormat.PORTRAIT);
-                job.setPrintable(new Drukarka_P(ust, ruchB, ruchy_literowe,druk_wzgledny), pf);
+                job.setPrintable(new Drukarka_P(ust, ruchB, ruchy_literowe, druk_wzgledny), pf);
                 boolean ok = job.printDialog(aset);
                 if (ok) {
                     try {
@@ -25054,14 +25079,14 @@ public class SzachowaArena extends javax.swing.JFrame {
                 PrinterJob printJob = PrinterJob.getPrinterJob();
                 Book book = new Book();
                 PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
-                aset.add(new MediaPrintableArea(7.5f, 7.5f, 195f, 282f, MediaPrintableArea.MM));
+                aset.add(new MediaPrintableArea(10, 10, 195, 260, MediaPrintableArea.MM));
                 PageFormat pf = printJob.defaultPage();
                 Paper papier = pf.getPaper();
-                papier.setImageableArea(25, 25, papier.getWidth(), papier.getHeight() - 2);
+                papier.setImageableArea(25, 25, papier.getWidth() - 10, papier.getHeight() - 10);
                 System.out.println(papier.getWidth() + " " + papier.getHeight());
                 pf.setPaper(papier);
                 pf.setOrientation(PageFormat.PORTRAIT);
-                book.append(new Drukarka_P(ruchB ? ust : odwrotna, ruchB,druk_wzgledny), pf);
+                book.append(new Drukarka_P(ruchB ? ust : odwrotna, ruchB, druk_wzgledny), pf);
                 if (ruchy_literowe.size() <= 600) {
                     book.append(new Drukarka_H(ruchy_literowe), pf);
                 } else {
@@ -25101,11 +25126,11 @@ public class SzachowaArena extends javax.swing.JFrame {
         try {
             PrinterJob job = PrinterJob.getPrinterJob();
             PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
-            aset.add(new MediaPrintableArea(7.5f, 7.5f, 195f, 282f, MediaPrintableArea.MM));
+            aset.add(new MediaPrintableArea(10, 10, 195, 260, MediaPrintableArea.MM));
             PageFormat pf = job.getPageFormat(aset);
             pf.setOrientation(PageFormat.PORTRAIT);
 
-            job.setPrintable(new Drukarka_P(druk_wzgledny ? (ruchB ? ust : odwrotna): ust, ruchB, druk_wzgledny), pf);
+            job.setPrintable(new Drukarka_P(druk_wzgledny ? (ruchB ? ust : odwrotna) : ust, ruchB, druk_wzgledny), pf);
             boolean ok = job.printDialog(aset);
             if (ok) {
                 try {
@@ -25161,7 +25186,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                     } while (s.isEmpty() || s.length() < 9);
                     param.add(s);
                 }
-                ArrayList<String> dziurawa_kombinacja = zalatane(pozstart, pozstop, limit, new ArrayList<String>(), param, limit);
+                ArrayList<String> dziurawa_kombinacja = zalatane(pozstart, pozstop, limit, new ArrayList<>(), param, limit);
                 if (dziurawa_kombinacja == null) {
                     JOptionPane.showMessageDialog(rootPane, "Nie znaleziono kombinacji w zadanym dystansie");
                 } else {
@@ -25177,11 +25202,9 @@ public class SzachowaArena extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(rootPane, "Błąd. Podana liczba nie jest naturalną większą od 0");
             }
         } catch (NumberFormatException l) {
-            l.printStackTrace();
             JOptionPane.showMessageDialog(rootPane, "Błąd. Podana liczba nie jest naturalną większą od 0");
 
         } catch (NullPointerException l1) {
-            l1.printStackTrace();
             JOptionPane.showMessageDialog(rootPane, "Błąd. w liście pewności ruchów");
 
         }
@@ -25412,7 +25435,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                 dostawka = false;
                 symbol = ' ';
                 goniecRW.setBorder(null);
-              setCursor(Cursor.getDefaultCursor());  
+                setCursor(Cursor.getDefaultCursor());
             }
         }
     }//GEN-LAST:event_goniecRWActionPerformed
@@ -25460,7 +25483,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                 symbol = 'P';
                 pionRW.setBorder(new LineBorder(pomoc_ruch, 4));
                 dobierz_kursor(symbol);
-                
+
             } else {
                 dostawka = false;
                 symbol = ' ';
@@ -25475,7 +25498,7 @@ public class SzachowaArena extends javax.swing.JFrame {
     }//GEN-LAST:event_przelotoweActionPerformed
 
     private void druk_obroconyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_druk_obroconyActionPerformed
-       druk_wzgledny=druk_obrocony.isSelected();
+        druk_wzgledny = druk_obrocony.isSelected();
     }//GEN-LAST:event_druk_obroconyActionPerformed
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

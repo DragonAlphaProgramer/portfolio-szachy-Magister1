@@ -9,6 +9,7 @@ package szachy;
  * @author PatrykK
  */
 public enum figury {
+    Krol, Hetman, Wieza, Goniec, Skoczek, Pion,
         BKrol, BHetman, BWieza, BGoniec, BSkoczek, BPion,
         CKrol, CHetman, CWieza, CGoniec, CSkoczek, CPion, pustka
     

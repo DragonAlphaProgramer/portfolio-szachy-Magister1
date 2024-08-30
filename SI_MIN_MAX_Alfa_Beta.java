@@ -94,7 +94,6 @@ public class SI_MIN_MAX_Alfa_Beta {
         for (final Ruch move : ruch) {
             elem++;
             jProgressBar1.setValue(elem);
-            System.out.println(move.toString());
             jProgressBar1.setString("Rozpatrywane:" + (move.toString()) + "| bieżacy wybór:" + (najlepszy != null ? najlepszy.toString() : ""));
             byte Nkolumna;
             if ((move.kolejnosc == 'P' || move.kolejnosc == 'p') && (Math.abs(pozyskajkordkolumna(move.koniec2) - pozyskajkordkolumna(move.start2)) == 2)) {
@@ -117,11 +116,11 @@ public class SI_MIN_MAX_Alfa_Beta {
                 }
                 if (move.roszada) {
                     if (this.tura_rywala) {
-                    this.didRochB = true;
-                } else {
-                    this.didRochC = true;
-                    kingrochC = false;
-                }
+                        this.didRochB = true;
+                    } else {
+                        this.didRochC = true;
+                        kingrochC = false;
+                    }
                 } else {
                     switch (move.kolejnosc) {
                         case 'r':
@@ -255,10 +254,11 @@ public class SI_MIN_MAX_Alfa_Beta {
                 System.out.print(r.toString() + ",");
             }
             System.out.println("");*/
-
+            Collection<figury[]> biale_ruchy = Generator.generuj_posuniecia_Name(chessboard, true, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, true);
+            Collection<figury[]> czarne_ruchy = Generator.generuj_posuniecia_Name(chessboard, false, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, true);
             return this.wynikowa.zliczacz(
-                    chessboard,bleft, bright, wleft, wright, kingrochB, kingrochC,
-                    przelotcan, this.didRochB, this.didRochC,kolumna, glebia);
+                    chessboard, bleft, bright, wleft, wright, kingrochB, kingrochC,
+                    przelotcan, this.didRochB, this.didRochC, kolumna, glebia,biale_ruchy,czarne_ruchy);
         }
         final Collection<Ruch> lista = Generator.generuj_posuniecia(chessboard, this.tura_rywala, this.przelotcan,
                 this.bleft, this.bright, this.wleft, this.wright, this.kingrochB, this.kingrochC, kolumna, false);
@@ -395,10 +395,11 @@ public class SI_MIN_MAX_Alfa_Beta {
                 System.out.print(r.toString() + ",");
             }
             System.out.println("");*/
-
+            Collection<figury[]> biale_ruchy = Generator.generuj_posuniecia_Name(chessboard, true, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, true);
+            Collection<figury[]> czarne_ruchy = Generator.generuj_posuniecia_Name(chessboard, false, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC, kolumna, true);          
             return this.wynikowa.zliczacz(
-                    chessboard,przelotcan,bleft, bright, wleft, wright, kingrochB, kingrochC,
-                             this.didRochB, this.didRochC, kolumna, glebia);
+                    chessboard, przelotcan, bleft, bright, wleft, wright, kingrochB, kingrochC,
+                    this.didRochB, this.didRochC, kolumna, glebia,biale_ruchy,czarne_ruchy);
         }
         final Collection<Ruch> lista = Generator.generuj_posuniecia(chessboard, this.tura_rywala, this.przelotcan,
                 this.bleft, this.bright, this.wleft, this.wright, this.kingrochB, this.kingrochC, kolumna, false);
@@ -432,7 +433,7 @@ public class SI_MIN_MAX_Alfa_Beta {
                     this.didRochC = true;
                     kingrochC = false;
                 }
-                
+
             } else {
                 switch (move.kolejnosc) {
                     case 'r':
@@ -528,8 +529,6 @@ public class SI_MIN_MAX_Alfa_Beta {
         }
         return tempM;
     }
-
- 
 
     private boolean koniec(char[][] ustawienie, boolean strona, boolean przelotcan, int kol) {
         int pionB = 0, pionC = 0, lekkieB = 0, lekkieC = 0, ciezkieB = 0, ciezkieC = 0;

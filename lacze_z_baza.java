@@ -10,6 +10,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Random;
 
 /**
  *
@@ -87,4 +89,45 @@ public class lacze_z_baza {
         }
 
     }
+
+    static Connection polacz_ksiazka(String debiuty) {
+        Connection polaczenie;
+        try {
+            // Wskazanie jaki rodzaj bazy danych będzie wykorzystany, tu sqlite
+            Class.forName("org.sqlite.JDBC");
+            // Połączenie, wskazujemy rodzaj bazy i jej nazwę
+            polaczenie = DriverManager.getConnection("jdbc:sqlite:" + debiuty + ".db");
+            System.out.println("Połączyłem się z bazą "+debiuty);
+        } catch (ClassNotFoundException | SQLException e) {
+           System.err.println("Błąd w połączeniu z bazą: \n" + e.getMessage());
+            return null;
+        }
+        return polaczenie;
+    }
+
+    static String uzyskaj_ruch(String ruch) {
+        Connection polaczenie;
+         Statement stat;
+           ArrayList<String> lista = new ArrayList<>();
+        try {
+            Class.forName("org.sqlite.JDBC");
+            polaczenie = DriverManager.getConnection("jdbc:sqlite:debiuty.db");
+            stat= polaczenie.createStatement();
+            String szukajSQL = "SELECT Ruch FROM Debiuty WHERE Poprzednicy = '"+ruch+"';";
+            ResultSet rezultacik = stat.executeQuery(szukajSQL);
+                while (rezultacik.next()) {
+                    lista.add(rezultacik.getString(1));
+                }
+        
+        if(lista.isEmpty()){
+        return "";
+        }else{
+            Random los = new Random();
+            return lista.get(los.nextInt(lista.size()));
+        }
+    }catch(Exception x){
+        return "";
+    }
+    }
+        
 }

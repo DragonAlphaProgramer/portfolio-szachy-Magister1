@@ -92,7 +92,7 @@ public class Drukarka_H implements Printable {
 
         /* Now we perform our rendering */
         graphics.drawImage(getObraz(), 0, 0, null);
-
+        System.out.println("page ok");
         /* tell the caller that this page is part of the printed document */
         return PAGE_EXISTS;
     }
