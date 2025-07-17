@@ -1900,7 +1900,7 @@ class Generator {
                                         char przechowalnia = backup[x + param_ruch][y];
 
                                         if (all) {
-                                            lista_dopuszcalnych_Ruchow.add(new figury[]{figury.Goniec,pozyskaj_figure(przechowalnia)});
+                                            lista_dopuszcalnych_Ruchow.add(new figury[]{figury.Wieza,pozyskaj_figure(przechowalnia)});
 
                                         }
                                         w1 = false;
@@ -1927,7 +1927,7 @@ class Generator {
                                         char przechowalnia = backup[x - param_ruch][y];
 
                                         if (all) {
-                                            lista_dopuszcalnych_Ruchow.add(new figury[]{figury.Goniec,pozyskaj_figure(przechowalnia)});
+                                            lista_dopuszcalnych_Ruchow.add(new figury[]{figury.Wieza,pozyskaj_figure(przechowalnia)});
                                         }
                                         w2 = false;
                                     } else {
@@ -1953,7 +1953,7 @@ class Generator {
                                         char przechowalnia = backup[x][y + param_ruch];
 
                                         if (all) {
-                                            lista_dopuszcalnych_Ruchow.add(new figury[]{figury.Goniec,pozyskaj_figure(przechowalnia)});
+                                            lista_dopuszcalnych_Ruchow.add(new figury[]{figury.Wieza,pozyskaj_figure(przechowalnia)});
 
                                         }
                                         w3 = false;

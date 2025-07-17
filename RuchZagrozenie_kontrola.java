@@ -813,6 +813,11 @@ public class RuchZagrozenie_kontrola {
         byte alfa, beta, gama, dela;
         boolean bez, wynik = false;
         char z1, z2;
+         for (int i = 0; i < 8; i++) {
+                            for (int j = 0; j < 8; j++) {
+                                System.out.print("{"+ustawienie[i][7-j]+"}");
+                            }System.out.println();
+                        }
         switch (symbol) {
             case 'A':
             case 'a':

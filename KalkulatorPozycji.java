@@ -252,12 +252,10 @@ public class KalkulatorPozycji
                     }
                 }
             }
-            int SZACH = 45;
-            int MAT = 1000000;
             return !SzachMatPatKontrola.uciekaj(pozycja, !strona, krol)
                     && !SzachMatPatKontrola.zastaw(pozycja, !strona, Wspomagacz.znajdzklopot(pozycja, !strona), krol, przelot_can)
                     && !SzachMatPatKontrola.znajdzodsiecz(pozycja, !strona, Wspomagacz.znajdzklopot(pozycja, !strona), przelot, przelot_can)
-                    ? glebia != 0 ? MAT * glebia : MAT : SZACH;
+                    ? glebia != 0 ? 1000000 * glebia : 1000000 : 45;
 
         }
         ////System.out.printlnln("Wchodzi2");
@@ -265,16 +263,16 @@ public class KalkulatorPozycji
     }
 
     private int dokonano_roszady(boolean strona, boolean wykonanaB, boolean wykonanaC) {
-        int ROSZADA = 25;
+        
         if (strona) {
             if (wykonanaB) {
                 //////System.out.println(ROSZADA+"+");
-                return ROSZADA;
+                return 25;
             }
         } else {
             if (wykonanaC) {
                 //////System.out.println(ROSZADA+"+");
-                return ROSZADA;
+                return 25;
             }
         }
         ////System.out.printlnln("Wchodzi3");
@@ -309,9 +307,7 @@ public class KalkulatorPozycji
         if (!lista.isEmpty()) {
             for (figury[] ruch : lista) {
                 if (ruch[1] != figury.pustka) {
-                    int wartosc_atakujacego = wartosc(ruch[0]);
-                    int wartosc_atakowanego = wartosc(ruch[1]);
-                    if (wartosc_atakujacego <= wartosc_atakowanego) {
+                    if (wartosc(ruch[0]) <= wartosc(ruch[1])) {
                         licznik_ataku++;
                     }
                 }

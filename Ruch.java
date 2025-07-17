@@ -374,7 +374,7 @@ public class Ruch implements Comparable<Ruch> {
     
     Ruch(boolean anty, String lista, char bity, char[][] ust2) {
         kolejnosc = lista.charAt(0);
-        atak = (bity != ' ')&&!anty;
+        atak = (bity != ' ');
         roszada = lista.startsWith("O-O",1);
         dlugaroszada = lista.startsWith("O-O-O",1);
         przelot = lista.charAt(6) == ('E');

@@ -53,26 +53,26 @@ public class Pingowanie implements Runnable{
  public boolean ping(String host) {
         try {
 
-            String komenda = "";
+            String[] komenda = new String[1];
             String s;
             if (System.getProperty("os.name").startsWith("Windows")) { //se il sistema è windows
 
-                komenda = "ping -n 4 " + host;
+                komenda[0] = "ping -n 4 " + host;
             } else { //se il sistema è linux
-                komenda = "ping -c 4 " + host;
+                komenda[0] = "ping -c 4 " + host;
             }
-            Process myProcess = Runtime.getRuntime().exec(komenda); //esegue un comando passato come stringa (in questo caso ping -n 4 <indirizzoip>)
-            BufferedReader stdInput = new BufferedReader(new InputStreamReader(myProcess.getInputStream()));  //stream dove è possibile leggere l'output del comando
-            while ((s = stdInput.readLine()) != null) { //fix per windows (caso "risposta da <indirizzoiprouter>: Host di destinazione non raggiungibile")
+            Process myProcess = Runtime.getRuntime().exec(komenda); 
+            BufferedReader stdInput = new BufferedReader(new InputStreamReader(myProcess.getInputStream())); 
+            while ((s = stdInput.readLine()) != null) { 
                 if (s.toLowerCase().contains("host di destinazione non raggiungibile") || s.toLowerCase().contains("destination host unreachable")) {
-                    return false;  //ping fallito (host non raggiungibile)
+                    return false; 
                 }
                 if (s.toLowerCase().contains("ttl")) {
-                    return true;  //time to leave communicato, vuoldire che l'host ha risposto
+                    return true;  
                 }
             }
-            myProcess.waitFor();  //aspetto che termini
-            if (myProcess.exitValue() == 0) {  //se risponde normalmente (Risposta da : )
+            myProcess.waitFor();  
+            if (myProcess.exitValue() == 0) {  
                 return true;
             } else {
                 return false;

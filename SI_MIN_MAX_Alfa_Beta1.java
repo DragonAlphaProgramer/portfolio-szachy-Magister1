@@ -2,6 +2,9 @@ package szachy;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import static szachy.SzachowaArena.jProgressBar1;
 
 /*
@@ -13,17 +16,28 @@ import static szachy.SzachowaArena.jProgressBar1;
  *
  * @author Patryk
  */
-public class SI_MIN_MAX_Alfa_Beta {
+public class SI_MIN_MAX_Alfa_Beta1 implements Callable<Ruch_wartosc>{
 
-    int pozycje = 0;
-    int all_position = 0;
-    int licznik;
+    volatile int pozycje = 0;
+    volatile int all_position = 0;
+    volatile int licznik;
+    volatile int elem = 0;
     boolean tura_rywala, przelotcan, bleft, bright, wleft, wright,
             kingrochB, kingrochC, didRochB, didRochC;
     boolean przerwa;
     boolean zakaz;
     private final boolean wyjsciowa_tura;
     private final Kalkulator wynikowa;
+    private final Collection<Ruch> move;
+    private final int glebia;
+    private final int najwieksza;
+    private final int najmniejsza;
+
+   
+
+   
+
+   
 
     private boolean kontrola_pat(char[][] ustawienie, boolean strona, boolean przelotcan) {
         for (int i = 0; i < 8; i++) {
@@ -59,10 +73,10 @@ public class SI_MIN_MAX_Alfa_Beta {
         return true;
     }
 
-    public SI_MIN_MAX_Alfa_Beta(char[][] ustawienie, boolean tura_rywala, boolean przelotcan,
+    public SI_MIN_MAX_Alfa_Beta1(char[][] ustawienie, boolean tura_rywala, boolean przelotcan,
             boolean bleft, boolean bright, boolean wleft, boolean wright,
             boolean kingrochB, boolean kingrochC, boolean dokonano_RB, boolean dokonano_RC,
-            int kol, int licznik, int glebina) {
+            int kol, int licznik, int glebia, int najwieksza, int najmniejsza, Collection<Ruch> ruchy) {
         this.licznik = licznik;
         this.tura_rywala = tura_rywala;
         this.wyjsciowa_tura = tura_rywala;
@@ -76,6 +90,10 @@ public class SI_MIN_MAX_Alfa_Beta {
         this.kingrochB = kingrochB;
         this.kingrochC = kingrochC;
         wynikowa = KalkulatorPozycji.get();
+        this.move =  ruchy;
+        this.glebia = glebia;
+        this.najwieksza = najwieksza;
+        this.najmniejsza = najmniejsza;
     }
 
     /**
@@ -86,12 +104,13 @@ public class SI_MIN_MAX_Alfa_Beta {
      * @param najmniejsza
      * @return
      */
-    public Ruch_wartosc wykonaj(int glebia, Collection<Ruch> ruch, int najwieksza, int najmniejsza) {
+    @Override
+    public Ruch_wartosc call()  throws InterruptedException {
         int biezaca_ogolna = 0;
         Ruch najlepszy = null;
-        all_position = all_position + ruch.size();
-        int elem = 0;
-        for (final Ruch move : ruch) {
+        all_position = all_position + 1;
+       
+       for (final Ruch move : this.move) {
             elem++;
             jProgressBar1.setValue(elem);
             jProgressBar1.setString("Rozpatrywane:" + (move.toString()) + "| bieżacy wybór:" + (najlepszy != null ? najlepszy.toString() : ""));
@@ -218,24 +237,19 @@ public class SI_MIN_MAX_Alfa_Beta {
                 }
                 setZakaz(false);
                 if (wyjsciowa_tura && biezaca_ogolna > najwieksza) {
-                    najwieksza = biezaca_ogolna;
                     najlepszy = move;
                 } else if (!wyjsciowa_tura && biezaca_ogolna < najmniejsza) {
-                    najmniejsza = biezaca_ogolna;
                     najlepszy = move;
                 }
 
                 jProgressBar1.setString("Rozpatrywane:" + move + "| bieżacy wybór:" + najlepszy.toString());
-                if (this.przerwa) {
-                    System.out.println("przerwa");
-                    break;
-                }
+               
             } catch (Exception e) {
                 System.out.println("ERROR POSITION");
                 e.printStackTrace();
                 return new Ruch_wartosc(move, (!wyjsciowa_tura ? Integer.MAX_VALUE : Integer.MIN_VALUE));
             }
-        }
+       }
         return new Ruch_wartosc(najlepszy, biezaca_ogolna);
     }
 
@@ -665,5 +679,9 @@ public class SI_MIN_MAX_Alfa_Beta {
     public boolean isPrzerwa() {
         return przerwa;
     }
+
+    
+
+    
 
 }
