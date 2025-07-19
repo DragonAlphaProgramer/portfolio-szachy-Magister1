@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -128,8 +127,7 @@ public class lacze_z_baza {
             }
             Collections.sort(lista);
             return lista;
-        } catch (Exception x) {
-            x.printStackTrace();
+        } catch (ClassNotFoundException | SQLException x) {
             return null;
         }
     }
@@ -137,7 +135,6 @@ public class lacze_z_baza {
     static String uzyskaj_ruch(String ruch, ArrayList<String> bialy, ArrayList<String> czarny) {
         Connection polaczenie;
         Statement stat;
-        String z;
         System.out.println(ruch);
         String mutacja = "";
         ArrayList<String> lista = new ArrayList<>();
@@ -217,8 +214,7 @@ public class lacze_z_baza {
                 Random los = new Random();
                 return lista.get(los.nextInt(lista.size()));
             }
-        } catch (Exception x) {
-            x.printStackTrace();
+        } catch (ClassNotFoundException | SQLException x) {
             return "";
         }
     }
@@ -226,7 +222,6 @@ public class lacze_z_baza {
     static String uzyskaj_debiut_konkret(String text) {
         Connection polaczenie;
         Statement stat;
-        List<Debiut> lista = new ArrayList<>();
         try {
             Class.forName("org.sqlite.JDBC");
             polaczenie = DriverManager.getConnection("jdbc:sqlite:debiuty.db");
@@ -235,8 +230,7 @@ public class lacze_z_baza {
             String szukajSQL = "SELECT * FROM Debiuty_koncowki WHERE Wariant='" + text + "';";
             ResultSet rezultacik = stat.executeQuery(szukajSQL);
             return (rezultacik.getString(2));
-        } catch (Exception x) {
-            x.printStackTrace();
+        } catch (ClassNotFoundException | SQLException x) {
             return null;
         }
     }
@@ -247,7 +241,6 @@ public class lacze_z_baza {
         String wynik = "";
         String pom = "";
         ArrayList<String> lista = new ArrayList<>();
-        boolean pierwszy = true;
         try {
             Class.forName("org.sqlite.JDBC");
             polaczenie = DriverManager.getConnection("jdbc:sqlite:debiuty.db");
@@ -283,8 +276,7 @@ public class lacze_z_baza {
             } else {
                 return lista.get(0);
             }
-        } catch (Exception x) {
-            x.printStackTrace();
+        } catch (ClassNotFoundException | SQLException x) {
             return null;
         }
     }

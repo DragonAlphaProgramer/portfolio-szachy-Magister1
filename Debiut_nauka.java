@@ -299,12 +299,12 @@ public class Debiut_nauka extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         StringTokenizer tokeny = new StringTokenizer(jLabel2.getText(),",");
         trening.removeAll(trening);
-         bledy.removeAll(trening);
+         bledy.removeAll(bledy);
        while (tokeny.hasMoreTokens()) {
                 trening.add(tokeny.nextToken());
                 bledy.add(true);
             }   
-      
+        System.out.println("bledy:"+bledy.size());
        for (int i = 1; i <= 8; i++) {
             for (char j = 'A'; j <= 'H'; j++) {
                 dobierzprzycisk(String.valueOf(j + "" + i)).setEnabled(true);
@@ -357,22 +357,13 @@ public class Debiut_nauka extends javax.swing.JFrame {
 
                 }
             }
-        } catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Debiut_nauka.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Debiut_nauka.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Debiut_nauka.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Debiut_nauka.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
         /* Create and display the form */

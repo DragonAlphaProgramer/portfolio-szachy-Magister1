@@ -12938,6 +12938,7 @@ public class SzachowaArena extends javax.swing.JFrame {
 
     private void create_set_game() {
         kombinacja.setVisible(true);
+        Nauka.setEnabled(false);
         odwrot = false;
         SIOnOff.setEnabled(false);
         Wydruk.setEnabled(true);
@@ -13171,6 +13172,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                 partia_odlozona.setVisible(true);
                 Wydruk.setEnabled(true);
                 SIOnOff.setEnabled(true);
+                Nauka.setEnabled(false);
                 Menu_gry_glowne.setEnabled(false);
             } catch (HeadlessException | IOException | NumberFormatException ex) {
                 JOptionPane.showMessageDialog(partia_odlozona, "Wystąpił nieoczekiwany błąd");
@@ -13918,7 +13920,7 @@ public class SzachowaArena extends javax.swing.JFrame {
         skoczekRB.setText("0");
         pionRW.setText("0");
         pionRB.setText("0");
-
+        Nauka.setEnabled(false);
         partia_odlozona.setVisible(tryb == 0);
         partia_odlozona.setEnabled(tryb == 0);
         menu_load.setVisible(tryb == 0);
@@ -14009,16 +14011,19 @@ public class SzachowaArena extends javax.swing.JFrame {
                 polestart = false;
                 BUTTON.setIcon(cursor);
                 cursor = null;
+                ruchB = ruchB != true;
                 ust[pomocy - 1][pomocx - 1] = symbol;
+                styl(kolor_zestaw, kroj_zestaw, kolor_plansza);
                 for (int i = 0; i < 8; i++) {
                     for (int j = 0; j < 8; j++) {
                         System.out.print(ust[i][j]);
                     }
                     System.out.println();
                 }
+                if (ruchB) {
+                    movenr = movenr + 1;
+                }
             }
-
-            styl(kolor_zestaw, kroj_zestaw, kolor_plansza);
         } else {
             if (!polestart) {
                 start = kurs;
@@ -14041,72 +14046,50 @@ public class SzachowaArena extends javax.swing.JFrame {
                     BUTTON.setIcon(cursor);
                     polestart = false;
                 } else {
-                    if (debiut_nauka.trening.get(movenr * 2 + (ruchB ? 0 : 1)).substring(1, 3).equals(start)
-                            && debiut_nauka.trening.get(movenr * 2 + (ruchB ? 0 : 1)).substring(4, 6).equals(stop)) {
+                    if (debiut_nauka.trening.get((movenr - 1) * 2 + (ruchB ? 0 : 1)).substring(1, 3).equals(start)
+                            && debiut_nauka.trening.get((movenr - 1) * 2 + (ruchB ? 0 : 1)).substring(4, 6).equals(stop)) {
+                        ust[pomocy - 1][pomocx - 1] = symbol;
+                        BUTTON.setIcon(cursor);
+                        polestart = false;
                         ruchB = ruchB != true;
                         BUTTON.setIcon(cursor);
                         cursor = null;
                         ust[pomocy - 1][pomocx - 1] = symbol;
-                        if (!ruchB) {
-                            movenr++;
+                        if (ruchB) {
+                            movenr = movenr + 1;
                         }
-                        switch (wybor_treningu) {
-                            case 0:
-                                if (!ruchB) {
-                                    wzor = true;
-                                    aktywuj(false, debiut_nauka.trening.get((movenr - 1) * 2 + 1).substring(1, 3));
-                                    aktywuj(false, debiut_nauka.trening.get((movenr - 1) * 2 + 1).substring(4, 6));
-                                    wzor = false;
-                                }
-                                break;
-                            case 1:
-                                if (!ruchB) {
-                                    wzor = true;
-                                    aktywuj(false, debiut_nauka.trening.get((movenr - 1) * 2).substring(1, 3));
-                                    aktywuj(false, debiut_nauka.trening.get((movenr - 1) * 2).substring(4, 6));
-                                    wzor = false;
-                                }
-                                break;
-                        }
-                        if ((movenr * 2 + (ruchB ? 1 : 0) == debiut_nauka.trening.size())) {
-                            int zle = 0;
-                            for (boolean b : debiut_nauka.bledy) {
-                                if ((wybor_treningu == 0 && !ruchB) || (wybor_treningu == 1 && ruchB)) {
-                                    continue;
-                                }
-                                if (b == false) {
-                                    zle++;
-                                }
-                            }
-                            double procenty = 0;
+
+                        if (((movenr - 1) * 2 + (!ruchB ? 1 : 0) < debiut_nauka.trening.size())) {
                             switch (wybor_treningu) {
-                                case 2:
-                                    procenty = Math.round((zle / debiut_nauka.trening.size()) * 100);
+                                case 0:
+                                    if (!ruchB) {
+                                        wzor = true;
+                                        aktywuj_nauke(odwrot, debiut_nauka.trening.get((movenr - 1) * 2 + 1).substring(1, 3));
+                                        aktywuj_nauke(odwrot, debiut_nauka.trening.get((movenr - 1) * 2 + 1).substring(4, 6));
+                                        wzor = false;
+                                        if (((movenr - 1) * 2 + (!ruchB ? 1 : 0) == debiut_nauka.trening.size())) {
+                                            ocen_debiut();
+                                        }
+                                    }
                                     break;
                                 case 1:
-                                    if(debiut_nauka.trening.size()%2==0){
-                                        procenty = Math.round((zle / debiut_nauka.trening.size()/2)*100);
-                                    }else{
-                                        procenty = Math.round((zle / Math.floor(debiut_nauka.trening.size()/2))*100);
-                                    }
-                                    break;
-                                case 0:
-                                    if(debiut_nauka.trening.size()%2==0){
-                                        procenty = Math.round((zle / debiut_nauka.trening.size()/2)*100);
-                                    }else{
-                                        procenty = Math.round((zle / Math.ceil(debiut_nauka.trening.size()/2))*100);
+                                    if (ruchB) {
+                                        wzor = true;
+                                        aktywuj_nauke(odwrot, debiut_nauka.trening.get((movenr - 1) * 2).substring(1, 3));
+                                        aktywuj_nauke(odwrot, debiut_nauka.trening.get((movenr - 1) * 2).substring(4, 6));
+                                        wzor = false;
+                                        if (((movenr - 1) * 2 + (!ruchB ? 1 : 0) == debiut_nauka.trening.size())) {
+                                            ocen_debiut();
+                                        }
                                     }
                                     break;
                             }
-                            JOptionPane.showMessageDialog(rootPane, "Debiut odwzorowany w " + procenty + "%.");
-                            nauka_praktyczna = false;
-                            wzor = true;
-                            remis_odrzut.setVisible(true);
-                            remis_zgoda.setVisible(true);
+                        } else {
+                            ocen_debiut();
                         }
                     } else {
                         if (RuchZagrozenie_kontrola.ruch(lokalS, lokalK, symbol, ust, ruchB, przelotcan, kol, false)) {
-                            debiut_nauka.bledy.set(movenr * 2 + (ruchB ? 0 : 1), false);
+                            debiut_nauka.bledy.set(movenr * 2 + (ruchB ? 0 : 1) - 1, false);
                         }
                         debiut_nauka.bledy.set(ruchB ? (movenr - 1) * 2 : (movenr - 1) * 2 + 1, false);
                         Toolkit.getDefaultToolkit().beep();
@@ -14114,6 +14097,52 @@ public class SzachowaArena extends javax.swing.JFrame {
                 }
             }
         }
+
+    }
+
+    private void ocen_debiut() {
+        int zle = 0;
+        for (boolean b : debiut_nauka.bledy) {
+            if ((wybor_treningu == 0 && !ruchB) || (wybor_treningu == 1 && ruchB)) {
+                continue;
+            }
+            if (b == false) {
+                zle++;
+            }
+        }
+        System.out.println(zle);
+        double procenty = 0;
+        switch (wybor_treningu) {
+            case 2:
+                procenty = Math.round(((debiut_nauka.bledy.size() - zle) / debiut_nauka.trening.size()) * 100);
+                break;
+            case 1:
+                if (debiut_nauka.trening.size() % 2 == 0) {
+                    procenty = Math.ceil(((debiut_nauka.bledy.size() / 2 - zle) / (debiut_nauka.trening.size() / 2)) * 100);
+                } else {
+                    procenty = Math.ceil(((Math.floor(debiut_nauka.bledy.size() / 2) - zle) / (Math.floor((debiut_nauka.trening.size()) / 2))) * 100);
+                }
+                break;
+            case 0:
+                if (debiut_nauka.trening.size() % 2 == 0) {
+                    procenty = Math.ceil(((debiut_nauka.bledy.size() / 2 - zle) / (debiut_nauka.trening.size() / 2)) * 100);
+                } else {
+                    double p = Math.ceil(debiut_nauka.bledy.size() / 2);
+                    if(p == 0){
+                        p=1;
+                    }
+                    procenty = Math.ceil(((p - zle) / p) * 100);
+                }
+                break;
+        }
+        JOptionPane.showMessageDialog(rootPane, "Debiut odwzorowany w " + procenty + "%.");
+        nauka_praktyczna = false;
+        wzor = true;
+        movenr = 1;
+        remis_odrzut.setVisible(true);
+        remis_zgoda.setVisible(true);
+        remis_prop.setText("Ćwicz");
+        poddanie.setText("Trenuj inny");
     }
 
     /**
@@ -14130,8 +14159,8 @@ public class SzachowaArena extends javax.swing.JFrame {
                 String ksiazka = "";
                 String temp = "";
                 boolean zmiana = false;
-                if (movenr <= 6) {
-                    if (!ustawka) {
+                if (!ustawka) {
+                    if (movenr <= 6) {
                         if (ruchy_literowe.isEmpty()) {
                             temp = "START";
                         } else {
@@ -14200,7 +14229,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                     String ostatni = "";
                     long czas_start = System.currentTimeMillis();
                     int licznik = 0;
-
+                    System.out.println(dlugosc);
                     if (Generator.generuj_posuniecia((ust), ruchB, przelotcan,
                             bleft, bright, wleft, wright, kingrochB, kingrochC, kol, false).size() > 1) {
                         SI_MIN_MAX_Alfa_Beta ai = new SI_MIN_MAX_Alfa_Beta(backup.clone(), ruchB, przelotcan,
@@ -14310,7 +14339,7 @@ public class SzachowaArena extends javax.swing.JFrame {
                         try {
                             Thread.sleep(1000);
                         } catch (InterruptedException ex) {
-                            Logger.getLogger(SzachowaArena.class.getName()).log(Level.SEVERE, null, ex);
+                            ex.printStackTrace();
                         }
                     }
                 }
@@ -15359,6 +15388,459 @@ public class SzachowaArena extends javax.swing.JFrame {
                     Button_Clicked(H8);
                 } else {
                     Button_Clicked(A1);
+                }
+                break;
+        }
+    }
+
+    private void aktywuj_nauke(boolean odwrot1, String ruszaj) {
+        switch (ruszaj) {
+            case "A1":
+                if (!odwrot1) {
+                    ruch_nauki(A1);
+                } else {
+                    ruch_nauki(H8);
+                }
+                break;
+            case "A2":
+                if (!odwrot1) {
+                    ruch_nauki(A2);
+                } else {
+                    ruch_nauki(H7);
+                }
+                break;
+            case "A3":
+                if (!odwrot1) {
+                    ruch_nauki(A3);
+                } else {
+                    ruch_nauki(H6);
+                }
+                break;
+            case "A4":
+                if (!odwrot1) {
+                    ruch_nauki(A4);
+                } else {
+                    ruch_nauki(H5);
+                }
+                break;
+            case "A5":
+                if (!odwrot1) {
+                    ruch_nauki(A5);
+                } else {
+                    ruch_nauki(H4);
+                }
+                break;
+            case "A6":
+                if (!odwrot1) {
+                    ruch_nauki(A6);
+                } else {
+                    ruch_nauki(H3);
+                }
+                break;
+            case "A7":
+                if (!odwrot1) {
+                    ruch_nauki(A7);
+                } else {
+                    ruch_nauki(H2);
+                }
+                break;
+            case "A8":
+                if (!odwrot1) {
+                    ruch_nauki(A8);
+                } else {
+                    ruch_nauki(H1);
+                }
+                break;
+            case "B1":
+                if (!odwrot1) {
+                    ruch_nauki(B1);
+                } else {
+                    ruch_nauki(G8);
+                }
+                break;
+            case "B2":
+                if (!odwrot1) {
+                    ruch_nauki(B2);
+                } else {
+                    ruch_nauki(G7);
+                }
+                break;
+            case "B3":
+                if (!odwrot1) {
+                    ruch_nauki(B3);
+                } else {
+                    ruch_nauki(G6);
+                }
+                break;
+            case "B4":
+                if (!odwrot1) {
+                    ruch_nauki(B4);
+                } else {
+                    ruch_nauki(G5);
+                }
+                break;
+            case "B5":
+                if (!odwrot1) {
+                    ruch_nauki(B5);
+                } else {
+                    ruch_nauki(G4);
+                }
+                break;
+            case "B6":
+                if (!odwrot1) {
+                    ruch_nauki(B6);
+                } else {
+                    ruch_nauki(G3);
+                }
+                break;
+            case "B7":
+                if (!odwrot1) {
+                    ruch_nauki(B7);
+                } else {
+                    ruch_nauki(G2);
+                }
+                break;
+            case "B8":
+                if (!odwrot1) {
+                    ruch_nauki(B8);
+                } else {
+                    ruch_nauki(G1);
+                }
+                break;
+            case "C1":
+                if (!odwrot1) {
+                    ruch_nauki(C1);
+                } else {
+                    ruch_nauki(F8);
+                }
+                break;
+            case "C2":
+                if (!odwrot1) {
+                    ruch_nauki(C2);
+                } else {
+                    ruch_nauki(F7);
+                }
+                break;
+            case "C3":
+                if (!odwrot1) {
+                    ruch_nauki(C3);
+                } else {
+                    ruch_nauki(F6);
+                }
+                break;
+            case "C4":
+                if (!odwrot1) {
+                    ruch_nauki(C4);
+                } else {
+                    ruch_nauki(F5);
+                }
+                break;
+            case "C5":
+                if (!odwrot1) {
+                    ruch_nauki(C5);
+                } else {
+                    ruch_nauki(F4);
+                }
+                break;
+            case "C6":
+                if (!odwrot1) {
+                    ruch_nauki(C6);
+                } else {
+                    ruch_nauki(F3);
+                }
+                break;
+            case "C7":
+                if (!odwrot1) {
+                    ruch_nauki(C7);
+                } else {
+                    ruch_nauki(F2);
+                }
+                break;
+            case "C8":
+                if (!odwrot1) {
+                    ruch_nauki(C8);
+                } else {
+                    ruch_nauki(F1);
+                }
+                break;
+            case "D1":
+                if (!odwrot1) {
+                    ruch_nauki(D1);
+                } else {
+                    ruch_nauki(E8);
+                }
+                break;
+            case "D2":
+                if (!odwrot1) {
+                    ruch_nauki(D2);
+                } else {
+                    ruch_nauki(E7);
+                }
+                break;
+            case "D3":
+                if (!odwrot1) {
+                    ruch_nauki(D3);
+                } else {
+                    ruch_nauki(E6);
+                }
+                break;
+            case "D4":
+                if (!odwrot1) {
+                    ruch_nauki(D4);
+                } else {
+                    ruch_nauki(E5);
+                }
+                break;
+            case "D5":
+                if (!odwrot1) {
+                    ruch_nauki(D5);
+                } else {
+                    ruch_nauki(E4);
+                }
+                break;
+            case "D6":
+                if (!odwrot1) {
+                    ruch_nauki(D6);
+                } else {
+                    ruch_nauki(E3);
+                }
+                break;
+            case "D7":
+                if (!odwrot1) {
+                    ruch_nauki(D7);
+                } else {
+                    ruch_nauki(E2);
+                }
+                break;
+            case "D8":
+                if (!odwrot1) {
+                    ruch_nauki(D8);
+                } else {
+                    ruch_nauki(E1);
+                }
+                break;
+            case "E1":
+                if (!odwrot1) {
+                    ruch_nauki(E1);
+                } else {
+                    ruch_nauki(D8);
+                }
+                break;
+            case "E2":
+                if (!odwrot1) {
+                    ruch_nauki(E2);
+                } else {
+                    ruch_nauki(D7);
+                }
+                break;
+            case "E3":
+                if (!odwrot1) {
+                    ruch_nauki(E3);
+                } else {
+                    ruch_nauki(D6);
+                }
+                break;
+            case "E4":
+                if (!odwrot1) {
+                    ruch_nauki(E4);
+                } else {
+                    ruch_nauki(D5);
+                }
+                break;
+            case "E5":
+                if (!odwrot1) {
+                    ruch_nauki(E5);
+                } else {
+                    ruch_nauki(D4);
+                }
+                break;
+            case "E6":
+                if (!odwrot1) {
+                    ruch_nauki(E6);
+                } else {
+                    ruch_nauki(D3);
+                }
+                break;
+            case "E7":
+                if (!odwrot1) {
+                    ruch_nauki(E7);
+                } else {
+                    ruch_nauki(D2);
+                }
+                break;
+            case "E8":
+                if (!odwrot1) {
+                    ruch_nauki(E8);
+                } else {
+                    ruch_nauki(D1);
+                }
+                break;
+            case "F1":
+                if (!odwrot1) {
+                    ruch_nauki(F1);
+                } else {
+                    ruch_nauki(C8);
+                }
+                break;
+            case "F2":
+                if (!odwrot1) {
+                    ruch_nauki(F2);
+                } else {
+                    ruch_nauki(C7);
+                }
+                break;
+            case "F3":
+                if (!odwrot1) {
+                    ruch_nauki(F3);
+                } else {
+                    ruch_nauki(C6);
+                }
+                break;
+            case "F4":
+                if (!odwrot1) {
+                    ruch_nauki(F4);
+                } else {
+                    ruch_nauki(C5);
+                }
+                break;
+            case "F5":
+                if (!odwrot1) {
+                    ruch_nauki(F5);
+                } else {
+                    ruch_nauki(C4);
+                }
+                break;
+            case "F6":
+                if (!odwrot1) {
+                    ruch_nauki(F6);
+                } else {
+                    ruch_nauki(C3);
+                }
+                break;
+            case "F7":
+                if (!odwrot1) {
+                    ruch_nauki(F7);
+                } else {
+                    ruch_nauki(C2);
+                }
+                break;
+            case "F8":
+                if (!odwrot1) {
+                    ruch_nauki(F8);
+                } else {
+                    ruch_nauki(C1);
+                }
+                break;
+            case "G1":
+                if (!odwrot1) {
+                    ruch_nauki(G1);
+                } else {
+                    ruch_nauki(B8);
+                }
+                break;
+            case "G2":
+                if (!odwrot1) {
+                    ruch_nauki(G2);
+                } else {
+                    ruch_nauki(B7);
+                }
+                break;
+            case "G3":
+                if (!odwrot1) {
+                    ruch_nauki(G3);
+                } else {
+                    ruch_nauki(B6);
+                }
+                break;
+            case "G4":
+                if (!odwrot1) {
+                    ruch_nauki(G4);
+                } else {
+                    ruch_nauki(B5);
+                }
+                break;
+            case "G5":
+                if (!odwrot1) {
+                    ruch_nauki(G5);
+                } else {
+                    ruch_nauki(B4);
+                }
+                break;
+            case "G6":
+                if (!odwrot1) {
+                    ruch_nauki(G6);
+                } else {
+                    ruch_nauki(B3);
+                }
+                break;
+            case "G7":
+                if (!odwrot1) {
+                    ruch_nauki(G7);
+                } else {
+                    ruch_nauki(B2);
+                }
+                break;
+            case "G8":
+                if (!odwrot1) {
+                    ruch_nauki(G8);
+                } else {
+                    ruch_nauki(B1);
+                }
+                break;
+            case "H1":
+                if (!odwrot1) {
+                    ruch_nauki(H1);
+                } else {
+                    ruch_nauki(A8);
+                }
+                break;
+            case "H2":
+                if (!odwrot1) {
+                    ruch_nauki(H2);
+                } else {
+                    ruch_nauki(A7);
+                }
+                break;
+            case "H3":
+                if (!odwrot1) {
+                    ruch_nauki(H3);
+                } else {
+                    ruch_nauki(A6);
+                }
+                break;
+            case "H4":
+                if (!odwrot1) {
+                    ruch_nauki(H4);
+                } else {
+                    ruch_nauki(A5);
+                }
+                break;
+            case "H5":
+                if (!odwrot1) {
+                    ruch_nauki(H5);
+                } else {
+                    ruch_nauki(A4);
+                }
+                break;
+            case "H6":
+                if (!odwrot1) {
+                    ruch_nauki(H6);
+                } else {
+                    ruch_nauki(A3);
+                }
+                break;
+            case "H7":
+                if (!odwrot1) {
+                    ruch_nauki(H7);
+                } else {
+                    ruch_nauki(A2);
+                }
+                break;
+            case "H8":
+                if (!odwrot1) {
+                    ruch_nauki(H8);
+                } else {
+                    ruch_nauki(A1);
                 }
                 break;
         }
@@ -24653,11 +25135,6 @@ public class SzachowaArena extends javax.swing.JFrame {
                         JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opcje, null);
                 if (wybor_treningu < 3) {
                     ruchB = true;
-                    if (wybor_treningu == 1) {
-                        wzor = true;
-                        aktywuj(odwrot, debiut_nauka.trening.get(0).substring(1, 3));
-                        aktywuj(odwrot, debiut_nauka.trening.get(0).substring(4, 6));
-                    }
                     movenr = 1;
                     jTextArea2.setText("");
                     for (int i = 0; i < 8; i++) {
@@ -24740,6 +25217,12 @@ public class SzachowaArena extends javax.swing.JFrame {
                     nauka_praktyczna = true;
                     remis_odrzut.setVisible(false);
                     remis_zgoda.setVisible(false);
+                    if (wybor_treningu == 1) {
+                        wzor = true;
+                        aktywuj_nauke(odwrot, debiut_nauka.trening.get(0).substring(1, 3));
+                        aktywuj_nauke(odwrot, debiut_nauka.trening.get(0).substring(4, 6));
+                        wzor = false;
+                    }
                 }
             } else {
                 for (int i = 0; i < debiut_nauka.bledy.size(); i++) {
@@ -25887,6 +26370,7 @@ public class SzachowaArena extends javax.swing.JFrame {
         obrotowy.setVisible(true);
         SIOnOff.setVisible(true);
         kombinacja.setVisible(false);
+        Nauka.setEnabled(true);
         kombinacja.setEnabled(false);
         tryb = 0;
         nauka_gry = false;

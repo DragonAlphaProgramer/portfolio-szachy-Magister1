@@ -91,6 +91,7 @@ public class SI_MIN_MAX_Alfa_Beta {
         Ruch najlepszy = null;
         all_position = all_position + ruch.size();
         int elem = 0;
+        System.out.println("ilosc ruchów :"+ruch.size());
         for (final Ruch move : ruch) {
             elem++;
             jProgressBar1.setValue(elem);
