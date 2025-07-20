@@ -712,8 +712,9 @@ public class SzachMatPatKontrola {
                         char przechowalnie;
                         przechowalnie = kontrolamat[baza_konca[1]][baza_konca[0]];
                         kontrolamat[baza_konca[1]][baza_konca[0]] = symbol;
+                        kontrolamat[pole_czas[0] - 4][pole_czas[1] - 4] = ' ';
                         wynik = !RuchZagrozenie_kontrola.szach(kontrolamat, czybiale);
-                        kontrolamat[pole_start[1]][pole_start[0]] = symbol;
+                        kontrolamat[pole_czas[0] - 4][pole_czas[1] - 4] = symbol;
                         kontrolamat[baza_konca[1]][baza_konca[0]] = przechowalnie;
                         if (wynik) {
                             return wynik;
@@ -729,8 +730,9 @@ public class SzachMatPatKontrola {
                         char przechowalnie;
                         przechowalnie = kontrolamat[baza_konca[1]][baza_konca[0]];
                         kontrolamat[baza_konca[1]][baza_konca[0]] = symbol;
+                        kontrolamat[pole_czas[0] - 4][pole_czas[1] - 4] = ' ';
                         wynik = !RuchZagrozenie_kontrola.szach(kontrolamat, czybiale);
-                        kontrolamat[pole_start[1]][pole_start[0]] = symbol;
+                        kontrolamat[pole_czas[0] - 4][pole_czas[1] - 4] = symbol;
                         kontrolamat[baza_konca[1]][baza_konca[0]] = przechowalnie;
                         if (wynik) {
                             return wynik;
@@ -742,13 +744,9 @@ public class SzachMatPatKontrola {
                         char przechowalnie;
                         przechowalnie = kontrolamat[baza_konca[1]][baza_konca[0]];
                         kontrolamat[baza_konca[1]][baza_konca[0]] = symbol;
-                        kontrolamat[pole_start[1]][pole_start[0]] = ' ';
-                        /*  for (byte i = 0; i < 8; i++) {
-                            for (byte j = 0; j < 8; j++) {
-                        System.out.print(kontrolamat[i][j]);
-                            }System.out.println("");}*/
+                        kontrolamat[pole_czas[0] - 4][pole_czas[1] - 4] = ' ';
                         wynik = !RuchZagrozenie_kontrola.szach(kontrolamat, czybiale);
-                        kontrolamat[pole_start[1]][pole_start[0]] = symbol;
+                        kontrolamat[pole_czas[0] - 4][pole_czas[1] - 4] = symbol;
                         kontrolamat[baza_konca[1]][baza_konca[0]] = przechowalnie;
                         if (wynik) {
                             return wynik;
@@ -948,9 +946,9 @@ public class SzachMatPatKontrola {
                         char przechowalnie;
                         przechowalnie = kontrolamat[baza_konca[1]][baza_konca[0]];
                         kontrolamat[baza_konca[1]][baza_konca[0]] = symbol;
-
+                        kontrolamat[pole_czas[0] - 4][pole_czas[1] - 4] = ' ';
                         wynik = !RuchZagrozenie_kontrola.szach(kontrolamat, czybiale);
-                        kontrolamat[pole_start[1]][pole_start[0]] = symbol;
+                        kontrolamat[pole_czas[0] - 4][pole_czas[1] - 4] = symbol;
                         kontrolamat[baza_konca[1]][baza_konca[0]] = przechowalnie;
                         if (wynik) {
                             return wynik;
@@ -966,8 +964,7 @@ public class SzachMatPatKontrola {
                         char przechowalnie;
                         przechowalnie = kontrolamat[baza_konca[1]][baza_konca[0]];
                         kontrolamat[baza_konca[1]][baza_konca[0]] = symbol;
-                        kontrolamat[pole_start[1]][pole_start[0]] = ' ';
-
+                        kontrolamat[pole_czas[0] - 4][pole_czas[1] - 4] = ' ';
                         wynik = !RuchZagrozenie_kontrola.szach(kontrolamat, czybiale);
                         kontrolamat[pole_start[1]][pole_start[0]] = symbol;
                         kontrolamat[baza_konca[1]][baza_konca[0]] = przechowalnie;
@@ -981,10 +978,9 @@ public class SzachMatPatKontrola {
                         char przechowalnie;
                         przechowalnie = kontrolamat[baza_konca[1]][baza_konca[0]];
                         kontrolamat[baza_konca[1]][baza_konca[0]] = symbol;
-                        kontrolamat[pole_start[1]][pole_start[0]] = ' ';
-
+                        kontrolamat[pole_czas[0] - 4][pole_czas[1] - 4] = ' ';
                         wynik = !RuchZagrozenie_kontrola.szach(kontrolamat, czybiale);
-                        kontrolamat[pole_start[1]][pole_start[0]] = symbol;
+                        kontrolamat[pole_czas[0] - 4][pole_czas[1] - 4] = symbol;
                         kontrolamat[baza_konca[1]][baza_konca[0]] = przechowalnie;
                         if (wynik) {
                             return wynik;
@@ -1146,7 +1142,7 @@ public class SzachMatPatKontrola {
     }
 
     public static boolean uciekaj(char[][] ustawienie, boolean czybiale, int[] poza_krolewska) {
-        boolean ucieczka=false;
+        boolean ucieczka = false;
         char przech;
         int krolX = poza_krolewska[0], krolY = poza_krolewska[1];
         for (byte i = -1; i <= 1; i++) {
@@ -1726,7 +1722,7 @@ public class SzachMatPatKontrola {
     public static boolean zastaw(char[][] ustawienie, char[][] nakladka, boolean ruchB, int[] atak, int[] poza_krolewska,
             boolean przelotcan) {
         {
-            
+
             //System.out.println("X:" + atak[0] + "Y:" + atak[1]);
             //System.out.println(" krolX:" + poza_krolewska[0] + "Y:" + poza_krolewska[1]);
             //System.out.println(ustawienie[atak[0]][atak[1]]);
@@ -1959,6 +1955,7 @@ public class SzachMatPatKontrola {
                             char przechowalnie;
                             przechowalnie = kontrolamat[baza_konca[1]][baza_konca[0]];
                             kontrolamat[baza_konca[1]][baza_konca[0]] = symbol;
+                            kontrolamat[pole_start[1]][pole_start[0]] = ' ';
                             wynik = !RuchZagrozenie_kontrola.szach(kontrolamat, czybiale);
                             kontrolamat[pole_start[1]][pole_start[0]] = symbol;
                             kontrolamat[baza_konca[1]][baza_konca[0]] = przechowalnie;
@@ -2173,7 +2170,7 @@ public class SzachMatPatKontrola {
                             char przechowalnie;
                             przechowalnie = kontrolamat[baza_konca[1]][baza_konca[0]];
                             kontrolamat[baza_konca[1]][baza_konca[0]] = symbol;
-
+                            kontrolamat[pole_start[1]][pole_start[0]] = ' ';
                             wynik = !RuchZagrozenie_kontrola.szach(kontrolamat, czybiale);
                             kontrolamat[pole_start[1]][pole_start[0]] = symbol;
                             kontrolamat[baza_konca[1]][baza_konca[0]] = przechowalnie;
@@ -2823,7 +2820,8 @@ public class SzachMatPatKontrola {
         return wynik;
 
     }
-      public static boolean znajdz_antyruch(char[][] kontrolamat, boolean czybiale, char symbol, int[] pole_baza,
+
+    public static boolean znajdz_antyruch(char[][] kontrolamat, boolean czybiale, char symbol, int[] pole_baza,
             boolean przelotcan) {
         boolean wynik = false;
         char[][] pomocnicze;
@@ -2845,10 +2843,10 @@ public class SzachMatPatKontrola {
                 case 'P': {
                     if (przelotcan) {
                         if (pomocnicze[pole_czas[0]][pole_czas[1] - 1] == 'p' && pomocnicze[pole_czas[0] + 1][pole_czas[1] - 1] == ' ' && pole_czas[0] - 4 == 4) {
-                           wynik=true;
+                            wynik = true;
                         }
                         if (pomocnicze[pole_czas[0]][pole_czas[1] + 1] == 'p' && pomocnicze[pole_czas[0] + 1][pole_czas[1] + 1] == ' ' && pole_czas[0] - 4 == 4) {
-                             wynik=true;
+                            wynik = true;
                         }
                         if (wynik) {
                             return wynik;
@@ -2871,13 +2869,13 @@ public class SzachMatPatKontrola {
                             || (pomocnicze[pole_czas[0] + 1][pole_czas[1] - 1] == 'r')
                             || (pomocnicze[pole_czas[0] + 1][pole_czas[1] - 1] == 'q')
                             || (pomocnicze[pole_czas[0] + 1][pole_czas[1] + 1] == 'k')) {
-                      wynik=true;
+                        wynik = true;
                         if (wynik) {
                             return wynik;
                         }
                     }
                     if (pomocnicze[pole_czas[0] + 1][pole_czas[1]] == ' ') {
-                        wynik=true;
+                        wynik = true;
                         if (wynik) {
                             return wynik;
                         }
@@ -2902,7 +2900,7 @@ public class SzachMatPatKontrola {
                                             || (pomocnicze[pole_czas[0] + i][pole_czas[1] + j] == 'q')
                                             || (pomocnicze[pole_czas[0] + i][pole_czas[1] + j] == 'k')
                                             || (pomocnicze[pole_czas[0] + i][pole_czas[1] + j] == ' '))) {
-                                       wynik=true;
+                                        wynik = true;
                                         if (wynik) {
                                             return wynik;
                                         }
@@ -2931,7 +2929,7 @@ public class SzachMatPatKontrola {
                                             || (pomocnicze[pole_czas[0] + i][pole_czas[1] + j] == 'q')
                                             || (pomocnicze[pole_czas[0] + i][pole_czas[1] + j] == 'k')
                                             || (pomocnicze[pole_czas[0] + i][pole_czas[1] + j] == ' '))) {
-                                       wynik=true;
+                                        wynik = true;
                                         if (wynik) {
                                             return wynik;
                                         }
@@ -2960,7 +2958,7 @@ public class SzachMatPatKontrola {
                                             || (pomocnicze[pole_czas[0] + i][pole_czas[1] + j] == 'r')
                                             || (pomocnicze[pole_czas[0] + i][pole_czas[1] + j] == 'q')
                                             || (pomocnicze[pole_czas[0] + i][pole_czas[1] + j] == ' '))) {
-                                        wynik=true;
+                                        wynik = true;
                                         if (wynik) {
                                             return wynik;
                                         }
@@ -2989,7 +2987,7 @@ public class SzachMatPatKontrola {
                                             || (pomocnicze[pole_czas[0] + i][pole_czas[1] + j] == 'q')
                                             || (pomocnicze[pole_czas[0] + i][pole_czas[1] + j] == 'k')
                                             || (pomocnicze[pole_czas[0] + i][pole_czas[1] + j] == ' '))) {
-                                        wynik=true;
+                                        wynik = true;
                                         if (wynik) {
                                             return wynik;
                                         }
@@ -3007,10 +3005,10 @@ public class SzachMatPatKontrola {
                 case 'p': {
                     if (przelotcan) {
                         if (pomocnicze[pole_czas[0]][pole_czas[1] - 1] == 'p' && pomocnicze[pole_czas[0] - 1][pole_czas[1] - 1] == ' ' && pole_czas[0] - 4 == 3) {
-                            wynik=true;
+                            wynik = true;
                         }
                         if (pomocnicze[pole_czas[0]][pole_czas[1] + 1] == 'p' && pomocnicze[pole_czas[0] - 1][pole_czas[1] + 1] == ' ' && pole_czas[0] - 4 == 3) {
-                            wynik=true;
+                            wynik = true;
                         }
                         if (wynik) {
                             return wynik;
@@ -3022,7 +3020,7 @@ public class SzachMatPatKontrola {
                             || (pomocnicze[pole_czas[0] - 1][pole_czas[1] + 1] == 'R')
                             || (pomocnicze[pole_czas[0] - 1][pole_czas[1] + 1] == 'Q')
                             || (pomocnicze[pole_czas[0] - 1][pole_czas[1] + 1] == 'K')) {
-                        wynik=true;
+                        wynik = true;
                         if (wynik) {
                             return wynik;
                         }
@@ -3033,13 +3031,13 @@ public class SzachMatPatKontrola {
                             || (pomocnicze[pole_czas[0] - 1][pole_czas[1] - 1] == 'R')
                             || (pomocnicze[pole_czas[0] - 1][pole_czas[1] - 1] == 'Q')
                             || (pomocnicze[pole_czas[0] - 1][pole_czas[1] - 1] == 'K')) {
-                        wynik=true;
+                        wynik = true;
                         if (wynik) {
                             return wynik;
                         }
                     }
                     if (pomocnicze[pole_czas[0] - 1][pole_czas[1]] == ' ') {
-                        wynik=true;
+                        wynik = true;
                         if (wynik) {
                             return wynik;
                         }
@@ -3064,7 +3062,7 @@ public class SzachMatPatKontrola {
                                             || (pomocnicze[pole_czas[0] + i][pole_czas[1] + j] == 'Q')
                                             || (pomocnicze[pole_czas[0] + i][pole_czas[1] + j] == 'K')
                                             || (pomocnicze[pole_czas[0] + i][pole_czas[1] + j] == ' '))) {
-                                       wynik=true;
+                                        wynik = true;
                                         if (wynik) {
                                             return wynik;
                                         }
@@ -3093,7 +3091,7 @@ public class SzachMatPatKontrola {
                                             || (pomocnicze[pole_czas[0] + i][pole_czas[1] + j] == 'Q')
                                             || (pomocnicze[pole_czas[0] + i][pole_czas[1] + j] == 'K')
                                             || (pomocnicze[pole_czas[0] + i][pole_czas[1] + j] == ' '))) {
-                                        wynik=true;
+                                        wynik = true;
                                         if (wynik) {
                                             return wynik;
                                         }
@@ -3122,7 +3120,7 @@ public class SzachMatPatKontrola {
                                             || (pomocnicze[pole_czas[0] + i][pole_czas[1] + j] == 'Q')
                                             || (pomocnicze[pole_czas[0] + i][pole_czas[1] + j] == 'K')
                                             || (pomocnicze[pole_czas[0] + i][pole_czas[1] + j] == ' '))) {
-                                         wynik=true;
+                                        wynik = true;
                                         if (wynik) {
                                             return wynik;
                                         }
@@ -3151,7 +3149,7 @@ public class SzachMatPatKontrola {
                                             || (pomocnicze[pole_czas[0] + i][pole_czas[1] + j] == 'Q')
                                             || (pomocnicze[pole_czas[0] + i][pole_czas[1] + j] == 'K')
                                             || (pomocnicze[pole_czas[0] + i][pole_czas[1] + j] == ' '))) {
-                                         wynik=true;
+                                        wynik = true;
                                         if (wynik) {
                                             return wynik;
                                         }

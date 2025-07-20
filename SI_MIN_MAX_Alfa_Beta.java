@@ -29,30 +29,21 @@ public class SI_MIN_MAX_Alfa_Beta {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 int[] poza_krolewska = new int[2];
-                poza_krolewska[0] = j;
-                poza_krolewska[1] = i;
-                if (ustawienie[i][j] == 'K' || ustawienie[i][j] == 'k') {
 
-                    //System.out.println("wchodzi król "+(ustawienie[i][j]=='K'?"biały":"czarny"));
-                    if ((strona && ustawienie[i][j] == 'K')
-                            || (!strona && ustawienie[i][j] == 'k')) {
-                        //   System.out.println("wchodzi "+ustawienie[i][j]+" "+strona);
-                        poza_krolewska[0] = i;
-                        poza_krolewska[1] = j;
-                        //  System.out.println(ustawienie[poza_krolewska[0]][poza_krolewska[1]]);
-                        if (SzachMatPatKontrola.uciekaj(ustawienie, strona, poza_krolewska)) {
-
-                            return false;
-                        }
-                    }
-
-                } else {
-
-                    if (SzachMatPatKontrola.znajdz_ruch(ustawienie, strona, ustawienie[i][j], poza_krolewska, przelotcan)) {
-
+                //System.out.println("wchodzi król "+(ustawienie[i][j]=='K'?"biały":"czarny"));
+                if ((strona && ustawienie[i][j] == 'K')
+                        || (!strona && ustawienie[i][j] == 'k')) {
+                       System.out.println("wchodzi "+ustawienie[i][j]+" "+strona);
+                    poza_krolewska[0] = i;
+                    poza_krolewska[1] = j;
+                      System.out.println(ustawienie[poza_krolewska[0]][poza_krolewska[1]]);
+                    if (SzachMatPatKontrola.uciekaj(ustawienie, strona, poza_krolewska)) {
                         return false;
                     }
-
+                } else {
+                    if (SzachMatPatKontrola.znajdz_ruch(ustawienie, strona, ustawienie[i][j], poza_krolewska, przelotcan)) {
+                        return false;
+                    }
                 }
             }
         }
@@ -91,7 +82,7 @@ public class SI_MIN_MAX_Alfa_Beta {
         Ruch najlepszy = null;
         all_position = all_position + ruch.size();
         int elem = 0;
-        System.out.println("ilosc ruchów :"+ruch.size());
+        System.out.println("ilosc ruchów :" + ruch.size());
         for (final Ruch move : ruch) {
             elem++;
             jProgressBar1.setValue(elem);
